@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 #if MOBILE_INPUT
 using UnityStandardAssets.CrossPlatformInput;
 #endif
