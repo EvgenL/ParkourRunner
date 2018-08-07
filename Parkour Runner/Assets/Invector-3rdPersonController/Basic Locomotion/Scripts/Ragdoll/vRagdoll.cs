@@ -405,7 +405,6 @@ namespace Invector.CharacterController
 
             foreach (Component c in components)
             {
-                print(c.transform + " = " + newValue);
                 if (!ignoreTags.Contains(c.transform.tag))
                     if (!c.transform.Equals(transform)) (c as Collider).enabled = !newValue;
             }

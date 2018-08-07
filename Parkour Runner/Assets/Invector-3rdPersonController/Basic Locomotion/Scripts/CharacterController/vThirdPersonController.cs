@@ -98,7 +98,7 @@ namespace Invector.CharacterController
             bool rollConditions = (input != Vector2.zero || speed > 0.25f) && actionsRoll && isGrounded && staminaCondition && !isJumping;
 
             if (!rollConditions || isRolling) return;
-            
+
             animator.CrossFadeInFixedTime("Roll", 0.1f);
             ReduceStamina(rollStamina, false);
             currentStaminaRecoveryDelay = 2f;

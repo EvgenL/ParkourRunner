@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Invector.EventSystems;
 using UnityEngine.Events;
 
@@ -7,14 +8,12 @@ namespace Invector.CharacterController
     public abstract class vThirdPersonMotor : vCharacter
     {
         #region Variables               
-       
+
         #region Stamina
 
-        [Header("--- Debug Info ---")]
-        public bool debugWindow;
+        [Header("--- Debug Info ---")] public bool debugWindow;
 
-        [vEditorToolbar("Stamina")]
-        public float sprintStamina = 30f;
+        [vEditorToolbar("Stamina")] public float sprintStamina = 30f;
         public float jumpStamina = 30f;
         public float rollStamina = 25f;
         public UnityEvent OnStaminaEnd;
@@ -22,25 +21,33 @@ namespace Invector.CharacterController
         #endregion
 
         #region Layers
-        [vEditorToolbar("Layers")]
-        [Tooltip("Layers that the character can walk on")]
+
+        [vEditorToolbar("Layers")] [Tooltip("Layers that the character can walk on")]
         public LayerMask groundLayer = 1 << 0;
+
         [Tooltip("What objects can make the character auto crouch")]
         public LayerMask autoCrouchLayer = 1 << 0;
-        [Tooltip("[SPHERECAST] ADJUST IN PLAY MODE - White Spherecast put just above the head, this will make the character Auto-Crouch if something hit the sphere.")]
+
+        [Tooltip(
+            "[SPHERECAST] ADJUST IN PLAY MODE - White Spherecast put just above the head, this will make the character Auto-Crouch if something hit the sphere.")]
         public float headDetect = 0.95f;
+
         [Tooltip("Select the layers the your character will stop moving when close to")]
         public LayerMask stopMoveLayer;
+
         [Tooltip("[RAYCAST] Stopmove Raycast Height")]
         public float stopMoveHeight = 0.65f;
+
         [Tooltip("[RAYCAST] Stopmove Raycast Distance")]
         public float stopMoveDistance = 0.5f;
+
         #endregion
 
         #region Character Variables       
 
         [vEditorToolbar("Locomotion")]
-        [Tooltip("Turn off if you have 'in place' animations and use this values above to move the character, or use with root motion as extra speed")]
+        [Tooltip(
+            "Turn off if you have 'in place' animations and use this values above to move the character, or use with root motion as extra speed")]
         public bool useRootMotion = false;
 
         public enum LocomotionType
@@ -49,57 +56,76 @@ namespace Invector.CharacterController
             OnlyStrafe,
             OnlyFree,
         }
+
         public LocomotionType locomotionType = LocomotionType.FreeWithStrafe;
 
         public vMovementSpeed freeSpeed, strafeSpeed;
-        [Tooltip("Use this to rotate the character using the World axis, or false to use the camera axis - CHECK for Isometric Camera")]
+
+        [Tooltip(
+            "Use this to rotate the character using the World axis, or false to use the camera axis - CHECK for Isometric Camera")]
         public bool rotateByWorld = false;
+
         [Tooltip("Check this to use the TurnOnSpot animations")]
         public bool turnOnSpotAnim = false;
+
         [Tooltip("Can control the roll direction")]
         public bool rollControl = false;
-        [Tooltip("Put your Random Idle animations at the AnimatorController and select a value to randomize, 0 is disable.")]
+
+        [Tooltip(
+            "Put your Random Idle animations at the AnimatorController and select a value to randomize, 0 is disable.")]
         public float randomIdleTime = 0f;
 
-        [vEditorToolbar("Jump")]
-        [Tooltip("Check to control the character while jumping")]
+        [vEditorToolbar("Jump")] [Tooltip("Check to control the character while jumping")]
         public bool jumpAirControl = true;
+
         [Tooltip("How much time the character will be jumping")]
         public float jumpTimer = 0.3f;
-        [HideInInspector]
-        public float jumpCounter;
+
+        [HideInInspector] public float jumpCounter;
+
         [Tooltip("Add Extra jump speed, based on your speed input the character will move forward")]
         public float jumpForward = 3f;
+
         [Tooltip("Add Extra jump height, if you want to jump only with Root Motion leave the value with 0.")]
         public float jumpHeight = 4f;
-       
+
         public enum GroundCheckMethod
         {
-            Low, High
+            Low,
+            High
         }
+
         [vEditorToolbar("Grounded")]
-        [Tooltip("Ground Check Method To check ground Distance and ground angle\n*Simple: Use just a single Raycast\n*Normal: Use Raycast and SphereCast\n*Complex: Use SphereCastAll")]
+        [Tooltip(
+            "Ground Check Method To check ground Distance and ground angle\n*Simple: Use just a single Raycast\n*Normal: Use Raycast and SphereCast\n*Complex: Use SphereCastAll")]
         public GroundCheckMethod groundCheckMethod = GroundCheckMethod.High;
-        [Tooltip("Distance to became not grounded")]
-        [SerializeField]
+
+        [Tooltip("Distance to became not grounded")] [SerializeField]
         protected float groundMinDistance = 0.25f;
-        [SerializeField]
-        protected float groundMaxDistance = 0.5f;
+
+        [SerializeField] protected float groundMaxDistance = 0.5f;
+
         [Tooltip("ADJUST IN PLAY MODE - Offset height limit for sters - GREY Raycast in front of the legs")]
         public float stepOffsetEnd = 0.45f;
-        [Tooltip("ADJUST IN PLAY MODE - Offset height origin for sters, make sure to keep slight above the floor - GREY Raycast in front of the legs")]
+
+        [Tooltip(
+            "ADJUST IN PLAY MODE - Offset height origin for sters, make sure to keep slight above the floor - GREY Raycast in front of the legs")]
         public float stepOffsetStart = 0f;
+
         [Tooltip("Higher value will result jittering on ramps, lower values will have difficulty on steps")]
         public float stepSmooth = 4f;
-        [Tooltip("Max angle to walk")]
-        [Range(30, 75)]
+
+        [Tooltip("Max angle to walk")] [Range(30, 75)]
         public float slopeLimit = 75f;
-        [Tooltip("Velocity to slide when on a slope limit ramp")]
-        [Range(0, 10)]
+
+        [Tooltip("Velocity to slide when on a slope limit ramp")] [Range(0, 10)]
         public float slideVelocity = 7;
+
         [Tooltip("Apply extra gravity when the character is not grounded")]
         public float extraGravity = -10f;
-        [Tooltip("Turn the Ragdoll On when falling at high speed (check VerticalVelocity) - leave the value with 0 if you don't want this feature")]
+
+        [Tooltip(
+            "Turn the Ragdoll On when falling at high speed (check VerticalVelocity) - leave the value with 0 if you don't want this feature")]
         public float ragdollVel = -16f;
 
         protected float groundDistance;
@@ -111,19 +137,12 @@ namespace Invector.CharacterController
 
         public bool isStrafing
         {
-            get
-            {
-                return _isStrafing || lockInStrafe;
-            }
-            set
-            {
-                _isStrafing = value;
-            }
+            get { return _isStrafing || lockInStrafe; }
+            set { _isStrafing = value; }
         }
 
         // movement bools
-        [HideInInspector]
-        public bool
+        [HideInInspector] public bool
             isGrounded,
             isCrouching,
             inCrouchArea,
@@ -133,8 +152,7 @@ namespace Invector.CharacterController
             autoCrouch;
 
         // action bools
-        [HideInInspector]
-        public bool
+        [HideInInspector] public bool
             isRolling,
             isJumping,
             isGettingUp,
@@ -142,17 +160,13 @@ namespace Invector.CharacterController
             quickStop,
             landHigh;
 
-        [HideInInspector]
-        public bool customAction;
+        [HideInInspector] public bool customAction;
 
         // one bool to rule then all
         [HideInInspector]
         public bool actions
         {
-            get
-            {
-                return isRolling || quickStop || landHigh || customAction;
-            }
+            get { return isRolling || quickStop || landHigh || customAction; }
         }
 
         protected void RemoveComponents()
@@ -171,61 +185,54 @@ namespace Invector.CharacterController
         #endregion
 
         #region Direction Variables
-        [HideInInspector]
-        public Vector3 targetDirection;
-        [HideInInspector]
-        public Quaternion targetRotation;
-        [HideInInspector]
-        public float strafeMagnitude;
-        [HideInInspector]
-        public Quaternion freeRotation;
-        [HideInInspector]
-        public bool keepDirection;
-        [HideInInspector]
-        public Vector2 oldInput;
+
+        [HideInInspector] public Vector3 targetDirection;
+        [HideInInspector] public Quaternion targetRotation;
+        [HideInInspector] public float strafeMagnitude;
+        [HideInInspector] public Quaternion freeRotation;
+        [HideInInspector] public bool keepDirection;
+        [HideInInspector] public Vector2 oldInput;
 
         #endregion
 
         #region Components                       
+
+        [HideInInspector] public Rigidbody _rigidbody; // access the Rigidbody component
+
         [HideInInspector]
-        public Rigidbody _rigidbody;                                // access the Rigidbody component
-        [HideInInspector]
-        public PhysicMaterial frictionPhysics, maxFrictionPhysics, slippyPhysics;       // create PhysicMaterial for the Rigidbody
-        [HideInInspector]
-        public CapsuleCollider _capsuleCollider;                    // access CapsuleCollider information
+        public PhysicMaterial
+            frictionPhysics, maxFrictionPhysics, slippyPhysics; // create PhysicMaterial for the Rigidbody
+
+        [HideInInspector] public CapsuleCollider _capsuleCollider; // access CapsuleCollider information
 
         #endregion
 
         #region Hide Variables
 
+        [HideInInspector] public bool lockMovement;
+        [HideInInspector] public bool lockInStrafe;
+        [HideInInspector] public bool lockSpeed;
+        [HideInInspector] public bool lockRotation;
+        [HideInInspector] public bool forceRootMotion;
+
         [HideInInspector]
-        public bool lockMovement;
-        [HideInInspector]
-        public bool lockInStrafe;
-        [HideInInspector]
-        public bool lockSpeed;
-        [HideInInspector]
-        public bool lockRotation;
-        [HideInInspector]
-        public bool forceRootMotion;
-        [HideInInspector]
-        public float colliderRadius, colliderHeight;        // storage capsule collider extra information        
-        [HideInInspector]
-        public Vector3 colliderCenter;                      // storage the center of the capsule collider info        
-        [HideInInspector]
-        public Vector2 input;                               // generate input for the controller        
-        [HideInInspector]
-        public float speed, direction, verticalVelocity;    // general variables to the locomotion
-        [HideInInspector]
-        public float velocity;                               // velocity to apply to rigdibody
+        public float colliderRadius, colliderHeight; // storage capsule collider extra information        
+
+        [HideInInspector] public Vector3 colliderCenter; // storage the center of the capsule collider info        
+        [HideInInspector] public Vector2 input; // generate input for the controller        
+        [HideInInspector] public float speed, direction, verticalVelocity; // general variables to the locomotion
+
+        [HideInInspector] public float velocity; // velocity to apply to rigdibody
+
         // get Layers from the Animator Controller
         [HideInInspector]
         public AnimatorStateInfo baseLayerInfo, underBodyInfo, rightArmInfo, leftArmInfo, fullBodyInfo, upperBodyInfo;
 
         private bool _isStrafing;
+
         #endregion
 
-        #endregion        
+        #endregion
 
         public override void Init()
         {
@@ -313,7 +320,7 @@ namespace Invector.CharacterController
             var hitReactionConditions = !actions || !customAction;
             if (hitReactionConditions && currentHealth > 0)
             {
-                animator.SetInteger("HitDirection", (int)transform.HitAngle(damage.sender.position));
+                animator.SetInteger("HitDirection", (int) transform.HitAngle(damage.sender.position));
                 // trigger hitReaction animation
                 if (hitReaction)
                 {
@@ -327,6 +334,7 @@ namespace Invector.CharacterController
                     animator.SetTrigger("TriggerRecoil");
                 }
             }
+
             onReceiveDamage.Invoke(damage);
             // apply vibration on the gamepad   
             vInput.instance.GamepadVibration(0.25f);
@@ -416,9 +424,11 @@ namespace Invector.CharacterController
         {
             if (lockMovement || currentHealth <= 0) return;
 
-            if (locomotionType.Equals(LocomotionType.FreeWithStrafe) && !isStrafing || locomotionType.Equals(LocomotionType.OnlyFree))
+            if (locomotionType.Equals(LocomotionType.FreeWithStrafe) && !isStrafing ||
+                locomotionType.Equals(LocomotionType.OnlyFree))
                 FreeMovement();
-            else if (locomotionType.Equals(LocomotionType.OnlyStrafe) || locomotionType.Equals(LocomotionType.FreeWithStrafe) && isStrafing)
+            else if (locomotionType.Equals(LocomotionType.OnlyStrafe) ||
+                     locomotionType.Equals(LocomotionType.FreeWithStrafe) && isStrafing)
                 StrafeMovement();
         }
 
@@ -474,8 +484,10 @@ namespace Invector.CharacterController
                     if (diferenceRotation < 0 || diferenceRotation > 0) eulerY = freeRotation.eulerAngles.y;
                     var euler = new Vector3(transform.eulerAngles.x, eulerY, transform.eulerAngles.z);
                     if (inTurn) return;
-                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(euler), freeSpeed.rotationSpeed * Time.deltaTime);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(euler),
+                        freeSpeed.rotationSpeed * Time.deltaTime);
                 }
+
                 if (!keepDirection)
                     oldInput = input;
                 if (Vector2.Distance(oldInput, input) > 0.9f && keepDirection)
@@ -490,7 +502,8 @@ namespace Invector.CharacterController
             if (useRootMotion && !actions && !customAction)
             {
                 this.velocity = velocity;
-                var deltaPosition = new Vector3(animator.deltaPosition.x, transform.position.y, animator.deltaPosition.z);
+                var deltaPosition =
+                    new Vector3(animator.deltaPosition.x, transform.position.y, animator.deltaPosition.z);
                 Vector3 v = (deltaPosition * (velocity > 0 ? velocity : 1f)) / Time.deltaTime;
                 v.y = _rigidbody.velocity.y;
                 _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, v, 20f * Time.deltaTime);
@@ -522,7 +535,8 @@ namespace Invector.CharacterController
 
         protected virtual void StrafeVelocity(float velocity)
         {
-            Vector3 v = (transform.TransformDirection(new Vector3(input.x, 0, input.y)) * (velocity > 0 ? velocity : 1f));
+            Vector3 v =
+                (transform.TransformDirection(new Vector3(input.x, 0, input.y)) * (velocity > 0 ? velocity : 1f));
             v.y = _rigidbody.velocity.y;
             _rigidbody.velocity = Vector3.Lerp(_rigidbody.velocity, v, 20f * Time.deltaTime);
         }
@@ -554,30 +568,41 @@ namespace Invector.CharacterController
                 return;
             }
 
-            if (Physics.Linecast(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f), transform.position + targetDirection.normalized * (_capsuleCollider.radius + 0.2f), out hitinfo, groundLayer))
+            if (Physics.Linecast(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f),
+                transform.position + targetDirection.normalized * (_capsuleCollider.radius + 0.2f), out hitinfo,
+                groundLayer))
             {
                 hitAngle = Vector3.Angle(Vector3.up, hitinfo.normal);
-                Debug.DrawLine(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f), transform.position + targetDirection.normalized * (_capsuleCollider.radius + 0.2f), (hitAngle > slopeLimit) ? Color.yellow : Color.blue, 0.01f);
+                Debug.DrawLine(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f),
+                    transform.position + targetDirection.normalized * (_capsuleCollider.radius + 0.2f),
+                    (hitAngle > slopeLimit) ? Color.yellow : Color.blue, 0.01f);
                 var targetPoint = hitinfo.point + targetDirection.normalized * _capsuleCollider.radius;
-                if ((hitAngle > slopeLimit) && Physics.Linecast(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f), targetPoint, out hitinfo, groundLayer))
+                if ((hitAngle > slopeLimit) &&
+                    Physics.Linecast(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f), targetPoint,
+                        out hitinfo, groundLayer))
                 {
                     Debug.DrawRay(hitinfo.point, hitinfo.normal);
                     hitAngle = Vector3.Angle(Vector3.up, hitinfo.normal);
 
                     if (hitAngle > slopeLimit && hitAngle < 85f)
                     {
-                        Debug.DrawLine(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f), hitinfo.point, Color.red, 0.01f);
+                        Debug.DrawLine(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f),
+                            hitinfo.point, Color.red, 0.01f);
                         stopMove = true;
                         return;
                     }
                     else
                     {
-                        Debug.DrawLine(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f), hitinfo.point, Color.green, 0.01f);
+                        Debug.DrawLine(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f),
+                            hitinfo.point, Color.green, 0.01f);
                     }
                 }
 
             }
-            else Debug.DrawLine(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f), transform.position + targetDirection.normalized * (_capsuleCollider.radius * 0.2f), Color.blue, 0.01f);
+            else
+                Debug.DrawLine(transform.position + Vector3.up * (_capsuleCollider.height * 0.5f),
+                    transform.position + targetDirection.normalized * (_capsuleCollider.radius * 0.2f), Color.blue,
+                    0.01f);
 
             stopMove = false;
         }
@@ -596,6 +621,7 @@ namespace Invector.CharacterController
                 jumpCounter = 0;
                 isJumping = false;
             }
+
             // apply extra force to the jump height   
             var vel = _rigidbody.velocity;
             vel.y = jumpHeight;
@@ -639,9 +665,12 @@ namespace Invector.CharacterController
         {
             get
             {
-                Vector3 p1 = transform.position + _capsuleCollider.center + Vector3.up * -_capsuleCollider.height * 0.5F;
+                Vector3 p1 = transform.position + _capsuleCollider.center +
+                             Vector3.up * -_capsuleCollider.height * 0.5F;
                 Vector3 p2 = p1 + Vector3.up * _capsuleCollider.height;
-                return Physics.CapsuleCastAll(p1, p2, _capsuleCollider.radius * 0.5f, transform.forward, 0.6f, groundLayer).Length == 0;
+                
+                return Physics.CapsuleCastAll(p1, p2, _capsuleCollider.radius * 0.5f, transform.forward, 0.6f,
+                           groundLayer).Length == 0;
             }
         }
 
@@ -660,7 +689,8 @@ namespace Invector.CharacterController
             }
 
             // change the physics material to very slip when not grounded
-            _capsuleCollider.material = (isGrounded && GroundAngle() <= slopeLimit + 1) ? frictionPhysics : slippyPhysics;
+            _capsuleCollider.material =
+                (isGrounded && GroundAngle() <= slopeLimit + 1) ? frictionPhysics : slippyPhysics;
 
             if (isGrounded && input == Vector2.zero)
                 _capsuleCollider.material = maxFrictionPhysics;
@@ -672,7 +702,8 @@ namespace Invector.CharacterController
             // we don't want to stick the character grounded if one of these bools is true
             bool checkGroundConditions = !isRolling;
 
-            var magVel = (float)System.Math.Round(new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z).magnitude, 2);
+            var magVel =
+                (float) System.Math.Round(new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z).magnitude, 2);
             magVel = Mathf.Clamp(magVel, 0, 1);
 
             var groundCheckDistance = groundMinDistance;
@@ -692,7 +723,7 @@ namespace Invector.CharacterController
                 {
                     if (groundDistance >= groundCheckDistance)
                     {
-                        isGrounded = false;                        
+                        isGrounded = false;
                         // check vertical velocity
                         verticalVelocity = _rigidbody.velocity.y;
                         // apply extra gravity when falling
@@ -703,7 +734,8 @@ namespace Invector.CharacterController
                     }
                     else if (!onStep && !isJumping)
                     {
-                        _rigidbody.AddForce(transform.up * (extraGravity * 2 * Time.deltaTime), ForceMode.VelocityChange);
+                        _rigidbody.AddForce(transform.up * (extraGravity * 2 * Time.deltaTime),
+                            ForceMode.VelocityChange);
                     }
                 }
             }
@@ -713,10 +745,10 @@ namespace Invector.CharacterController
         {
             if (isDead) return;
             if (_capsuleCollider != null)
-            { 
+            {
                 // radius of the SphereCast
                 float radius = _capsuleCollider.radius * 0.9f;
-                var dist = 10f;                
+                var dist = 10f;
                 // ray for RayCast
                 Ray ray2 = new Ray(transform.position + new Vector3(0, colliderHeight / 2, 0), Vector3.down);
                 // raycast for check the ground distance
@@ -734,12 +766,12 @@ namespace Invector.CharacterController
                             dist = (groundHit.distance - _capsuleCollider.radius * 0.1f);
                     }
                 }
-                       
-                groundDistance = (float)System.Math.Round(dist, 2);
+
+                groundDistance = (float) System.Math.Round(dist, 2);
             }
         }
 
-        /// <summary>
+    /// <summary>
         /// Return the ground angle
         /// </summary>
         /// <returns></returns>
@@ -932,6 +964,7 @@ namespace Invector.CharacterController
 
         public override void ResetRagdoll()
         {
+            print("Ragdoll call");
             lockMovement = false;
             verticalVelocity = 0f;
             ragdolled = false;
@@ -944,7 +977,6 @@ namespace Invector.CharacterController
 
         public override void EnableRagdoll()
         {
-            //print("Ragdoll call");
             animator.SetFloat("InputHorizontal", 0f);
             animator.SetFloat("InputVertical", 0f);
             animator.SetFloat("VerticalVelocity", 0f);

@@ -30,7 +30,8 @@ namespace Invector.CharacterController
         public void OnAnimatorMove()
         {
             if (!this.enabled) return;
-            
+
+            ///animator.enabled = true;///
             UpdateAnimator();                // call ThirdPersonAnimator methods
 
             // we implement this function to override the default root motion.
@@ -71,13 +72,12 @@ namespace Invector.CharacterController
 
         public virtual void UpdateAnimator()
         {
-            if (animator == null || !animator.enabled) return;          
+            if (animator == null || !animator.enabled) return;
 
             LayerControl();
             ActionsControl();
-
+            
             RandomIdle();
-
             // trigger by input
             RollAnimation();            
 
@@ -86,6 +86,7 @@ namespace Invector.CharacterController
 
             LocomotionAnimation();
             DeadAnimation();
+
         }
 
         public void LayerControl()
@@ -106,7 +107,7 @@ namespace Invector.CharacterController
             landHigh = baseLayerInfo.IsName("LandHigh");
             quickStop = baseLayerInfo.IsName("QuickStop");
 
-            isRolling = baseLayerInfo.IsName("Roll");
+            isRolling = IsAnimatorTag("Roll"); ///baseLayerInfo.IsName("Roll");
             inTurn = baseLayerInfo.IsName("TurnOnSpot");
 
             // locks player movement while a animation with tag 'LockMovement' is playing
@@ -294,7 +295,7 @@ namespace Invector.CharacterController
             if (normalizeTime > normalisedEndTime)
                 return;
 
-            animator.MatchTarget(matchPosition, matchRotation, target, weightMask, normalisedStartTime, normalisedEndTime);
+            animator.MatchTarget(matchPosition, matchRotation, target, weightMask, normalisedStartTime, normalisedEndTime);///
         }
 
         #endregion

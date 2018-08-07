@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Player.InvectorMods;
 using Invector.CharacterController;
 using UnityEngine;
 
 public class ObstacleInputZone : MonoBehaviour {
-
-    public List<vTriggerGenericAction> Triggers = new List<vTriggerGenericAction>();
-    public List<vObjectDamage> Killers = new List<vObjectDamage>();
     
-    public vCharacter Character;
+    public List<vTriggerGenericAction> Triggers = new List<vTriggerGenericAction>();
+    //public List<vObjectDamage> Killers = new List<vObjectDamage>();
+
+    private ParkourThirdPersonInput _input;
 
     private void Start()
     {
@@ -22,38 +23,23 @@ public class ObstacleInputZone : MonoBehaviour {
     {
         if (other.tag != "Player") return;
 
-        vCharacter c = other.GetComponent<vCharacter>();
+        ParkourThirdPersonInput c = other.GetComponent<ParkourThirdPersonInput>();
         if (c == null) return;
-        Character = c;
+        _input = c;
+        _input.EnterInputZone(this);
     }
-
-
 
     private void OnTriggerStay(Collider other)
     {
-        //TODO InputManager
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            HUDController.Instance.Flash();
-            Character.GetComponent<KeyboardInput>().LockStrafe = true; //temp
-            StartCoroutine(WaitForRagdollStandUp());
-        }
-    }
-
-    //Это я делаю для того чтобы персонаж, пребывая в регдоле, не мог сверхестественно преодолель препятствие
-    IEnumerator WaitForRagdollStandUp()
-    {
-        while (Character.ragdolled)
-        {
-            yield return null;
-        }
-        ReadyToJump(true);
+        if (_input)
+        _input.EnterInputZone(this);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Character.GetComponent<KeyboardInput>().LockStrafe = false; //temp
-        //ReadyToJump(false);
+        if (_input)
+        _input.ExitInputZone();
+        ReadyToJump(false);
     }
 
     private void ReadyToJump(bool mode)
@@ -62,15 +48,11 @@ public class ObstacleInputZone : MonoBehaviour {
         {
             trig.autoAction = mode;
         }
-        foreach (var trig in Killers)
-        {
-            trig.gameObject.SetActive(!mode);
-        }
     }
 
     public void OnTriggerUsed()
     {
-        Character.GetComponent<KeyboardInput>().LockStrafe = false; //temp
+        _input.ExitInputZone();
         StartCoroutine(DisableInputZoneForTime(2f));
     }
 
@@ -90,12 +72,13 @@ public class ObstacleInputZone : MonoBehaviour {
         {
             trig.gameObject.SetActive(value);
         }
-        foreach (var trig in Killers)
-        {
-            trig.gameObject.SetActive(value);
-        }
         var collider = GetComponent<Collider>();
         collider.enabled = value;
     }
 
+    public void OnPalyerJump()
+    {
+        ReadyToJump(true);
+    }
+    
 }

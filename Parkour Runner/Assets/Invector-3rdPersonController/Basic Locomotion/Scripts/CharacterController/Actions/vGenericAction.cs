@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Security.Policy;
+using Assets.Scripts.Player;
 
 namespace Invector.CharacterController.Actions
 {
@@ -24,7 +26,6 @@ namespace Invector.CharacterController.Actions
         public bool triggerActionOnce;
 
         protected vThirdPersonInput tpInput;
-
         #endregion
 
         private void Awake()
@@ -46,10 +47,6 @@ namespace Invector.CharacterController.Actions
             // enable movement using full root motion
 
             if (useRootMotion) //Эту строчку добавил я. Раньше, переменная useRootMotion вообще не использовалась,
-                               //что вызывало баг, при котором игрок, активируя триггер под углом, проигрывал анимацию триггера
-                               //под таким же углом, под которым он зашёл на триггер. Например, если попытаться залезть на уступ задом,
-                               //персонаж не разварачивался. Теперь, можно отключить эту фичу используя галочку useRootMotion в персонаже.
-                               //Без этой галочки, после активации тригера, персонаж развернётся лицом в сторону триггера во время анимации.
             {
                 transform.rotation = tpInput.cc.animator.rootRotation;
                 transform.position = tpInput.cc.animator.rootPosition;
@@ -111,7 +108,7 @@ namespace Invector.CharacterController.Actions
         public virtual IEnumerator DestroyDelay(vTriggerGenericAction triggerAction)
         {            
             var _triggerAction = triggerAction;
-            yield return new WaitForSeconds(_triggerAction.destroyDelay);            
+            yield return new WaitForSeconds(_triggerAction.destroyDelay);
             ResetPlayerSettings();
             Destroy(_triggerAction.gameObject);
         }
@@ -234,7 +231,6 @@ namespace Invector.CharacterController.Actions
         {
             if (debugMode) Debug.Log("Reset Player Settings");
             if(!playingAnimation || tpInput.cc.animator.GetCurrentAnimatorStateInfo(0).normalizedTime
-                /*+ triggerAction.TEST_TranslationLen*/ 
                 >= triggerAction.endExitTimeAnimation)
             {
                 tpInput.cc.EnableGravityAndCollision(0f);             // enable again the gravity and collision

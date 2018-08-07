@@ -77,10 +77,11 @@ namespace Invector.CharacterController
 
         #region Initialize Character, Camera & HUD when LoadScene
 
+
         protected virtual void Start()
         {
             cc = GetComponent<vThirdPersonController>();
-            
+
             if (cc != null)
                 cc.Init();
 
@@ -141,7 +142,7 @@ namespace Invector.CharacterController
         }
 
         protected virtual void Update()
-        {            
+        {
             if (cc == null || Time.timeScale == 0) return;
             
             InputHandle();                      // update input methods
