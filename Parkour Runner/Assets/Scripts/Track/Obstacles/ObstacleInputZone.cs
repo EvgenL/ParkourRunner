@@ -4,16 +4,26 @@ using Assets.Scripts.Player.InvectorMods;
 using Invector.CharacterController;
 using UnityEngine;
 
-public class ObstacleInputZone : MonoBehaviour {
-    
-    public List<vTriggerGenericAction> Triggers = new List<vTriggerGenericAction>();
-    //public List<vObjectDamage> Killers = new List<vObjectDamage>();
+
+public class ObstacleInputZone : MonoBehaviour
+{
+
+    public bool ReadJumpInput = true;
+    public bool ReadRollInput = false;
+
+    public List<vTriggerGenericAction> JumpTriggers = new List<vTriggerGenericAction>();
+    public List<vTriggerGenericAction> RollTriggers = new List<vTriggerGenericAction>();
 
     private ParkourThirdPersonInput _input;
+    private bool _isReady;
 
     private void Start()
     {
-        foreach (var trig in Triggers)
+        foreach (var trig in JumpTriggers)
+        {
+            trig.OnDoAction.AddListener(OnTriggerUsed);
+        }
+        foreach (var trig in RollTriggers)
         {
             trig.OnDoAction.AddListener(OnTriggerUsed);
         }
@@ -39,12 +49,35 @@ public class ObstacleInputZone : MonoBehaviour {
     {
         if (_input)
         _input.ExitInputZone();
-        ReadyToJump(false);
+        ReadyRoll(false);
+        ReadyJump(false);
     }
 
-    private void ReadyToJump(bool mode)
+    private void ReadyRoll(bool mode)
     {
-        foreach (var trig in Triggers)
+        //Когда зона получает инпут от игрока, на экране появляется вспышка
+        if (mode && _isReady != mode)
+        {
+            HUDController.Instance.Flash();
+        }
+        _isReady = mode;
+
+        foreach (var trig in RollTriggers)
+        {
+            trig.autoAction = mode;
+        }
+    }
+
+    private void ReadyJump(bool mode)
+    {
+        //Когда зона получает инпут от игрока, на экране появляется вспышка
+        if (mode && _isReady != mode)
+        {
+            HUDController.Instance.Flash();
+        }
+        _isReady = mode;
+
+        foreach (var trig in JumpTriggers)
         {
             trig.autoAction = mode;
         }
@@ -63,12 +96,17 @@ public class ObstacleInputZone : MonoBehaviour {
         yield return new WaitForSeconds(time);
 
         EnableInputZone(true);
-        ReadyToJump(false);
+        ReadyRoll(false);
+        ReadyJump(false);
     }
 
     private void EnableInputZone(bool value)
     {
-        foreach (var trig in Triggers)
+        foreach (var trig in JumpTriggers)
+        {
+            trig.gameObject.SetActive(value);
+        }
+        foreach (var trig in RollTriggers)
         {
             trig.gameObject.SetActive(value);
         }
@@ -78,7 +116,19 @@ public class ObstacleInputZone : MonoBehaviour {
 
     public void OnPalyerJump()
     {
-        ReadyToJump(true);
+        if (ReadJumpInput)
+            ReadyJump(true);
     }
-    
+    public void OnPalyerRoll()
+    {
+        if (ReadRollInput)
+            ReadyRoll(true);
+    }
+
+    public enum ObstacleInputType
+    {
+        Jump,
+        Roll
+    }
+
 }

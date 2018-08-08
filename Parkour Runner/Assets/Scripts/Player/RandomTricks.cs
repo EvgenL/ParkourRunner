@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Assets.Scripts.Player
 {
-    public static class Tricks
+    public static class RandomTricks
     {
         public static string GetTrick(string playAnimation)
         {

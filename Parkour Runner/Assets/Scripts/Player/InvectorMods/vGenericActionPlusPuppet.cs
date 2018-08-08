@@ -54,7 +54,7 @@ namespace Assets.Scripts.Player.InvectorMods
                 isPlayingAnimation = true;
 
                 if (!Debug_NotRandomAnimation)
-                    _randomAnimation = Tricks.GetTrick(triggerAction.playAnimation);
+                    _randomAnimation = RandomTricks.GetTrick(triggerAction.playAnimation);
                 else
                     _randomAnimation = GetNotRandomAnimation(triggerAction.playAnimation);
 

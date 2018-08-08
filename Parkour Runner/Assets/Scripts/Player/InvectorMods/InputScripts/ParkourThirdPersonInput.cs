@@ -16,7 +16,7 @@ namespace Assets.Scripts.Player.InvectorMods
 
 
         public bool DebugAllowFreeWalk = false;
-
+        
         private bool _isInInputZone = false;
         private ObstacleInputZone _inputZone;
 
@@ -70,14 +70,27 @@ namespace Assets.Scripts.Player.InvectorMods
         {
             if (CrossPlatformInputManager.GetButtonDown("Jump") || jumpInput.GetButtonDown())
             {
-                if (!_isInInputZone)
+                if (_isInInputZone && _inputZone.ReadJumpInput)
                 {
-                    cc.Jump();
+                    _inputZone.OnPalyerJump();
                 }
                 else
                 {
-                    HUDController.Instance.Flash();
-                    _inputZone.OnPalyerJump();
+                    cc.Jump();
+                }
+            }
+        }
+        protected override void RollInput()
+        {
+            if (CrossPlatformInputManager.GetButtonDown("Roll") || rollInput.GetButtonDown())
+            {
+                if (_isInInputZone && _inputZone.ReadRollInput)
+                {
+                    _inputZone.OnPalyerRoll();
+                }
+                else
+                {
+                    cc.Roll();
                 }
             }
         }
@@ -85,17 +98,16 @@ namespace Assets.Scripts.Player.InvectorMods
         public void EnterInputZone(ObstacleInputZone zone)
         {
             _inputZone = zone;
-            LockTurning = true;
             _isInInputZone = true;
+
+            LockTurning = true;
         }
 
         public void ExitInputZone()
         {
-            LockTurning = false;
             _isInInputZone = false;
+
+            LockTurning = false;
         }
-
-
     }
-
 }

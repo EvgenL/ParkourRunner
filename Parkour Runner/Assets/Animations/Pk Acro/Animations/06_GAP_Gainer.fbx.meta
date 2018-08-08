@@ -200,7 +200,7 @@ ModelImporter:
     - serializedVersion: 16
       name: G_GAP_2M
       takeName: Take 001
-      firstFrame: 10
+      firstFrame: 16
       lastFrame: 55
       wrapMode: 0
       orientationOffsetY: 0

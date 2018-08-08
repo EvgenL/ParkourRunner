@@ -30,37 +30,37 @@ public class TrickBehaviour : StateMachineBehaviour
     private vTriggerGenericAction _oldActionParameters = new vTriggerGenericAction();
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        
-        if (OverrideActionParameters)
-        {
-            //Получаем из игрока информацию о триггере, на который он наступил
-            var action = vThirdPersonController.instance.GetComponent<vGenericActionPlusPuppet>();
-            _oldUseRootMotion = action.useRootMotion;
-            action.useRootMotion = UseRootMotion;
 
-            vTriggerGenericAction trigger = action.triggerAction;
+        if (!OverrideActionParameters) return;
 
-            _oldActionParameters.endExitTimeAnimation = trigger.endExitTimeAnimation;
-            _oldActionParameters.matchTargetMask = trigger.matchTargetMask;
-            _oldActionParameters.avatarTarget = trigger.avatarTarget;
-            _oldActionParameters.startMatchTarget = trigger.startMatchTarget;
-            _oldActionParameters.endMatchTarget = trigger.endMatchTarget;
-            _oldActionParameters.disableGravity = trigger.disableGravity;
-            _oldActionParameters.disableCollision = trigger.disableCollision;
+        //Получаем из игрока информацию о триггере, на который он наступил
+        var action = vThirdPersonController.instance.GetComponent<vGenericActionPlusPuppet>();
+        _oldUseRootMotion = action.useRootMotion;
+        action.useRootMotion = UseRootMotion;
 
-            trigger.endExitTimeAnimation = exitTime;
-            trigger.matchTargetMask = matchTargetMask;
-            trigger.avatarTarget = avatarTarget;
-            trigger.startMatchTarget = startMatchTarget;
-            trigger.endMatchTarget = endMatchTarget;
-            trigger.disableGravity = disableGravity;
-            trigger.disableCollision = disableCollision;
+        vTriggerGenericAction trigger = action.triggerAction;
 
-        }
+        _oldActionParameters.endExitTimeAnimation = trigger.endExitTimeAnimation;
+        _oldActionParameters.matchTargetMask = trigger.matchTargetMask;
+        _oldActionParameters.avatarTarget = trigger.avatarTarget;
+        _oldActionParameters.startMatchTarget = trigger.startMatchTarget;
+        _oldActionParameters.endMatchTarget = trigger.endMatchTarget;
+        _oldActionParameters.disableGravity = trigger.disableGravity;
+        _oldActionParameters.disableCollision = trigger.disableCollision;
+
+        trigger.endExitTimeAnimation = exitTime;
+        trigger.matchTargetMask = matchTargetMask;
+        trigger.avatarTarget = avatarTarget;
+        trigger.startMatchTarget = startMatchTarget;
+        trigger.endMatchTarget = endMatchTarget;
+        trigger.disableGravity = disableGravity;
+        trigger.disableCollision = disableCollision;
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
     {
+        if (!OverrideActionParameters) return;
+
         var action = vThirdPersonController.instance.GetComponent<vGenericActionPlusPuppet>();
         action.useRootMotion = _oldUseRootMotion;
 

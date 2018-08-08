@@ -63,7 +63,7 @@ namespace Assets.Scripts.Player.InvectorMods
 
             if (!rollConditions || isRolling) return;
 
-            string randomRoll = Tricks.GetRandomRoll();
+            string randomRoll = RandomTricks.GetRandomRoll();
             animator.CrossFadeInFixedTime(randomRoll, 0.1f);
 
 
