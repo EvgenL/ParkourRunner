@@ -13,20 +13,33 @@ namespace Assets.Scripts.Player.InvectorMods
     {
         public LayerMask InRollCollisions;
         public BehaviourPuppet Puppet;
-        
+        public Weight RollPuppetCollisionResistance;
+
+        public bool IsSlidingDown = false;
+
+
         public float RollKnockOutDistance = 4f;
         public float _oldKnockOutDistance;
 
         private LayerMask _oldCollisions;
-
-        void Awake()
+        private Weight _oldCollisionResistance;
+        //private ParkourThirdPersonInput parkourInput;
+        
+        private new void Start()
         {
-            base.Awake();
+            base.Start();
+            //parkourInput = GetComponent<ParkourThirdPersonInput>();
         }
 
         public void Update()
         {
-            ControllRollRagdollCollisions();
+            //ControllRollRagdoll();
+            ControllSlideDown();
+        }
+
+        private void ControllSlideDown()
+        {
+            animator.SetBool("IsSlidingDown", IsSlidingDown);
         }
 
         /*TODO
@@ -35,9 +48,10 @@ namespace Assets.Scripts.Player.InvectorMods
             get { return Puppet.}
         }*/
 
-        //Позволяет врезаться головой в стену во всемя переката
-        private void ControllRollRagdollCollisions()
+        //Позволяет врезаться головой в default layer во время переката. Работает хуйово, так что я выключил.
+        private void ControllRollRagdoll()
         {
+
             if (isRolling && Puppet.collisionLayers != InRollCollisions)
             {
                 _oldCollisions = Puppet.collisionLayers;
@@ -45,11 +59,15 @@ namespace Assets.Scripts.Player.InvectorMods
 
                 _oldKnockOutDistance = Puppet.knockOutDistance;
                 Puppet.knockOutDistance = RollKnockOutDistance;
+
+                _oldCollisionResistance = Puppet.collisionResistance;
+                Puppet.collisionResistance = RollPuppetCollisionResistance;
             }
             else if (!isRolling && Puppet.collisionLayers == InRollCollisions)
             {
                 Puppet.collisionLayers = _oldCollisions;
                 Puppet.knockOutDistance = _oldKnockOutDistance;
+                Puppet.collisionResistance = _oldCollisionResistance;
             }
         }
 
@@ -65,8 +83,32 @@ namespace Assets.Scripts.Player.InvectorMods
 
             string randomRoll = RandomTricks.GetRandomRoll();
             animator.CrossFadeInFixedTime(randomRoll, 0.1f);
+        }
 
+        public override void Jump()
+        {
+            if (customAction) return;
 
+            // know if has enough stamina to make this action
+            bool staminaConditions = currentStamina > jumpStamina;
+            // conditions to do this action
+            bool jumpConditions = !isCrouching && isGrounded && !actions && staminaConditions && !isJumping;
+            // return if jumpCondigions is false
+            if (!jumpConditions) return;
+            // trigger jump behaviour
+            jumpCounter = jumpTimer;
+            isJumping = true;
+
+            jumpForward = isSprinting ? freeSpeed.sprintSpeed : freeSpeed.runningSpeed;
+
+            // trigger jump animations
+            if (input.sqrMagnitude < 0.1f)
+                animator.CrossFadeInFixedTime("Jump", 0.1f);//TODO случайная анимация прыжка (?)
+            else
+                animator.CrossFadeInFixedTime("JumpMove", .2f);
+            // reduce stamina
+            ReduceStamina(jumpStamina, false);
+            currentStaminaRecoveryDelay = 1f;
         }
     }
 }

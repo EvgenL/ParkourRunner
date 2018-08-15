@@ -172,7 +172,7 @@ ModelImporter:
     - serializedVersion: 16
       name: G_GAP_1M
       takeName: Take 001
-      firstFrame: 1
+      firstFrame: 16
       lastFrame: 54
       wrapMode: 0
       orientationOffsetY: 0
@@ -228,7 +228,7 @@ ModelImporter:
     - serializedVersion: 16
       name: G_GAP_3M
       takeName: Take 001
-      firstFrame: 112
+      firstFrame: 125
       lastFrame: 165
       wrapMode: 0
       orientationOffsetY: 0

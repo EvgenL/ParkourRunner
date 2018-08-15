@@ -231,11 +231,11 @@ ModelImporter:
     - serializedVersion: 16
       name: MC_2M
       takeName: Take 001
-      firstFrame: 62
+      firstFrame: 70
       lastFrame: 99
       wrapMode: 0
       orientationOffsetY: 0
-      level: 0
+      level: 0.27
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
@@ -259,11 +259,11 @@ ModelImporter:
     - serializedVersion: 16
       name: MC_3M
       takeName: Take 001
-      firstFrame: 102
+      firstFrame: 111
       lastFrame: 134
       wrapMode: 0
       orientationOffsetY: 0
-      level: 0
+      level: 0.58
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0

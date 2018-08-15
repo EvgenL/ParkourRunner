@@ -315,7 +315,7 @@ ModelImporter:
     - serializedVersion: 16
       name: RO_Fulltwist
       takeName: Take 001
-      firstFrame: 342
+      firstFrame: 348
       lastFrame: 400
       wrapMode: 0
       orientationOffsetY: 0

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 
 namespace Assets.Scripts.Player
 {
@@ -13,13 +9,18 @@ namespace Assets.Scripts.Player
             int randomIndex;
             switch (playAnimation)
             {
+                //TODO зависимость от открытых трюков
                 case ("Roll"):
                     randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.Roll)).Length);
                     return ((TrickNames.Roll)randomIndex).ToString(); //Получаем случайную строку из енума
 
+                case ("Slide"):
+                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.Slide)).Length);
+                    return ((TrickNames.Slide)randomIndex).ToString(); 
+
                 case ("Jump"):
                     randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.Jump)).Length);
-                    return ((TrickNames.Jump)randomIndex).ToString(); //Получаем случайную строку из енума
+                    return ((TrickNames.Jump)randomIndex).ToString();
 
                 case ("ClimbUpFar"):
                     randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.ClimbUpFar)).Length);
@@ -28,6 +29,14 @@ namespace Assets.Scripts.Player
                 case ("ClimbUpClose"):
                     randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.ClimbUpClose)).Length);
                     return ((TrickNames.ClimbUpClose)randomIndex).ToString();
+                    
+                case ("ClimbUp1mFar"):
+                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.ClimbUp1mFar)).Length);
+                    return ((TrickNames.ClimbUp1mFar)randomIndex).ToString();
+
+                case ("ClimbUp1mClose"):
+                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.ClimbUp1mClose)).Length);
+                    return ((TrickNames.ClimbUp1mClose)randomIndex).ToString();
 
                 case ("JumpOverFar"):
                     randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.JumpOverFar)).Length);
@@ -36,6 +45,18 @@ namespace Assets.Scripts.Player
                 case ("JumpOverClose"):
                     randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.JumpOverClose)).Length);
                     return ((TrickNames.JumpOverClose)randomIndex).ToString();
+
+                case ("JumpOver2m"):
+                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.JumpOver2m)).Length);
+                    return ((TrickNames.JumpOver2m)randomIndex).ToString();
+
+                case ("Stand"):
+                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.Stand)).Length);
+                    return ((TrickNames.Stand)randomIndex).ToString();  
+
+                /*case ("WallRunLeft"): //TODO нет анимации!
+                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.WallRunLeft)).Length);
+                    return ((TrickNames.WallRunLeft)randomIndex).ToString();*/
 
 
                 default:
@@ -53,49 +74,5 @@ namespace Assets.Scripts.Player
         }
     }
 
-    public static class TrickNames
-    {
-        public enum Roll
-        {
-            BasicRoll,
-            SideRoll,
-            QuickRoll,
-
-
-            SlideRoll,
-            CorkscrewKipUp
-        }
-        public enum Slide
-        {
-            SlideRoll,
-            CorkscrewKipUp
-        }
-        public enum Jump
-        {
-            Jump
-        }
-        public enum ClimbUpFar
-        {
-            ClimbUpFar
-        }
-        public enum ClimbUpClose
-        {
-            ClimbUpClose2m,
-            ClimbUpClose3m
-        }
-        public enum JumpOverFar
-        {
-            BasicJump,
-            Frontsault,
-            Gainer,
-            Double_Frontsault,
-            KongVault,
-            OneHandVault
-        }
-        public enum JumpOverClose
-        {
-            JumpOver,
-            Cartwheel
-        }
-    }
+    
 }

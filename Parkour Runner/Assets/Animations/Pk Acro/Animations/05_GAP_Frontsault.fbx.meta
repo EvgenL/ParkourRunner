@@ -223,7 +223,7 @@ ModelImporter:
       events: []
       transformMask: []
       maskType: 3
-      maskSource: {instanceID: 0}
+      maskSource: {fileID: 31900000, guid: ddd5692e3e926fd45aa19a9ee016e6bf, type: 2}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
       name: F_GAP_3M

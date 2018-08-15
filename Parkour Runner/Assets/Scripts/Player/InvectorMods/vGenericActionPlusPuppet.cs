@@ -18,11 +18,15 @@ namespace Assets.Scripts.Player.InvectorMods
 
         public bool Debug_NotRandomAnimation = false;
         public TrickNames.Roll Debug_Roll;
+        public TrickNames.Slide Debug_Slide;
         public TrickNames.Jump Debug_Jump;
         public TrickNames.ClimbUpClose Debug_ClimbUpClose;
         public TrickNames.ClimbUpFar Debug_ClimbUpFar;
+        public TrickNames.ClimbUp1mClose Debug_ClimbUp1mClose;
+        public TrickNames.ClimbUp1mFar Debug_ClimbUp1mFar;
         public TrickNames.JumpOverClose Debug_JumpOverClose;
         public TrickNames.JumpOverFar Debug_JumpOverFar;
+        public TrickNames.Stand Debug_Stand;
 
         [SerializeField]
         private string _randomAnimation;
@@ -35,6 +39,7 @@ namespace Assets.Scripts.Player.InvectorMods
         }
         protected override void ResetPlayerSettings()
         {
+            //TODO Анимация Sprint to wall climb дергается в конце. Многие анимации тоже дергаются
             base.ResetPlayerSettings();
 
             if (puppetMaster.mode != PuppetMaster.Mode.Active) //Функция ResetPlayerSettings вызывается месколько раз, но есть только один кадр, когда эта функция вызвана и canTriggerAction==false

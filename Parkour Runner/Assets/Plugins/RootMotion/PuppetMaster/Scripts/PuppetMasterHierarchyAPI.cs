@@ -118,7 +118,7 @@ namespace RootMotion.Dynamics {
 		/// <param name="blockTargetAnimation">If set to <c>true</c>, will add AnimationBlocker.cs to the removed target bones. That will override animation that would otherwise still be writing on those bones.</param>
 		/// <param name="removeMode">Remove mode. Sever cuts the body part by disconnecting the first joint. Explode explodes the body part disconnecting all joints. Numb removes the muscles from PuppetMaster management, keeps the joints connected and disables spring and damper forces.</param>
 		public void RemoveMuscleRecursive(ConfigurableJoint joint, bool attachTarget, bool blockTargetAnimation = false, MuscleRemoveMode removeMode = MuscleRemoveMode.Sever) {
-			if (!CheckIfInitiated()) return;
+            if (!CheckIfInitiated()) return;
 			
 			if (joint == null) {
 				Debug.LogWarning("RemoveMuscleRecursive was called with a null 'joint' reference.", transform);
@@ -144,13 +144,18 @@ namespace RootMotion.Dynamics {
 				}
 			}
 
-			switch(removeMode) {
+		    Debug.DrawRay(muscles[index].transform.position, muscles[index].transform.up, Color.green, 5f);
+
+            switch (removeMode) {
 			case MuscleRemoveMode.Sever:
 				DisconnectJoint(muscles[index].joint);
 
 				for (int i = 0; i < muscles[index].childIndexes.Length; i++) {
 					KillJoint(muscles[muscles[index].childIndexes[i]].joint);
-				}
+				    Debug.DrawRay(muscles[muscles[index].childIndexes[i]].transform.position,
+				        muscles[muscles[index].childIndexes[i]].transform.up, Color.red, 5f);
+
+                    }
 				break;
 			case MuscleRemoveMode.Explode:
 				DisconnectJoint(muscles[index].joint);

@@ -58,7 +58,7 @@ public class ObstacleInputZone : MonoBehaviour
         //Когда зона получает инпут от игрока, на экране появляется вспышка
         if (mode && _isReady != mode)
         {
-            HUDController.Instance.Flash();
+            HUDManager.Instance.Flash();
         }
         _isReady = mode;
 
@@ -73,7 +73,7 @@ public class ObstacleInputZone : MonoBehaviour
         //Когда зона получает инпут от игрока, на экране появляется вспышка
         if (mode && _isReady != mode)
         {
-            HUDController.Instance.Flash();
+            HUDManager.Instance.Flash();
         }
         _isReady = mode;
 
