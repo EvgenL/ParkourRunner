@@ -39,14 +39,12 @@ namespace Assets.Scripts.Player.InvectorMods
         }
         protected override void ResetPlayerSettings()
         {
-            //TODO Анимация Sprint to wall climb дергается в конце. Многие анимации тоже дергаются
+            //TODO Многие анимации дергаются по ресету изза того что рут оказывается под землёй во время включения коллизии
             base.ResetPlayerSettings();
 
             if (puppetMaster.mode != PuppetMaster.Mode.Active) //Функция ResetPlayerSettings вызывается месколько раз, но есть только один кадр, когда эта функция вызвана и canTriggerAction==false
                 puppetMaster.mode = PuppetMaster.Mode.Active;
         }
-        
-        //TODO endexittime = animation.length
         protected override void TriggerAnimation()
         {
             if (debugMode) Debug.Log("TriggerAnimation");

@@ -14,6 +14,8 @@ public class ObstacleInputZone : MonoBehaviour
     public List<vTriggerGenericAction> JumpTriggers = new List<vTriggerGenericAction>();
     public List<vTriggerGenericAction> RollTriggers = new List<vTriggerGenericAction>();
 
+    public float DisableTriggersForSeconds = 2f;
+
     private ParkourThirdPersonInput _input;
     private bool _isReady;
 
@@ -86,7 +88,8 @@ public class ObstacleInputZone : MonoBehaviour
     public void OnTriggerUsed()
     {
         _input.ExitInputZone();
-        StartCoroutine(DisableInputZoneForTime(2f));
+        if (DisableTriggersForSeconds == 0f) return;
+        StartCoroutine(DisableInputZoneForTime(DisableTriggersForSeconds));
     }
 
     IEnumerator DisableInputZoneForTime(float time)

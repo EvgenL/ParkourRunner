@@ -294,7 +294,7 @@ namespace Invector.CharacterController
 
             if (normalizeTime > normalisedEndTime)
                 return;
-
+            
             animator.MatchTarget(matchPosition, matchRotation, target, weightMask, normalisedStartTime, normalisedEndTime);///
         }
 

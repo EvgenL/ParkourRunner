@@ -60,7 +60,7 @@ namespace Assets.Scripts.Player
 
 
                 default:
-                    UnityEngine.Debug.Log("No such trick category: " + playAnimation);
+                    UnityEngine.Debug.Log("No such trick category: " + playAnimation + ". Trying to do exact trick");
                     return playAnimation; //Для actions, которые не могут быть рандомными
             }
 

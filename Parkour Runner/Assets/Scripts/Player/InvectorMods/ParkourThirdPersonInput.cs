@@ -36,6 +36,13 @@ namespace Assets.Scripts.Player.InvectorMods
                 oldInput = cc.input;
                 return;
             }
+            if (parkourController.IsSlidingTrolley)
+            {
+                cc.input.y = 0f;
+                cc.input.x = CrossPlatformInputManager.GetAxis("Horizontal"); //TODO Наклон на троллеи
+                oldInput = cc.input;
+                return;
+            }
             if (DebugAllowFreeWalk)
             {
                 cc.input.y = CrossPlatformInputManager.GetAxis("Vertical");
@@ -65,7 +72,7 @@ namespace Assets.Scripts.Player.InvectorMods
 
         protected override void SprintInput()
         {
-            if (Sprint)
+            if (Sprint || Input.GetKeyDown(KeyCode.LeftShift))
                 cc.Sprint(true);
             else
                 cc.Sprint(false);
@@ -73,7 +80,7 @@ namespace Assets.Scripts.Player.InvectorMods
 
         protected override void CrouchInput()
         {
-            //Запрещаем приседать
+            //Запрещаем приседать потому что в игре не будет приседа
             /*if (crouchInput.GetButtonDown())
                 cc.Crouch();*/
         }
@@ -87,7 +94,11 @@ namespace Assets.Scripts.Player.InvectorMods
                 {
                     _inputZone.OnPalyerJump();
                 }
-                else
+                else if (parkourController.IsSlidingTrolley)
+                {
+                    parkourController.IsSlidingTrolley = false;
+                }
+                else 
                 {
                     cc.Jump();
                 }
@@ -100,6 +111,10 @@ namespace Assets.Scripts.Player.InvectorMods
                 if (_isInInputZone && _inputZone.ReadRollInput)
                 {
                     _inputZone.OnPalyerRoll();
+                }
+                else if (parkourController.IsSlidingTrolley)
+                {
+                    parkourController.IsSlidingTrolley = false;
                 }
                 else
                 {

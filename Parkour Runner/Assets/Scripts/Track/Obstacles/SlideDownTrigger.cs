@@ -23,7 +23,7 @@ public class SlideDownTrigger : MonoBehaviour
             _player.IsSlidingDown = true;
             _player.animator.SetFloat("SlideAngle", transform.rotation.x);
         }
-        _player.animator.CrossFadeInFixedTime("SlideDown", 0.2f);
+        //_player.animator.CrossFadeInFixedTime("SlideDown", 0.2f);
     }
     
 }

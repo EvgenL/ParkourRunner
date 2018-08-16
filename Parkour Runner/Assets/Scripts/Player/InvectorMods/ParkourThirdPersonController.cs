@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using Invector.CharacterController;
+using Invector.CharacterController.Actions;
 using RootMotion.Dynamics;
 using UnityEngine;
 
@@ -16,10 +17,28 @@ namespace Assets.Scripts.Player.InvectorMods
         public Weight RollPuppetCollisionResistance;
 
         public bool IsSlidingDown = false;
-
-
+        public bool IsSlidingTrolley = false;
+        
         public float RollKnockOutDistance = 4f;
         public float _oldKnockOutDistance;
+
+        [HideInInspector] public Vector3 TrolleyOffset;
+
+        //Чисто по приколу сделал чтоб он держался за IK пока едет на тарзанке
+        public Transform TrolleyTarget;
+        public AvatarIKGoal TrolleyHand;
+        void OnAnimatorIK(int layerIndex)
+        {
+            if (!IsSlidingTrolley) return;
+
+            var target = GetComponent<vGenericAction>().triggerAction.avatarTarget;
+
+            animator.SetIKPositionWeight(TrolleyHand, 0.5f);
+            var offset = new Vector3(0f, -0.1f, 0);
+            animator.SetIKPosition(TrolleyHand, TrolleyTarget.position + offset);
+        }
+
+
 
         private LayerMask _oldCollisions;
         private Weight _oldCollisionResistance;
@@ -31,10 +50,27 @@ namespace Assets.Scripts.Player.InvectorMods
             //parkourInput = GetComponent<ParkourThirdPersonInput>();
         }
 
-        public void Update()
+        private void Update()
         {
             //ControllRollRagdoll();
             ControllSlideDown();
+            ControllTrolley();
+        }
+
+        private void FixedUpdate()
+        {
+            if (IsSlidingTrolley)
+            {
+                transform.position = TrolleyTarget.position + TrolleyOffset;
+                //transform.RotateAround(transform.InverseTransformPoint(TrolleyTarget.position), transform.forward, 5);
+                
+
+            }
+        }
+
+        private void ControllTrolley()
+        {
+            animator.SetBool("IsSlidingTrolley", IsSlidingTrolley);
         }
 
         private void ControllSlideDown()
