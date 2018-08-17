@@ -8,6 +8,7 @@ public class InvectorPlusPuppet : MonoBehaviour
     public float VerticalVelocityToRoll = 12;
     public float VerticalVelocityToUnpin = 20;
 
+
     public vThirdPersonInput InvectorInput;
     public Animator AnimationController;
 
@@ -27,7 +28,6 @@ public class InvectorPlusPuppet : MonoBehaviour
     public void OnLoseBalance()
     {
         InvectorInput.SetLockBasicInput(true);
-        //invectorInput.enabled = false;
     }
 
     public void OnRegainBalance()

@@ -52,11 +52,8 @@ namespace Assets.Scripts.Player
 
                 case ("Stand"):
                     randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.Stand)).Length);
-                    return ((TrickNames.Stand)randomIndex).ToString();  
+                    return ((TrickNames.Stand)randomIndex).ToString();
 
-                /*case ("WallRunLeft"): //TODO нет анимации!
-                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.WallRunLeft)).Length);
-                    return ((TrickNames.WallRunLeft)randomIndex).ToString();*/
 
 
                 default:

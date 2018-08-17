@@ -5,27 +5,24 @@ using Assets.Scripts.Player.InvectorMods;
 using Invector.CharacterController;
 using Invector.CharacterController.Actions;
 using UnityEngine;
+using UnityEngine.Experimental.PlayerLoop;
 
-public class TrolleyBehaviour : StateMachineBehaviour
-{
-    public AvatarIKGoal IKHand;
+public class HookBehaviour : StateMachineBehaviour {
 
-
-    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         ParkourThirdPersonController _player;
         _player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
-        _player.IsSlidingTrolley = true;
-        _player.TrolleyHand = IKHand;
 
         _player._capsuleCollider.isTrigger = true; // disable the collision of the player if necessary 
         _player._rigidbody.useGravity = false; // disable gravity of the player
         _player._rigidbody.velocity = Vector3.zero;
 
-        var trolleyTrigger = _player.GetComponent<vGenericAction>().triggerAction
-            .GetComponent<ParkourTriggerTrolleyAction>();
 
-        _player.TrolleyOffset = trolleyTrigger.PlayerOffset;
-        _player.TargetTransform = trolleyTrigger.HoldPointTransform;
+        var trigger = _player.GetComponent<vGenericAction>().triggerAction
+            .GetComponent<ParkourTriggerHookAction>();
+        _player.HookOffset = trigger.PlayerOffset;
+
+        _player.TargetTransform = trigger.HookTarget;
     }
 }

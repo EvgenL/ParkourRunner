@@ -40,6 +40,8 @@ namespace Assets.Scripts.Player.InvectorMods
         protected override void ResetPlayerSettings()
         {
             //TODO Многие анимации дергаются по ресету изза того что рут оказывается под землёй во время включения коллизии
+            //if (GetComponent<ParkourThirdPersonController>().IsUsingHook) return;
+            print("reset");
             base.ResetPlayerSettings();
 
             if (puppetMaster.mode != PuppetMaster.Mode.Active) //Функция ResetPlayerSettings вызывается месколько раз, но есть только один кадр, когда эта функция вызвана и canTriggerAction==false
@@ -128,6 +130,11 @@ namespace Assets.Scripts.Player.InvectorMods
                 return isPlayingAnimation;
             }
         }
-        
+
+        public override void OnActionStay(Collider other)
+        {
+            base.OnActionEnter(other);
+            base.OnActionStay(other);
+        }
     }
 }

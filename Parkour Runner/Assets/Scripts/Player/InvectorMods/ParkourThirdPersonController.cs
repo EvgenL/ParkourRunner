@@ -18,24 +18,30 @@ namespace Assets.Scripts.Player.InvectorMods
 
         public bool IsSlidingDown = false;
         public bool IsSlidingTrolley = false;
-        
+        public bool IsRunningWall = false;
+        public bool IsUsingHook = false;
+
         public float RollKnockOutDistance = 4f;
         public float _oldKnockOutDistance;
 
+        public float HookSpeed = 2f;
+
         [HideInInspector] public Vector3 TrolleyOffset;
+        [HideInInspector] public Vector3 WallOffset;
+        [HideInInspector] public Vector3 HookOffset;
+
+        [HideInInspector] public Transform TargetTransform;
 
         //Чисто по приколу сделал чтоб он держался за IK пока едет на тарзанке
-        public Transform TrolleyTarget;
-        public AvatarIKGoal TrolleyHand;
+        [HideInInspector] public AvatarIKGoal TrolleyHand;
         void OnAnimatorIK(int layerIndex)
         {
             if (!IsSlidingTrolley) return;
 
             var target = GetComponent<vGenericAction>().triggerAction.avatarTarget;
 
-            animator.SetIKPositionWeight(TrolleyHand, 0.5f);
-            var offset = new Vector3(0f, -0.1f, 0);
-            animator.SetIKPosition(TrolleyHand, TrolleyTarget.position + offset);
+            animator.SetIKPositionWeight(TrolleyHand, 0.7f);
+            animator.SetIKPosition(TrolleyHand, TargetTransform.position);
         }
 
 
@@ -53,36 +59,39 @@ namespace Assets.Scripts.Player.InvectorMods
         private void Update()
         {
             //ControllRollRagdoll();
-            ControllSlideDown();
-            ControllTrolley();
+            ControllStates();
         }
 
         private void FixedUpdate()
         {
             if (IsSlidingTrolley)
             {
-                transform.position = TrolleyTarget.position + TrolleyOffset;
-                //transform.RotateAround(transform.InverseTransformPoint(TrolleyTarget.position), transform.forward, 5);
-                
-
+                transform.position = TargetTransform.position + TrolleyOffset;
+            }
+            if (IsRunningWall)
+            {
+                transform.position = TargetTransform.position + WallOffset;
+            }
+            if (IsUsingHook)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, TargetTransform.position + HookOffset, HookSpeed * Time.fixedDeltaTime);
+                transform.rotation = TargetTransform.rotation;
+                if (Vector3.Distance(TargetTransform.position + HookOffset, transform.position) <= (HookSpeed * Time.deltaTime))
+                {
+                    print(Vector3.Distance(TargetTransform.position + HookOffset, transform.position));
+                    IsUsingHook = false;
+                }
             }
         }
 
-        private void ControllTrolley()
+        private void ControllStates()
         {
-            animator.SetBool("IsSlidingTrolley", IsSlidingTrolley);
-        }
-
-        private void ControllSlideDown()
-        {
+            animator.SetBool("IsRunningWall", IsRunningWall);
             animator.SetBool("IsSlidingDown", IsSlidingDown);
+            animator.SetBool("IsSlidingTrolley", IsSlidingTrolley);
+            animator.SetBool("IsUsingHook", IsUsingHook);
         }
 
-        /*TODO
-        bool ragdolled
-        {
-            get { return Puppet.}
-        }*/
 
         //Позволяет врезаться головой в default layer во время переката. Работает хуйово, так что я выключил.
         private void ControllRollRagdoll()
@@ -117,7 +126,7 @@ namespace Assets.Scripts.Player.InvectorMods
 
             if (!rollConditions || isRolling) return;
 
-            string randomRoll = RandomTricks.GetRandomRoll();
+            string randomRoll = RandomTricks.GetRandomRoll();///
             animator.CrossFadeInFixedTime(randomRoll, 0.1f);
         }
 

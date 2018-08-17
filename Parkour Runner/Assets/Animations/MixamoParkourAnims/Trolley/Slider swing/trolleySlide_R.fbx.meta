@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 53b2671294c09134096161e4258dff69
+guid: 0bbb41bc4eb39ea4b8e17a6b2ff5e6f4
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -137,7 +137,6 @@ ModelImporter:
     400130: mixamorig:Hips
     7400000: Take 001
     9500000: //RootNode
-    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -172,20 +171,20 @@ ModelImporter:
       firstFrame: 0
       lastFrame: 15
       wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
+      orientationOffsetY: 5.22
+      level: -1.15
+      cycleOffset: 0.07
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
       loopBlend: 1
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 0
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []

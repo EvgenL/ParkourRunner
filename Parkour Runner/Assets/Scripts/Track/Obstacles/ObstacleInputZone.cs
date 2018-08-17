@@ -94,7 +94,6 @@ public class ObstacleInputZone : MonoBehaviour
 
     IEnumerator DisableInputZoneForTime(float time)
     {
-
         EnableInputZone(false);
         yield return new WaitForSeconds(time);
 
@@ -126,12 +125,6 @@ public class ObstacleInputZone : MonoBehaviour
     {
         if (ReadRollInput)
             ReadyRoll(true);
-    }
-
-    public enum ObstacleInputType
-    {
-        Jump,
-        Roll
     }
 
 }

@@ -17,22 +17,15 @@ namespace Assets.Scripts.Player
 
         public PathMagic Path;
 
-        public float StartDelay = 0.75f;
-
         public Vector3 PlayerOffset;
         
         private ParkourThirdPersonController _player;
 
         private void Start()
         {
-            OnDoAction.AddListener(StartSlide);
+            OnDoAction.AddListener(Play);
             Path.Waypoints[1].reached.AddListener(JumpOff);
             _player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
-        }
-
-        public void StartSlide()
-        {
-            Invoke("Play", StartDelay);
         }
 
         private void Play()
@@ -44,6 +37,8 @@ namespace Assets.Scripts.Player
         private void JumpOff()
         {
             _player.IsSlidingTrolley = false;
+            _player._capsuleCollider.isTrigger = true;
+            _player._rigidbody.useGravity = false;
         }
     }
 }
