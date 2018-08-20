@@ -13,7 +13,8 @@ namespace Assets.Scripts.Player.InvectorMods
     class ParkourThirdPersonController : vThirdPersonController
     {
         public LayerMask InRollCollisions;
-        public BehaviourPuppet Puppet;
+        public BehaviourPuppet PuppetBehav;
+        public PuppetMaster PuppetMaster;
         public Weight RollPuppetCollisionResistance;
 
         public bool IsSlidingDown = false;
@@ -82,6 +83,17 @@ namespace Assets.Scripts.Player.InvectorMods
                     IsUsingHook = false;
                 }
             }
+
+            if (customAction)
+            {
+                if (PuppetMaster.mode != PuppetMaster.Mode.Disabled)
+                    PuppetMaster.mode = PuppetMaster.Mode.Disabled;
+            }
+            else
+            {
+                if (PuppetMaster.mode != PuppetMaster.Mode.Active)
+                    PuppetMaster.mode = PuppetMaster.Mode.Active;
+            }
         }
 
         private void ControllStates()
@@ -97,22 +109,22 @@ namespace Assets.Scripts.Player.InvectorMods
         private void ControllRollRagdoll()
         {
 
-            if (isRolling && Puppet.collisionLayers != InRollCollisions)
+            if (isRolling && PuppetBehav.collisionLayers != InRollCollisions)
             {
-                _oldCollisions = Puppet.collisionLayers;
-                Puppet.collisionLayers = InRollCollisions;
+                _oldCollisions = PuppetBehav.collisionLayers;
+                PuppetBehav.collisionLayers = InRollCollisions;
 
-                _oldKnockOutDistance = Puppet.knockOutDistance;
-                Puppet.knockOutDistance = RollKnockOutDistance;
+                _oldKnockOutDistance = PuppetBehav.knockOutDistance;
+                PuppetBehav.knockOutDistance = RollKnockOutDistance;
 
-                _oldCollisionResistance = Puppet.collisionResistance;
-                Puppet.collisionResistance = RollPuppetCollisionResistance;
+                _oldCollisionResistance = PuppetBehav.collisionResistance;
+                PuppetBehav.collisionResistance = RollPuppetCollisionResistance;
             }
-            else if (!isRolling && Puppet.collisionLayers == InRollCollisions)
+            else if (!isRolling && PuppetBehav.collisionLayers == InRollCollisions)
             {
-                Puppet.collisionLayers = _oldCollisions;
-                Puppet.knockOutDistance = _oldKnockOutDistance;
-                Puppet.collisionResistance = _oldCollisionResistance;
+                PuppetBehav.collisionLayers = _oldCollisions;
+                PuppetBehav.knockOutDistance = _oldKnockOutDistance;
+                PuppetBehav.collisionResistance = _oldCollisionResistance;
             }
         }
 

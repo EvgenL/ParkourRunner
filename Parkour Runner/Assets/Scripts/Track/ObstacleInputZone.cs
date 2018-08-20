@@ -106,11 +106,13 @@ public class ObstacleInputZone : MonoBehaviour
     {
         foreach (var trig in JumpTriggers)
         {
-            trig.gameObject.SetActive(value);
+            trig.autoAction = value;
+            //trig.gameObject.SetActive(value);
         }
         foreach (var trig in RollTriggers)
         {
-            trig.gameObject.SetActive(value);
+            trig.autoAction = value;
+            //trig.gameObject.SetActive(value);
         }
         var collider = GetComponent<Collider>();
         collider.enabled = value;

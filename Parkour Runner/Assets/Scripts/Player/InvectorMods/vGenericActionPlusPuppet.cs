@@ -14,7 +14,7 @@ namespace Assets.Scripts.Player.InvectorMods
         public PuppetMaster puppetMaster;
         public BehaviourPuppet behaviourPuppet;
 
-        public float CurrentTranslationTime;
+        public bool ImmuneRagdoll;
 
         public bool Debug_NotRandomAnimation = false;
         public TrickNames.Roll Debug_Roll;
@@ -31,10 +31,23 @@ namespace Assets.Scripts.Player.InvectorMods
         [SerializeField]
         private string _randomAnimation;
 
+        protected void FixedUpdate()
+        {
+            if (ImmuneRagdoll)
+            {
+                puppetMaster.mode = PuppetMaster.Mode.Disabled;
+            }
+            else
+            {
+                puppetMaster.mode = PuppetMaster.Mode.Active;
+            }
+        }
+
         protected override void ApplyPlayerSettings()
         {
+            print("apply");
             base.ApplyPlayerSettings();
-            if (puppetMaster.mode != PuppetMaster.Mode.Disabled)
+            //if (puppetMaster.mode != PuppetMaster.Mode.Disabled)
                 puppetMaster.mode = PuppetMaster.Mode.Disabled;
         }
         protected override void ResetPlayerSettings()
@@ -44,7 +57,7 @@ namespace Assets.Scripts.Player.InvectorMods
             print("reset");
             base.ResetPlayerSettings();
 
-            if (puppetMaster.mode != PuppetMaster.Mode.Active) //Функция ResetPlayerSettings вызывается месколько раз, но есть только один кадр, когда эта функция вызвана и canTriggerAction==false
+            //if (puppetMaster.mode != PuppetMaster.Mode.Active)
                 puppetMaster.mode = PuppetMaster.Mode.Active;
         }
         protected override void TriggerAnimation()
