@@ -19,6 +19,7 @@ namespace Assets.Scripts.Player.InvectorMods
 
         private void Start()
         {
+            base.Start();
             OnDoAction.AddListener(Play);
             Path.Waypoints[1].reached.AddListener(JumpOff);
             _player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
@@ -32,6 +33,7 @@ namespace Assets.Scripts.Player.InvectorMods
 
         private void Play()
         {
+            _player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
             Path.Rewind();
             Path.Play();
             _player.IsRunningWall = true;

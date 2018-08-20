@@ -33,21 +33,21 @@ namespace Assets.Scripts.Player.InvectorMods
             {
                 cc.input.y = 1f;
                 cc.input.x = CrossPlatformInputManager.GetAxis("Horizontal");
-                oldInput = cc.input;
+                //oldInput = cc.input;
                 return;
             }
             if (parkourController.IsSlidingTrolley)
             {
                 cc.input.y = 0f;
                 cc.input.x = CrossPlatformInputManager.GetAxis("Horizontal"); //TODO Наклон на троллеи
-                oldInput = cc.input;
+                //oldInput = cc.input;
                 return;
             }
             if (DebugAllowFreeWalk)
             {
                 cc.input.y = CrossPlatformInputManager.GetAxis("Vertical");
                 cc.input.x = CrossPlatformInputManager.GetAxis("Horizontal");
-                oldInput = cc.input;
+                //oldInput = cc.input;
                 return;
             }
 
@@ -146,6 +146,30 @@ namespace Assets.Scripts.Player.InvectorMods
             _isInInputZone = false;
 
             LockTurning = false;
+        }
+
+        public override void CameraInput()
+        {
+            if (!Camera.main) Debug.Log("Missing a Camera with the tag MainCamera, please add one.");
+            if (!ignoreCameraRotation)
+            {
+                //if (!keepDirection) cc.UpdateTargetDirection(Camera.main.transform);
+                cc.UpdateTargetDirection(transform.root); //Теперь игрок бежит всегда вперёд, независимо от поворота камеры.
+                RotateWithCamera(Camera.main.transform);
+            }
+
+            if (tpCamera == null)
+                return;
+
+            var Y = lockCameraInput ? 0f : rotateCameraYInput.GetAxis();
+            var X = lockCameraInput ? 0f : rotateCameraXInput.GetAxis();
+            var zoom = cameraZoomInput.GetAxis();
+
+            tpCamera.RotateCamera(X, Y);
+            tpCamera.Zoom(zoom);
+
+            // change keedDirection from input diference
+            if (keepDirection && Vector2.Distance(cc.input, oldInput) > 0.2f) keepDirection = false;
         }
     }
 }

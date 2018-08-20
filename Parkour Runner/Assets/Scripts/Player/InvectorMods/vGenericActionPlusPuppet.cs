@@ -45,7 +45,6 @@ namespace Assets.Scripts.Player.InvectorMods
 
         protected override void ApplyPlayerSettings()
         {
-            print("apply");
             base.ApplyPlayerSettings();
             //if (puppetMaster.mode != PuppetMaster.Mode.Disabled)
                 puppetMaster.mode = PuppetMaster.Mode.Disabled;
@@ -54,7 +53,7 @@ namespace Assets.Scripts.Player.InvectorMods
         {
             //TODO Многие анимации дергаются по ресету изза того что рут оказывается под землёй во время включения коллизии
             //if (GetComponent<ParkourThirdPersonController>().IsUsingHook) return;
-            print("reset");
+            
             base.ResetPlayerSettings();
 
             //if (puppetMaster.mode != PuppetMaster.Mode.Active)

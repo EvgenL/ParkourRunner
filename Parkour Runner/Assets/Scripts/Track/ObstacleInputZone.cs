@@ -14,7 +14,7 @@ public class ObstacleInputZone : MonoBehaviour
     public List<vTriggerGenericAction> JumpTriggers = new List<vTriggerGenericAction>();
     public List<vTriggerGenericAction> RollTriggers = new List<vTriggerGenericAction>();
 
-    public float DisableTriggersForSeconds = 2f;
+    //public float DisableTriggersForSeconds = 2f;
 
     private ParkourThirdPersonInput _input;
     private bool _isReady;
@@ -88,34 +88,8 @@ public class ObstacleInputZone : MonoBehaviour
     public void OnTriggerUsed()
     {
         _input.ExitInputZone();
-        if (DisableTriggersForSeconds == 0f) return;
-        StartCoroutine(DisableInputZoneForTime(DisableTriggersForSeconds));
-    }
-
-    IEnumerator DisableInputZoneForTime(float time)
-    {
-        EnableInputZone(false);
-        yield return new WaitForSeconds(time);
-
-        EnableInputZone(true);
         ReadyRoll(false);
         ReadyJump(false);
-    }
-
-    private void EnableInputZone(bool value)
-    {
-        foreach (var trig in JumpTriggers)
-        {
-            trig.autoAction = value;
-            //trig.gameObject.SetActive(value);
-        }
-        foreach (var trig in RollTriggers)
-        {
-            trig.autoAction = value;
-            //trig.gameObject.SetActive(value);
-        }
-        var collider = GetComponent<Collider>();
-        collider.enabled = value;
     }
 
     public void OnPalyerJump()

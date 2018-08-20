@@ -31,7 +31,7 @@ namespace Assets.Scripts.Player.InvectorMods
         [HideInInspector] public Vector3 WallOffset;
         [HideInInspector] public Vector3 HookOffset;
 
-        [HideInInspector] public Transform TargetTransform;
+        /*[HideInInspector]*/ public Transform TargetTransform;
 
         //Чисто по приколу сделал чтоб он держался за IK пока едет на тарзанке
         [HideInInspector] public AvatarIKGoal TrolleyHand;
