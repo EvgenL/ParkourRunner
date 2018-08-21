@@ -19,9 +19,8 @@ public class Landmine : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-            _playerRb = vThirdPersonController.instance.GetComponent<Rigidbody>();
-            _playerRb.AddForce(0, VetricalForce, 0, ForceMode.Force);
-            collision.transform.GetComponent<Rigidbody>().AddForce(0, UnpinForce, 0, ForceMode.Force);
+        
+        collision.transform.GetComponent<Rigidbody>().AddForce(0, UnpinForce, 0, ForceMode.Force);
         //TODO .Unpin();
     }
 }
