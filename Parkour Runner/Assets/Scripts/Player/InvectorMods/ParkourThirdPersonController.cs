@@ -79,7 +79,6 @@ namespace Assets.Scripts.Player.InvectorMods
                 transform.rotation = TargetTransform.rotation;
                 if (Vector3.Distance(TargetTransform.position + HookOffset, transform.position) <= (HookSpeed * Time.deltaTime))
                 {
-                    print(Vector3.Distance(TargetTransform.position + HookOffset, transform.position));
                     IsUsingHook = false;
                 }
             }

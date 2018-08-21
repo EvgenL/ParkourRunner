@@ -22,7 +22,8 @@ namespace Assets.Scripts.Player.InvectorMods
             base.Start();
             OnDoAction.AddListener(Play);
             Path.Waypoints[1].reached.AddListener(JumpOff);
-            _player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
+            //TODO script exec order
+            //_player = vThirdPersonController.instance.transform.GetComponent<ParkourThirdPersonController>();
             //_player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
         }
 
