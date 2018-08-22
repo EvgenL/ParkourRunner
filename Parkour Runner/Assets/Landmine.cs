@@ -9,9 +9,11 @@ public class Landmine : MonoBehaviour
     public float VetricalForce;
     public float UnpinForce;
 
+    public ParticleSystem Explosion;
+
     private void OnTriggerEnter(Collider other)
     {
-
+        Explosion.Play();
         var broadcaster =
             other.transform.GetComponent<MuscleCollisionBroadcaster>();
         if (broadcaster != null)
@@ -29,9 +31,8 @@ public class Landmine : MonoBehaviour
             }
         }
         // gameObject.SetActive(false);
-        Destroy(transform.root.gameObject);
+        Destroy(transform.root.gameObject, 2f);
 
     }
-
 
 }
