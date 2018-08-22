@@ -39,7 +39,9 @@ public class MuscleDismember : MonoBehaviour
 
     public void DismemberThis()
     {
-        DismemberMuscleRecursive(GetComponent<MuscleCollisionBroadcaster>());
+        var broadcaster = GetComponent<MuscleCollisionBroadcaster>();
+        if (broadcaster != null)
+            DismemberMuscleRecursive(broadcaster);
     }
 
     public void DismemberMuscleRecursive(MuscleCollisionBroadcaster broadcaster)
@@ -118,7 +120,8 @@ public class MuscleDismember : MonoBehaviour
         if (IsDismembered) return;
         if (collision.transform.gameObject.layer == gameObject.layer) return;
 
-        if (collision.relativeVelocity.magnitude > GameManager.Instance.VelocityToDismember)
+        if (collision.relativeVelocity.magnitude > 
+            GameManager.Instance.VelocityToDismember)
         {
             DismemberMuscleRecursive(GetComponent<MuscleCollisionBroadcaster>());
         }
