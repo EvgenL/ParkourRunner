@@ -20,18 +20,26 @@ public class MuscleDismember : MonoBehaviour
     public GameObject DestroyedVersion;
 
     public bool IsDismembered = false;
-
     [SerializeField]
     private Bodypart _bodypart;
 
+    public bool IsHandOrFeet = false; //При отчленении крайней части (ладонь, стопа) отваливается перыдущая (локоть, колено) потому что у нас нет такого количества моделек, да и это не нужно
+    public MuscleDismember PreviousDismember;
+
+
     public void DisableNormal()
     {
-        NormalVersion.SetActive(false);
+            NormalVersion.SetActive(false);
     }
 
     public void EnableDestroyed()
     {
-        DestroyedVersion.SetActive(true);
+            DestroyedVersion.SetActive(true);
+    }
+
+    public void DismemberThis()
+    {
+        DismemberMuscleRecursive(GetComponent<MuscleCollisionBroadcaster>());
     }
 
     public void DismemberMuscleRecursive(MuscleCollisionBroadcaster broadcaster)
@@ -39,7 +47,11 @@ public class MuscleDismember : MonoBehaviour
         if (_bodypart == Bodypart.Body) return;
         if (!GameManager.Instance.PlayerCanBeDismembered) return;
         if (IsDismembered) return;
-        
+        if (IsHandOrFeet)
+        {
+            PreviousDismember.DismemberThis();
+            return;
+        }
         var puppetMaster = broadcaster.puppetMaster;
         var joint = broadcaster.puppetMaster.muscles[broadcaster.muscleIndex].joint;
         var muscles = puppetMaster.muscles;
@@ -60,10 +72,11 @@ public class MuscleDismember : MonoBehaviour
 
         newLimb.GetComponent<Collider>().material = null; //Чтоб не скользило по земле
 
+        //Этио мышцы, котоые идут дальше по конечности (плечо->локоть->ладонь)
         var newDismembers = newLimb.GetComponentsInChildren<MuscleDismember>();
         foreach (var dism in newDismembers)
         {
-            if (dism.NormalVersion.activeInHierarchy)
+            if (!dism.IsHandOrFeet && dism.NormalVersion.activeInHierarchy) //Является ли эта конечность последней (для них нет destroyedVersion) и не была ли она оторвана ещё раньше?
             {
                 dism.EnableDestroyed();
             }
@@ -91,7 +104,7 @@ public class MuscleDismember : MonoBehaviour
         for (int i = 0; i < muscles[index].childIndexes.Length; i++)
         {
             dismember = muscles[muscles[index].childIndexes[i]].transform.GetComponent<MuscleDismember>();
-            if (dismember != null)
+            if (dismember != null && !dismember.IsHandOrFeet)
             {
                 dismember.DisableNormal();
             }

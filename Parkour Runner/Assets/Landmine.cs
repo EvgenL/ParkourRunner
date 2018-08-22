@@ -9,18 +9,26 @@ public class Landmine : MonoBehaviour
     public float VetricalForce;
     public float UnpinForce;
 
-    private Rigidbody _playerRb;
-
-    private void Start()
-    {
-        //Кидает нулл референс почему то
-        //_playerRb = vThirdPersonController.instance.GetComponent<Rigidbody>();
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
-        
-        collision.transform.GetComponent<Rigidbody>().AddForce(0, UnpinForce, 0, ForceMode.Force);
-        //TODO .Unpin();
+
+        //Это нога (возможно голова) которой игрок наступил на мину
+        collision.transform.GetComponent<Rigidbody>()
+            .AddForce(0, UnpinForce, 0, ForceMode.Force);
+
+        var broadcaster =
+            collision.transform.GetComponent<MuscleCollisionBroadcaster>();
+        if (broadcaster != null)
+        {
+            //Находим тазовую кость и даём в неё addforce
+            broadcaster.puppetMaster.muscles[0].transform.GetComponent<Rigidbody>()
+                .AddForce(0, VetricalForce, 0, ForceMode.Force);
+
+        }
+        broadcaster.GetComponent<MuscleDismember>().DismemberThis();
+        //gameObject.SetActive(false);
+
     }
+
+
 }
