@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Pick_Ups.Effects;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class HUDManager : MonoBehaviour
@@ -25,7 +26,16 @@ public class HUDManager : MonoBehaviour
     public Image flashImage;
     public float FlashSpeed = 5f;
 
+    public Text CoinsText;
+
+    public BonusPanel BonusPanel;
+
     private bool _flashing = false;
+
+    void Start()
+    {
+        SetCoins(0);
+    }
 
     void Update()
     {
@@ -46,7 +56,7 @@ public class HUDManager : MonoBehaviour
         {
             _flashing = false;
             if (flashImage != null)
-                flashImage.color = Color.white;
+                flashImage.color = Color.white; //Ставим непрозрачный цвет
         }
         else if (flashImage != null)
             flashImage.color = Color.Lerp(flashImage.color, Color.clear, FlashSpeed * Time.deltaTime);
@@ -55,5 +65,23 @@ public class HUDManager : MonoBehaviour
         {
             flashImage.enabled = false;
         }
+    }
+
+    public void SetCoins(int value)
+    {
+        if (value == 0)
+            CoinsText.text = "";
+        else
+            CoinsText.text = value + "$";
+    }
+
+    public void UpdateBonus(BonusName bonusName, float value)
+    {
+        BonusPanel.UpdateBonus(bonusName, value);
+    }
+
+    public void DisableBonus(BonusName bonusName)
+    {
+        BonusPanel.DisableBonus(bonusName);
     }
 }

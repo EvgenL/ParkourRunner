@@ -20,8 +20,7 @@ public class MuscleDismember : MonoBehaviour
     public GameObject DestroyedVersion;
 
     public bool IsDismembered = false;
-    [SerializeField]
-    private Bodypart _bodypart;
+    public Bodypart Bodypart;
 
     public bool IsHandOrFeet = false; //При отчленении крайней части (ладонь, стопа) отваливается перыдущая (локоть, колено) потому что у нас нет такого количества моделек, да и это не нужно
     public MuscleDismember PreviousDismember;
@@ -37,23 +36,35 @@ public class MuscleDismember : MonoBehaviour
             DestroyedVersion.SetActive(true);
     }
 
-    public void DismemberThis()
+    public void HealRecursive()
     {
-        var broadcaster = GetComponent<MuscleCollisionBroadcaster>();
-        if (broadcaster != null)
-            DismemberMuscleRecursive(broadcaster);
+        var dismembers = GetComponentsInChildren<MuscleDismember>();
+        foreach (var dism in dismembers)
+        {
+            dism.Heal();
+        }
     }
 
-    public void DismemberMuscleRecursive(MuscleCollisionBroadcaster broadcaster)
+    private void Heal()
     {
-        if (_bodypart == Bodypart.Body) return;
+        if (IsHandOrFeet) return;
+        NormalVersion.SetActive(true);
+        DestroyedVersion.SetActive(false);
+        IsDismembered = false;
+    }
+
+    public void DismemberMuscleRecursive()
+    {
+        if (Bodypart == Bodypart.Body) return;
         if (!GameManager.Instance.PlayerCanBeDismembered) return;
         if (IsDismembered) return;
         if (IsHandOrFeet)
         {
-            PreviousDismember.DismemberThis();
+            //Ладонь нельзя отчленить. Вместо этого оторвём руку по локоть
+            PreviousDismember.DismemberMuscleRecursive();
             return;
         }
+        var broadcaster = GetComponent<MuscleCollisionBroadcaster>();
         var puppetMaster = broadcaster.puppetMaster;
         var joint = broadcaster.puppetMaster.muscles[broadcaster.muscleIndex].joint;
         var muscles = puppetMaster.muscles;
@@ -69,7 +80,7 @@ public class MuscleDismember : MonoBehaviour
         if (newJoint.connectedBody != null)
         {
             Destroy(newJoint);
-            Destroy(this);
+            //Destroy(this);
         }
 
         newLimb.GetComponent<Collider>().material = null; //Чтоб не скользило по земле
@@ -92,7 +103,7 @@ public class MuscleDismember : MonoBehaviour
             }
 
             //Записываем что оторвали конечность
-            GameManager.Instance.Limb(_bodypart, false);
+            GameManager.Instance.SetLimbState(Bodypart, false);
             Destroy(dism);
         }
 
@@ -123,7 +134,7 @@ public class MuscleDismember : MonoBehaviour
         if (collision.relativeVelocity.magnitude > 
             GameManager.Instance.VelocityToDismember)
         {
-            DismemberMuscleRecursive(GetComponent<MuscleCollisionBroadcaster>());
+            DismemberMuscleRecursive();
         }
     }
 

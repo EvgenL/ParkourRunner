@@ -34,7 +34,7 @@ public class DismemberShooter : MonoBehaviour {
                     var dismember = broadcaster.transform.GetComponent<MuscleDismember>();
                     if (dismember != null)
                     {
-                        dismember.DismemberMuscleRecursive(broadcaster);
+                        dismember.DismemberMuscleRecursive();
                     }
                 }
                 else

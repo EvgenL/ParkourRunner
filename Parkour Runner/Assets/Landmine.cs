@@ -27,11 +27,11 @@ public class Landmine : MonoBehaviour
             var dism = broadcaster.GetComponent<MuscleDismember>();
             if (dism != null)
             {
-               dism.DismemberThis();
+               dism.DismemberMuscleRecursive();
             }
         }
         // gameObject.SetActive(false);
-        Destroy(transform.root.gameObject, 2f);
+        Destroy(transform.root.gameObject, 1f);
 
     }
 
