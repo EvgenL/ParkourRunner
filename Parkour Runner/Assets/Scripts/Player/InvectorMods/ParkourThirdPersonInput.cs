@@ -126,6 +126,13 @@ namespace Assets.Scripts.Player.InvectorMods
                 {
                     parkourController.IsSlidingTrolley = false;
                 }
+                else if (parkourController.IsRunningWall)
+                {
+                    //TODO разные виды джампоффа, климб
+                    GameManager.Instance.PlayerCanBeDismembered = true;
+                    parkourController.animator.SetTrigger("JumpOffWallTrigger");
+                    parkourController.IsRunningWall = false;
+                }
                 else
                 {
                     cc.Roll();

@@ -38,9 +38,10 @@ namespace Assets.Scripts.Player.InvectorMods
             Path.Rewind();
             Path.Play();
             _player.IsRunningWall = true;
+            GameManager.Instance.PlayerCanBeDismembered = false;
 
-            _player._capsuleCollider.isTrigger = true; // disable the collision of the player if necessary 
-            _player._rigidbody.useGravity = false; // disable gravity of the player
+            _player._capsuleCollider.isTrigger = true; 
+            _player._rigidbody.useGravity = false; 
             _player._rigidbody.velocity = Vector3.zero;
 
             _player.WallOffset = PlayerOffset;
@@ -49,10 +50,15 @@ namespace Assets.Scripts.Player.InvectorMods
 
         private void JumpOff()
         {
-            _player.IsRunningWall = false;
+            if (_player.IsRunningWall)
+            {
+                GameManager.Instance.PlayerCanBeDismembered = true;
+                _player.IsRunningWall = false;
 
-            _player._capsuleCollider.isTrigger = false; // disable the collision of the player if necessary 
-            _player._rigidbody.useGravity = true; // disable gravity of the player
+                _player.animator.SetTrigger("JumpOffWallTrigger");
+                _player._capsuleCollider.isTrigger = false;
+                _player._rigidbody.useGravity = true; 
+            }
         }
     }
 }

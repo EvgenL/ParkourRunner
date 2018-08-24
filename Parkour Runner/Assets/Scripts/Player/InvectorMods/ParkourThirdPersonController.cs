@@ -71,7 +71,8 @@ namespace Assets.Scripts.Player.InvectorMods
             }
             if (IsRunningWall)
             {
-                transform.position = TargetTransform.position + WallOffset;
+                var newPos = Vector3.Lerp(transform.position, TargetTransform.position + WallOffset, 0.5f);
+                transform.position = newPos;
             }
             if (IsUsingHook)
             {

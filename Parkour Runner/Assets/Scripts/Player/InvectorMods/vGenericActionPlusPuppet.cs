@@ -75,6 +75,7 @@ namespace Assets.Scripts.Player.InvectorMods
                 else
                     _randomAnimation = GetNotRandomAnimation(triggerAction.playAnimation);
 
+
                 tpInput.cc.animator.CrossFadeInFixedTime(_randomAnimation, 0.1f);    // trigger the action animation clip
             }
 
