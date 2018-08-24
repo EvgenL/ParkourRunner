@@ -22,7 +22,7 @@ namespace Invector.CharacterController
             if (instance == null)
             {
                 instance = this;
-                DontDestroyOnLoad(this.gameObject);
+                DontDestroyOnLoad(transform.root);
                 this.gameObject.name = gameObject.name + " Instance";
             }
             else

@@ -31,7 +31,8 @@ namespace Assets.Scripts.Pick_Ups.Bonuses
             public void RefreshTime()
             {
                 TimeRemaining = _pm.InitialJumpLength + _pm.JumpLength;
-            }
+                HUDManager.Instance.UpdateBonus(BonusName.Jump, 1f);
+        }
 
 
             void Update()

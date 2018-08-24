@@ -1,5 +1,6 @@
 ﻿
 using Assets.Scripts.Pick_Ups;
+using Assets.Scripts.Pick_Ups.Effects;
 using UnityEngine;
 
 namespace Assets.Scripts.Managers
@@ -40,7 +41,7 @@ namespace Assets.Scripts.Managers
         public float InitialShieldLength = 5f;
         public float ShieldLength = 0f;
 
-        public float GetBonusLength(BonusPickUp bonusPickUp)
+        public float GetBonusLength(BonusName name) //TODO
         {
             /*if (bonusPickUp is Bonus)
             {

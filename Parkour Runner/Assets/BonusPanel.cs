@@ -9,11 +9,11 @@ public class BonusPanel : MonoBehaviour
 {
 
     public GameObject Magnet;
-    public Slider MagnetValue;
+    public Slider MagnetSlider;
     public GameObject Shield;
-    public Slider ShieldValue;
+    public Slider ShieldSlider;
     public GameObject Jump;
-    public Slider JumpValue;
+    public Slider JumpSlider;
 
     public void UpdateBonus(BonusName bonusName, float value)
     {
@@ -21,15 +21,18 @@ public class BonusPanel : MonoBehaviour
         {
             case (BonusName.Magnet):
                 Magnet.SetActive(true);
-                MagnetValue.value = value;
+                print("upd Magnet " + value);
+                MagnetSlider.value = value;
                 break;
             case (BonusName.Jump):
                 Jump.SetActive(true);
-                JumpValue.value = value;
+                print("upd jump " + value);
+                JumpSlider.value = value;
                 break;
             case (BonusName.Shield):
                 Shield.SetActive(true);
-                ShieldValue.value = value;
+                print("upd Shield " + value);
+                ShieldSlider.value = value;
                 break;
         }
     }

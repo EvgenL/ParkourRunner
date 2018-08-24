@@ -32,6 +32,7 @@ namespace Assets.Scripts.Pick_Ups.Bonuses
         public void RefreshTime()
         {
             TimeRemaining = _pm.InitialMagnetLength + _pm.MagnetLength;
+            HUDManager.Instance.UpdateBonus(BonusName.Magnet, 1f);
         }
 
 
@@ -46,6 +47,7 @@ namespace Assets.Scripts.Pick_Ups.Bonuses
             }
 
             float percent = TimeRemaining / (_pm.InitialMagnetLength + _pm.MagnetLength);
+            
             HUDManager.Instance.UpdateBonus(BonusName.Magnet, percent);
 
             foreach (var coin in _coins)
