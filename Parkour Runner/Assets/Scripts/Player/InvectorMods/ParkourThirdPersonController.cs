@@ -128,6 +128,10 @@ namespace Assets.Scripts.Player.InvectorMods
             }
         }
 
+        public new bool actions
+        {
+            get { return /*isRolling ||*/ quickStop || landHigh || customAction; }
+        }
         public override void Roll()
         {
             bool staminaCondition = currentStamina > rollStamina;

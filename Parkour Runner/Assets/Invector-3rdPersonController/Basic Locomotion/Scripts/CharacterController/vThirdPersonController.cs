@@ -88,6 +88,16 @@ namespace Invector.CharacterController
             ReduceStamina(jumpStamina, false);
             currentStaminaRecoveryDelay = 1f;
         }
+        public virtual void ForceJump()
+        {
+            jumpCounter = jumpTimer;
+            isJumping = true;
+            // trigger jump animations
+            if (input.sqrMagnitude < 0.1f)
+                animator.CrossFadeInFixedTime("Jump", 0.1f);
+            else
+                animator.CrossFadeInFixedTime("JumpMove", .2f);
+        }
 
         public virtual void Roll()
         {

@@ -31,7 +31,7 @@ public class Landmine : MonoBehaviour
             }
         }
         // gameObject.SetActive(false);
-        Destroy(transform.root.gameObject, 1f);
+        Destroy(gameObject, 1f);
 
     }
 

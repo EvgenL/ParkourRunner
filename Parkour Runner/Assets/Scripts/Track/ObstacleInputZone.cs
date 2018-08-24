@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts.Player.InvectorMods;
 using Invector.CharacterController;
 using UnityEngine;
@@ -15,6 +17,14 @@ public class ObstacleInputZone : MonoBehaviour
     public List<vTriggerGenericAction> RollTriggers = new List<vTriggerGenericAction>();
 
     //public float DisableTriggersForSeconds = 2f;
+
+    private void Awake()
+    {
+        //Чтоб наш геймдизайнер руками не добавлял в листы
+        if (transform.parent.childCount > 1)
+        JumpTriggers = transform.parent.GetComponentsInChildren<vTriggerGenericAction>()
+            .Where((x) => x.playAnimation != ("Roll")).ToList();
+    }
 
     private ParkourThirdPersonInput _input;
     private bool _isReady;

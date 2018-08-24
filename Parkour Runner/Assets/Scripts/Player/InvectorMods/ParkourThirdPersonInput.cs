@@ -161,8 +161,13 @@ namespace Assets.Scripts.Player.InvectorMods
             if (!ignoreCameraRotation)
             {
                 //if (!keepDirection) cc.UpdateTargetDirection(Camera.main.transform);
-                cc.UpdateTargetDirection(transform.root); //Теперь игрок бежит всегда вперёд, независимо от поворота камеры.
+                //Теперь игрок бежит всегда вперёд, независимо от поворота камеры.
+                cc.UpdateTargetDirection(Camera.main.transform);
                 RotateWithCamera(Camera.main.transform);
+            }
+            else
+            {
+                cc.UpdateTargetDirection(transform.root);
             }
 
             if (tpCamera == null)
