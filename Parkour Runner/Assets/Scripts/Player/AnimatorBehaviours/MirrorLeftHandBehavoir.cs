@@ -10,6 +10,8 @@ public class MirrorLeftHandBehavoir : StateMachineBehaviour {
 	        return;
 	    }
 
+        
+
 	        //но она отвалилась
 	        if (!animator.GetBool("LeftHand"))
 	        {

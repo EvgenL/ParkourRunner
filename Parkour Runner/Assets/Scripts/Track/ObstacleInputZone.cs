@@ -18,12 +18,25 @@ public class ObstacleInputZone : MonoBehaviour
 
     //public float DisableTriggersForSeconds = 2f;
 
+    private List<ObstacleInputZone> _inputZones = new List<ObstacleInputZone>();
+
     private void Awake()
     {
+
         //Чтоб наш геймдизайнер руками не добавлял в листы
         if (transform.parent.childCount > 1)
-        JumpTriggers = transform.parent.GetComponentsInChildren<vTriggerGenericAction>()
-            .Where((x) => x.playAnimation != ("Roll")).ToList();
+        {
+             _inputZones = transform.parent.GetComponentsInChildren<ObstacleInputZone>().ToList();
+            _inputZones.Remove(this);
+
+        }
+
+        foreach (var iz in _inputZones)
+        {
+            iz.GetComponent<BoxCollider>().enabled = false;
+        }
+        //JumpTriggers = transform.parent.GetComponentsInChildren<vTriggerGenericAction>()
+         //   .Where((x) => x.playAnimation != ("Roll")).ToList();
     }
 
     private ParkourThirdPersonInput _input;
@@ -97,9 +110,19 @@ public class ObstacleInputZone : MonoBehaviour
 
     public void OnTriggerUsed()
     {
+        if (_input != null)
         _input.ExitInputZone();
         ReadyRoll(false);
         ReadyJump(false);
+        ActivateNextIz();
+    }
+
+    private void ActivateNextIz()
+    {
+        foreach (var iz in _inputZones)
+        {
+            iz.OnPalyerJump();
+        }
     }
 
     public void OnPalyerJump()
