@@ -55,7 +55,7 @@ namespace Assets.Scripts.Player.InvectorMods
                 GameManager.Instance.PlayerCanBeDismembered = true;
                 _player.IsRunningWall = false;
 
-                _player.animator.SetTrigger("JumpOffWallTrigger");
+                //_player.animator.SetTrigger("JumpOffWallTrigger");
                 _player._capsuleCollider.isTrigger = false;
                 _player._rigidbody.useGravity = true; 
             }

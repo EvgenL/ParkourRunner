@@ -36,9 +36,12 @@ namespace Assets.Scripts.Player
 
         private void JumpOff()
         {
-            _player.IsSlidingTrolley = false;
-            _player._capsuleCollider.isTrigger = true;
-            _player._rigidbody.useGravity = false;
+            if (_player.IsSlidingTrolley)
+            {
+                _player.IsSlidingTrolley = false;
+                _player._capsuleCollider.isTrigger = true;
+                _player._rigidbody.useGravity = false;
+            }
         }
     }
 }
