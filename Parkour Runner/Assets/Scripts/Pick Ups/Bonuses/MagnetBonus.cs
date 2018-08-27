@@ -31,7 +31,7 @@ namespace Assets.Scripts.Pick_Ups.Bonuses
 
         public void RefreshTime()
         {
-            TimeRemaining = _pm.InitialMagnetLength + _pm.MagnetLength;
+            TimeRemaining = _pm.InitialMagnetLength + _pm.MagnetUpgradeLength;
             HUDManager.Instance.UpdateBonus(BonusName.Magnet, 1f);
         }
 
@@ -46,7 +46,7 @@ namespace Assets.Scripts.Pick_Ups.Bonuses
                 return;
             }
 
-            float percent = TimeRemaining / (_pm.InitialMagnetLength + _pm.MagnetLength);
+            float percent = TimeRemaining / (_pm.InitialMagnetLength + _pm.MagnetUpgradeLength);
             
             HUDManager.Instance.UpdateBonus(BonusName.Magnet, percent);
 
@@ -62,7 +62,7 @@ namespace Assets.Scripts.Pick_Ups.Bonuses
                     }
 
                     coin.transform.position = Vector3.MoveTowards(coin.transform.position, 
-                        _player.position + Vector3.up, _pm.MagnetCoinVelocity * Time.deltaTime);
+                        _player.position + Vector3.up, ProgressManager.MagnetCoinVelocity * Time.deltaTime);
                 }
              }
 

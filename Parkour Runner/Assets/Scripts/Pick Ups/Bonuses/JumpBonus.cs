@@ -23,14 +23,14 @@ namespace Assets.Scripts.Pick_Ups.Bonuses
                 RefreshTime();
 
                 _oldJumpHeight = _player.jumpHeight;
-                _player.jumpHeight = _pm.InitialJumpBonusHeight + _pm.JumpBonusHeight;
+                _player.jumpHeight = _pm.InitialJumpBonusHeight + _pm.JumpUpgradeHeight;
 
                 //TODO play effect animation
             }
 
             public void RefreshTime()
             {
-                TimeRemaining = _pm.InitialJumpLength + _pm.JumpLength;
+                TimeRemaining = _pm.InitialJumpLength + _pm.JumpUpgradeLength;
                 HUDManager.Instance.UpdateBonus(BonusName.Jump, 1f);
         }
 
@@ -46,7 +46,7 @@ namespace Assets.Scripts.Pick_Ups.Bonuses
                     return;
                 }
 
-                float percent = TimeRemaining / (_pm.InitialMagnetLength + _pm.MagnetLength);
+                float percent = TimeRemaining / (_pm.InitialMagnetLength + _pm.MagnetUpgradeLength);
                 HUDManager.Instance.UpdateBonus(BonusName.Jump, percent);
             }
         }

@@ -190,6 +190,7 @@ namespace Assets.Scripts.Player.InvectorMods
         public void Die()
         {
             PuppetMaster.state = PuppetMaster.State.Dead;
+            PuppetMaster.muscles[0].rigidbody.AddForce(_rigidbody.velocity); //толкаем таз скоростью капсулы
         }
         public void Revive()
         {

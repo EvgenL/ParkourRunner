@@ -22,7 +22,7 @@ namespace Assets.Scripts.Pick_Ups.Bonuses
         {
             _oldStrength = GameManager.Instance.VelocityToDismember;
             _pm = ProgressManager.Instance;
-            GameManager.Instance.VelocityToDismember = _pm.InitialShieldStrength + _pm.ShieldStrength;
+            GameManager.Instance.VelocityToDismember = _pm.InitialShieldStrength + _pm.ShieldUpgradeStrength;
             RefreshTime();
 
             //TODO play effect animation
@@ -30,7 +30,7 @@ namespace Assets.Scripts.Pick_Ups.Bonuses
 
         public void RefreshTime()
         {
-            TimeRemaining = _pm.InitialShieldLength + _pm.ShieldLength;
+            TimeRemaining = _pm.InitialShieldLength + _pm.ShieldUpgradeLength;
             HUDManager.Instance.UpdateBonus(BonusName.Shield, 1f);
         }
 
@@ -46,7 +46,7 @@ namespace Assets.Scripts.Pick_Ups.Bonuses
                 return;
             }
 
-            float percent = TimeRemaining / (_pm.InitialMagnetLength + _pm.MagnetLength);
+            float percent = TimeRemaining / (_pm.InitialMagnetLength + _pm.MagnetUpgradeLength);
             HUDManager.Instance.UpdateBonus(BonusName.Shield, percent);
         }
     }

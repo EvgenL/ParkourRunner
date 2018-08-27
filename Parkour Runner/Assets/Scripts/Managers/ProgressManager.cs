@@ -26,20 +26,20 @@ namespace Assets.Scripts.Managers
 
         #endregion
 
-        public float MagnetCoinVelocity = 1f;
-        public float MagnetRadius = 4f;
-        public float InitialMagnetLength = 5f;
-        public float MagnetLength = 0f;
+        public static float MagnetCoinVelocity = 1f; //Скорость монеток, летящих к игроку (не трогать)
+        public float MagnetRadius = 4f;     //Изначальный радиус магнита
+        public float InitialMagnetLength = 5f;  //Изначальная длительность
+        public float MagnetUpgradeLength = 0f;  //Продаваемый бонус к длительности
 
-        public float InitialJumpBonusHeight = 12f;
-        public float JumpBonusHeight = 0f;
-        public float InitialJumpLength = 5f;
-        public float JumpLength = 0f;
+        public float InitialJumpBonusHeight = 12f; //Изначальная высота бонус-прыжка
+        public float JumpUpgradeHeight = 0f;    //Апгрейд бонус-прыжка (нужно ли это? вынес параметр на всякий случай)
+        public float InitialJumpLength = 5f;  //Изначальная длительность
+        public float JumpUpgradeLength = 0f;  //Продаваемый бонус к длительности
 
-        public float InitialShieldStrength = 100f;
-        public float ShieldStrength = 0f;
-        public float InitialShieldLength = 5f;
-        public float ShieldLength = 0f;
+        public float InitialShieldStrength = 100f; //Прочность конечностей со щитом
+        public float ShieldUpgradeStrength = 0f;    //Продаваемый бонус к прочности
+        public float InitialShieldLength = 5f;  //Изначальная длительность
+        public float ShieldUpgradeLength = 0f;  //Продаваемый бонус к длительности
 
         public float GetBonusLength(BonusName name) //TODO
         {
