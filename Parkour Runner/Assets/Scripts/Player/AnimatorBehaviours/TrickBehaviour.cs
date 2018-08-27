@@ -74,8 +74,8 @@ public class TrickBehaviour : StateMachineBehaviour
             return;
         }
 
-            //Если нужна левая рука
-            if (avatarTarget == AvatarTarget.LeftHand)
+        //Если нужна левая рука
+        if (avatarTarget == AvatarTarget.LeftHand)
         {
             //но она отвалилась
             if (!animator.GetBool("LeftHand"))
@@ -90,6 +90,7 @@ public class TrickBehaviour : StateMachineBehaviour
                 animator.SetBool("MirrorHands", false);
             }
         }
+
         //Если нужна правая рука
         if (avatarTarget == AvatarTarget.RightHand)
         {
