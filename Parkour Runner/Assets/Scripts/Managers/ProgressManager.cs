@@ -26,7 +26,7 @@ namespace Assets.Scripts.Managers
 
         #endregion
 
-        public static float MagnetCoinVelocity = 1f; //Скорость монеток, летящих к игроку (не трогать)
+        public static float MagnetCoinVelocity = 14f; //Скорость монеток, летящих к игроку (не трогать)
         public float MagnetRadius = 4f;     //Изначальный радиус магнита
         public float InitialMagnetLength = 5f;  //Изначальная длительность
         public float MagnetUpgradeLength = 0f;  //Продаваемый бонус к длительности
