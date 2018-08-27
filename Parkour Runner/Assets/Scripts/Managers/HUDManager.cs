@@ -30,6 +30,9 @@ public class HUDManager : MonoBehaviour
 
     public BonusPanel BonusPanel;
 
+    public int ShowDistanceEvery = 100;
+    private int _distanceShwonTimes;
+
     private bool _flashing = false;
 
     void Start()
@@ -83,5 +86,15 @@ public class HUDManager : MonoBehaviour
     public void DisableBonus(BonusName bonusName)
     {
         BonusPanel.DisableBonus(bonusName);
+    }
+
+    public void UpdateDistance(float value)
+    {
+        int times = (int)value / ShowDistanceEvery;
+        if (times > _distanceShwonTimes)
+        {
+            _distanceShwonTimes = times;
+            print("You ran " + times * ShowDistanceEvery + " meters! Todo ui for this message");
+        }
     }
 }

@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
 
     public List<BonusName> ActiveBonuses;
 
+    public float DistanceRun;
+    private float _distanceRunOffset;
+
     private GameState GameState;
 
     ////Состояние
@@ -82,6 +85,8 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
+        DistanceRun = _player.transform.position.z;
+        _hud.UpdateDistance(DistanceRun + _distanceRunOffset);
     }
 
     //Оторвать конечность (или приклеить обратно)
