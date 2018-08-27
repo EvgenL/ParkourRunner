@@ -13,7 +13,7 @@ namespace Assets.Scripts.Player.InvectorMods
     class ParkourThirdPersonController : vThirdPersonController
     {
         public LayerMask InRollCollisions;
-        public BehaviourPuppet PuppetBehav;
+        public BehaviourPuppet BehavPuppet;
         public PuppetMaster PuppetMaster;
         public Weight RollPuppetCollisionResistance;
 
@@ -55,6 +55,11 @@ namespace Assets.Scripts.Player.InvectorMods
         {
             base.Start();
             //parkourInput = GetComponent<ParkourThirdPersonInput>();
+
+            //почему то туда нельзя добавить ивент из этого класса, можно только из родительского
+            BehavPuppet.onLoseBalance.unityEvent.AddListener(delegate { IsSlidingTrolley = false;
+                _capsuleCollider.isTrigger = false;
+            });
         }
 
         private void Update()
@@ -68,6 +73,10 @@ namespace Assets.Scripts.Player.InvectorMods
             if (IsSlidingTrolley)
             {
                 transform.position = TargetTransform.position + TrolleyOffset;
+                transform.rotation = TargetTransform.rotation;
+                if (PuppetMaster.mode != PuppetMaster.Mode.Disabled)
+                    PuppetMaster.mode = PuppetMaster.Mode.Disabled;
+                return;
             }
             if (IsRunningWall)
             {
@@ -109,22 +118,22 @@ namespace Assets.Scripts.Player.InvectorMods
         private void ControllRollRagdoll()
         {
 
-            if (isRolling && PuppetBehav.collisionLayers != InRollCollisions)
+            if (isRolling && BehavPuppet.collisionLayers != InRollCollisions)
             {
-                _oldCollisions = PuppetBehav.collisionLayers;
-                PuppetBehav.collisionLayers = InRollCollisions;
+                _oldCollisions = BehavPuppet.collisionLayers;
+                BehavPuppet.collisionLayers = InRollCollisions;
 
-                _oldKnockOutDistance = PuppetBehav.knockOutDistance;
-                PuppetBehav.knockOutDistance = RollKnockOutDistance;
+                _oldKnockOutDistance = BehavPuppet.knockOutDistance;
+                BehavPuppet.knockOutDistance = RollKnockOutDistance;
 
-                _oldCollisionResistance = PuppetBehav.collisionResistance;
-                PuppetBehav.collisionResistance = RollPuppetCollisionResistance;
+                _oldCollisionResistance = BehavPuppet.collisionResistance;
+                BehavPuppet.collisionResistance = RollPuppetCollisionResistance;
             }
-            else if (!isRolling && PuppetBehav.collisionLayers == InRollCollisions)
+            else if (!isRolling && BehavPuppet.collisionLayers == InRollCollisions)
             {
-                PuppetBehav.collisionLayers = _oldCollisions;
-                PuppetBehav.knockOutDistance = _oldKnockOutDistance;
-                PuppetBehav.collisionResistance = _oldCollisionResistance;
+                BehavPuppet.collisionLayers = _oldCollisions;
+                BehavPuppet.knockOutDistance = _oldKnockOutDistance;
+                BehavPuppet.collisionResistance = _oldCollisionResistance;
             }
         }
 

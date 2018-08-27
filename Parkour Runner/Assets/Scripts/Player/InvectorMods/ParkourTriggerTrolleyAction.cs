@@ -27,7 +27,8 @@ namespace Assets.Scripts.Player
         {
             OnDoAction.AddListener(Play);
             Path.Waypoints[1].reached.AddListener(JumpOff);
-            _player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
+            //Ну и с какого хуя нулл референс?
+            //_player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
         }
 
         private void Play()
@@ -43,6 +44,7 @@ namespace Assets.Scripts.Player
 
         private void JumpOff()
         {
+            _player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
             if (_player.IsSlidingTrolley)
             {
                 _player.IsSlidingTrolley = false;
