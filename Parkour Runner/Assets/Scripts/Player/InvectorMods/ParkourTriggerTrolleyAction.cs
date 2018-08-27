@@ -48,8 +48,8 @@ namespace Assets.Scripts.Player
             if (_player.IsSlidingTrolley)
             {
                 _player.IsSlidingTrolley = false;
-                _player._capsuleCollider.isTrigger = true;
-                _player._rigidbody.useGravity = false;
+                _player._capsuleCollider.isTrigger = false; //
+                _player._rigidbody.useGravity = true; //
             }
         }
     }

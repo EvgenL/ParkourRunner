@@ -72,10 +72,16 @@ namespace Assets.Scripts.Player.InvectorMods
         {
             if (IsSlidingTrolley)
             {
-                transform.position = TargetTransform.position + TrolleyOffset;
-                transform.rotation = TargetTransform.rotation;
-                if (PuppetMaster.mode != PuppetMaster.Mode.Disabled)
-                    PuppetMaster.mode = PuppetMaster.Mode.Disabled;
+                transform.position =
+                    Vector3.MoveTowards(transform.position, TargetTransform.position + TrolleyOffset, 0.1f);
+
+                Quaternion newRot = TargetTransform.rotation;
+                newRot.x = 0;
+                newRot.z = 0;
+                transform.rotation = newRot;
+
+                PuppetMaster.mode = PuppetMaster.Mode.Active;
+
                 return;
             }
             if (IsRunningWall)
@@ -179,6 +185,15 @@ namespace Assets.Scripts.Player.InvectorMods
             // reduce stamina
             ReduceStamina(jumpStamina, false);
             currentStaminaRecoveryDelay = 1f;
+        }
+
+        public void Die()
+        {
+            PuppetMaster.state = PuppetMaster.State.Dead;
+        }
+        public void Revive()
+        {
+            PuppetMaster.state = PuppetMaster.State.Alive;
         }
     }
 }

@@ -1,11 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Pick_Ups;
 using Assets.Scripts.Pick_Ups.Bonuses;
 using Assets.Scripts.Pick_Ups.Effects;
 using Assets.Scripts.Player.InvectorMods;
+using RootMotion.Dynamics;
 using UnityEngine;
+
+enum GameState
+{
+    Playing,
+    Pause,
+    Dead
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -36,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     public List<BonusName> ActiveBonuses;
 
-    
+    private GameState GameState;
 
     ////Состояние
     //Наличие конечностей
@@ -56,6 +65,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        GameState = GameState.Playing;
         //TODO TEST
         //TODO добавляем это из генератора
         Coins = FindObjectsOfType<Coin>().ToList();
@@ -72,10 +82,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-        _playerAnimator.SetBool("LeftHand", _leftHand);
-        _playerAnimator.SetBool("RightHand", _rightHand);
-        _playerAnimator.SetBool("LeftLeg", _leftLeg);
-        _playerAnimator.SetBool("RightLeg", _rightLeg);
     }
 
     //Оторвать конечность (или приклеить обратно)
@@ -85,7 +91,7 @@ public class GameManager : MonoBehaviour
         {
             case (Bodypart.Body): //or
             case (Bodypart.Head):
-                //if (dismember) Lose();
+                if (dismember) GameState = GameState.Dead;
             break;
 
             case (Bodypart.LHand):
@@ -104,6 +110,44 @@ public class GameManager : MonoBehaviour
                 _leftLeg = dismember;
                 break;
         }
+
+        CheckGameState();
+    }
+
+    private void CheckGameState()
+    {
+        _playerAnimator.SetBool("LeftHand", _leftHand);
+        _playerAnimator.SetBool("RightHand", _rightHand);
+        _playerAnimator.SetBool("LeftLeg", _leftLeg);
+        _playerAnimator.SetBool("RightLeg", _rightLeg);
+
+        if (!_leftHand && !_rightHand)
+        {
+            GameState = GameState.Dead;
+        }
+        if (!_leftLeg && !_rightLeg)
+        {
+            GameState = GameState.Dead;
+        }
+
+        if (GameState == GameState.Dead)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        _player.Die();
+        //TODO Предложить просмотр рекламы
+    }
+
+    private void Revive()
+    {
+        throw new NotImplementedException();
+
+        while (HealLimb());
+        _player.Revive();
     }
 
     public bool HealLimb()

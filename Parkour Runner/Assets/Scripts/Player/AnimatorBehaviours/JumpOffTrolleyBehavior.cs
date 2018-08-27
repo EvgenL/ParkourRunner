@@ -11,7 +11,9 @@ public class JumpOffTrolleyBehavior : StateMachineBehaviour
      public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
 
 	    _player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
-	    _player.IsSlidingTrolley = false;
+         if (!_player.IsSlidingTrolley) return;
+         
+        _player.IsSlidingTrolley = false;
 
 	    _player._capsuleCollider.isTrigger = false; // disable the collision of the player if necessary 
 	    _player._rigidbody.useGravity = true; // disable gravity of the player

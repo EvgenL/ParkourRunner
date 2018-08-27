@@ -15,9 +15,11 @@ public class TrolleyBehaviour : StateMachineBehaviour
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (_player == null) _player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
+
+        _player.TrolleyHand = IKHand;
+
         if (_player.IsSlidingTrolley) return;
         _player.IsSlidingTrolley = true;
-        _player.TrolleyHand = IKHand;
 
         _player._capsuleCollider.isTrigger = true; // disable the collision of the player if necessary 
         _player._rigidbody.useGravity = false; // disable gravity of the player
