@@ -10,11 +10,12 @@ public class TrolleyBehaviour : StateMachineBehaviour
 {
     public AvatarIKGoal IKHand;
 
+    ParkourThirdPersonController _player;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        ParkourThirdPersonController _player;
-        _player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
+        if (_player == null) _player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
+        if (_player.IsSlidingTrolley) return;
         _player.IsSlidingTrolley = true;
         _player.TrolleyHand = IKHand;
 

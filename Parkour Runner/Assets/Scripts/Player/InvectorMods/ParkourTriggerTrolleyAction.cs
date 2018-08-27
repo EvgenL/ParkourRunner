@@ -18,8 +18,10 @@ namespace Assets.Scripts.Player
         public PathMagic Path;
 
         public Vector3 PlayerOffset;
-        
+        public float StartSlideDelay;
+
         private ParkourThirdPersonController _player;
+
 
         private void Start()
         {
@@ -31,6 +33,11 @@ namespace Assets.Scripts.Player
         private void Play()
         {
             Path.Rewind();
+            Invoke("StartSlide", StartSlideDelay);
+        }
+
+        private void StartSlide()
+        {
             Path.Play();
         }
 
