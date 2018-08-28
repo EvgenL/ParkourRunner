@@ -62,7 +62,7 @@ namespace Assets.Scripts.Pick_Ups.Bonuses
                     }
 
                     coin.transform.position = Vector3.MoveTowards(coin.transform.position, 
-                        _player.position + Vector3.up, ProgressManager.MagnetCoinVelocity * Time.deltaTime);
+                        _player.position + Vector3.up, StaticParameters.MagnetCoinVelocity * Time.deltaTime);
                 }
              }
 

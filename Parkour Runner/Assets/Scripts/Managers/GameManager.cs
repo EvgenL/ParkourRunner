@@ -11,7 +11,7 @@ using UnityEngine;
 
 enum GameState
 {
-    Playing,
+    Run,
     Pause,
     Dead
 }
@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
     private bool _leftLeg = true;
     private bool _rightLeg = true;
 
-    private MuscleDismember[] _limbs;
+    public MuscleDismember[] Limbs;
 
     public List<Coin> Coins;
 
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        GameState = GameState.Playing;
+        GameState = GameState.Run;
         //TODO TEST
         //TODO добавляем это из генератора
         Coins = FindObjectsOfType<Coin>().ToList();
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
 
         ActiveBonuses = new List<BonusName>();
         _hud = HUDManager.Instance;
-        _limbs = FindObjectsOfType<MuscleDismember>();
+        Limbs = FindObjectsOfType<MuscleDismember>();
         _player = FindObjectOfType<ParkourThirdPersonController>();
         _playerAnimator = _player.GetComponent<Animator>();
     }
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
 
     public bool HealLimb()
     {
-        foreach (var limb in _limbs)
+        foreach (var limb in Limbs)
         {
             if (limb.IsDismembered)
             {

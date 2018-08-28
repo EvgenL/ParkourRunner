@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Managers;
 using RootMotion.Dynamics;
 using UnityEngine;
 
-public class Laser : MonoBehaviour {
-
+public class Laser : MonoBehaviour
+{
     private void OnTriggerEnter(Collider other)
     {
         var broadcaster = other.attachedRigidbody.GetComponent<MuscleCollisionBroadcaster>();
@@ -29,6 +31,7 @@ public class Laser : MonoBehaviour {
             var joint = other.attachedRigidbody.GetComponent<ConfigurableJoint>();
             if (joint != null) Destroy(joint);
         }
+        //TODO PlayParticle
         /*
         // Particle FX
         particles.transform.position = hit.point;

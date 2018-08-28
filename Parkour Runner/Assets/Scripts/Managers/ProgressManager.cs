@@ -26,7 +26,6 @@ namespace Assets.Scripts.Managers
 
         #endregion
 
-        public static float MagnetCoinVelocity = 14f; //Скорость монеток, летящих к игроку (не трогать)
         public float MagnetRadius = 4f;     //Изначальный радиус магнита
         public float InitialMagnetLength = 5f;  //Изначальная длительность
         public float MagnetUpgradeLength = 0f;  //Продаваемый бонус к длительности
@@ -41,6 +40,7 @@ namespace Assets.Scripts.Managers
         public float InitialShieldLength = 5f;  //Изначальная длительность
         public float ShieldUpgradeLength = 0f;  //Продаваемый бонус к длительности
 
+
         public float GetBonusLength(BonusName name) //TODO
         {
             /*if (bonusPickUp is Bonus)
@@ -51,5 +51,4 @@ namespace Assets.Scripts.Managers
             return 0f;
         }
     }
-
 }
