@@ -20,13 +20,13 @@ public class PuppetMasterHighFall : MonoBehaviour
 
     public void DieTemporary()
     {
-        PuppetMaster.state = PuppetMaster.State.Dead;
+        //PuppetMaster.state = PuppetMaster.State.Dead;
         Invoke("Revive", Delay);
     }
 
     private void Revive()
     {
-        PuppetMaster.state = PuppetMaster.State.Alive;
+        //PuppetMaster.state = PuppetMaster.State.Alive;
     }
 
 }

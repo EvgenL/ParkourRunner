@@ -4,14 +4,17 @@ using System.Collections;
 using System.Linq;
 using System.Text;
 using Assets.Scripts.Managers;
+using RootMotion.Demos;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts.Enemy
 {
     enum LaserAttackType
     {
-        Single,
+        SingleFront,
         WallVertical,
+        WallVerticalStay,
         WallTop,
         WallBottom
     }
@@ -24,57 +27,111 @@ namespace Assets.Scripts.Enemy
         public GameObject LaserWallTop;
         public GameObject LaserWallBottom;
 
+        public float AttackHeight;
+
         private Transform _player;
         private int _difficulty;
 
-        private float _firingHold = 1f;
 
+        private LaserAttackType AttackType;
 
         public override void Attack(Transform player, int difficulty)
         {
             _difficulty = difficulty;
             _player = player;
+
+            //TODO учитывать сложность
+            //Get random enum
+            AttackType = (LaserAttackType)Random.Range(0, Enum.GetValues(typeof(LaserAttackType)).Length);
+            print("AttackType " + AttackType);
             Aim();
         }
 
-        protected override void Aim()
+        protected override IEnumerator Aiming()
         {
-            //TODO aim types
-            float aimTime = Utility.MapValue(_difficulty, 0, StaticParameters.MaxEnemyDifficulty, MaxAimTime, MinAimTime);
-            print("Aiming " + aimTime);
-            //TODO play anim
-            Invoke("Fire", aimTime);
-
-            Transform limb = GameManager.Instance.Limbs.ToList().Find(x => x.Bodypart == (Bodypart.Head)).transform;
-            Bot.ChangeAttackHeight = true;
-            var limbH = limb.position.y;
-            Bot.AttackHeight = limbH;
-
-        }
-
-        private void Fire()
-        {
-            //TODO Attack types
-            print("Firing");
-            StartCoroutine(Firing());
             Bot.ChangeAttackSpeed = true;
             Bot.AttackSpeed = 4f;
-        }
 
-        private IEnumerator Firing()
-        {
-            SingleLaser.SetActive(true);
+            float aimTime = Utility.MapValue(_difficulty, 0, StaticParameters.MaxEnemyDifficulty, MaxAimTime, MinAimTime);
+            print("Aiming " + aimTime);
 
-            float time = 0f;
-            while (time <= _firingHold)
+            Transform limb = GameManager.Instance.GetRandomLimb();
+            print("limb " + limb);
+
+            float time = 0;
+            while (time <= aimTime)
             {
+
+                Bot.ChangeAttackHeight = true;
+                if (AttackType == LaserAttackType.WallVerticalStay)
+                {
+                    Bot.AttackHeight = limb.position.y;
+                }
+                else
+                {
+                    Bot.AttackHeight = AttackHeight;
+                }
+
                 time += Time.deltaTime;
                 yield return null;
             }
 
-            Bot.ChangeAttackSpeed = false;
-            SingleLaser.SetActive(false);
+            if (AttackType == LaserAttackType.WallVerticalStay)
+            {
+                StartCoroutine(FiringWallStay());
+            }
+            else
+            {
+                StartCoroutine(FiringFollow());
+            }
+        }
 
+        private IEnumerator FiringFollow()
+        {
+            switch (AttackType)
+            {
+                case LaserAttackType.SingleFront:
+                    SingleLaser.SetActive(true);
+                    break;
+                case LaserAttackType.WallVertical:
+                    LaserWallVertical.SetActive(true);
+                    break;
+                case LaserAttackType.WallTop:
+                    LaserWallTop.SetActive(true);
+                    break;
+                case LaserAttackType.WallBottom:
+                    LaserWallBottom.SetActive(true);
+                    break;
+            }
+
+
+            yield return new WaitForSeconds(1f);
+
+            Bot.ChangeAttackSpeed = false;
+            Bot.ChangeAttackHeight = false;
+
+            SingleLaser.SetActive(false);
+            LaserWallVertical.SetActive(false);
+            LaserWallTop.SetActive(false);
+            LaserWallBottom.SetActive(false);
+            Reload();
+        }
+
+        private IEnumerator FiringWallStay()
+        {
+            Bot.ChangeAttackHeight = true;
+            Bot.AttackHeight = 1.8f;
+
+            Bot.ChangeAttackSpeed = true;
+            Bot.AttackSpeed = 0.5f;
+            LaserWallVertical.SetActive(true);
+
+            yield return new WaitForSeconds(2.5f);
+
+            Bot.ChangeAttackSpeed = false;
+            Bot.ChangeAttackHeight = false;
+
+            LaserWallVertical.SetActive(false);
             Reload();
         }
 

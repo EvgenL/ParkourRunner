@@ -3,13 +3,6 @@ using System.Collections.Generic;
 using Invector.CharacterController;
 using UnityEngine;
 
-public enum BotState
-{
-    Enter,
-    Follow,
-    Stay
-}
-
 public class EnemyBotController : MonoBehaviour
 {
 
@@ -25,17 +18,49 @@ public class EnemyBotController : MonoBehaviour
     public float _frontOffsetFromPlayer;
     public float _flyHeight;
     public float _maxSpeed;
-    
-    private Vector3 _targetPosition;
+
+    public Vector3 FormationPosOffset;
+
+    protected Vector3 _targetPosition;
 
     public Transform Player;
 
-    protected BotState _botState;
+    public BotState State;
 
 
     private void FixedUpdate()
     {
-        if (_botState == BotState.Stay) return;
+        switch (State)
+        {
+            case BotState.Stay:
+                return;
+
+            case BotState.Enter:
+                FlyToTargetPos();
+                break;
+
+            case BotState.Follow:
+                FollowPlayer();
+                break;
+
+            case BotState.Attack:
+                AttackPlayer();
+                break;
+        }
+
+    }
+
+    //Робот занимает позицию перед игроком
+    private void FlyToTargetPos()
+    {
+        _targetPosition = Player.position + new Vector3(0, _flyHeight, _frontOffsetFromPlayer);
+        _targetPosition += FormationPosOffset;
+        var newPos = Vector3.Lerp(transform.position, _targetPosition, _maxSpeed * Time.fixedDeltaTime);
+        transform.position = newPos;
+    }
+
+    private void FollowPlayer()
+    {
         //TODO random attack position
         if (ChangeAttackPosition)
         {
@@ -45,15 +70,20 @@ public class EnemyBotController : MonoBehaviour
         {
             _targetPosition = Player.position + new Vector3(0, AttackHeight, _frontOffsetFromPlayer);
         }
-        else 
+        else
         {
             _targetPosition = Player.position + new Vector3(0, _flyHeight, _frontOffsetFromPlayer);
         }
+        _targetPosition += FormationPosOffset;
 
         float speed = ChangeAttackSpeed ? AttackSpeed : _maxSpeed;
 
         var newPos = Vector3.Lerp(transform.position, _targetPosition, speed * Time.fixedDeltaTime);
-        newPos.z = _targetPosition.z; //По оси z робот будет иметь скорость игрока
         transform.position = newPos;
+    }
+
+    private void AttackPlayer()
+    {
+        throw new System.NotImplementedException();
     }
 }

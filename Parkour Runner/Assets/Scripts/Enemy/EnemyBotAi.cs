@@ -4,17 +4,35 @@ using System.Linq;
 using Assets.Scripts.Enemy;
 using UnityEngine;
 
+public enum BotType
+{
+    Laser,
+    Bomber,
+    Miner,
+    Builder
+}
+public enum BotState
+{
+    Stay,
+    Enter,
+    Follow,
+    Attack
+}
+
 public class EnemyBotAi : EnemyBotController
 {
+    public BotType BotType;
+
     private int _difficulty;
 
-    private bool _readyToFire;
+    public bool ReadyToFire;
 
     private Weapon[] _weapons;
 
     private void Start()
     {
         print("Bot spawned");
+       // BotState = BotState.Stay;
     }
 
     public void StartBattle(Transform player, int difficulty)
@@ -22,34 +40,32 @@ public class EnemyBotAi : EnemyBotController
         _weapons = GetComponentsInChildren<Weapon>();
         Player = player;
         _difficulty = difficulty;
-        _botState = BotState.Stay;
+        State = BotState.Enter;
+        //Invoke("Enter", 0.1f);
+        print("bot StartBattle.");
         Reload();
     }
 
+    //private void Enter()
+    //{
+    //    BotState = BotState.Enter;
+    //}
+
     private void Update()
     {
-        if (Player == null)
+        if (State == BotState.Enter)
         {
-            _botState = BotState.Stay;
-
-        }
-        else
-        {
-            _botState = BotState.Follow;
-        }
-
-        if (_readyToFire)
-        {
-            _readyToFire = false;
-            Attack();
+            if (Vector3.Distance(_targetPosition, transform.position) < _maxSpeed) 
+            {
+                State = BotState.Follow;
+            }
         }
     }
 
-    public void Attack()
+    public void AttackRandom()
     {
-        int randN = Random.Range(0, _weapons.Length - 1);
-        print("randN = " + randN);
-        print("_weapons[randN] = " + _weapons[randN]);
+        ReadyToFire = false;
+        int randN = Random.Range(0, _weapons.Length);
         _weapons[randN].Attack(Player, _difficulty);
     }
 
@@ -61,7 +77,7 @@ public class EnemyBotAi : EnemyBotController
 
     private void Ready()
     {
-        _readyToFire = true;
+        ReadyToFire = true;
         print("Reloaded");
     }
 }

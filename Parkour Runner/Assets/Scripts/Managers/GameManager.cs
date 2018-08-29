@@ -198,4 +198,10 @@ public class GameManager : MonoBehaviour
     {
         return Coins;
     }
+
+    public Transform GetRandomLimb()
+    {
+        var list = Limbs.ToList().Where(x => !x.IsDismembered).ToList();
+        return list[UnityEngine.Random.Range(0, list.Count())].transform;
+    }
 }
