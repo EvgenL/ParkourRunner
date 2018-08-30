@@ -13,7 +13,7 @@ public class Obstacle : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
+        Gizmos.color = Color.red;
         Gizmos.DrawWireMesh(Mesh, transform.position + transform.up *  GizmoSize.y/2, transform.rotation, GizmoSize);
     }
 
