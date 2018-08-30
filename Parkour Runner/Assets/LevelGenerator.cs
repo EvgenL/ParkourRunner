@@ -84,8 +84,30 @@ public class LevelGenerator : MonoBehaviour
     private void GenerateBlocks()
     {
         var newPool = new List<Block>();
-        var lastBlocks = _blockPool.FindAll(x => x.Next == null);
-        foreach (Block block in lastBlocks)
+
+        //Выбираем блоки, которые стоят по краям карты
+        var lastBlocks = _blockPool.FindAll(x => x.Next == null || x.Right == null || x.Left == null);
+
+        Vector3[] possiblePoints = GetPossiblePoints(lastBlocks);
+
+        foreach (var point in possiblePoints)
+        {
+            Vector3 playerY0Pos = _player.position;
+            playerY0Pos.y = StartBlockOffset.y;
+
+            if (Vector3.Distance(playerY0Pos, point) < DistanceToGenerate)
+            {
+                var newBlock = GenerateNextBlocks(point);
+                //newBlock.Prev = block;
+                //block.Next = newBlock;
+                //Проверяем, не стоял ли слева/справа нового блока другой блок
+                CheckNeighbourBlocks(newBlock);
+                newPool.Add(newBlock);
+                continue;
+            }
+        }
+
+        /*foreach (Block block in lastBlocks)
         {
             Vector3 playerY0Pos = _player.position;
             playerY0Pos.y = StartBlockOffset.y;
@@ -144,7 +166,33 @@ public class LevelGenerator : MonoBehaviour
         {
             _blockPool.AddRange(newPool);
             GenerateBlocks();
+        }*/
+    }
+
+    private Vector3[] GetPossiblePoints(List<Block> lastBlocks)
+    {
+        HashSet<Vector3> points = new HashSet<Vector3>(); //Используем хеш-сет, так как он не может содержать повторяющихся элементов
+        
+        foreach (var block in lastBlocks)
+        {
+            if (block.Left == null)
+            {
+                Vector3 pointNext = block.transform.position + block.transform.forward * BlockSide;
+                points.Add(pointNext);
+            }
+            if (block.Left == null)
+            {
+                Vector3 pointLeft = block.transform.position + -block.transform.right * BlockSide;
+                points.Add(pointLeft);
+            }
+            if (block.Left == null)
+            {
+                Vector3 pointRight = block.transform.position + block.transform.right * BlockSide;
+                points.Add(pointRight);
+            }
         }
+
+        return points.ToArray();
     }
 
     private void DestroyOldBlocks()
