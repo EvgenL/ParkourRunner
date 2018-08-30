@@ -66,8 +66,6 @@ namespace Assets.Scripts.Player.InvectorMods
             // trigger the animation behaviour & match target
             if (!string.IsNullOrEmpty(triggerAction.playAnimation))
             {
-
-
                 isPlayingAnimation = true;
 
                 if (!Debug_NotRandomAnimation)

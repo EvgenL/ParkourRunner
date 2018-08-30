@@ -7,14 +7,12 @@ public class Obstacle : MonoBehaviour
 
     public bool Used;
 
-    public Vector3 GizmoSize;
-
     public Mesh Mesh;
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireMesh(Mesh, transform.position + transform.up *  GizmoSize.y/2, transform.rotation, GizmoSize);
+        Gizmos.DrawWireMesh(Mesh, transform.position + transform.up * transform.localScale.y/2, transform.rotation, transform.localScale);
     }
 
     private void OnDrawGizmosSelected()
@@ -22,7 +20,7 @@ public class Obstacle : MonoBehaviour
         if (Mesh != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawMesh(Mesh, transform.position + transform.up * GizmoSize.y / 2, transform.rotation, GizmoSize);
+            Gizmos.DrawMesh(Mesh, transform.position + transform.up * transform.localScale.y / 2, transform.rotation, transform.localScale);
         }
     }
 
