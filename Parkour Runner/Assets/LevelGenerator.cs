@@ -18,8 +18,6 @@ public class LevelGenerator : MonoBehaviour
 {
     public static LevelGenerator Instance;
     [SerializeField] private int BlockSide; //Сколько метров сторона одного блока
-    [SerializeField] private float DistanceToGenerate; //Сколько метров от игрока до блока нужно чтобы создать там блок
-    [SerializeField] private float DistanceToDestroy; //Сколько метров от игрока до блока нужно чтобы уничтожить пройденный блок
 
     [SerializeField] private Vector3 StartBlockOffset;  //Позиция стартового блока
 
@@ -30,6 +28,8 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private List<Block> _blockPool;
 
     [SerializeField] private Transform _player;
+
+    private Block _oldCenter;
 
     void Awake()
     {
@@ -62,12 +62,11 @@ public class LevelGenerator : MonoBehaviour
             else
             {
                 GenerateBlocks();
-               // DestroyOldBlocks();
             }
 
 
            // yield return new WaitForSeconds(1f);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(1f);
         }
     }
 
@@ -86,180 +85,118 @@ public class LevelGenerator : MonoBehaviour
         var newPool = new List<Block>();
 
         //Выбираем блоки, которые стоят по краям карты
-        var lastBlocks = _blockPool.FindAll(x => x.Next == null || x.Right == null || x.Left == null);
 
-        Vector3[] possiblePoints = GetPossiblePoints(lastBlocks);
 
-        foreach (var point in possiblePoints)
+        Block centerBlock = _blockPool[0];
+        foreach (var block in _blockPool)
         {
-            Vector3 playerY0Pos = _player.position;
-            playerY0Pos.y = StartBlockOffset.y;
+            Vector3 blockPos = block.transform.position;
 
-            if (Vector3.Distance(playerY0Pos, point) < DistanceToGenerate)
+            Vector3 playerPos = _player.position;
+            playerPos.y = StartBlockOffset.y;
+
+            if (playerPos.x > blockPos.x - BlockSide / 2f && playerPos.x <= blockPos.x + BlockSide / 2f
+                && playerPos.z > blockPos.z - BlockSide / 2f && playerPos.z <= blockPos.z + BlockSide / 2f)
             {
-                var newBlock = GenerateNextBlocks(point);
-                //newBlock.Prev = block;
-                //block.Next = newBlock;
-                //Проверяем, не стоял ли слева/справа нового блока другой блок
-                CheckNeighbourBlocks(newBlock);
-                newPool.Add(newBlock);
-                continue;
+                centerBlock = block;
+                break;
             }
         }
+        Debug.Log("cetner = ", centerBlock.transform);
 
-        /*foreach (Block block in lastBlocks)
-        {
-            Vector3 playerY0Pos = _player.position;
-            playerY0Pos.y = StartBlockOffset.y;
+        DestroyOldBlocks();
 
-            Vector3 possibleBlockPos;
-            Block newBlock;
+        if (_oldCenter == centerBlock)
+            return;
+        else
+            _oldCenter = centerBlock;
 
-            if (block.Next == null)
-            {
-                possibleBlockPos = block.transform.position + block.transform.forward * BlockSide; //Возможная позиция создания следующего блока
-                if (Vector3.Distance(playerY0Pos, possibleBlockPos) < DistanceToGenerate)
-                {
-                    newBlock = GenerateNextBlocks(possibleBlockPos);
-                    newBlock.Prev = block;
-                    block.Next = newBlock;
-                    //Проверяем, не стоял ли слева/справа нового блока другой блок
-                    CheckNeighbourBlocks(newBlock);
-                    newPool.Add(newBlock);
-                    continue;
-                }
-            }
-            if (block.Right == null)
-            {
-                possibleBlockPos = block.transform.position + block.transform.right * BlockSide; //Возможная позиция создания следующего блока
-                if (Vector3.Distance(playerY0Pos, possibleBlockPos) < DistanceToGenerate)
-                {
-                    newBlock = GenerateNextBlocks(possibleBlockPos);
-                    newBlock.Left = block;
-                    block.Right = newBlock;
-
-                    //Проверяем, не стоял ли сзади нового блока другой блок
-                    CheckNeighbourBlocks(newBlock);
-                    newPool.Add(newBlock);
-                    continue;
-
-                }
-            }
-            if (block.Left == null)
-            {
-                possibleBlockPos = block.transform.position + -block.transform.right * BlockSide; //Возможная позиция создания следующего блока
-                if (Vector3.Distance(playerY0Pos, possibleBlockPos) < DistanceToGenerate)
-                {
-                    newBlock = GenerateNextBlocks(possibleBlockPos);
-                    newBlock.Right = block;
-                    block.Left = newBlock;
-
-                    //Проверяем, не стоял ли сзади нового блока другой блок
-                    CheckNeighbourBlocks(newBlock);
-                    newPool.Add(newBlock);
-                    continue;
-                }
-            }
-
-        }
-        if (newPool.Count > 0)
-        {
-            _blockPool.AddRange(newPool);
-            GenerateBlocks();
-        }*/
+        GenerateBlocksAround(centerBlock);
     }
 
-    private Vector3[] GetPossiblePoints(List<Block> lastBlocks)
+    public void GenerateBlocksAround(Block block)
     {
-        HashSet<Vector3> points = new HashSet<Vector3>(); //Используем хеш-сет, так как он не может содержать повторяющихся элементов
-        
-        foreach (var block in lastBlocks)
+        if (block.Next == null)
         {
-            if (block.Left == null)
-            {
-                Vector3 pointNext = block.transform.position + block.transform.forward * BlockSide;
-                points.Add(pointNext);
-            }
-            if (block.Left == null)
-            {
-                Vector3 pointLeft = block.transform.position + -block.transform.right * BlockSide;
-                points.Add(pointLeft);
-            }
-            if (block.Left == null)
-            {
-                Vector3 pointRight = block.transform.position + block.transform.right * BlockSide;
-                points.Add(pointRight);
-            }
+            var nextBlockPrefab = GetRandomBlock();
+            var nextBlockGo = Instantiate(nextBlockPrefab,
+                block.transform.position + block.transform.forward * BlockSide, block.transform.rotation);
+            var nextBlocScript = nextBlockGo.GetComponent<Block>();
+            _blockPool.Add(nextBlocScript);
+            block.Next = nextBlocScript;
         }
 
-        return points.ToArray();
+        if (block.Right == null)
+        {
+            var rightBlockPrefab = GetRandomBlock();
+            var rightBlockGo = Instantiate(rightBlockPrefab,
+                block.transform.position + block.transform.right * BlockSide, block.transform.rotation);
+            var rightBlocScript = rightBlockGo.GetComponent<Block>();
+            _blockPool.Add(rightBlocScript);
+            block.Right = rightBlocScript;
+            rightBlocScript.Left = block;
+        }
+
+        if (block.Left == null)
+        {
+            var leftBlockPrefab = GetRandomBlock();
+            var leftBlockGo = Instantiate(leftBlockPrefab,
+                block.transform.position + -block.transform.right * BlockSide, block.transform.rotation);
+            var leftBlocScript = leftBlockGo.GetComponent<Block>();
+            _blockPool.Add(leftBlocScript);
+            block.Left = leftBlocScript;
+            leftBlocScript.Right = block;
+        }
+        
+        if (block.Left.Next == null)
+        {
+            var lnBlockPrefab = GetRandomBlock();
+            var lnBlockGo = Instantiate(lnBlockPrefab, block.transform.position + -block.transform.right * BlockSide +
+                                                       block.transform.forward * BlockSide, block.transform.rotation);
+            var lnBlocScript = lnBlockGo.GetComponent<Block>();
+            _blockPool.Add(lnBlocScript);
+            block.Left.Next = lnBlocScript;
+            lnBlocScript.Right = block.Next;
+
+            block.Next.Left = lnBlocScript;
+        }
+
+        if (block.Right.Next == null)
+        {
+            var rnBlockPrefab = GetRandomBlock();
+            var rnBlockGo = Instantiate(rnBlockPrefab, block.transform.position + block.transform.right * BlockSide +
+                                                       block.transform.forward * BlockSide, block.transform.rotation);
+            var rnBlocScript = rnBlockGo.GetComponent<Block>();
+            _blockPool.Add(rnBlocScript);
+            block.Right.Next = rnBlocScript;
+            rnBlocScript.Left = block.Next;
+
+            block.Next.Right = rnBlocScript;
+        }
     }
 
     private void DestroyOldBlocks()
     {
-        float zposToDestroy = _player.transform.position.z - DistanceToDestroy;
-
-        //Находим все блоки, которые а) не имеют блоков позади себя, б) расположенны за полем зрения игрока
-        var blocksToDestroy = _blockPool.FindAll(x => x.Prev == null && x.transform.position.z <= zposToDestroy).ToList();
-
+        List<Block> blocksToDestroy = new List<Block>();
+        foreach (var block in _blockPool)
+        {
+            if (block.transform.position.z < _player.position.z - (BlockSide/2f + 2f)
+                || (block.transform.position.x < _player.position.x - BlockSide 
+                    || block.transform.position.x > _player.position.x + BlockSide))
+            {
+                blocksToDestroy.Add(block);
+            }
+        }
         foreach (var block in blocksToDestroy)
         {
             _blockPool.Remove(block);
-
-            //Для соседей удаляем референсы на этот блок
-            if (block.Next != null)
-                block.Next.Prev = null;
-            if (block.Right != null)
-                block.Right.Left = null;
-            if (block.Left != null)
-                block.Left.Right = null;
-
-                Destroy(block);
-        }
-    }
-
-    private void CheckNeighbourBlocks(Block newBlock)
-    {
-        var prevBlockPos =
-            newBlock.transform.position + -newBlock.transform.forward * BlockSide;
-        var leftBlockPos =
-            newBlock.transform.position + -newBlock.transform.right * BlockSide;
-        var rightBlockPos =
-            newBlock.transform.position + newBlock.transform.right * BlockSide;
-
-
-        foreach (var block in _blockPool)
-        {
-            if (newBlock == block) continue;
-            if (newBlock.Prev == null && prevBlockPos == block.transform.position)
-            {
-                newBlock.Next = block;
-                block.Prev = newBlock;
-            }
-            else if (newBlock.Left == null && leftBlockPos == block.transform.position)
-            {
-                newBlock.Left = block;
-                block.Right = newBlock;
-            }
-            else if (newBlock.Right == null && rightBlockPos == block.transform.position)
-            {
-                newBlock.Right = block;
-                block.Left = newBlock;
-            }
+            Destroy(block.gameObject);
         }
     }
 
     public GameObject GetRandomBlock()
     {
         return _blockPrefabs[Random.Range(0, _blockPrefabs.Count)];
-    }
-
-    public Block GenerateNextBlocks(Vector3 pos)
-    {
-        var randBlock = GetRandomBlock();
-        var randBlockGo = Instantiate(randBlock, pos, Quaternion.identity);
-        var randBlockScript = randBlockGo.GetComponent<Block>();
-        return randBlockScript;
     }
 }
 class PossibleBlockPoint

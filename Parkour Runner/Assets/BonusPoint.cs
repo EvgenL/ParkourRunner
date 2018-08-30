@@ -6,17 +6,25 @@ public class BonusPoint : MonoBehaviour
 {
 
     public Vector3 BonusPosition = new Vector3(0, 1, 0);
+    public bool DrawGizmo = true;
+
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(transform.position + BonusPosition, 0.5f);
+        if (DrawGizmo)
+        {
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(transform.position + BonusPosition, 0.5f);
+        }
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.magenta;
+        if (DrawGizmo)
+        {
+            Gizmos.color = Color.magenta;
         Gizmos.DrawSphere(transform.position + BonusPosition, 0.5f);
+        }
     }
 
 
