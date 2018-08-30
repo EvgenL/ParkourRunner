@@ -21,6 +21,7 @@ public class Obstacle : MonoBehaviour
     {
         if (Mesh != null)
         {
+            Gizmos.color = Color.red;
             Gizmos.DrawMesh(Mesh, transform.position + transform.up * GizmoSize.y / 2, transform.rotation, GizmoSize);
         }
     }

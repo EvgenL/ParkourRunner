@@ -262,3 +262,11 @@ public class LevelGenerator : MonoBehaviour
         return randBlockScript;
     }
 }
+class PossibleBlockPoint
+{
+    public Vector3 Position;
+    public Block Next;
+    public Block Prev;
+    public Block Left;
+    public Block Right;
+}
