@@ -22,7 +22,6 @@ namespace Assets.Scripts.Enemy
         }
 
         public abstract void Attack(Transform player, int difficulty);
-
         protected void Aim()
         {
             StartCoroutine(Aiming());

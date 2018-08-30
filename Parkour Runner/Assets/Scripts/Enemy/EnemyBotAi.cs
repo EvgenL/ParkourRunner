@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Enemy;
+using Assets.Scripts.Managers;
 using UnityEngine;
 
 public enum BotType
@@ -28,6 +29,8 @@ public class EnemyBotAi : EnemyBotController
     public bool ReadyToFire;
 
     private Weapon[] _weapons;
+
+    private int _attacksDone;
 
     private void Start()
     {
@@ -71,8 +74,20 @@ public class EnemyBotAi : EnemyBotController
 
     public void Reload()
     {
+        _attacksDone++;
+        if (_attacksDone > StaticConst.MinEnemyAttacks + _difficulty * StaticConst.AttacksPerDifficulty)
+        {
+            Die();
+        }
         float _reloadTime = 3;
         Invoke("Ready", _reloadTime);
+        
+    }
+
+    private void Die()
+    {
+        print("robot dead");
+        Destroy(gameObject);
     }
 
     private void Ready()

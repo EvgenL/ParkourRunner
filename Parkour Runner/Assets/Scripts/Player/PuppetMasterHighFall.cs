@@ -21,7 +21,7 @@ public class PuppetMasterHighFall : MonoBehaviour
     public void DieTemporary()
     {
         //PuppetMaster.state = PuppetMaster.State.Dead;
-        Invoke("Revive", Delay);
+       // Invoke("Revive", Delay);
     }
 
     private void Revive()

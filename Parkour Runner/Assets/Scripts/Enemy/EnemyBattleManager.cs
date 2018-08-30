@@ -109,7 +109,7 @@ public class EnemyBattleManager : MonoBehaviour
             _bots.Add(botScript);
 
             ////////////////////////////////////Min
-            botScript.StartBattle(_player, Math.Max(BattlesDone, StaticParameters.MaxEnemyDifficulty));
+            botScript.StartBattle(_player, Math.Max(BattlesDone, StaticConst.MaxEnemyDifficulty));
         }
     }
 }

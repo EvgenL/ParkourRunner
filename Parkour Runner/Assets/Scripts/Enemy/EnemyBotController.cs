@@ -15,9 +15,13 @@ public class EnemyBotController : MonoBehaviour
     public bool ChangeAttackSpeed;
     public float AttackSpeed;
 
+    public bool ChangeAttackLookTarget;
+    public Vector3 AttackLookTarget;
+
     public float _frontOffsetFromPlayer;
     public float _flyHeight;
     public float _maxSpeed;
+
 
     public Vector3 FormationPosOffset;
 
@@ -75,7 +79,18 @@ public class EnemyBotController : MonoBehaviour
             _targetPosition = Player.position + new Vector3(0, _flyHeight, _frontOffsetFromPlayer);
         }
         _targetPosition += FormationPosOffset;
-
+        /*
+        if (ChangeAttackLookTarget)
+        {
+            var newRot = Quaternion.Lerp(transform.rotation,
+                Quaternion.LookRotation(AttackLookTarget - transform.position), 0.1f);
+            transform.rotation = newRot;
+        }
+        else
+        {
+            transform.rotation = Quaternion.identity;
+        }
+        */
         float speed = ChangeAttackSpeed ? AttackSpeed : _maxSpeed;
 
         var newPos = Vector3.Lerp(transform.position, _targetPosition, speed * Time.fixedDeltaTime);

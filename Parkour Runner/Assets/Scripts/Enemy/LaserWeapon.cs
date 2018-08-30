@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Assets.Scripts.Managers;
 using RootMotion.Demos;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -52,7 +53,7 @@ namespace Assets.Scripts.Enemy
             Bot.ChangeAttackSpeed = true;
             Bot.AttackSpeed = 4f;
 
-            float aimTime = Utility.MapValue(_difficulty, 0, StaticParameters.MaxEnemyDifficulty, MaxAimTime, MinAimTime);
+            float aimTime = Utility.MapValue(_difficulty, 0, StaticConst.MaxEnemyDifficulty, MaxAimTime, MinAimTime);
             print("Aiming " + aimTime);
 
             Transform limb = GameManager.Instance.GetRandomLimb();
@@ -80,19 +81,34 @@ namespace Assets.Scripts.Enemy
             {
                 StartCoroutine(FiringWallStay());
             }
-            else
+            else if(AttackType == LaserAttackType.SingleFront)
+            {
+                StartCoroutine(FiringSingleFront());
+            }
             {
                 StartCoroutine(FiringFollow());
             }
+        }
+        private IEnumerator FiringSingleFront()
+        {
+            SingleLaser.SetActive(true);
+
+            yield return new WaitForSeconds(2f);
+
+            Bot.ChangeAttackSpeed = false;
+            Bot.ChangeAttackHeight = false;
+
+            SingleLaser.SetActive(false);
+            LaserWallVertical.SetActive(false);
+            LaserWallTop.SetActive(false);
+            LaserWallBottom.SetActive(false);
+            Reload();
         }
 
         private IEnumerator FiringFollow()
         {
             switch (AttackType)
             {
-                case LaserAttackType.SingleFront:
-                    SingleLaser.SetActive(true);
-                    break;
                 case LaserAttackType.WallVertical:
                     LaserWallVertical.SetActive(true);
                     break;
@@ -105,7 +121,7 @@ namespace Assets.Scripts.Enemy
             }
 
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
 
             Bot.ChangeAttackSpeed = false;
             Bot.ChangeAttackHeight = false;
