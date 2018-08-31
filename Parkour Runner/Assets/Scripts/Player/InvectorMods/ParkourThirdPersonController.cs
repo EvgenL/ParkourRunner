@@ -146,7 +146,7 @@ namespace Assets.Scripts.Player.InvectorMods
 
 
         //Позволяет врезаться головой в default layer во время переката. Работает хуйово, так что я выключил.
-        private void ControllRollRagdoll()
+        /*private void ControllRollRagdoll()
         {
 
             if (isRolling && BehavPuppet.collisionLayers != InRollCollisions)
@@ -166,7 +166,7 @@ namespace Assets.Scripts.Player.InvectorMods
                 BehavPuppet.knockOutDistance = _oldKnockOutDistance;
                 BehavPuppet.collisionResistance = _oldCollisionResistance;
             }
-        }
+        }*/
 
         public new bool actions
         {

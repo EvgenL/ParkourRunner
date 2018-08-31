@@ -66,6 +66,7 @@ public class LevelGenerator : MonoBehaviour
             if (_state == GeneratorState.HeatUp)
             {
                 GenerateStartBlock();
+                _state = GeneratorState.Challenge; //tODO
             }
             GenerateBlocks();
 
@@ -108,8 +109,7 @@ public class LevelGenerator : MonoBehaviour
             }
         }
         Debug.Log("cetner = ", centerBlock.transform);
-
-        DestroyOldBlocks();
+;
 
         if (_oldCenter == centerBlock)
             return;
@@ -117,6 +117,7 @@ public class LevelGenerator : MonoBehaviour
             _oldCenter = centerBlock;
 
         GenerateBlocksAround(centerBlock);
+        //DestroyOldBlocks();
         GenerateObstacles();
     }
 
@@ -259,7 +260,8 @@ public class LevelGenerator : MonoBehaviour
         List<Block> blocksRange = new List<Block>();
         foreach (var block in _blockPool)
         {
-            if (!(block.transform.position.z + BlockSide < z2))
+            if (!(block.transform.position.z + BlockSide < z2 
+                  || block.transform.position.z - BlockSide > z1))
             {
                 blocksRange.Add(block);
             }
