@@ -14,38 +14,6 @@ public class CoinLine : CoinPoints
     public float CoinHeight = 1f;
     public float DistanceBetweenCoins = 2f;
 
-     
-    public override void Generate(GameObject lastBonus = null)
-    {
-        GameManager GameManager = GameManager.Instance;
-        float scaleZ = transform.localScale.z;
-
-        for (float i = 0; i < scaleZ; i += DistanceBetweenCoins)
-        {
-            //TODO POOL COINS?
-            var coinGo = Instantiate(CoinPrefab, transform.position + new Vector3(0, CoinHeight, 0) + transform.forward * i,
-                Quaternion.AngleAxis(i * 10, Vector3.up));
-            var coinScript = coinGo.GetComponent<Coin>();
-            GameManager.Coins.Add(coinScript);
-
-            //Last
-            if (i + DistanceBetweenCoins >= scaleZ)
-            {
-                if (lastBonus != null)
-                {
-                    Instantiate(lastBonus, transform.position + new Vector3(0, CoinHeight, i) + transform.forward * i,
-                        Quaternion.AngleAxis(i * 10, Vector3.up));
-                }
-                else
-                {
-                    Instantiate(CoinPrefab, transform.position + new Vector3(0, CoinHeight, i) + transform.forward * i,
-                        Quaternion.AngleAxis(i * 10, Vector3.up));
-                }
-            }
-        }
-        Destroy(gameObject);
-    }
-
     private void OnDrawGizmos()
     {
         float scaleZ = transform.localScale.z;
@@ -63,5 +31,19 @@ public class CoinLine : CoinPoints
     }
 
 
+    public override void Generate()
+    {
+        GameManager GameManager = GameManager.Instance;
+        float scaleZ = transform.localScale.z;
 
+        for (float i = 0; i < scaleZ; i += DistanceBetweenCoins)
+        {
+            //TODO POOL COINS?
+            var coinGo = Instantiate(CoinPrefab, transform.position + new Vector3(0, CoinHeight, 0) + transform.forward * i,
+                Quaternion.AngleAxis(i * 10, Vector3.up));
+            var coinScript = coinGo.GetComponent<Coin>();
+            GameManager.Coins.Add(coinScript);
+        }
+        Destroy(gameObject);
+    }
 }

@@ -2,19 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Track;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public abstract class CoinPoints : MonoBehaviour
+    public abstract class CoinPoints : GenerationPoint
     {
-        void Start()
-        {
-            //TODO DEBUG
-            Generate();
-        }
-
+        public bool IsInObstacle = false;
         public GameObject CoinPrefab;
-        public abstract void Generate(GameObject lastBonus = null);
     }
 }

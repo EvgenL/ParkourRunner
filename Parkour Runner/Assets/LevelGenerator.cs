@@ -5,7 +5,11 @@ using Assets.Scripts.Player.InvectorMods;
 using Invector.CharacterController;
 using UnityEngine;
 
-enum GeneratorState
+
+public class LevelGenerator : MonoBehaviour
+{
+    
+public enum GeneratorState
 {
     HeatUp, //Разогрев
     Callibration, //Каллибровка
@@ -14,16 +18,14 @@ enum GeneratorState
     Relax   //Отдых
 }
 
-public class LevelGenerator : MonoBehaviour
-{
-    public static LevelGenerator Instance;
+public static LevelGenerator Instance;
     [SerializeField] private int BlockSide; //Сколько метров сторона одного блока
 
     [SerializeField] private Vector3 StartBlockOffset;  //Позиция стартового блока
 
     [SerializeField] private string _blockPrefabsPath = "Blocks";
     [SerializeField] private List<GameObject> _blockPrefabs;
-    [SerializeField] private GeneratorState _state;
+    [SerializeField] private LevelGenerator.GeneratorState _state;
 
     [SerializeField] private List<Block> _blockPool;
 
@@ -35,7 +37,9 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private float RewardStateLength = 15;
     [SerializeField] private float ChallengeStateLength = 25;
     [SerializeField] private float RelaxStateLength = 15;
-    
+
+    [SerializeField] private float ObstacleGenerationdistance = 10f;
+
     private Block _oldCenter;
 
     void Awake()
@@ -69,10 +73,19 @@ public class LevelGenerator : MonoBehaviour
                 _state = GeneratorState.Challenge; //tODO
             }
             GenerateBlocks();
+            GenerateObstacles();
 
 
            // yield return new WaitForSeconds(1f);
             yield return new WaitForSeconds(1f);
+        }
+    }
+
+    private void GenerateObstacles()
+    {
+        while (transform.position.z < _player.position.z + ObstacleGenerationdistance)
+        {
+            GenerateObstaclesSegment();
         }
     }
 
@@ -108,7 +121,6 @@ public class LevelGenerator : MonoBehaviour
                 break;
             }
         }
-        Debug.Log("cetner = ", centerBlock.transform);
 ;
 
         if (_oldCenter == centerBlock)
@@ -118,7 +130,6 @@ public class LevelGenerator : MonoBehaviour
 
         GenerateBlocksAround(centerBlock);
         //DestroyOldBlocks();
-        GenerateObstacles();
     }
 
     
@@ -203,53 +214,62 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-    private void GenerateObstacles()
+    private void GenerateObstaclesSegment()
     {
         switch (_state)
         {
-
             case GeneratorState.HeatUp:
                 //В разогреве не генерится ничего
-                transform.position = Vector3.forward * HeatUpStateLength;
+                _state = GeneratorState.Callibration;
+                transform.position += Vector3.forward * HeatUpStateLength;
                 break;
 
             case GeneratorState.Callibration:
                 GenerateCallibration();
-                transform.position = Vector3.forward * CallibrationStateLength;
+                _state = GeneratorState.Reward;
+                transform.position += Vector3.forward * CallibrationStateLength;
                 break;
 
             case GeneratorState.Reward:
                 GenerateReward();
-                transform.position = Vector3.forward * RewardStateLength;
+                _state = GeneratorState.Challenge;
+                transform.position += Vector3.forward * RewardStateLength;
                 break;
 
             case GeneratorState.Challenge:
                 GenerateChallenge();
-                transform.position = Vector3.forward * ChallengeStateLength;
+                _state = GeneratorState.Relax;
+                transform.position += Vector3.forward * ChallengeStateLength;
                 break;
 
             case GeneratorState.Relax:
                 GenerateRelax();
-                transform.position = Vector3.forward * RelaxStateLength;
+                _state = GeneratorState.Challenge;
+                transform.position += Vector3.forward * RelaxStateLength;
                 break;
         }
+        //todo pos
     }
 
     private void GenerateCallibration()
     {
         var blocks = SelectBlocksInRange(transform.position.z, CallibrationStateLength);
+        foreach (var block in blocks)
+        {
+            block.GenerateCallibration(transform.position.z, CallibrationStateLength);
+        }
     }
     private void GenerateReward()
     {
-
+        GenerateCallibration(); //TODO
     }
     private void GenerateRelax()
     {
-
+        GenerateCallibration(); //TODO
     }
     private void GenerateChallenge()
     {
-
+        GenerateCallibration(); //TODO
     }
 
     private List<Block> SelectBlocksInRange(float positionZ, float stateLength)

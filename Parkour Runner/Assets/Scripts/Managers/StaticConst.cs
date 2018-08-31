@@ -17,5 +17,20 @@ namespace Assets.Scripts.Managers
         public const float MaxLaserLen = 20f;
 
         public const float SpeedGrowPerMetre = 1f;
+
+
+        //Chances to generate
+        //Obstacles
+        public const float CallibrationObstaclePercent = 0.8f;
+        public const float RewardObstaclePercent = 0.00f;
+        public const float ChallengeObstaclePercent = 0.9f;
+        public const float RelaxObstaclePercent = 0.05f;
+        //Bonuses and coins
+        public const float CallibrationPickUpPercent = 0f;
+        public const float RewardPickUpPercent = 0.5f;
+        public const float ChallengePickUpPercent = 0.1f;
+        public const float RelaxPickUpPercent = 0.5f;
+        public const float RelaxTrickPercent = 0.5f;
+        //TODO /avg per block
     }
 }

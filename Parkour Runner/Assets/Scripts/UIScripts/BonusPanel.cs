@@ -21,17 +21,14 @@ public class BonusPanel : MonoBehaviour
         {
             case (BonusName.Magnet):
                 Magnet.SetActive(true);
-                print("upd Magnet " + value);
                 MagnetSlider.value = value;
                 break;
             case (BonusName.Jump):
                 Jump.SetActive(true);
-                print("upd jump " + value);
                 JumpSlider.value = value;
                 break;
             case (BonusName.Shield):
                 Shield.SetActive(true);
-                print("upd Shield " + value);
                 ShieldSlider.value = value;
                 break;
         }

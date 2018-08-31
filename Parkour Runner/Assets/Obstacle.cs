@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 using UnityEngine;
 
-public class Obstacle : MonoBehaviour
+public class Obstacle : GenerationPoint
 {
+    public List<GameObject> Prefabs = new List<GameObject>();
+    //public CoinPoints JumpCoins; 
 
-    public bool Used;
+    public GameObject Object;
 
     public Mesh Mesh;
 
@@ -25,6 +28,12 @@ public class Obstacle : MonoBehaviour
     }
 
 
-
-
+    public override void Generate()
+    {
+        if (Prefabs.Count != 0)
+        {
+            var randomObs = Prefabs[Random.Range(0, Prefabs.Count)];
+            Object = Instantiate(randomObs, transform.position, transform.rotation);
+        }
+    }
 }
