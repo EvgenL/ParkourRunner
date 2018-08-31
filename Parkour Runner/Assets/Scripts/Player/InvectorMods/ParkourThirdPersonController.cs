@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
+using Assets.Scripts.Managers;
 using Invector.CharacterController;
 using Invector.CharacterController.Actions;
 using RootMotion.Dynamics;
@@ -12,7 +13,6 @@ namespace Assets.Scripts.Player.InvectorMods
 {
     class ParkourThirdPersonController : vThirdPersonController
     {
-        public LayerMask InRollCollisions;
         public BehaviourPuppet BehavPuppet;
         public PuppetMaster PuppetMaster;
         public Weight RollPuppetCollisionResistance;
@@ -26,6 +26,14 @@ namespace Assets.Scripts.Player.InvectorMods
         public float _oldKnockOutDistance;
 
         public float HookSpeed = 2f;
+
+        public float MinRunSpeed = 5f;
+        public float CurrRunSpeed;
+        public float MaxRunSpeed = 7.5f;
+
+        public float MinAnimSpeed = 1f;
+        public float CurrAnimSpeed;
+        public float MaxAnimSpeed = 1.2f;
 
         [HideInInspector] public Vector3 TrolleyOffset;
         [HideInInspector] public Vector3 WallOffset;
@@ -53,19 +61,36 @@ namespace Assets.Scripts.Player.InvectorMods
         
         private new void Start()
         {
+            ResetSpeed();
+
             base.Start();
             //parkourInput = GetComponent<ParkourThirdPersonInput>();
 
             //почему то туда нельзя добавить ивент из этого класса, можно только из родительского
-            BehavPuppet.onLoseBalance.unityEvent.AddListener(delegate { IsSlidingTrolley = false;
+            BehavPuppet.onLoseBalance.unityEvent.AddListener(delegate {
+                IsSlidingTrolley = false;
                 _capsuleCollider.isTrigger = false;
             });
+            BehavPuppet.onLoseBalance.unityEvent.AddListener(ResetSpeed);
+        }
+
+        private void ResetSpeed()
+        {
+            CurrRunSpeed = MinRunSpeed;
+            CurrAnimSpeed = MinAnimSpeed;
         }
 
         private void Update()
         {
-            //ControllRollRagdoll();
             ControllStates();
+            ControllSpeed();
+        }
+
+        private void ControllSpeed()
+        {
+            CurrRunSpeed += StaticConst.SpeedGrowPerMetre;
+            if (CurrRunSpeed > MaxRunSpeed)
+                CurrRunSpeed = MaxRunSpeed;
         }
 
         private void FixedUpdate()

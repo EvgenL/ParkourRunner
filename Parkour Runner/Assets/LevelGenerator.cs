@@ -29,6 +29,13 @@ public class LevelGenerator : MonoBehaviour
 
     [SerializeField] private Transform _player;
 
+    //Длины областей генерации препятствий
+    [SerializeField] private float HeatUpStateLength = 20;
+    [SerializeField] private float CallibrationStateLength = 20;
+    [SerializeField] private float RewardStateLength = 15;
+    [SerializeField] private float ChallengeStateLength = 25;
+    [SerializeField] private float RelaxStateLength = 15;
+    
     private Block _oldCenter;
 
     void Awake()
@@ -38,6 +45,8 @@ public class LevelGenerator : MonoBehaviour
 
     void Start ()
     {
+        transform.position = _player.position + StartBlockOffset;
+
         if (_player == null)
         {
             _player = FindObjectOfType<vThirdPersonController>().transform;
@@ -57,12 +66,8 @@ public class LevelGenerator : MonoBehaviour
             if (_state == GeneratorState.HeatUp)
             {
                 GenerateStartBlock();
-                _state = GeneratorState.Callibration;
             }
-            else
-            {
-                GenerateBlocks();
-            }
+            GenerateBlocks();
 
 
            // yield return new WaitForSeconds(1f);
@@ -77,7 +82,7 @@ public class LevelGenerator : MonoBehaviour
         var startBlockGo = Instantiate(startBlock, _player.position + StartBlockOffset, Quaternion.identity);
         var startBlockScript = startBlockGo.GetComponent<Block>();
         _blockPool.Add(startBlockScript);
-        //_blockPrefabs.Remove(startBlock);
+        _blockPrefabs.Remove(startBlock);
     }
 
     private void GenerateBlocks()
@@ -112,7 +117,10 @@ public class LevelGenerator : MonoBehaviour
             _oldCenter = centerBlock;
 
         GenerateBlocksAround(centerBlock);
+        GenerateObstacles();
     }
+
+    
 
     public void GenerateBlocksAround(Block block)
     {
@@ -193,6 +201,73 @@ public class LevelGenerator : MonoBehaviour
             Destroy(block.gameObject);
         }
     }
+
+    private void GenerateObstacles()
+    {
+        switch (_state)
+        {
+
+            case GeneratorState.HeatUp:
+                //В разогреве не генерится ничего
+                transform.position = Vector3.forward * HeatUpStateLength;
+                break;
+
+            case GeneratorState.Callibration:
+                GenerateCallibration();
+                transform.position = Vector3.forward * CallibrationStateLength;
+                break;
+
+            case GeneratorState.Reward:
+                GenerateReward();
+                transform.position = Vector3.forward * RewardStateLength;
+                break;
+
+            case GeneratorState.Challenge:
+                GenerateChallenge();
+                transform.position = Vector3.forward * ChallengeStateLength;
+                break;
+
+            case GeneratorState.Relax:
+                GenerateRelax();
+                transform.position = Vector3.forward * RelaxStateLength;
+                break;
+        }
+    }
+
+    private void GenerateCallibration()
+    {
+        var blocks = SelectBlocksInRange(transform.position.z, CallibrationStateLength);
+    }
+    private void GenerateReward()
+    {
+
+    }
+    private void GenerateRelax()
+    {
+
+    }
+    private void GenerateChallenge()
+    {
+
+    }
+
+    private List<Block> SelectBlocksInRange(float positionZ, float stateLength)
+    {
+        float z1 = positionZ;
+        float z2 = positionZ + stateLength;
+
+        List<Block> blocksRange = new List<Block>();
+        foreach (var block in _blockPool)
+        {
+            if (!(block.transform.position.z + BlockSide < z2))
+            {
+                blocksRange.Add(block);
+            }
+        }
+
+        return blocksRange;
+    }
+
 
     public GameObject GetRandomBlock()
     {

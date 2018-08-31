@@ -503,7 +503,7 @@ ModelImporter:
       name: Run_Fwd_Jump_Land
       takeName: Take 001
       firstFrame: 26
-      lastFrame: 40
+      lastFrame: 35
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

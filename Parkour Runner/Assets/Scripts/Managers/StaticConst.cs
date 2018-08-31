@@ -15,5 +15,7 @@ namespace Assets.Scripts.Managers
         public const float AttacksPerDifficulty = 1;
 
         public const float MaxLaserLen = 20f;
+
+        public const float SpeedGrowPerMetre = 1f;
     }
 }

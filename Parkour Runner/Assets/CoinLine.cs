@@ -10,7 +10,6 @@ public class CoinLine : CoinPoints
     public Mesh CoinMesh;
     public float MeshScale = 0.4f;
 
-    
 
     public float CoinHeight = 1f;
     public float DistanceBetweenCoins = 2f;
