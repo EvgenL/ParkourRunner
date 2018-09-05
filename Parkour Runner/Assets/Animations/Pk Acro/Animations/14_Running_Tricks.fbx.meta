@@ -229,7 +229,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Gainer
       takeName: Take 001
-      firstFrame: 102
+      firstFrame: 109
       lastFrame: 154
       wrapMode: 0
       orientationOffsetY: 0
@@ -257,10 +257,10 @@ ModelImporter:
     - serializedVersion: 16
       name: Gainer_Flashkick
       takeName: Take 001
-      firstFrame: 170
+      firstFrame: 162
       lastFrame: 198
       wrapMode: 0
-      orientationOffsetY: -37.45
+      orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0

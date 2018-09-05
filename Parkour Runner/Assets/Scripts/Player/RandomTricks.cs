@@ -18,26 +18,6 @@ namespace Assets.Scripts.Player
                     randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.Slide)).Length);
                     return ((TrickNames.Slide)randomIndex).ToString(); 
 
-                case ("Jump"):
-                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.Jump)).Length);
-                    return ((TrickNames.Jump)randomIndex).ToString();
-
-                case ("ClimbUpFar"):
-                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.ClimbUpFar)).Length);
-                    return ((TrickNames.ClimbUpFar)randomIndex).ToString();
-
-                case ("ClimbUpClose"):
-                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.ClimbUpClose)).Length);
-                    return ((TrickNames.ClimbUpClose)randomIndex).ToString();
-                    
-                case ("ClimbUp1mFar"):
-                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.ClimbUp1mFar)).Length);
-                    return ((TrickNames.ClimbUp1mFar)randomIndex).ToString();
-
-                case ("ClimbUp1mClose"):
-                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.ClimbUp1mClose)).Length);
-                    return ((TrickNames.ClimbUp1mClose)randomIndex).ToString();
-
                 case ("JumpOverFar"):
                     randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.JumpOverFar)).Length);
                     return ((TrickNames.JumpOverFar)randomIndex).ToString();
@@ -45,10 +25,6 @@ namespace Assets.Scripts.Player
                 case ("JumpOverClose"):
                     randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.JumpOverClose)).Length);
                     return ((TrickNames.JumpOverClose)randomIndex).ToString();
-
-                case ("JumpOver2m"):
-                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.JumpOver2m)).Length);
-                    return ((TrickNames.JumpOver2m)randomIndex).ToString();
 
                 case ("Stand"):
                     randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.Stand)).Length);

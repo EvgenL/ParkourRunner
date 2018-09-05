@@ -13,7 +13,6 @@ namespace Assets.Scripts.Player
             SideRoll,
             QuickRoll,
 
-
             Slide,
             LowSlide
         }
@@ -21,30 +20,6 @@ namespace Assets.Scripts.Player
         {
             Slide,
             LowSlide
-        }
-        public enum Jump
-        {
-            Jump
-        }
-        public enum ClimbUpFar
-        {
-            ClimbUp3mFar,
-            VerticalWallRun
-        }
-        public enum ClimbUpClose
-        {
-            ClimbUp2mClose,
-            ClimbUp3mClose,
-            ClimbUp4mClose
-        }
-        public enum ClimbUp1mClose
-        {
-            StepUp
-        }
-        public enum ClimbUp1mFar
-        {
-            MantleClimb1m,
-            MantleClimb_Frontsault
         }
         public enum JumpOverClose
         {
@@ -61,18 +36,46 @@ namespace Assets.Scripts.Player
             SiderollVault,
             JumpOverTwoHand
         }
-        public enum JumpOver2m///not used
-        {
-            Wall_2M
-        }
-        public enum WallRunLeft///not used
-        {
-            WallRunLeft
-        }
-
         public enum Stand
         {
-            Webster
+            SprintToBackslide,
+            CorkscrewKipUp,
+            Fulltwist,
+            Double_Fulltwist,
+            Sideflip_Right,
+            Backsault,
+            Flashkick,
+            Gainer,
+            Gainer_Flashkick,
+            Double_Backsault,
+            BasicFrontFlip,
+            Webster,
+            Webster_Tucked,
+            FrontTwistFlip,
+            Double_Frontsault,
+            DiveRoll,
+            RollFWD_Front,
+            RollRGT_Sideflip,
+            Cartwheel,
+            CW_Backsault,
+            CW_Double_Backsault,
+            CW_Double_Frontsault,
+            CW_Double_Fulltwist,
+            CW_Flashkick,
+            CW_Frontsault,
+            CW_Fulltwist,
+            BHS_3_Backsault,
+            BHS_Backsault,
+            BHS_Double_Backsault,
+            BHS_Double_Fulltwist,
+            BHS_Flashkick,
+            BHS_Fulltwist,
+            RO_BHS_Backsault,
+            RO_Double_Backsault,
+            RO_Double_Fulltwist,
+            RO_FlashKick,
+            RO_Fulltwist
         }
+
     }
 }
