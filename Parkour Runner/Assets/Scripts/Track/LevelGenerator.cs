@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Managers;
 using Assets.Scripts.Player.InvectorMods;
 using Invector.CharacterController;
 using UnityEngine;
@@ -8,24 +9,119 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-    
-public enum GeneratorState
-{
-    HeatUp, //Разогрев
-    Callibration, //Каллибровка
-    Reward, //Вознаграждение
-    Challenge,  //Трудности
-    Relax   //Отдых
-}
+    #region Singleton
 
-public static LevelGenerator Instance;
+    public static LevelGenerator Instance;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
+
+    #endregion
+
+    public enum GeneratorState
+    {
+        HeatUp, //Разогрев
+        Callibration, //Каллибровка
+        Reward, //Вознаграждение
+        Challenge, //Трудности
+        Relax //Отдых
+    }
+
+    public float StateLength
+    {
+        get
+        {
+            switch (State)
+            {
+                case GeneratorState.HeatUp:
+                    return HeatUpStateLength;
+
+                case GeneratorState.Callibration:
+                    return CallibrationStateLength;
+
+                case GeneratorState.Relax:
+                    return RelaxStateLength;
+
+                case GeneratorState.Reward:
+                    return RewardStateLength;
+
+                case GeneratorState.Challenge:
+                    return ChallengeStateLength;
+
+                default: return 0;
+            }
+            
+        }
+    }
+
+    public double ObstacleChance
+    {
+        get
+        {
+            switch (State)
+            {
+                case GeneratorState.HeatUp:
+                    return StaticConst.HeatUpObstaclePercent;
+
+                case GeneratorState.Callibration:
+                    return StaticConst.CallibrationObstaclePercent;
+
+                case GeneratorState.Relax:
+                    return StaticConst.RelaxObstaclePercent;
+
+                case GeneratorState.Reward:
+                    return StaticConst.RewardObstaclePercent;
+
+                case GeneratorState.Challenge:
+                    return StaticConst.ChallengeObstaclePercent;
+
+                default: return 0;
+            }
+        }
+    }
+
+    public double BonusChance
+    {
+        get
+        {
+            switch (State)
+            {
+                case GeneratorState.HeatUp:
+                    return StaticConst.HeatUpPickUpPercent;
+
+                case GeneratorState.Callibration:
+                    return StaticConst.CallibrationPickUpPercent;
+
+                case GeneratorState.Relax:
+                    return StaticConst.RelaxPickUpPercent;
+
+                case GeneratorState.Reward:
+                    return StaticConst.RewardPickUpPercent;
+
+                case GeneratorState.Challenge:
+                    return StaticConst.ChallengePickUpPercent;
+
+                default: return 0;
+            }
+        }
+    }
+
     [SerializeField] private int BlockSide; //Сколько метров сторона одного блока
 
     [SerializeField] private Vector3 StartBlockOffset;  //Позиция стартового блока
 
     [SerializeField] private string _blockPrefabsPath = "Blocks";
     [SerializeField] private List<GameObject> _blockPrefabs;
-    [SerializeField] private LevelGenerator.GeneratorState _state;
+    public GeneratorState State;
 
     [SerializeField] private List<Block> _blockPool;
 
@@ -38,17 +134,17 @@ public static LevelGenerator Instance;
     [SerializeField] private float ChallengeStateLength = 25;
     [SerializeField] private float RelaxStateLength = 15;
 
-    [SerializeField] private float ObstacleGenerationdistance = 10f;
+    public int StandTricksPerBuilding = 1;
+    public int BonusPerBuilding = 1;
+
+    [SerializeField] private float ObstacleGenerationdistance = 100f;
+    public float ObstacleGenerationWidth = 50f;
 
     private Block _oldCenter;
 
-    void Awake()
-    {
-        _blockPrefabs = Resources.LoadAll<GameObject>(_blockPrefabsPath + "/").ToList();
-    }
-
     void Start ()
     {
+        _blockPrefabs = Resources.LoadAll<GameObject>(_blockPrefabsPath + "/").ToList();
         transform.position = _player.position + StartBlockOffset;
 
         if (_player == null)
@@ -57,7 +153,7 @@ public static LevelGenerator Instance;
         }
         //_player = vThirdPersonController.instance.transform;
         
-        _state = GeneratorState.HeatUp;
+        State = GeneratorState.HeatUp;
 	    StartCoroutine(Generate());
         Instance = this;
 
@@ -67,10 +163,10 @@ public static LevelGenerator Instance;
     {
         while (true)
         {
-            if (_state == GeneratorState.HeatUp)
+            if (State == GeneratorState.HeatUp)
             {
                 GenerateStartBlock();
-                _state = GeneratorState.Challenge; //tODO
+                State = GeneratorState.Challenge; //tODO
             }
             GenerateBlocks();
             GenerateObstacles();
@@ -125,14 +221,52 @@ public static LevelGenerator Instance;
 
         if (_oldCenter == centerBlock)
             return;
-        else
-            _oldCenter = centerBlock;
 
         GenerateBlocksAround(centerBlock);
-        //DestroyOldBlocks();
+        DestroyOldBlocks();
+        _oldCenter = centerBlock;
+        GenerateObstaclesOnNewBlocks();
     }
 
-    
+    private void GenerateObstaclesOnNewBlocks()
+    {
+        print("GenerateObstaclesOnNewBlocks");
+        GoBack();
+        GenerateObstacles();
+    }
+
+    private void GoBack()
+    {
+        while (transform.position.z > _player.position.z)
+        {
+            switch (State)
+            {
+                case GeneratorState.HeatUp:
+                    break;
+
+                case GeneratorState.Callibration:
+                    State = GeneratorState.HeatUp;
+                    transform.position -= Vector3.forward * HeatUpStateLength;
+                    break;
+
+                case GeneratorState.Reward:
+                    State = GeneratorState.Callibration;
+                    transform.position -= Vector3.forward * CallibrationStateLength;
+                    break;
+
+                case GeneratorState.Challenge:
+                    State = GeneratorState.Relax;
+                    transform.position -= Vector3.forward * RelaxStateLength;
+                    break;
+
+                case GeneratorState.Relax:
+                    State = GeneratorState.Challenge;
+                    transform.position -= Vector3.forward * ChallengeStateLength;
+                    break;
+            }
+        }
+    }
+
 
     public void GenerateBlocksAround(Block block)
     {
@@ -201,8 +335,8 @@ public static LevelGenerator Instance;
         foreach (var block in _blockPool)
         {
             if (block.transform.position.z < _player.position.z - (BlockSide/2f + 2f)
-                || (block.transform.position.x < _player.position.x - BlockSide 
-                    || block.transform.position.x > _player.position.x + BlockSide))
+                || (block.transform.position.x < _player.position.x - BlockSide  * 2
+                    || block.transform.position.x > _player.position.x + BlockSide * 2))
             {
                 blocksToDestroy.Add(block);
             }
@@ -216,35 +350,35 @@ public static LevelGenerator Instance;
 
     private void GenerateObstaclesSegment()
     {
-        switch (_state)
+        switch (State)
         {
             case GeneratorState.HeatUp:
                 //В разогреве не генерится ничего
-                _state = GeneratorState.Callibration;
+                State = GeneratorState.Callibration;
                 transform.position += Vector3.forward * HeatUpStateLength;
                 break;
 
             case GeneratorState.Callibration:
                 GenerateCallibration();
-                _state = GeneratorState.Reward;
+                State = GeneratorState.Reward;
                 transform.position += Vector3.forward * CallibrationStateLength;
                 break;
 
             case GeneratorState.Reward:
                 GenerateReward();
-                _state = GeneratorState.Challenge;
+                State = GeneratorState.Challenge;
                 transform.position += Vector3.forward * RewardStateLength;
                 break;
 
             case GeneratorState.Challenge:
                 GenerateChallenge();
-                _state = GeneratorState.Relax;
+                State = GeneratorState.Relax;
                 transform.position += Vector3.forward * ChallengeStateLength;
                 break;
 
             case GeneratorState.Relax:
                 GenerateRelax();
-                _state = GeneratorState.Challenge;
+                State = GeneratorState.Challenge;
                 transform.position += Vector3.forward * RelaxStateLength;
                 break;
         }
@@ -256,7 +390,7 @@ public static LevelGenerator Instance;
         var blocks = SelectBlocksInRange(transform.position.z, CallibrationStateLength);
         foreach (var block in blocks)
         {
-            block.GenerateCallibration(transform.position.z, CallibrationStateLength);
+            block.Generate();
         }
     }
     private void GenerateReward()

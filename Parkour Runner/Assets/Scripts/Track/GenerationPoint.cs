@@ -9,6 +9,14 @@ namespace Assets.Scripts
     public abstract class GenerationPoint : MonoBehaviour
     {
         public bool Used;
+        public bool IsOnObstacle;
         public abstract void Generate();
+
+        private void OnDestroy()
+        {
+            PoolManager.Instance.Remove(gameObject);
+        }
+
+
     }
 }

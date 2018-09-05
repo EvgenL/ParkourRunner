@@ -16,8 +16,12 @@ public class CoinSet : CoinPoints
         {
             var spot = _spots[i];
 
-            var coinGo = Instantiate(CoinPrefab, spot.position,
-                Quaternion.AngleAxis(i * 10, Vector3.up));
+            var coinGo = PoolManager.Instance.Spawn(
+                CoinPrefab,
+                spot.position,
+                Quaternion.AngleAxis(i * 10, Vector3.up)
+                );
+
             var coinScript = coinGo.GetComponent<Coin>();
             GameManager.Coins.Add(coinScript);
         }

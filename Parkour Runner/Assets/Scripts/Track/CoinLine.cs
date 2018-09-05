@@ -39,11 +39,14 @@ public class CoinLine : CoinPoints
         for (float i = 0; i < scaleZ; i += DistanceBetweenCoins)
         {
             //TODO POOL COINS?
-            var coinGo = Instantiate(CoinPrefab, transform.position + new Vector3(0, CoinHeight, 0) + transform.forward * i,
-                Quaternion.AngleAxis(i * 10, Vector3.up));
+            var coinGo = PoolManager.Instance.Spawn(
+                CoinPrefab,
+                transform.position + new Vector3(0, CoinHeight, 0) + transform.forward * i,
+                Quaternion.AngleAxis(i * 10, Vector3.up)
+                );
+
             var coinScript = coinGo.GetComponent<Coin>();
             GameManager.Coins.Add(coinScript);
         }
-        Destroy(gameObject);
     }
 }
