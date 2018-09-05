@@ -129,7 +129,7 @@ public class MuscleDismember : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (IsDismembered) return;
-        if (collision.transform.gameObject.layer == gameObject.layer) return;
+        if (collision.transform.gameObject.layer != LayerMask.NameToLayer("DamageToRagdoll")) return;
 
         if (collision.relativeVelocity.magnitude > 
             GameManager.Instance.VelocityToDismember)

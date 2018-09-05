@@ -48,5 +48,7 @@ public class CoinLine : CoinPoints
             var coinScript = coinGo.GetComponent<Coin>();
             GameManager.Coins.Add(coinScript);
         }
+
+        Used = true;
     }
 }

@@ -41,5 +41,6 @@ public class PickUpPoint : GenerationPoint
     {
         var randPrefab = Prefabs[Random.Range(0, Prefabs.Length)];
         PoolManager.Instance.Spawn(randPrefab, transform.position + BonusPosition, Quaternion.identity);
+        Used = true;
     }
 }

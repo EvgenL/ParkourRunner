@@ -32,5 +32,6 @@ public class StandTrick : GenerationPoint
     public override void Generate()
     {
         PoolManager.Instance.Spawn(StandPrefab, transform.position, transform.rotation);
+        Used = true;
     }
 }

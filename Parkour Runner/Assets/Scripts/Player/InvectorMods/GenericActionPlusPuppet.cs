@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Assets.Scripts.Player.InvectorMods
 {
 
-    class vGenericActionPlusPuppet : vGenericAction
+    class GenericActionPlusPuppet : vGenericAction
     {
         public PuppetMaster puppetMaster;
         public BehaviourPuppet behaviourPuppet;
@@ -36,27 +36,29 @@ namespace Assets.Scripts.Player.InvectorMods
             base.ResetPlayerSettings();
             puppetMaster.mode = PuppetMaster.Mode.Active;
         }
-        public override bool actionConditions
-        {
-            get
-            {
-                /*return !(tpInput.cc.isJumping 
-                         //|| tpInput.cc.actions 
-                         || !canTriggerAction 
-                         //|| isPlayingAnimation
-                         ) 
-                      // && !tpInput.cc.animator.IsInTransition(0)
-                    ;*/
-                return true;
-            }
-        }
+        /* public override bool actionConditions
+         {
+             get
+             {
+                 return !(tpInput.cc.isJumping 
+                          || tpInput.cc.actions 
+                          || !canTriggerAction 
+                          //|| isPlayingAnimation
+                          ) 
+                       // && !tpInput.cc.animator.IsInTransition(0)
+                     ;
+             }
+         }*/
         protected override void TriggerActionInput()
         {
             if (triggerAction == null) return;
-
             if (canTriggerAction)
             {
-                if ((triggerAction.autoAction && actionConditions) || (actionInput.GetButtonDown() && actionConditions))
+                if (
+                    //TODO странно работает
+                    (triggerAction.autoAction || actionInput.GetButtonDown())
+                    //&& actionConditions
+                )
                 {
                     if (!triggerActionOnce)
                     {

@@ -15,7 +15,7 @@ namespace Assets.Scripts.Pick_Ups
             if (other.CompareTag("Player"))
             {
                 Pick();
-                //PoolManager.Instance.Remove(gameObject);
+                PoolManager.Instance.Remove(gameObject);
             }
         }
 

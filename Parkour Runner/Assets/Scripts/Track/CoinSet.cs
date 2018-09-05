@@ -8,6 +8,16 @@ public class CoinSet : CoinPoints
 
    [SerializeField] private List<Transform> _spots;
 
+    public float ChanceToGenerateCoins = 0.3f;
+
+    private void Start()
+    {
+        if (Random.Range(0f, 1f) < ChanceToGenerateCoins)
+        {
+            Generate();
+        }
+    }
+
     public override void Generate()
     {
         GameManager GameManager = GameManager.Instance;
@@ -25,5 +35,7 @@ public class CoinSet : CoinPoints
             var coinScript = coinGo.GetComponent<Coin>();
             GameManager.Coins.Add(coinScript);
         }
+
+        Used = true;
     }
 }

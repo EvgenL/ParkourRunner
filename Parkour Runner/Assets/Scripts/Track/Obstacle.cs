@@ -6,7 +6,6 @@ using UnityEngine;
 public class Obstacle : GenerationPoint
 {
     public float CoinChance = 0.3f;
-    public GameObject[] Prefabs;
     
     public Mesh Mesh;
 
@@ -29,10 +28,33 @@ public class Obstacle : GenerationPoint
 
     public override void Generate()
     {
-        if (Prefabs.Length != 0)
+        if (Used) return;
+
+        var resourcesManager = ResourcesManager.Instance;
+        GameObject randomObs = null;
+        if (transform.lossyScale.z <= 3f)
         {
-            var randomObs = Prefabs[Random.Range(0, Prefabs.Length)];
-            PoolManager.Instance.Spawn(randomObs, transform.position, transform.rotation);
+            int r = Random.Range(0, resourcesManager.Obstacles3mPrefabs.Count);
+            randomObs = resourcesManager.Obstacles3mPrefabs
+                [r];
         }
+        else if (transform.lossyScale.z <= 6f)
+        {
+
+        }
+        else if (transform.lossyScale.z <= 10f)
+        {
+
+        }
+        else
+        {
+            Debug.LogError("Не найден подходящий префаб ", transform);
+        }
+        
+        PoolManager.Instance.Spawn(randomObs, transform.position, transform.rotation);
+
+        Used = true;
+
+        //PoolManager.Instance.Remove(gameObject);
     }
 }

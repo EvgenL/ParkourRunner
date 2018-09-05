@@ -61,10 +61,12 @@ namespace Invector.CharacterController.Actions
         protected virtual void TriggerActionInput()
         {
             if (triggerAction == null) return;
-
             if(canTriggerAction)
             {
-                if ((triggerAction.autoAction && actionConditions) || (actionInput.GetButtonDown() && actionConditions))
+                if (
+                    (triggerAction.autoAction || actionInput.GetButtonDown())
+                     && actionConditions
+                    )
                 {
                     if (!triggerActionOnce)
                     {

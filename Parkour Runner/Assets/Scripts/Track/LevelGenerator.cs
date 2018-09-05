@@ -36,6 +36,8 @@ public class LevelGenerator : MonoBehaviour
         Relax //Отдых
     }
 
+    //TODO для всей метровки
+
     public float StateLength
     {
         get
@@ -119,8 +121,6 @@ public class LevelGenerator : MonoBehaviour
 
     [SerializeField] private Vector3 StartBlockOffset;  //Позиция стартового блока
 
-    [SerializeField] private string _blockPrefabsPath = "Blocks";
-    [SerializeField] private List<GameObject> _blockPrefabs;
     public GeneratorState State;
 
     [SerializeField] private List<Block> _blockPool;
@@ -142,9 +142,14 @@ public class LevelGenerator : MonoBehaviour
 
     private Block _oldCenter;
 
+    private ResourcesManager _resourcesManager;
+    private List<GameObject> _blockPrefabs;
+
     void Start ()
     {
-        _blockPrefabs = Resources.LoadAll<GameObject>(_blockPrefabsPath + "/").ToList();
+        _resourcesManager = ResourcesManager.Instance;
+        _blockPrefabs = _resourcesManager.BlockPrefabs;
+        transform.position = _player.position + StartBlockOffset;
         transform.position = _player.position + StartBlockOffset;
 
         if (_player == null)
@@ -230,7 +235,6 @@ public class LevelGenerator : MonoBehaviour
 
     private void GenerateObstaclesOnNewBlocks()
     {
-        print("GenerateObstaclesOnNewBlocks");
         GoBack();
         GenerateObstacles();
     }

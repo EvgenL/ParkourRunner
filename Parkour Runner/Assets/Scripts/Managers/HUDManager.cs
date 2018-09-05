@@ -30,7 +30,7 @@ public class HUDManager : MonoBehaviour
 
     public BonusPanel BonusPanel;
 
-    public int ShowDistanceEvery = 100;
+    public int ShowDistanceEvery = 1000;
     private int _distanceShwonTimes;
 
     private bool _flashing = false;

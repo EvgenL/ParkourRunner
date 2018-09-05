@@ -12,23 +12,30 @@ public class Building : MonoBehaviour {
 
     [SerializeField] private int StandTricksCount;
     [SerializeField] private int BonusCount;
+    private Transform _player;
+
+    private void Awake()
+    {
+        _player = FindObjectOfType<vThirdPersonController>().transform;
+    }
 
     //Автоматически расставляем референсы в эдиторе
     public void UpdateReferences()
     {
-        GPoints = GetComponentsInChildren<GenerationPoint>().Where(x => !x.IsOnObstacle).ToList();
+        GPoints = GetComponentsInChildren<GenerationPoint>().ToList();
     }
+
 
     public void Generate()
     {
-        var playerPosX = vThirdPersonController.instance.transform.position.x;
+        var playerPosX = _player.position.x;
         LevelGenerator lg = LevelGenerator.Instance;
         float stateLength = lg.StateLength;
         float positionZ = lg.transform.position.z;
 
         foreach (var point in GPoints)
         {
-            var pointPos = point.transform.position;
+            var pointPos = point.transform.position; //TODO Возможный источник бага двойной генерации
 
             //Если точка находится в нашей зоне, и не слишком далеко от игрока по оси х
             if (pointPos.z > positionZ
@@ -39,7 +46,7 @@ public class Building : MonoBehaviour {
                 if (point is Obstacle)
                 {
                     //TODO ограничить количество на каждый дом
-                    if (UnityEngine.Random.Range(0f, 1f) < lg.ObstacleChance)
+                    if (Random.Range(0f, 1f) < lg.ObstacleChance)
                     {
                         point.Generate();
                         point.Used = true;

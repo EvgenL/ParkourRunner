@@ -11,6 +11,13 @@ public class Coin : PickUp
     {
         GameManager.Instance.AddCoin(CoinsToAdd);
         GameManager.Instance.Coins.Remove(this);
-        Destroy(gameObject);
+        PoolManager.Instance.Remove(gameObject);
     }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.Coins.Remove(this);
+    }
+
+
 }

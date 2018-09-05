@@ -33,7 +33,7 @@ public class TrickBehaviour : StateMachineBehaviour
         if (!OverrideActionParameters) return;
 
         //Получаем из игрока скрипт, взаимодействующий с триггерами
-        var action = vThirdPersonController.instance.GetComponent<vGenericActionPlusPuppet>();
+        var action = vThirdPersonController.instance.GetComponent<GenericActionPlusPuppet>();
         _oldUseRootMotion = action.useRootMotion;
         action.useRootMotion = UseRootMotion;
         
@@ -114,7 +114,7 @@ public class TrickBehaviour : StateMachineBehaviour
 
         if (!OverrideActionParameters) return;
 
-        var action = vThirdPersonController.instance.GetComponent<vGenericActionPlusPuppet>();
+        var action = vThirdPersonController.instance.GetComponent<GenericActionPlusPuppet>();
         action.useRootMotion = _oldUseRootMotion;
 
         vTriggerGenericAction trigger = action.triggerAction;
