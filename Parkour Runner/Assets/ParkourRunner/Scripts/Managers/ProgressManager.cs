@@ -35,20 +35,8 @@ namespace Assets.Scripts.Managers
         public float InitialJumpLength = 5f;  //Изначальная длительность
         public float JumpUpgradeLength = 0f;  //Продаваемый бонус к длительности
 
-        public float InitialShieldStrength = 100f; //Прочность конечностей со щитом
-        public float ShieldUpgradeStrength = 0f;    //Продаваемый бонус к прочности
         public float InitialShieldLength = 5f;  //Изначальная длительность
         public float ShieldUpgradeLength = 0f;  //Продаваемый бонус к длительности
 
-
-        public float GetBonusLength(BonusName name) //TODO
-        {
-            /*if (bonusPickUp is Bonus)
-            {
-                return MagnetLength;
-            }*/
-
-            return 0f;
-        }
     }
 }

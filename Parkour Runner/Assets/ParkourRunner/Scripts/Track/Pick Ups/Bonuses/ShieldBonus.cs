@@ -12,17 +12,13 @@ namespace Assets.Scripts.Pick_Ups.Bonuses
     class ShieldBonus : MonoBehaviour
     {
         public float TimeRemaining;
-
-
+        
         private ProgressManager _pm;
-
-        private float _oldStrength;
-
+        
         void Start()
         {
-            _oldStrength = GameManager.Instance.VelocityToDismember;
             _pm = ProgressManager.Instance;
-            GameManager.Instance.VelocityToDismember = _pm.InitialShieldStrength + _pm.ShieldUpgradeStrength;
+            GameManager.Instance.PlayerCanBeDismembered = false;
             RefreshTime();
 
             //TODO play effect animation
@@ -37,10 +33,11 @@ namespace Assets.Scripts.Pick_Ups.Bonuses
 
         void Update()
         {
+            GameManager.Instance.PlayerCanBeDismembered = false;
             TimeRemaining -= Time.deltaTime;
             if (TimeRemaining <= 0f)
             {
-                GameManager.Instance.VelocityToDismember = _oldStrength;
+                GameManager.Instance.PlayerCanBeDismembered = true;
                 HUDManager.Instance.DisableBonus(BonusName.Shield);
                 Destroy(this);
                 return;

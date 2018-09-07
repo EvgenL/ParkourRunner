@@ -3,12 +3,15 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using UnityEngine.UI;
 
 namespace UnityStandardAssets.CrossPlatformInput
 {
     // helps with managing tilt input on mobile devices
     public class TiltInput : MonoBehaviour
     {
+
+
         // options for the various orientations
         public enum AxisOptions
         {
