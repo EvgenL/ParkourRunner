@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Invector.CharacterController
+namespace Basic_Locomotion.Scripts.CharacterController
 {
     public abstract class vThirdPersonAnimator : vThirdPersonMotor
     {
@@ -169,7 +169,7 @@ namespace Invector.CharacterController
             
             if (turnOnSpotAnim)
             {
-                GetTurnOnSpotDirection(transform, Camera.main.transform, ref _speed, ref _direction, input);
+                GetTurnOnSpotDirection(transform, UnityEngine.Camera.main.transform, ref _speed, ref _direction, input);
                 FreeTurnOnSpot(_direction * 180);
             }
         }       

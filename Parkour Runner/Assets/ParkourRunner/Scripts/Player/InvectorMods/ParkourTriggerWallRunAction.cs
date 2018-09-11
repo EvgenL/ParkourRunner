@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Invector.CharacterController;
-using Jacovone;
+﻿using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.CharacterController.Actions;
+using ParkourRunner.Scripts.Managers;
 using UnityEngine;
 
-namespace Assets.Scripts.Player.InvectorMods
+namespace ParkourRunner.Scripts.Player.InvectorMods
 {
     class ParkourTriggerWallRunAction : vTriggerGenericAction
     {
         public Transform TargetTransform;
-        public PathMagic Path;
+        public PathMagic.Scripts.PathMagic Path;
 
         public Vector3 PlayerOffset;
 

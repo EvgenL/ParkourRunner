@@ -1,31 +1,34 @@
-﻿using UnityEngine;
-using Invector;
+﻿using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
 
-public abstract class vActionListener : vMonoBehaviour
-{  
-    public bool actionEnter;
-    public bool actionStay;
-    public bool actionExit;   
-    public vOnActionHandle OnDoAction = new vOnActionHandle();   
+namespace Basic_Locomotion.Scripts.CharacterController.Actions
+{
+    public abstract class vActionListener : vMonoBehaviour
+    {  
+        public bool actionEnter;
+        public bool actionStay;
+        public bool actionExit;   
+        public vOnActionHandle OnDoAction = new vOnActionHandle();   
 
-    public virtual void OnActionEnter(Collider other)
-    {
+        public virtual void OnActionEnter(Collider other)
+        {
 
-    }
+        }
 
-    public virtual void OnActionStay(Collider other)
-    {
+        public virtual void OnActionStay(Collider other)
+        {
 
-    }
+        }
 
-    public virtual void OnActionExit(Collider other)
-    {
+        public virtual void OnActionExit(Collider other)
+        {
 
-    }
+        }
 
-    [System.Serializable]
-    public class vOnActionHandle : UnityEngine.Events.UnityEvent<vTriggerGenericAction>
-    {
+        [System.Serializable]
+        public class vOnActionHandle : UnityEngine.Events.UnityEvent<vTriggerGenericAction>
+        {
 
+        }
     }
 }

@@ -1,54 +1,54 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Security.Policy;
-using Assets.Scripts.Pick_Ups.Effects;
+﻿using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BonusPanel : MonoBehaviour
+namespace ParkourRunner.Scripts.UIScripts
 {
-
-    public GameObject Magnet;
-    public Slider MagnetSlider;
-    public GameObject Shield;
-    public Slider ShieldSlider;
-    public GameObject Jump;
-    public Slider JumpSlider;
-
-    public void UpdateBonus(BonusName bonusName, float value)
+    public class BonusPanel : MonoBehaviour
     {
-        switch (bonusName)
+
+        public GameObject Magnet;
+        public Slider MagnetSlider;
+        public GameObject Shield;
+        public Slider ShieldSlider;
+        public GameObject Jump;
+        public Slider JumpSlider;
+
+        public void UpdateBonus(BonusName bonusName, float value)
         {
-            case (BonusName.Magnet):
-                Magnet.SetActive(true);
-                MagnetSlider.value = value;
-                break;
-            case (BonusName.Jump):
-                Jump.SetActive(true);
-                JumpSlider.value = value;
-                break;
-            case (BonusName.Shield):
-                Shield.SetActive(true);
-                ShieldSlider.value = value;
-                break;
+            switch (bonusName)
+            {
+                case (BonusName.Magnet):
+                    Magnet.SetActive(true);
+                    MagnetSlider.value = value;
+                    break;
+                case (BonusName.Jump):
+                    Jump.SetActive(true);
+                    JumpSlider.value = value;
+                    break;
+                case (BonusName.Shield):
+                    Shield.SetActive(true);
+                    ShieldSlider.value = value;
+                    break;
+            }
         }
-    }
 
-    public void DisableBonus(BonusName bonusName)
-    {
-        switch (bonusName)
+        public void DisableBonus(BonusName bonusName)
         {
-            case (BonusName.Magnet):
-                Magnet.SetActive(false);
-                break;
-            case (BonusName.Jump):
-                Jump.SetActive(false);
-                break;
-            case (BonusName.Shield):
-                Shield.SetActive(false);
-                break;
+            switch (bonusName)
+            {
+                case (BonusName.Magnet):
+                    Magnet.SetActive(false);
+                    break;
+                case (BonusName.Jump):
+                    Jump.SetActive(false);
+                    break;
+                case (BonusName.Shield):
+                    Shield.SetActive(false);
+                    break;
+            }
         }
+
+
     }
-
-
 }

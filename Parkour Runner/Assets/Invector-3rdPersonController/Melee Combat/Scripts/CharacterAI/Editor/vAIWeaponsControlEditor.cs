@@ -4,6 +4,9 @@ using UnityEditor;
 using System.Collections.Generic;
 using Invector.ItemManager;
 using System;
+using ItemManager.Scripts;
+using ItemManager.Scripts.vItemEnumsBuilder;
+using Melee_Combat.Scripts.CharacterAI;
 
 [CustomEditor(typeof(v_AIWeaponsControl))]
 public class vAIWeaponsControlEditor : Editor

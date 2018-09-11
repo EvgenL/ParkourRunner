@@ -1,35 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts;
-using Assets.Scripts.Pick_Ups;
+﻿using ParkourRunner.Scripts.Managers;
+using ParkourRunner.Scripts.Track.Generator;
 using UnityEngine;
 
-public class StandTrick : GenerationPoint
+namespace ParkourRunner.Scripts.Track
 {
-    public GameObject StandPrefab;
-
-    private void OnDrawGizmos()
+    public class StandTrick : GenerationPoint
     {
-        if (DrawGizmos)
+        public GameObject StandPrefab;
+
+        private void OnDrawGizmos()
         {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, 1f);
+            if (DrawGizmos)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawWireSphere(transform.position, 1f);
+            }
         }
-    }
 
-    private void OnDrawGizmosSelected()
-    {
-        if (DrawGizmos)
+        private void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(transform.position, 1f);
+            if (DrawGizmos)
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawSphere(transform.position, 1f);
+            }
         }
-    }
 
 
-    public override void Generate()
-    {
-        PoolManager.Instance.Spawn(StandPrefab, transform.position, transform.rotation);
-        Used = true;
+        public override void Generate()
+        {
+            PoolManager.Instance.Spawn(StandPrefab, transform.position, transform.rotation);
+            Used = true;
+        }
     }
 }

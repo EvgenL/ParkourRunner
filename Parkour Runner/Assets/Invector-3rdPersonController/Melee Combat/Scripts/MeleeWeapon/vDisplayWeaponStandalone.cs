@@ -1,49 +1,52 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class vDisplayWeaponStandalone : MonoBehaviour
+namespace Melee_Combat.Scripts.MeleeWeapon
 {
-    [Header("Weapon Display source")]
-    public Image weaponIcon;
-    public Text weaponText;
-    [Header("Weapon unarmed sources")]
-    public Sprite defaultIcon;
-    public string defaultText;
-
-    protected virtual void Start()
+    public class vDisplayWeaponStandalone : MonoBehaviour
     {
-        RemoveWeaponIcon();
-        RemoveWeaponText();
-    }
+        [Header("Weapon Display source")]
+        public Image weaponIcon;
+        public Text weaponText;
+        [Header("Weapon unarmed sources")]
+        public Sprite defaultIcon;
+        public string defaultText;
 
-    public virtual void SetWeaponIcon(Sprite icon)
-    {
-        if (!weaponIcon) return;
-        weaponIcon.sprite = icon;
-        if (!weaponIcon.gameObject.activeSelf)
-            weaponIcon.gameObject.SetActive(true);
-    }
+        protected virtual void Start()
+        {
+            RemoveWeaponIcon();
+            RemoveWeaponText();
+        }
 
-    public virtual void SetWeaponText(string text)
-    {
-        if (!weaponText) return;
-        weaponText.text = text;
-        if (!weaponText.gameObject.activeSelf)
-            weaponText.gameObject.SetActive(true);
-    }
+        public virtual void SetWeaponIcon(Sprite icon)
+        {
+            if (!weaponIcon) return;
+            weaponIcon.sprite = icon;
+            if (!weaponIcon.gameObject.activeSelf)
+                weaponIcon.gameObject.SetActive(true);
+        }
 
-    public virtual void RemoveWeaponIcon()
-    {
-        if (!weaponIcon) return;
-        weaponIcon.sprite = defaultIcon;
-        if (weaponIcon.gameObject.activeSelf && weaponIcon.sprite == null)
-            weaponIcon.gameObject.SetActive(false);
-    }
+        public virtual void SetWeaponText(string text)
+        {
+            if (!weaponText) return;
+            weaponText.text = text;
+            if (!weaponText.gameObject.activeSelf)
+                weaponText.gameObject.SetActive(true);
+        }
 
-    public virtual void RemoveWeaponText()
-    {
-        if (!weaponText) return;
-        weaponText.text = defaultText;
-    }
+        public virtual void RemoveWeaponIcon()
+        {
+            if (!weaponIcon) return;
+            weaponIcon.sprite = defaultIcon;
+            if (weaponIcon.gameObject.activeSelf && weaponIcon.sprite == null)
+                weaponIcon.gameObject.SetActive(false);
+        }
 
+        public virtual void RemoveWeaponText()
+        {
+            if (!weaponText) return;
+            weaponText.text = defaultText;
+        }
+
+    }
 }

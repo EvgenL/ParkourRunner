@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Invector
+namespace Basic_Locomotion.Scripts.CharacterController.Examples.TopDown
 {
     public class vMousePositionHandler : MonoBehaviour
     {
@@ -52,18 +52,18 @@ namespace Invector
 
         public virtual Vector3 WorldMousePosition(LayerMask castLayer)
         {
-            if (!Camera.main)
+            if (!UnityEngine.Camera.main)
             {
                Debug.LogWarning("Trying get the world mouse position but does not have a MainCamera in this Scene");
                return Vector3.zero;
             }
             else
             {
-                Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+                Ray ray = UnityEngine.Camera.main.ScreenPointToRay(mousePosition);
                 RaycastHit hit;
 
-                if (Physics.Raycast(ray, out hit, Camera.main.farClipPlane, castLayer)) return hit.point;
-                else return ray.GetPoint(Camera.main.farClipPlane);
+                if (Physics.Raycast(ray, out hit, UnityEngine.Camera.main.farClipPlane, castLayer)) return hit.point;
+                else return ray.GetPoint(UnityEngine.Camera.main.farClipPlane);
             }
         }
     }

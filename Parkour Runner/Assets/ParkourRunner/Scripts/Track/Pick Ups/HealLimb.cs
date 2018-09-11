@@ -1,15 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts.Pick_Ups;
-using UnityEngine;
+﻿using ParkourRunner.Scripts.Managers;
 
-public class HealLimb : PickUp {
+namespace ParkourRunner.Scripts.Track.Pick_Ups
+{
+    public class HealLimb : PickUp {
 
-    protected override void Pick()
-    {
-        if (GameManager.Instance.HealLimb())
+        protected override void Pick()
         {
-            Destroy(gameObject);
+            if (GameManager.Instance.HealLimb())
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

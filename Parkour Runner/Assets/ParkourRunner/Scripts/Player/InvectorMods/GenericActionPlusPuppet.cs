@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Invector.CharacterController.Actions;
+﻿using Basic_Locomotion.Scripts.CharacterController.Actions;
+using ParkourRunner.Scripts.Managers;
 using RootMotion.Dynamics;
 using UnityEngine;
 
-namespace Assets.Scripts.Player.InvectorMods
+namespace ParkourRunner.Scripts.Player.InvectorMods
 {
 
     class GenericActionPlusPuppet : vGenericAction

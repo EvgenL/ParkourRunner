@@ -2,6 +2,8 @@
 using UnityEditor;
 using System.Collections;
 using System;
+using Shooter.Scripts.Weapon;
+
 namespace Invector
 {
     public class vCreateShooterWeaponEditor : EditorWindow

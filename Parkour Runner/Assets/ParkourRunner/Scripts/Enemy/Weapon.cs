@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections;
 using UnityEngine;
 
-namespace Assets.Scripts.Enemy
+namespace ParkourRunner.Scripts.Enemy
 {
     abstract class Weapon : MonoBehaviour
     {

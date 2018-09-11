@@ -3,6 +3,9 @@ using System.Collections;
 using UnityEditor;
 
 using Invector;
+using ItemManager.Scripts.vItemEnumsBuilder;
+using Shooter.Scripts.Shooter;
+
 [CanEditMultipleObjects]
 [CustomEditor(typeof(vAmmoListData), true)]
 public class vAmmoListDataEditor : Editor
@@ -66,7 +69,7 @@ public class vAmmoListDataEditor : Editor
         {
             for(int i =0;i<listData.itemListDatas.Count;i++)
             {
-                var ammoItems = listData.itemListDatas[i].items.FindAll(item => item.type == Invector.ItemManager.vItemType.Ammo);
+                var ammoItems = listData.itemListDatas[i].items.FindAll(item => item.type == vItemType.Ammo);
                 for(int a =0; a<ammoItems.Count;a++)
                 {
                     if (!listData.ammos.Exists(ammo => ammo.ammoID == ammoItems[a].id))

@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 
-public class vAnimateUV : MonoBehaviour
+namespace Basic_Locomotion._3D_Models.Others.HealthItem
 {
-	public Vector2 speed;
-	public Renderer _renderer;
-    public string[] textureParameters =new string[] { "_MainTex" };
-	private Vector2 offSet;
+    public class vAnimateUV : MonoBehaviour
+    {
+        public Vector2 speed;
+        public Renderer _renderer;
+        public string[] textureParameters =new string[] { "_MainTex" };
+        private Vector2 offSet;
 	
-	void Update ()
-    {		
-		offSet.x += speed.x * Time.deltaTime;
-		offSet.y += speed.y * Time.deltaTime;
-        for(int i=0;i<textureParameters.Length;i++)
-		_renderer.material.SetTextureOffset (textureParameters[i], offSet);
-	}
+        void Update ()
+        {		
+            offSet.x += speed.x * Time.deltaTime;
+            offSet.y += speed.y * Time.deltaTime;
+            for(int i=0;i<textureParameters.Length;i++)
+                _renderer.material.SetTextureOffset (textureParameters[i], offSet);
+        }
+    }
 }

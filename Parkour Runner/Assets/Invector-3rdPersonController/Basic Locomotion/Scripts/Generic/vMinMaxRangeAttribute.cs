@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 
-public class vMinMaxRangeAttribute : PropertyAttribute
+namespace Basic_Locomotion.Scripts.Generic
 {
-    public float minLimit, maxLimit;
-
-    public vMinMaxRangeAttribute(float minLimit, float maxLimit)
+    public class vMinMaxRangeAttribute : PropertyAttribute
     {
-        this.minLimit = minLimit;
-        this.maxLimit = maxLimit;
+        public float minLimit, maxLimit;
+
+        public vMinMaxRangeAttribute(float minLimit, float maxLimit)
+        {
+            this.minLimit = minLimit;
+            this.maxLimit = maxLimit;
+        }
     }
-}
 
-[System.Serializable]
-public class vMinMaxRange
-{
-    public float rangeStart, rangeEnd;
-
-    public float GetRandomValue()
+    [System.Serializable]
+    public class vMinMaxRange
     {
-        return Random.Range(rangeStart, rangeEnd);
+        public float rangeStart, rangeEnd;
+
+        public float GetRandomValue()
+        {
+            return Random.Range(rangeStart, rangeEnd);
+        }
     }
 }

@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using Melee_Combat.Scripts.MeleeWeapon;
+using Shooter.Scripts.Shooter;
+using UnityEngine;
 
-namespace Invector
+namespace Shooter.Scripts.Weapon
 {
     public class vCollectShooterMeleeControl : vCollectMeleeControl
     {

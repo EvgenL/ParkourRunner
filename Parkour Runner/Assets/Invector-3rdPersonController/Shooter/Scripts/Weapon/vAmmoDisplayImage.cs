@@ -1,40 +1,43 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
-public class vAmmoDisplayImage : MonoBehaviour
+namespace Shooter.Scripts.Weapon
 {
-    [System.Serializable]
-    public class vDisplayImage
+    public class vAmmoDisplayImage : MonoBehaviour
     {
-        public Sprite ammoImage;
-        public int ammoId;
-    }
-
-    public Image displayImage;
-    public Sprite defaultAmmoImage;
-    public List<vDisplayImage> displayImages = new List<vDisplayImage>();
-
-    private int currentAmmoId;
-
-    /// <summary>
-    /// Change Ammo display image by id
-    /// </summary>
-    /// <param name="id"></param>
-    public void ChangeAmmoDisplayImage(int id)
-    {
-        if (currentAmmoId != id && displayImages != null)
+        [System.Serializable]
+        public class vDisplayImage
         {
-            var display = displayImages.Find(d => d.ammoId.Equals(id));
-            if (display != null)
+            public Sprite ammoImage;
+            public int ammoId;
+        }
+
+        public Image displayImage;
+        public Sprite defaultAmmoImage;
+        public List<vDisplayImage> displayImages = new List<vDisplayImage>();
+
+        private int currentAmmoId;
+
+        /// <summary>
+        /// Change Ammo display image by id
+        /// </summary>
+        /// <param name="id"></param>
+        public void ChangeAmmoDisplayImage(int id)
+        {
+            if (currentAmmoId != id && displayImages != null)
             {
-                displayImage.sprite = display.ammoImage;
+                var display = displayImages.Find(d => d.ammoId.Equals(id));
+                if (display != null)
+                {
+                    displayImage.sprite = display.ammoImage;
+                }
+                else
+                {
+                    displayImage.sprite = defaultAmmoImage;
+                }
+                currentAmmoId = id;
             }
-            else
-            {
-                displayImage.sprite = defaultAmmoImage;
-            }
-            currentAmmoId = id;
         }
     }
 }

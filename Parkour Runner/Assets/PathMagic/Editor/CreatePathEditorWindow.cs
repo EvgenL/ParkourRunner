@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using PathMagic.Scripts;
 using UnityEditor;
 
 namespace Jacovone
@@ -239,9 +240,9 @@ namespace Jacovone
 			}
 
 			// CHeck for PathMagic component
-			PathMagic pm = _go.GetComponent<PathMagic> ();
+			PathMagic.Scripts.PathMagic pm = _go.GetComponent<PathMagic.Scripts.PathMagic> ();
 			if (pm == null) {
-				pm = _go.AddComponent<PathMagic> ();
+				pm = _go.AddComponent<PathMagic.Scripts.PathMagic> ();
 			}
 
 			Selection.activeObject = _go;
@@ -259,7 +260,7 @@ namespace Jacovone
 		/// Creates the circular template path.
 		/// </summary>
 		/// <param name="pm">Pm.</param>
-		private void CreateCircularTemplatePath (PathMagic pm)
+		private void CreateCircularTemplatePath (PathMagic.Scripts.PathMagic pm)
 		{
 			Waypoint[] wps = new Waypoint[_samples];
 
@@ -354,7 +355,7 @@ namespace Jacovone
 		/// Creates the linear template path.
 		/// </summary>
 		/// <param name="pm">Pm.</param>
-		private void CreateLinearTemplatePath (PathMagic pm)
+		private void CreateLinearTemplatePath (PathMagic.Scripts.PathMagic pm)
 		{
 			Waypoint[] wps = new Waypoint[_samples];
 

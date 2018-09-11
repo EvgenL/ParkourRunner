@@ -1,35 +1,37 @@
-﻿using UnityEngine;
-using System;
-using Invector;
+﻿using System;
+using UnityEngine;
 
-[vClassHeader("Frame Limiter", false)]
-public class vFrameLimiter : vMonoBehaviour
+namespace Basic_Locomotion.Scripts.Generic
 {
-    public int desiredFPS = 60;
-
-    void Awake()
+    [vClassHeader("Frame Limiter", false)]
+    public class vFrameLimiter : vMonoBehaviour
     {
-        Application.targetFrameRate = -1;
-        QualitySettings.vSyncCount = 0;
-    }
+        public int desiredFPS = 60;
 
-    void Update()
-    {
-        long lastTicks = DateTime.Now.Ticks;
-        long currentTicks = lastTicks;
-        float delay = 1f / desiredFPS;
-        float elapsedTime;
-
-        if (desiredFPS <= 0)
-            return;
-
-        while (true)
+        void Awake()
         {
-            currentTicks = DateTime.Now.Ticks;
-            elapsedTime = (float)TimeSpan.FromTicks(currentTicks - lastTicks).TotalSeconds;
-            if (elapsedTime >= delay)
+            Application.targetFrameRate = -1;
+            QualitySettings.vSyncCount = 0;
+        }
+
+        void Update()
+        {
+            long lastTicks = DateTime.Now.Ticks;
+            long currentTicks = lastTicks;
+            float delay = 1f / desiredFPS;
+            float elapsedTime;
+
+            if (desiredFPS <= 0)
+                return;
+
+            while (true)
             {
-                break;
+                currentTicks = DateTime.Now.Ticks;
+                elapsedTime = (float)TimeSpan.FromTicks(currentTicks - lastTicks).TotalSeconds;
+                if (elapsedTime >= delay)
+                {
+                    break;
+                }
             }
         }
     }

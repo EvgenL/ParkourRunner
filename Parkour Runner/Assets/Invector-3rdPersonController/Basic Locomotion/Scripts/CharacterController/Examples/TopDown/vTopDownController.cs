@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
 
-namespace Invector.CharacterController.TopDownShooter
+namespace Basic_Locomotion.Scripts.CharacterController.Examples.TopDown
 {
     [vClassHeader("TopDown Controller")]
     public class vTopDownController : vThirdPersonController
@@ -20,12 +21,12 @@ namespace Invector.CharacterController.TopDownShooter
         private float topDownHorizontal;
         private float topDownVertical;
         private Vector2 joystickMousePos;
-        private Camera cam;
+        private UnityEngine.Camera cam;
 
         public override void Init()
         {
             base.Init();
-            cam = Camera.main;
+            cam = UnityEngine.Camera.main;
         }
 
         public override void UpdateMotor()

@@ -1,21 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class TwoButtonsControl : MonoBehaviour {
+namespace ParkourRunner.Scripts.Player
+{
+    public class TwoButtonsControl : MonoBehaviour {
 
-    public void OnLeftButtonDown()
-    {
-        InputManager.Instance.Left();
+        public void OnLeftButtonDown()
+        {
+            InputManager.Instance.Left();
+        }
+        public void OnRightButtonDown()
+        {
+            InputManager.Instance.Right();
+        }
+
+        public void OnButtonsUp()
+        {
+            InputManager.Instance.DontTurn();
+        }
+
     }
-    public void OnRightButtonDown()
-    {
-        InputManager.Instance.Right();
-    }
-
-    public void OnButtonsUp()
-    {
-        InputManager.Instance.DontTurn();
-    }
-
 }

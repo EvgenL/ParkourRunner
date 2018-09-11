@@ -1,23 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts.Pick_Ups;
-using UnityEngine;
+﻿using ParkourRunner.Scripts.Managers;
 
-public class Coin : PickUp
+namespace ParkourRunner.Scripts.Track.Pick_Ups
 {
-    public int CoinsToAdd = 1;
-
-    protected override void Pick()
+    public class Coin : PickUp
     {
-        GameManager.Instance.AddCoin(CoinsToAdd);
-        GameManager.Instance.Coins.Remove(this);
-        PoolManager.Instance.Remove(gameObject);
+        public int CoinsToAdd = 1;
+
+        protected override void Pick()
+        {
+            GameManager.Instance.AddCoin(CoinsToAdd);
+            GameManager.Instance.Coins.Remove(this);
+            PoolManager.Instance.Remove(gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            GameManager.Instance.Coins.Remove(this);
+        }
+
+
     }
-
-    private void OnDestroy()
-    {
-        GameManager.Instance.Coins.Remove(this);
-    }
-
-
 }

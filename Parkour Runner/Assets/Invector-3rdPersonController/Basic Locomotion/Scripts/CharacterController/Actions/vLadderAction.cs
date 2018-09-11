@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
 
-namespace Invector.CharacterController.Actions
+namespace Basic_Locomotion.Scripts.CharacterController.Actions
 {
     [vClassHeader("Ladder Action", "Use the vTriggerLadderAction on your ladder mesh.", iconName = "ladderIcon")]
     public class vLadderAction : vActionListener
@@ -179,7 +180,7 @@ namespace Invector.CharacterController.Actions
             // enter the ladder automatically if checked with autoAction
             if (ladderAction.autoAction && tpInput.cc.input != Vector2.zero && !tpInput.cc.actions)
             {
-                var inputDir = Camera.main.transform.TransformDirection(new Vector3(tpInput.cc.input.x, 0f, tpInput.cc.input.y));
+                var inputDir = UnityEngine.Camera.main.transform.TransformDirection(new Vector3(tpInput.cc.input.x, 0f, tpInput.cc.input.y));
                 inputDir.y = 0f;
                 var dist = Vector3.Distance(inputDir.normalized, ladderAction.transform.forward);
                 if (dist < 0.8f)

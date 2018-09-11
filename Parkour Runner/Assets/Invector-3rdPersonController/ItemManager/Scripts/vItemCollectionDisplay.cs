@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Invector
+namespace ItemManager.Scripts
 {
     public class vItemCollectionDisplay : MonoBehaviour
     {

@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
-using Invector.CharacterController;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
 
-namespace Invector
+namespace Basic_Locomotion.Scripts.CharacterController
 {
     [vClassHeader("MoveSet Speed", "Use this to add extra speed into a specific MoveSet")]
     public class vMoveSetSpeed : vMonoBehaviour

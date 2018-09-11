@@ -6,6 +6,8 @@ using UnityEditor;
 using System.Collections.Generic;
 using Invector;
 using System;
+using Basic_Locomotion.Scripts.Generic;
+using Melee_Combat.Scripts.MeleeWeapon;
 
 [CanEditMultipleObjects]
 [CustomEditor(typeof(vMeleeManager), true)]

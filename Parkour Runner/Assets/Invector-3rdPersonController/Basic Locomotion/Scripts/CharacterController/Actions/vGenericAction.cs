@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Security.Policy;
-using Assets.Scripts.Player;
+﻿using System.Collections;
+using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
 
-namespace Invector.CharacterController.Actions
+namespace Basic_Locomotion.Scripts.CharacterController.Actions
 {
     [vClassHeader("GENERIC ACTION", "Use the vTriggerGenericAction to trigger a simple animation.", iconName = "triggerIcon")]
     public class vGenericAction : vActionListener

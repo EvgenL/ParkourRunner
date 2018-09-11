@@ -1,22 +1,25 @@
 ﻿using UnityEngine;
 
-public class vFootStepHandler : MonoBehaviour
+namespace Basic_Locomotion.Scripts.FootStep.Scripts
 {
-    [Tooltip("Use this to select a specific material or texture if your mesh has multiple materials, the footstep will play only the selected index.")]
-    [SerializeField]
-    private int materialIndex;
-    public int material_ID
+    public class vFootStepHandler : MonoBehaviour
     {
-        get
+        [Tooltip("Use this to select a specific material or texture if your mesh has multiple materials, the footstep will play only the selected index.")]
+        [SerializeField]
+        private int materialIndex;
+        public int material_ID
         {
-            return materialIndex;
+            get
+            {
+                return materialIndex;
+            }
         }
-    }
 
-    public StepHandleType stepHandleType;
-    public enum StepHandleType
-    {
-        materialName,
-        textureName
+        public StepHandleType stepHandleType;
+        public enum StepHandleType
+        {
+            materialName,
+            textureName
+        }
     }
 }

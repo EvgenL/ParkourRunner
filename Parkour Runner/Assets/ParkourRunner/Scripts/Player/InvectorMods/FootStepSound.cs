@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Basic_Locomotion.Scripts.FootStep.Scripts;
 
-namespace Assets.Scripts.Player.InvectorMods
+namespace ParkourRunner.Scripts.Player.InvectorMods
 {
     class FootStepSound :vFootStep
     {

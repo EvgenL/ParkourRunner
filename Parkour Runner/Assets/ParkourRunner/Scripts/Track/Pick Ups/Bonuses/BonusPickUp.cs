@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Assets.Scripts.Managers;
-using Assets.Scripts.Pick_Ups.Effects;
+﻿using ParkourRunner.Scripts.Managers;
 
-namespace Assets.Scripts.Pick_Ups
+namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 {
     public class BonusPickUp : PickUp
     {

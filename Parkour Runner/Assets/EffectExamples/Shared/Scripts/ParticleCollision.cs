@@ -1,34 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// This script demonstrate how to use the particle system collision callback.
-/// The sample using it is the "Extinguish" prefab. It use a second, non displayed
-/// particle system to lighten the load of collision detection.
-/// </summary>
-public class ParticleCollision : MonoBehaviour
+namespace EffectExamples.Shared.Scripts
 {
-    private List<ParticleCollisionEvent> m_CollisionEvents = new List<ParticleCollisionEvent>();
-    private ParticleSystem m_ParticleSystem;
-
-
-    private void Start()
+    /// <summary>
+    /// This script demonstrate how to use the particle system collision callback.
+    /// The sample using it is the "Extinguish" prefab. It use a second, non displayed
+    /// particle system to lighten the load of collision detection.
+    /// </summary>
+    public class ParticleCollision : MonoBehaviour
     {
-        m_ParticleSystem = GetComponent<ParticleSystem>();
-    }
+        private List<ParticleCollisionEvent> m_CollisionEvents = new List<ParticleCollisionEvent>();
+        private ParticleSystem m_ParticleSystem;
 
 
-    private void OnParticleCollision(GameObject other)
-    {
-        int numCollisionEvents = m_ParticleSystem.GetCollisionEvents(other, m_CollisionEvents);
-        for (int i = 0; i < numCollisionEvents; ++i)
+        private void Start()
         {
-            var col = m_CollisionEvents[i].colliderComponent;
+            m_ParticleSystem = GetComponent<ParticleSystem>();
+        }
 
-            var fire = col.GetComponent<ExtinguishableFire>();
-            if (fire != null)
-                fire.Extinguish();
+
+        private void OnParticleCollision(GameObject other)
+        {
+            int numCollisionEvents = m_ParticleSystem.GetCollisionEvents(other, m_CollisionEvents);
+            for (int i = 0; i < numCollisionEvents; ++i)
+            {
+                var col = m_CollisionEvents[i].colliderComponent;
+
+                var fire = col.GetComponent<ExtinguishableFire>();
+                if (fire != null)
+                    fire.Extinguish();
+            }
         }
     }
 }

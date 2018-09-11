@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.HeadTrack.Scripts;
 using UnityEditor;
 using UnityEditor.Events;
 using Invector.CharacterController;

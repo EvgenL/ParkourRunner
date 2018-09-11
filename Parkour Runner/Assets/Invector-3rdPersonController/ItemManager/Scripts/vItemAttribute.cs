@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     [System.Serializable]
     public class vItemAttribute
     {
-        public vItemAttributes name = 0;
+        public vItemEnumsBuilder.vItemAttributes name = 0;
         public int value = 0;
         public bool isBool;        
-        public vItemAttribute(vItemAttributes name, int value)
+        public vItemAttribute(vItemEnumsBuilder.vItemAttributes name, int value)
         {
             this.name = name;
             this.value = value;
@@ -17,13 +17,13 @@ namespace Invector.ItemManager
 
     public static class vItemAttributeHelper
     {
-        public static bool Contains(this List<vItemAttribute> attributes, vItemAttributes name)
+        public static bool Contains(this List<vItemAttribute> attributes, vItemEnumsBuilder.vItemAttributes name)
         {
             var attribute = attributes.Find(at => at.name == name);
             return attribute != null;
         }
 
-        public static vItemAttribute GetAttributeByType(this List<vItemAttribute> attributes, vItemAttributes name)
+        public static vItemAttribute GetAttributeByType(this List<vItemAttribute> attributes, vItemEnumsBuilder.vItemAttributes name)
         {
             var attribute = attributes.Find(at => at.name == name);
             return attribute;

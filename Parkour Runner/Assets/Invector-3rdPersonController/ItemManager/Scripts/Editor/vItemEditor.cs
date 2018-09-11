@@ -4,6 +4,9 @@ using UnityEditor;
 using System.Collections.Generic;
 using System;
 using Invector;
+using ItemManager.Scripts;
+using ItemManager.Scripts.vItemEnumsBuilder;
+using vItemAttributes = ItemManager.Scripts.vItemEnumsBuilder.vItemAttributes;
 
 namespace Invector.ItemManager
 {

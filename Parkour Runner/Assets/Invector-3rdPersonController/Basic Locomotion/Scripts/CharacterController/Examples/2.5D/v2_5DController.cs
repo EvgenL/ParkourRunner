@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using Basic_Locomotion.Scripts.CharacterController.Examples.TopDown;
+using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
 
-namespace Invector.CharacterController.v2_5D
+namespace Basic_Locomotion.Scripts.CharacterController.Examples._2._5D
 {
     [vClassHeader("2.5D Controller")]
     public class v2_5DController : vThirdPersonController
@@ -19,7 +21,7 @@ namespace Invector.CharacterController.v2_5D
         protected override void StrafeLimitSpeed(float value)
         {
             var limitInput = isSprinting ? 1.5f : 1f;
-            var _input = transform.InverseTransformDirection(Camera.main.transform.right * input.x* limitInput);
+            var _input = transform.InverseTransformDirection(UnityEngine.Camera.main.transform.right * input.x* limitInput);
             speed = Mathf.Clamp(_input.z, -limitInput, limitInput);
             direction = 0;
             var newInput = new Vector2(speed, direction);

@@ -1,13 +1,18 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Invector.EventSystems;
-using Invector.CharacterController;
-#if UNITY_5_5_OR_NEWER
+using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.FootStep.Scripts;
+using Basic_Locomotion.Scripts.Generic;
+using Basic_Locomotion.Scripts.ObjectDamage;
+using Melee_Combat.Scripts.MeleeWeapon;
+using Melee_Combat.Scripts.WaypointSystem;
+using UnityEngine;
 using UnityEngine.AI;
+#if UNITY_5_5_OR_NEWER
+
 #endif
 
-namespace Invector
+namespace Melee_Combat.Scripts.CharacterAI
 {
    
     public class v_AIMotor : vCharacter

@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using Basic_Locomotion.Scripts.CharacterController.Actions;
+using Basic_Locomotion.Scripts.Generic;
+using Basic_Locomotion.Scripts.ObjectDamage;
+using UnityEngine;
 using UnityEngine.Events;
-using Invector.EventSystems;
 
-namespace Invector.CharacterController
+namespace Basic_Locomotion.Scripts.CharacterController
 {
     [System.Serializable]
     public class OnDead : UnityEvent<GameObject> { }

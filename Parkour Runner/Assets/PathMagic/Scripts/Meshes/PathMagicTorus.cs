@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-namespace Jacovone.Meshes
+namespace PathMagic.Scripts.Meshes
 {
 	public class PathMagicTorus : PathMagicMesh
 	{

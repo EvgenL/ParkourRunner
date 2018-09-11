@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using UnityEngine;
 
-using UnityEngine;
-
-namespace Assets.Scripts
+namespace ParkourRunner.Scripts.Track.Generator
 {
     public abstract class CoinPoints : GenerationPoint
     {

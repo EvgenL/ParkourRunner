@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 
-public class vEnumFlagAttribute : PropertyAttribute
+namespace Melee_Combat.Scripts.MeleeWeapon
 {
-    public string enumName;
-
-    public vEnumFlagAttribute() { }
-
-    public vEnumFlagAttribute(string name)
+    public class vEnumFlagAttribute : PropertyAttribute
     {
-        enumName = name;
+        public string enumName;
+
+        public vEnumFlagAttribute() { }
+
+        public vEnumFlagAttribute(string name)
+        {
+            enumName = name;
+        }
     }
 }

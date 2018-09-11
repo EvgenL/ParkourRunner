@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
-#if UNITY_5_5_OR_NEWER
 using UnityEngine.AI;
+#if UNITY_5_5_OR_NEWER
+
 #endif
 
-namespace Invector
+namespace Melee_Combat.Scripts.CharacterAI
 {
     public class v_AIAnimator : v_AIMotor
     {

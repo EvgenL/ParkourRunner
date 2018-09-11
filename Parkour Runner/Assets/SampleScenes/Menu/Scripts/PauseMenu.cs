@@ -1,52 +1,53 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PauseMenu : MonoBehaviour
+namespace SampleScenes.Menu.Scripts
 {
-    private Toggle m_MenuToggle;
-	private float m_TimeScaleRef = 1f;
-    private float m_VolumeRef = 1f;
-    private bool m_Paused;
-
-
-    void Awake()
+    public class PauseMenu : MonoBehaviour
     {
-        m_MenuToggle = GetComponent <Toggle> ();
-	}
+        private Toggle m_MenuToggle;
+        private float m_TimeScaleRef = 1f;
+        private float m_VolumeRef = 1f;
+        private bool m_Paused;
 
 
-    private void MenuOn ()
-    {
-        m_TimeScaleRef = Time.timeScale;
-        Time.timeScale = 0f;
-
-        m_VolumeRef = AudioListener.volume;
-        AudioListener.volume = 0f;
-
-        m_Paused = true;
-    }
-
-
-    public void MenuOff ()
-    {
-        Time.timeScale = m_TimeScaleRef;
-        AudioListener.volume = m_VolumeRef;
-        m_Paused = false;
-    }
-
-
-    public void OnMenuStatusChange ()
-    {
-        if (m_MenuToggle.isOn && !m_Paused)
+        void Awake()
         {
-            MenuOn();
+            m_MenuToggle = GetComponent <Toggle> ();
         }
-        else if (!m_MenuToggle.isOn && m_Paused)
+
+
+        private void MenuOn ()
         {
-            MenuOff();
+            m_TimeScaleRef = Time.timeScale;
+            Time.timeScale = 0f;
+
+            m_VolumeRef = AudioListener.volume;
+            AudioListener.volume = 0f;
+
+            m_Paused = true;
         }
-    }
+
+
+        public void MenuOff ()
+        {
+            Time.timeScale = m_TimeScaleRef;
+            AudioListener.volume = m_VolumeRef;
+            m_Paused = false;
+        }
+
+
+        public void OnMenuStatusChange ()
+        {
+            if (m_MenuToggle.isOn && !m_Paused)
+            {
+                MenuOn();
+            }
+            else if (!m_MenuToggle.isOn && m_Paused)
+            {
+                MenuOff();
+            }
+        }
 
 
 #if !MOBILE_INPUT
@@ -60,4 +61,5 @@ public class PauseMenu : MonoBehaviour
 	}
 #endif
 
+    }
 }

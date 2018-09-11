@@ -1,4 +1,4 @@
-﻿namespace Invector.ItemManager
+﻿namespace ItemManager.Scripts
 {
     public interface vIEquipment
     {

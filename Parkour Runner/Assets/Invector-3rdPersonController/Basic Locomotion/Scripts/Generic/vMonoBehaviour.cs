@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Invector
+namespace Basic_Locomotion.Scripts.Generic
 {
     public  class vMonoBehaviour : MonoBehaviour
     {

@@ -1,6 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-namespace Invector.CharacterController.v2_5D
+﻿using System.Collections;
+using Basic_Locomotion.Scripts.CharacterController.Examples._2._5D;
+using Basic_Locomotion.Scripts.Generic;
+using Shooter.Scripts.Shooter;
+using UnityEngine;
+
+namespace Shooter.Scripts.Examples._2._5DShooter
 {
     [vClassHeader("Shooter 2.5D Input")]
     public class v2_5DShooterInput : vShooterMeleeInput

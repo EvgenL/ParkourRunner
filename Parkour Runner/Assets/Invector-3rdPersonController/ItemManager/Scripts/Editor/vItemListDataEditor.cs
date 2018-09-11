@@ -4,6 +4,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using ItemManager.Scripts;
 
 namespace Invector.ItemManager
 {

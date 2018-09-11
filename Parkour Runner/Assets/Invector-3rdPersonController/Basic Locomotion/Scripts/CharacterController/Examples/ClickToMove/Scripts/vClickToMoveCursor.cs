@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Invector.CharacterController.ClickToMove
+namespace Basic_Locomotion.Scripts.CharacterController.Examples.ClickToMove.Scripts
 {
     public class vClickToMoveCursor : MonoBehaviour
     {

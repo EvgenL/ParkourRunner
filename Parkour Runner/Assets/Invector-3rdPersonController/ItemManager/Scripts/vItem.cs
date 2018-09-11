@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using ItemManager.Scripts.vItemEnumsBuilder;
+using UnityEngine;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     [System.Serializable]
     public class vItem : ScriptableObject

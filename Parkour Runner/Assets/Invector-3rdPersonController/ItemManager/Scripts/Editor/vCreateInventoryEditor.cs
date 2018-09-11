@@ -4,6 +4,9 @@ using UnityEditor;
 using Invector;
 using Invector.CharacterController;
 using System;
+using Basic_Locomotion.Scripts.CharacterController;
+using ItemManager.Scripts;
+using Melee_Combat.Scripts.MeleeWeapon;
 
 namespace Invector.ItemManager
 {

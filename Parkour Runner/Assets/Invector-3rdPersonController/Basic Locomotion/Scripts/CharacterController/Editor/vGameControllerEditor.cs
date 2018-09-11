@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
+using Basic_Locomotion.Scripts.CharacterController;
 using Invector;
 
 [CustomEditor(typeof(vGameController), true)]

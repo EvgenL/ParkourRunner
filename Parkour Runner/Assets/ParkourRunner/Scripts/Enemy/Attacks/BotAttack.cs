@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Scripts.Enemy.Attacks
+namespace ParkourRunner.Scripts.Enemy.Attacks
 {
     class BotAttack : ScriptableObject
     {

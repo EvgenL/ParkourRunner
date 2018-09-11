@@ -1,6 +1,7 @@
 ﻿using System;
+using UnityEngine;
 
-namespace UnityEngine
+namespace Basic_Locomotion.Scripts.Generic
 {
      [AttributeUsage(AttributeTargets.Field, Inherited = true, AllowMultiple = true)]
     public class vButtonAttribute : PropertyAttribute

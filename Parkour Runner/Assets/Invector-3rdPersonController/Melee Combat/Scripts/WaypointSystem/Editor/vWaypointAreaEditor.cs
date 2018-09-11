@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using System.Linq;
-
+using Melee_Combat.Scripts.WaypointSystem;
 #if UNITY_5_5_OR_NEWER
 using UnityEngine.AI;
 #endif

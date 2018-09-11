@@ -1,9 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
-using System.Collections;
-using System;
 
-namespace Jacovone
+namespace PathMagic.Scripts
 {
 	[Serializable]
 	/// <summary>
@@ -152,7 +151,7 @@ namespace Jacovone
 		public bool symmetricTangents;
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="Jacovone.Waypoint"/> have symmetric tangents.
+		/// Gets or sets a value indicating whether this <see cref="Waypoint"/> have symmetric tangents.
 		/// </summary>
 		/// <value><c>true</c> if symmetric tangents; otherwise, <c>false</c>.</value>
 		public bool SymmetricTangents {

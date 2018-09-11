@@ -1,13 +1,16 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
-public class vDestroyGameObject : MonoBehaviour
+namespace Basic_Locomotion.Scripts.Generic
 {
-    public float delay;
-
-    IEnumerator Start()
+    public class vDestroyGameObject : MonoBehaviour
     {
-        yield return new WaitForSeconds(delay);
-        Destroy(gameObject);
+        public float delay;
+
+        IEnumerator Start()
+        {
+            yield return new WaitForSeconds(delay);
+            Destroy(gameObject);
+        }
     }
 }

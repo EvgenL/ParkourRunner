@@ -1,9 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Basic_Locomotion.Scripts.Generic;
+using ItemManager.Scripts;
+using UnityEngine;
 using UnityEngine.Events;
-using Invector.ItemManager;
-namespace Invector
+
+namespace Shooter.Scripts.Weapon
 {
     [vClassHeader("v Shooter Weapon")]
     public class vShooterWeapon : vMonoBehaviour, vIEquipment

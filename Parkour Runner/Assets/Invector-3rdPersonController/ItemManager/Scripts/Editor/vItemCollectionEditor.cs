@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEditor;
 using System.Collections.Generic;
 using System.Linq;
+using ItemManager.Scripts;
+using ItemManager.Scripts.vItemEnumsBuilder;
 
 namespace Invector.ItemManager
 {

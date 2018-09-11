@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEditor;
 using System.Text;
+using Basic_Locomotion.Scripts.HeadTrack.Scripts;
 
 [CanEditMultipleObjects]
 [CustomEditor(typeof(vLookTarget))]

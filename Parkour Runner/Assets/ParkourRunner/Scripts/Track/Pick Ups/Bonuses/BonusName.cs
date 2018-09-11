@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Assets.Scripts.Pick_Ups.Effects
+﻿namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 {
     public enum BonusName
     {

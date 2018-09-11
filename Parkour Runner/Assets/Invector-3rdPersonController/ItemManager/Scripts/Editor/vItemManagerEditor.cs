@@ -5,7 +5,11 @@ using System.Collections.Generic;
 using System;
 using UnityEditor.Events;
 using System.Linq;
+using Basic_Locomotion.Scripts.Generic;
 using Invector.CharacterController;
+using ItemManager.Scripts;
+using ItemManager.Scripts.vItemEnumsBuilder;
+using Melee_Combat.Scripts.MeleeWeapon;
 
 namespace Invector.ItemManager
 {

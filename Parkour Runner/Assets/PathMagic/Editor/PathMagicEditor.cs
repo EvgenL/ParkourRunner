@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using PathMagic.Scripts;
 using UnityEditor;
 using UnityEditorInternal;
 
 namespace Jacovone
 {
-	[CustomEditor (typeof(Jacovone.PathMagic))]
+	[CustomEditor (typeof(PathMagic.Scripts.PathMagic))]
 	[CanEditMultipleObjects]
 	/// <summary>
 /// Path magic editor. This i sthe editor class for PathMagic instances. It defines the inspector behavios to
@@ -111,7 +112,7 @@ namespace Jacovone
 				EditorGUIUtility.labelWidth = 20;
             
 				if (GUI.Button (new Rect (rect.x, rect.y, EditorGUIUtility.singleLineHeight, EditorGUIUtility.singleLineHeight), "\u2023")) {
-					PathMagic pm = (PathMagic)target;
+					PathMagic.Scripts.PathMagic pm = (PathMagic.Scripts.PathMagic)target;
 					pm.CurrentPos = ComputePosForWaypoint (index);
 
 				}
@@ -301,7 +302,7 @@ namespace Jacovone
 				waypointsFoldout = EditorGUILayout.Foldout (waypointsFoldout, "Waypoint " + (currentSelectedWaypoint + 1), boldFoldoutStyle);
 				if (GUILayout.Button (new GUIContent ("Reveal", "Center this point on scene view"), EditorStyles.miniButtonLeft, GUILayout.Width (60))) {
 					if (SceneView.lastActiveSceneView != null) {
-						SceneView.lastActiveSceneView.pivot = ((PathMagic)serializedObject.targetObject).transform.TransformPoint (waypoints.GetArrayElementAtIndex (currentSelectedWaypoint).FindPropertyRelative ("position").vector3Value);
+						SceneView.lastActiveSceneView.pivot = ((PathMagic.Scripts.PathMagic)serializedObject.targetObject).transform.TransformPoint (waypoints.GetArrayElementAtIndex (currentSelectedWaypoint).FindPropertyRelative ("position").vector3Value);
 					}
 				}
 				if (GUILayout.Button (new GUIContent ("Add after", "Add a new waypoint just after this one"), EditorStyles.miniButtonMid, GUILayout.Width (60))) {
@@ -425,26 +426,26 @@ namespace Jacovone
 
 			EditorGUILayout.BeginHorizontal ();
 			previewFoldout = EditorGUILayout.Foldout (previewFoldout, "Preview", boldFoldoutStyle);
-			if (!((PathMagic)serializedObject.targetObject).isPlaying) {
+			if (!((PathMagic.Scripts.PathMagic)serializedObject.targetObject).isPlaying) {
 				if (GUILayout.Button (new GUIContent ("Rewind", "Go to the begin of the animation"), actionButtonStyleLeft)) {
 					for (int i = 0; i < targets.Length; i++)
-						((PathMagic)targets [i]).Rewind ();
+						((PathMagic.Scripts.PathMagic)targets [i]).Rewind ();
 				}
 			} else {
 				if (GUILayout.Button (new GUIContent ("Stop", "Turn off animation simulation and go to the begin"), actionButtonStyleLeft)) {
 					for (int i = 0; i < targets.Length; i++)
-						((PathMagic)targets [i]).Stop ();
+						((PathMagic.Scripts.PathMagic)targets [i]).Stop ();
 				}
 			}
-			if (!((PathMagic)serializedObject.targetObject).isPlaying) {
+			if (!((PathMagic.Scripts.PathMagic)serializedObject.targetObject).isPlaying) {
 				if (GUILayout.Button (new GUIContent ("Start", "Starts the animation simulation"), actionButtonStyleRight)) {
 					for (int i = 0; i < targets.Length; i++)
-						((PathMagic)targets [i]).Play ();
+						((PathMagic.Scripts.PathMagic)targets [i]).Play ();
 				}
 			} else {
 				if (GUILayout.Button (new GUIContent ("Pause", "Pause the animation simulation"), actionButtonStyleRight)) {
 					for (int i = 0; i < targets.Length; i++)
-						((PathMagic)targets [i]).Pause ();
+						((PathMagic.Scripts.PathMagic)targets [i]).Pause ();
 				}
 			}
 
@@ -462,10 +463,10 @@ namespace Jacovone
 				EditorGUIUtility.labelWidth = 70;
 
 				for (int i = 0; i < targets.Length; i++) {
-					if (!((PathMagic)targets [i]).isPlaying && ((PathMagic)targets [i]).updateTransform && ((PathMagic)targets [i]).target != null) {
+					if (!((PathMagic.Scripts.PathMagic)targets [i]).isPlaying && ((PathMagic.Scripts.PathMagic)targets [i]).updateTransform && ((PathMagic.Scripts.PathMagic)targets [i]).target != null) {
 
-						if (((PathMagic)targets [i]).presampledPath) {
-							PathMagic pmo = (PathMagic)targets [i];
+						if (((PathMagic.Scripts.PathMagic)targets [i]).presampledPath) {
+							PathMagic.Scripts.PathMagic pmo = (PathMagic.Scripts.PathMagic)targets [i];
 							Vector3 position = Vector3.zero;
 							Quaternion rotation = Quaternion.identity;
 							float velocity = 0f;
@@ -473,9 +474,9 @@ namespace Jacovone
 							pmo.sampledPositionAndRotationAndVelocityAndWaypointAtPos (pmo.currentPos, out position, out rotation, out velocity, out waypoint);
 							pmo.UpdateTarget (position, rotation);
 						} else {
-							((PathMagic)targets [i]).UpdateTarget (
-								((PathMagic)targets [i]).computePositionAtPos (((PathMagic)targets [i]).currentPos), 
-								((PathMagic)targets [i]).computeRotationAtPos (((PathMagic)targets [i]).currentPos)
+							((PathMagic.Scripts.PathMagic)targets [i]).UpdateTarget (
+								((PathMagic.Scripts.PathMagic)targets [i]).computePositionAtPos (((PathMagic.Scripts.PathMagic)targets [i]).currentPos), 
+								((PathMagic.Scripts.PathMagic)targets [i]).computeRotationAtPos (((PathMagic.Scripts.PathMagic)targets [i]).currentPos)
 							);
 						}
 					}
@@ -498,16 +499,16 @@ namespace Jacovone
 					EditorGUILayout.BeginHorizontal ();
 					if (GUILayout.Button (new GUIContent ("Normalize path transform", "Normalize this transform and update all waypoints"), GUILayout.Width ((EditorGUIUtility.currentViewWidth - 60f) / 2f))) {
 						for (int i = 0; i < waypoints.arraySize; i++) {
-							waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("position").vector3Value = ((PathMagic)serializedObject.targetObject).transform.TransformPoint (waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("position").vector3Value);
-							waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("rotation").vector3Value = (((PathMagic)serializedObject.targetObject).transform.rotation * Quaternion.Euler (waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("rotation").vector3Value)).eulerAngles;
-							waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("inTangent").vector3Value = ((PathMagic)serializedObject.targetObject).transform.TransformVector (waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("inTangent").vector3Value);
-							waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("outTangent").vector3Value = ((PathMagic)serializedObject.targetObject).transform.TransformVector (waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("outTangent").vector3Value);
+							waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("position").vector3Value = ((PathMagic.Scripts.PathMagic)serializedObject.targetObject).transform.TransformPoint (waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("position").vector3Value);
+							waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("rotation").vector3Value = (((PathMagic.Scripts.PathMagic)serializedObject.targetObject).transform.rotation * Quaternion.Euler (waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("rotation").vector3Value)).eulerAngles;
+							waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("inTangent").vector3Value = ((PathMagic.Scripts.PathMagic)serializedObject.targetObject).transform.TransformVector (waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("inTangent").vector3Value);
+							waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("outTangent").vector3Value = ((PathMagic.Scripts.PathMagic)serializedObject.targetObject).transform.TransformVector (waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("outTangent").vector3Value);
 						}
                     
-						Undo.RecordObject (((PathMagic)serializedObject.targetObject).transform, "Normalize");
-						((PathMagic)serializedObject.targetObject).transform.position = Vector3.zero;
-						((PathMagic)serializedObject.targetObject).transform.localScale = new Vector3 (1f, 1f, 1f);
-						((PathMagic)serializedObject.targetObject).transform.rotation = Quaternion.identity;
+						Undo.RecordObject (((PathMagic.Scripts.PathMagic)serializedObject.targetObject).transform, "Normalize");
+						((PathMagic.Scripts.PathMagic)serializedObject.targetObject).transform.position = Vector3.zero;
+						((PathMagic.Scripts.PathMagic)serializedObject.targetObject).transform.localScale = new Vector3 (1f, 1f, 1f);
+						((PathMagic.Scripts.PathMagic)serializedObject.targetObject).transform.rotation = Quaternion.identity;
 						Undo.FlushUndoRecordObjects ();
 					}
                 
@@ -525,8 +526,8 @@ namespace Jacovone
 							waypoints.GetArrayElementAtIndex (i).FindPropertyRelative ("position").vector3Value -= center;
 						}
                     
-						Undo.RecordObject (((PathMagic)serializedObject.targetObject).transform, "Center on waypoints");
-						((PathMagic)serializedObject.targetObject).transform.position += center;
+						Undo.RecordObject (((PathMagic.Scripts.PathMagic)serializedObject.targetObject).transform, "Center on waypoints");
+						((PathMagic.Scripts.PathMagic)serializedObject.targetObject).transform.position += center;
 						Undo.FlushUndoRecordObjects ();
 					}
 
@@ -611,7 +612,7 @@ namespace Jacovone
 
 			serializedObject.ApplyModifiedProperties ();
 			if (serializedObject.FindProperty ("presampledPath").boolValue)
-				((PathMagic)serializedObject.targetObject).UpdatePathSamples ();
+				((PathMagic.Scripts.PathMagic)serializedObject.targetObject).UpdatePathSamples ();
 
 			ManageKeyboardEvents ();
 		}
@@ -625,9 +626,9 @@ namespace Jacovone
 			bool isGlobalMode = Tools.pivotRotation == PivotRotation.Global;
 
 			SerializedObject pm = new SerializedObject (target);
-			PathMagic pmo = (PathMagic)target;
+			PathMagic.Scripts.PathMagic pmo = (PathMagic.Scripts.PathMagic)target;
 			SerializedProperty waypoints = pm.FindProperty ("waypoints");
-			Handles.matrix = ((PathMagic)pm.targetObject).transform.localToWorldMatrix;
+			Handles.matrix = ((PathMagic.Scripts.PathMagic)pm.targetObject).transform.localToWorldMatrix;
         
 			ManageKeyboardEvents ();
 
@@ -689,7 +690,7 @@ namespace Jacovone
 						// Global look at
 						Handles.color = Color.green;
 						Handles.DrawLine (wp.FindPropertyRelative ("position").vector3Value, 
-							((PathMagic)pm.targetObject).transform.InverseTransformPoint (((Transform)pm.FindProperty ("globalLookAt").objectReferenceValue).position));
+							((PathMagic.Scripts.PathMagic)pm.targetObject).transform.InverseTransformPoint (((Transform)pm.FindProperty ("globalLookAt").objectReferenceValue).position));
 						Handles.color = Color.white;
 
 						// Direction
@@ -700,7 +701,7 @@ namespace Jacovone
 						// Target look at
 						Handles.color = Color.blue;
 						Handles.DrawLine (wp.FindPropertyRelative ("position").vector3Value, 
-							((PathMagic)pm.targetObject).transform.InverseTransformPoint (((Transform)wp.FindPropertyRelative ("lookAt").objectReferenceValue).position));
+							((PathMagic.Scripts.PathMagic)pm.targetObject).transform.InverseTransformPoint (((Transform)wp.FindPropertyRelative ("lookAt").objectReferenceValue).position));
 						Handles.color = Color.white;
 
 						// Direction
@@ -822,7 +823,7 @@ namespace Jacovone
 		/// <param name="index">Segment index</param>
 		void DrawRotationsForSegment (SerializedObject pm, int index)
 		{
-			PathMagic tgt = ((PathMagic)pm.targetObject);
+			PathMagic.Scripts.PathMagic tgt = ((PathMagic.Scripts.PathMagic)pm.targetObject);
 
 			float startPos = (index == 0 ? CalcPosForWaypointIndex (tgt.waypoints.Length - 1) : CalcPosForWaypointIndex (index - 1));
 			float endPos = (index == 0 ? 1 : CalcPosForWaypointIndex (index));
@@ -871,7 +872,7 @@ namespace Jacovone
         
 			Quaternion arrowRot = ((t == null) ? 
             Quaternion.Euler (wp.FindPropertyRelative ("rotation").vector3Value) : 
-                               Quaternion.LookRotation (((PathMagic)wp.serializedObject.targetObject).transform.InverseTransformPoint (t.position) - arrowPos, Vector3.up));
+                               Quaternion.LookRotation (((PathMagic.Scripts.PathMagic)wp.serializedObject.targetObject).transform.InverseTransformPoint (t.position) - arrowPos, Vector3.up));
             
 			Handles.DrawPolyLine (new Vector3[] {
 				arrowPos + arrowRot * (new Vector3 (s / 2f, s / 2f, s)),
@@ -913,20 +914,20 @@ namespace Jacovone
 					float pos2 = CalcPosForWaypointIndex (index);
 					float pos = (pos1 + pos2) / 2f;
                 
-					item.position = ((PathMagic)serializedObject.targetObject).computePositionAtPos (pos);
-					item.rotation = ((PathMagic)serializedObject.targetObject).computeRotationAtPos (pos).eulerAngles;
-					item.velocity = (((PathMagic)serializedObject.targetObject).waypoints [index - 1].velocity + ((PathMagic)serializedObject.targetObject).waypoints [index].velocity) / 2f;
+					item.position = ((PathMagic.Scripts.PathMagic)serializedObject.targetObject).computePositionAtPos (pos);
+					item.rotation = ((PathMagic.Scripts.PathMagic)serializedObject.targetObject).computeRotationAtPos (pos).eulerAngles;
+					item.velocity = (((PathMagic.Scripts.PathMagic)serializedObject.targetObject).waypoints [index - 1].velocity + ((PathMagic.Scripts.PathMagic)serializedObject.targetObject).waypoints [index].velocity) / 2f;
                 
-					Quaternion fForward = Quaternion.LookRotation (((PathMagic)serializedObject.targetObject).computePositionAtPos (pos + 0.001f) - ((PathMagic)serializedObject.targetObject).computePositionAtPos (pos), Vector3.up);
+					Quaternion fForward = Quaternion.LookRotation (((PathMagic.Scripts.PathMagic)serializedObject.targetObject).computePositionAtPos (pos + 0.001f) - ((PathMagic.Scripts.PathMagic)serializedObject.targetObject).computePositionAtPos (pos), Vector3.up);
 					item.inTangent = -1 * Vector3.forward;
 					item.outTangent = fForward * Vector3.forward;
                 
 				} else {
 					// At end of path
 					if (waypoints.arraySize > 0) {
-						item.position = ((PathMagic)serializedObject.targetObject).waypoints [index - 1].position + 5f * (GetFaceForwardForIndex (index - 1) * Vector3.forward);
+						item.position = ((PathMagic.Scripts.PathMagic)serializedObject.targetObject).waypoints [index - 1].position + 5f * (GetFaceForwardForIndex (index - 1) * Vector3.forward);
 						item.rotation = GetFaceForwardForIndex (index - 1).eulerAngles;
-						item.velocity = ((PathMagic)serializedObject.targetObject).waypoints [index - 1].velocity;
+						item.velocity = ((PathMagic.Scripts.PathMagic)serializedObject.targetObject).waypoints [index - 1].velocity;
 						item.inTangent = -1 * (Quaternion.Euler (item.rotation) * Vector3.forward);
 						item.outTangent = Quaternion.Euler (item.rotation) * Vector3.forward;
 						item.symmetricTangents = true;
@@ -956,7 +957,7 @@ namespace Jacovone
         
 			// Reveal it on scene view
 			if (SceneView.lastActiveSceneView != null) {
-				SceneView.lastActiveSceneView.pivot = ((PathMagic)serializedObject.targetObject).transform.TransformPoint (waypoints.GetArrayElementAtIndex (currentSelectedWaypoint).FindPropertyRelative ("position").vector3Value);
+				SceneView.lastActiveSceneView.pivot = ((PathMagic.Scripts.PathMagic)serializedObject.targetObject).transform.TransformPoint (waypoints.GetArrayElementAtIndex (currentSelectedWaypoint).FindPropertyRelative ("position").vector3Value);
 			}
 		}
 
@@ -978,7 +979,7 @@ namespace Jacovone
 		private float CalcPosForWaypointIndex (int index)
 		{
 			//return (float)index / (float)(serializedObject.FindProperty ("waypoints").arraySize - (((PathMagic)serializedObject.targetObject).loop ? 0f : 1f));
-			return (float)index / (((PathMagic)target).waypoints.Length - (((PathMagic)target).loop ? 0f : 1f));
+			return (float)index / (((PathMagic.Scripts.PathMagic)target).waypoints.Length - (((PathMagic.Scripts.PathMagic)target).loop ? 0f : 1f));
 		}
 
 		/// <summary>
@@ -990,7 +991,7 @@ namespace Jacovone
 		/// <param name="waypoint">Waypoint.</param>
 		public float ComputePosForWaypoint (int waypoint)
 		{
-			PathMagic pm = (PathMagic)target;
+			PathMagic.Scripts.PathMagic pm = (PathMagic.Scripts.PathMagic)target;
 			float pos = 0f;
 			float step = 0.0001f;
 
@@ -1049,14 +1050,14 @@ namespace Jacovone
 		private Quaternion GetFaceForwardForIndex (int index)
 		{
 			Quaternion rot;
-			if (((PathMagic)serializedObject.targetObject).waypoints.Length <= 1)
+			if (((PathMagic.Scripts.PathMagic)serializedObject.targetObject).waypoints.Length <= 1)
 				rot = Quaternion.identity;
 			else {
 				float pos = CalcPosForWaypointIndex (index);
-				if (index < ((PathMagic)serializedObject.targetObject).waypoints.Length - 1) {
-					rot = Quaternion.LookRotation (((PathMagic)serializedObject.targetObject).computePositionAtPos (pos + 0.001f) - ((PathMagic)serializedObject.targetObject).computePositionAtPos (pos), Vector3.up);
+				if (index < ((PathMagic.Scripts.PathMagic)serializedObject.targetObject).waypoints.Length - 1) {
+					rot = Quaternion.LookRotation (((PathMagic.Scripts.PathMagic)serializedObject.targetObject).computePositionAtPos (pos + 0.001f) - ((PathMagic.Scripts.PathMagic)serializedObject.targetObject).computePositionAtPos (pos), Vector3.up);
 				} else
-					rot = Quaternion.LookRotation (((PathMagic)serializedObject.targetObject).computePositionAtPos (pos) - ((PathMagic)serializedObject.targetObject).computePositionAtPos (pos - 0.001f), Vector3.up);
+					rot = Quaternion.LookRotation (((PathMagic.Scripts.PathMagic)serializedObject.targetObject).computePositionAtPos (pos) - ((PathMagic.Scripts.PathMagic)serializedObject.targetObject).computePositionAtPos (pos - 0.001f), Vector3.up);
 			}
         
 			return rot;
@@ -1111,7 +1112,7 @@ namespace Jacovone
 		/// </summary>
 		private void ManageMouseEvents (SerializedProperty wps)
 		{
-			PathMagic pm = (PathMagic)target;
+			PathMagic.Scripts.PathMagic pm = (PathMagic.Scripts.PathMagic)target;
 
 			if (Event.current != null &&
 			    Event.current.isMouse &&
@@ -1175,8 +1176,8 @@ namespace Jacovone
 		/// </summary>
 		private void ManageKeyboardEvents ()
 		{
-			Waypoint[] waypoints = ((PathMagic)target).waypoints;
-			PathMagic pm = (PathMagic)target;
+			Waypoint[] waypoints = ((PathMagic.Scripts.PathMagic)target).waypoints;
+			PathMagic.Scripts.PathMagic pm = (PathMagic.Scripts.PathMagic)target;
 
 			if (Event.current != null &&
 			    Event.current.isKey &&
@@ -1254,7 +1255,7 @@ namespace Jacovone
 			// Register the creation in the undo system
 			Undo.RegisterCreatedObjectUndo (go, "Create " + go.name);
         
-			go.AddComponent<PathMagic> ();
+			go.AddComponent<PathMagic.Scripts.PathMagic> ();
 			Selection.activeObject = go;
         
 			Undo.RegisterCreatedObjectUndo (go, "Create new PathMagic");

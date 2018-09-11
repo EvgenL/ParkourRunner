@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.CharacterController.Actions;
+using Basic_Locomotion.Scripts.FootStep.Scripts;
+using Basic_Locomotion.Scripts.Generic;
+using Basic_Locomotion.Scripts.HeadTrack.Scripts;
+using UnityEngine;
 using UnityEditor;
 using Invector;
 
@@ -9,7 +14,7 @@ public partial class vMenuComponent
     static void GenericActionMenu()
     {
         if (Selection.activeGameObject)
-            Selection.activeGameObject.AddComponent<Invector.CharacterController.Actions.vGenericAction>();
+            Selection.activeGameObject.AddComponent<vGenericAction>();
         else
             Debug.Log("Please select the Player to add this component.");
     }
@@ -18,7 +23,7 @@ public partial class vMenuComponent
     static void GenericAnimationMenu()
     {
         if (Selection.activeGameObject)
-            Selection.activeGameObject.AddComponent<Invector.CharacterController.Actions.vGenericAnimation>();
+            Selection.activeGameObject.AddComponent<vGenericAnimation>();
         else
             Debug.Log("Please select the Player to add this component.");
     }
@@ -27,7 +32,7 @@ public partial class vMenuComponent
     static void LadderActionMenu()
     {
         if (Selection.activeGameObject)
-            Selection.activeGameObject.AddComponent<Invector.CharacterController.Actions.vLadderAction>();
+            Selection.activeGameObject.AddComponent<vLadderAction>();
         else
             Debug.Log("Please select the Player to add this component.");
     }

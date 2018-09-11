@@ -1,18 +1,15 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
-using System.Collections;
-using System;
-
-#if UNITY_EDITOR
+﻿using System;
 using UnityEditor;
+using UnityEngine;
+using UnityEngine.Events;
+#if UNITY_EDITOR
+
 #endif
 
-namespace Jacovone
+namespace PathMagic.Scripts
 {
 	#if UNITY_EDITOR
-	using UnityEditor;
-
-	[ExecuteInEditMode]
+    [ExecuteInEditMode]
 	[InitializeOnLoad]
 	#endif
 
@@ -123,7 +120,7 @@ namespace Jacovone
 		public bool autoStart = true;
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="Jacovone.PathMagicAnimator"/> auto starts.
+		/// Gets or sets a value indicating whether this <see cref="PathMagicAnimator"/> auto starts.
 		/// </summary>
 		/// <value><c>true</c> if auto start; otherwise, <c>false</c>.</value>
 		public bool AutoStart {
@@ -211,7 +208,7 @@ namespace Jacovone
 		public bool disableOrientation = false;
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="Jacovone.PathMagic"/> disable orientation.
+		/// Gets or sets a value indicating whether this <see cref="Scripts.PathMagic"/> disable orientation.
 		/// </summary>
 		/// <value><c>true</c> if disable orientation; otherwise, <c>false</c>.</value>
 		public bool DisableOrientation {

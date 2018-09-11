@@ -1,19 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using RootMotion.Dynamics;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ActivateRagdoll : StateMachineBehaviour {
+namespace ParkourRunner.Scripts.Player
+{
+    public class ActivateRagdoll : StateMachineBehaviour {
 
-    public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
-    {
-        var behav = FindObjectOfType<PuppetMasterHighFall>();
-        behav.DieTemporary();
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
+        {
+            var behav = FindObjectOfType<PuppetMasterHighFall>();
+            behav.DieTemporary();
+        }
+
+
+
+
+
+
     }
-
-
-
-
-
-
 }

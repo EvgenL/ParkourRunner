@@ -1,29 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts.Player.InvectorMods;
-using Invector.CharacterController;
+﻿using ParkourRunner.Scripts.Player.InvectorMods;
 using UnityEngine;
 
-public class SlideDownTrigger : MonoBehaviour
+namespace ParkourRunner.Scripts.Track
 {
-
-    private ParkourThirdPersonController _player;
-
-    private void OnTriggerExit(Collider other)
+    public class SlideDownTrigger : MonoBehaviour
     {
-        _player.IsSlidingDown = false;
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
+        private ParkourThirdPersonController _player;
+
+        private void OnTriggerExit(Collider other)
         {
-            if (_player == null)
-                _player = other.transform.GetComponent<ParkourThirdPersonController>();
-            _player.IsSlidingDown = true;
-            _player.animator.SetFloat("SlideAngle", transform.rotation.x);
+            _player.IsSlidingDown = false;
         }
-        //_player.animator.CrossFadeInFixedTime("SlideDown", 0.2f);
-    }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == "Player")
+            {
+                if (_player == null)
+                    _player = other.transform.GetComponent<ParkourThirdPersonController>();
+                _player.IsSlidingDown = true;
+                _player.animator.SetFloat("SlideAngle", transform.rotation.x);
+            }
+            //_player.animator.CrossFadeInFixedTime("SlideDown", 0.2f);
+        }
     
+    }
 }

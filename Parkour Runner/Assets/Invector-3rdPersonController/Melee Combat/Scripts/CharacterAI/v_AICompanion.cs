@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
-namespace Invector
+namespace Melee_Combat.Scripts.CharacterAI
 {
     public class v_AICompanion : v_AIController
     {

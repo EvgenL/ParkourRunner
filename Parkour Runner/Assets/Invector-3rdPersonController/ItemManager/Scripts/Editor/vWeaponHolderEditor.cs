@@ -2,6 +2,7 @@
 using UnityEditor;
 using System.Collections;
 using Invector;
+using ItemManager.Scripts;
 
 [CanEditMultipleObjects]
 [CustomEditor(typeof(vWeaponHolder),true)]

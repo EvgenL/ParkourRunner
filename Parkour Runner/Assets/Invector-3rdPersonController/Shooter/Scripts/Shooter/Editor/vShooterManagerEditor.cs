@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEditor;
 using Invector;
 using Invector.CharacterController;
+using Shooter.Scripts.Shooter;
 
 [CanEditMultipleObjects]
 [CustomEditor(typeof(vShooterManager), true)]

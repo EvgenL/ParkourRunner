@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Shooter.Scripts.Weapon;
 using UnityEditor;
 [CustomEditor(typeof(vProjectileControl))]
 public class vProjectileControlEditor : Editor {

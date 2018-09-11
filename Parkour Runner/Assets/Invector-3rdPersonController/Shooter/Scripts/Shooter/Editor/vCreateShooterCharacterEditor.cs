@@ -4,10 +4,14 @@ using UnityEditor;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.IO;
+using Basic_Locomotion.Scripts.Camera;
+using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.CharacterController.Actions;
+using Basic_Locomotion.Scripts.HeadTrack.Scripts;
 using Invector;
 using Invector.CharacterController;
+using Shooter.Scripts.Shooter;
 using UnityEngine.EventSystems;
-using Invector.CharacterController.Actions;
 
 public class vCreateShooterCharacterEditor : EditorWindow
 {

@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Collections;
 using Invector;
 using System;
+using Melee_Combat.Scripts.CharacterAI;
 
 [CanEditMultipleObjects]
 [CustomEditor(typeof(v_AIMotor),true)]

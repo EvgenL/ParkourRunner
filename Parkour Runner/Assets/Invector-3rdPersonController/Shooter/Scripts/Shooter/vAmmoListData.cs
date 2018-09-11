@@ -1,10 +1,13 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using Invector;
-using Invector.ItemManager;
-public class vAmmoListData : ScriptableObject
+﻿using System.Collections.Generic;
+using ItemManager.Scripts;
+using UnityEngine;
+
+namespace Shooter.Scripts.Shooter
 {
-    public List<vItemListData> itemListDatas;
-    [HideInInspector]
-    public List<vAmmo> ammos = new List<vAmmo>();  
+    public class vAmmoListData : ScriptableObject
+    {
+        public List<vItemListData> itemListDatas;
+        [HideInInspector]
+        public List<vAmmo> ammos = new List<vAmmo>();  
+    }
 }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Invector.CharacterController;
+﻿using Basic_Locomotion.Scripts.CharacterController;
+using ParkourRunner.Scripts.Managers;
+using ParkourRunner.Scripts.Track;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-namespace Assets.Scripts.Player.InvectorMods
+namespace ParkourRunner.Scripts.Player.InvectorMods
 {
     public class ParkourThirdPersonInput : vThirdPersonInput
     {

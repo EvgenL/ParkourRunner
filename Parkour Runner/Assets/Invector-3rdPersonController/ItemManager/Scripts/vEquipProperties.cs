@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     [System.Serializable]
     public class vEquipProperties

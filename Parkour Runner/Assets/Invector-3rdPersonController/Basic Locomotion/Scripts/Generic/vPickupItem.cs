@@ -1,26 +1,29 @@
 ﻿using UnityEngine;
 
-public class vPickupItem : MonoBehaviour
+namespace Basic_Locomotion.Scripts.Generic
 {
-    AudioSource _audioSource;
-    public AudioClip _audioClip;
-    public GameObject _particle;    
-
-    void Start()
+    public class vPickupItem : MonoBehaviour
     {
-        _audioSource = GetComponent<AudioSource>();
-    }
+        AudioSource _audioSource;
+        public AudioClip _audioClip;
+        public GameObject _particle;    
 
-    void OnTriggerEnter(Collider other)
-    {
-        if(other.tag.Equals("Player") && !_audioSource.isPlaying)
+        void Start()
         {
-            Renderer[] renderers = GetComponentsInChildren<Renderer>();
-            foreach (Renderer r in renderers)            
-                r.enabled = false;            
+            _audioSource = GetComponent<AudioSource>();
+        }
 
-            _audioSource.PlayOneShot(_audioClip);
-            Destroy(gameObject, _audioClip.length);
+        void OnTriggerEnter(Collider other)
+        {
+            if(other.tag.Equals("Player") && !_audioSource.isPlaying)
+            {
+                Renderer[] renderers = GetComponentsInChildren<Renderer>();
+                foreach (Renderer r in renderers)            
+                    r.enabled = false;            
+
+                _audioSource.PlayOneShot(_audioClip);
+                Destroy(gameObject, _audioClip.length);
+            }
         }
     }
 }

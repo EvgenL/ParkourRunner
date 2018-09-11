@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts.Examples
 {
     [vClassHeader("Contains Item Trigger", "Simple trigger to check if the Player has a specific Item, you also can use Events to trigger something in case you have the item.")]
     public class vContainsItemTrigger : vMonoBehaviour

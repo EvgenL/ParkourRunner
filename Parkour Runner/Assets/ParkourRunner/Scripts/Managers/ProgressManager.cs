@@ -1,9 +1,8 @@
-﻿
-using Assets.Scripts.Pick_Ups;
-using Assets.Scripts.Pick_Ups.Effects;
+﻿using System.Collections.Generic;
+using ParkourRunner.Scripts.Player;
 using UnityEngine;
 
-namespace Assets.Scripts.Managers
+namespace ParkourRunner.Scripts.Managers
 {
     class ProgressManager : MonoBehaviour
     {
@@ -38,5 +37,6 @@ namespace Assets.Scripts.Managers
         public float InitialShieldLength = 5f;  //Изначальная длительность
         public float ShieldUpgradeLength = 0f;  //Продаваемый бонус к длительности
 
+        public static List<Trick> Rolls;
     }
 }

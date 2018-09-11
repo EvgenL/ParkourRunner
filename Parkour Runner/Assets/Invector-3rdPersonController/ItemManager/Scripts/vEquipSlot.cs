@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using ItemManager.Scripts.vItemEnumsBuilder;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     public class vEquipSlot : vItemSlot
     {

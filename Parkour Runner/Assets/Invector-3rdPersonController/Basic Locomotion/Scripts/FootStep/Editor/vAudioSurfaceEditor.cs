@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
+using Basic_Locomotion.Scripts.FootStep.Scripts;
 
 [CustomEditor(typeof(vAudioSurface), true)]
 public class AudioSurfaceEditor : Editor

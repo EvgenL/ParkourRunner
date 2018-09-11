@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using PathMagic.Scripts;
 using UnityEditor;
 
 
 namespace Jacovone
 {
 
-	[CustomEditor (typeof(Jacovone.DistributeOnPath))]
+	[CustomEditor (typeof(DistributeOnPath))]
 	[CanEditMultipleObjects]
 	public class DistributeOnPathEditor : Editor
 	{

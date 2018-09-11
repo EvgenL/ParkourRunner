@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEditor;
 using System;
+using Basic_Locomotion.Scripts.ObjectDamage;
+using Melee_Combat.Scripts.MeleeWeapon;
 
 namespace Invector.CharacterController
 {

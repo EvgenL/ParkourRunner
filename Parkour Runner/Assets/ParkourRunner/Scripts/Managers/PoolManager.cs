@@ -1,78 +1,77 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using Assets.Scripts.Pick_Ups;
-using Invector.CharacterController;
+using Basic_Locomotion.Scripts.CharacterController;
 using UnityEngine;
 
-public class PoolManager : MonoBehaviour
+namespace ParkourRunner.Scripts.Managers
 {
-    #region Singleton
-
-    public static PoolManager Instance;
-
-    private void Awake()
+    public class PoolManager : MonoBehaviour
     {
-        if (Instance == null)
+        #region Singleton
+
+        public static PoolManager Instance;
+
+        private void Awake()
         {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
-    }
-
-    #endregion
-
-    [SerializeField] private float DisableDistance = 2f;
-    [SerializeField] private List<GameObject> _pool = new List<GameObject>();
-
-    private Transform _player;
-
-    private void Start()
-    {
-        StartCoroutine(PoolTick());
-        _player = FindObjectOfType<vThirdPersonController>().transform;
-    }
-
-    private IEnumerator PoolTick()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(1f);
-
-            List<GameObject> itemsToDestroy = new List<GameObject>();
-            foreach (var item in _pool)
+            if (Instance == null)
             {
-                if (_player.position.z > item.transform.position.z + DisableDistance)
+                Instance = this;
+            }
+            else
+            {
+                Destroy(this);
+            }
+        }
+
+        #endregion
+
+        [SerializeField] private float DisableDistance = 2f;
+        [SerializeField] private List<GameObject> _pool = new List<GameObject>();
+
+        private Transform _player;
+
+        private void Start()
+        {
+            StartCoroutine(PoolTick());
+            _player = FindObjectOfType<vThirdPersonController>().transform;
+        }
+
+        private IEnumerator PoolTick()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(1f);
+
+                List<GameObject> itemsToDestroy = new List<GameObject>();
+                foreach (var item in _pool)
                 {
-                    itemsToDestroy.Add(item);
+                    if (_player.position.z > item.transform.position.z + DisableDistance)
+                    {
+                        itemsToDestroy.Add(item);
+                    }
                 }
+
+                foreach (var item in itemsToDestroy)
+                {
+                    Remove(item);
+                }
+
+
             }
-
-            foreach (var item in itemsToDestroy)
-            {
-                Remove(item);
-            }
-
-
         }
-    }
 
-    public GameObject Spawn(GameObject original, Vector3 position, Quaternion rotation)
-    {
-        var obj = Instantiate(original, position, rotation);
-        _pool.Add(obj);
-        return obj;
-    }
+        public GameObject Spawn(GameObject original, Vector3 position, Quaternion rotation)
+        {
+            var obj = Instantiate(original, position, rotation);
+            _pool.Add(obj);
+            return obj;
+        }
 
-    public void Remove(GameObject obj)
-    {
-        _pool.Remove(obj);
-        Destroy(obj);
-        //item.SetActive(false);
+        public void Remove(GameObject obj)
+        {
+            _pool.Remove(obj);
+            Destroy(obj);
+            //item.SetActive(false);
+        }
     }
 }

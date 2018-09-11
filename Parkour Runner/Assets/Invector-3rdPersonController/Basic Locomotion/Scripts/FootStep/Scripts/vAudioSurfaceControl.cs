@@ -1,35 +1,39 @@
 ﻿using UnityEngine;
 using UnityEngine.Audio;
-[RequireComponent(typeof(AudioSource))]
 
-public class vAudioSurfaceControl : MonoBehaviour
+namespace Basic_Locomotion.Scripts.FootStep.Scripts
 {
-    AudioSource source;
-    bool isWorking;
+    [RequireComponent(typeof(AudioSource))]
 
-    /// <summary>
-    /// Play One Shot in Audio Source Component
-    /// </summary>
-    /// <param name="clip"></param>
-    public void PlayOneShot(AudioClip clip)
+    public class vAudioSurfaceControl : MonoBehaviour
     {
-        if (!source) source = GetComponent<AudioSource>();
-        source.PlayOneShot(clip);
-        isWorking = true;
-    }
-    void Update()
-    {
-        if (isWorking && !source.isPlaying)
-        {
-            Destroy(gameObject);
-        }
-    }
-    public AudioMixerGroup outputAudioMixerGroup
-    {
-        set
+        AudioSource source;
+        bool isWorking;
+
+        /// <summary>
+        /// Play One Shot in Audio Source Component
+        /// </summary>
+        /// <param name="clip"></param>
+        public void PlayOneShot(AudioClip clip)
         {
             if (!source) source = GetComponent<AudioSource>();
-            source.outputAudioMixerGroup = value;
+            source.PlayOneShot(clip);
+            isWorking = true;
+        }
+        void Update()
+        {
+            if (isWorking && !source.isPlaying)
+            {
+                Destroy(gameObject);
+            }
+        }
+        public AudioMixerGroup outputAudioMixerGroup
+        {
+            set
+            {
+                if (!source) source = GetComponent<AudioSource>();
+                source.outputAudioMixerGroup = value;
+            }
         }
     }
 }

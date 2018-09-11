@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using Basic_Locomotion.Scripts.Camera;
+using UnityEngine;
 
-namespace Invector
+namespace Basic_Locomotion.Scripts.Generic
 {
     public static class vExtensions
     {
@@ -210,7 +211,7 @@ namespace Invector
             return array;
         }
 
-        public static ClipPlanePoints NearClipPlanePoints(this Camera camera, Vector3 pos, float clipPlaneMargin)
+        public static ClipPlanePoints NearClipPlanePoints(this UnityEngine.Camera camera, Vector3 pos, float clipPlaneMargin)
         {
             var clipPlanePoints = new ClipPlanePoints();
 

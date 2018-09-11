@@ -1,11 +1,14 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class vItemEnumsList : ScriptableObject
+namespace ItemManager.Scripts.vItemEnumsBuilder
 {
-    [SerializeField]
-    public List<string> itemTypeEnumValues = new List<string>();
-    [SerializeField]
-    public List<string> itemAttributesEnumValues = new List<string>();
+    public class vItemEnumsList : ScriptableObject
+    {
+        [SerializeField]
+        public List<string> itemTypeEnumValues = new List<string>();
+        [SerializeField]
+        public List<string> itemAttributesEnumValues = new List<string>();
 
+    }
 }

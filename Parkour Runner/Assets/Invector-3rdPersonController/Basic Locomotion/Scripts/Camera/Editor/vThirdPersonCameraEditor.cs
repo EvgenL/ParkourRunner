@@ -2,6 +2,7 @@
 using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
+using Basic_Locomotion.Scripts.Camera;
 
 [CustomEditor(typeof(vThirdPersonCamera))]
 [CanEditMultipleObjects]

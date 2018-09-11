@@ -1,45 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts;
+﻿using ParkourRunner.Scripts.Managers;
 using UnityEngine;
 
-public class PickUpPoint : GenerationPoint
+namespace ParkourRunner.Scripts.Track.Generator
 {
-    public GameObject[] Prefabs;
-
-
-    //public GameObject MagnetPrefab;
-    //public GameObject JumpPrefab;
-    //public GameObject ShieldPrefab;
-    //public GameObject HealPrefab;
-    //public GameObject X2Prefab;
-    //public GameObject BoostPrefab;
-
-
-    public Vector3 BonusPosition = new Vector3(0, 1, 0);
-
-    private void OnDrawGizmos()
+    public class PickUpPoint : GenerationPoint
     {
-        if (DrawGizmos)
+        public GameObject[] Prefabs;
+
+
+        //public GameObject MagnetPrefab;
+        //public GameObject JumpPrefab;
+        //public GameObject ShieldPrefab;
+        //public GameObject HealPrefab;
+        //public GameObject X2Prefab;
+        //public GameObject BoostPrefab;
+
+
+        public Vector3 BonusPosition = new Vector3(0, 1, 0);
+
+        private void OnDrawGizmos()
         {
-            Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(transform.position + BonusPosition, 0.5f);
+            if (DrawGizmos)
+            {
+                Gizmos.color = Color.magenta;
+                Gizmos.DrawWireSphere(transform.position + BonusPosition, 0.5f);
+            }
         }
-    }
 
-    private void OnDrawGizmosSelected()
-    {
-        if (DrawGizmos)
+        private void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.magenta;
-        Gizmos.DrawSphere(transform.position + BonusPosition, 0.5f);
+            if (DrawGizmos)
+            {
+                Gizmos.color = Color.magenta;
+                Gizmos.DrawSphere(transform.position + BonusPosition, 0.5f);
+            }
         }
-    }
 
-    public override void Generate()
-    {
-        var randPrefab = Prefabs[Random.Range(0, Prefabs.Length)];
-        PoolManager.Instance.Spawn(randPrefab, transform.position + BonusPosition, Quaternion.identity);
-        Used = true;
+        public override void Generate()
+        {
+            var randPrefab = Prefabs[Random.Range(0, Prefabs.Length)];
+            PoolManager.Instance.Spawn(randPrefab, transform.position + BonusPosition, Quaternion.identity);
+            Used = true;
+        }
     }
 }

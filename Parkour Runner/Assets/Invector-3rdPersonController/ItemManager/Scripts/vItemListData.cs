@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     public class vItemListData : ScriptableObject
     {

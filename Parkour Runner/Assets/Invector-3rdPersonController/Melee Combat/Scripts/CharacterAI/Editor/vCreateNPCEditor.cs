@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using Invector;
 using Invector.CharacterController;
+using Melee_Combat.Scripts.CharacterAI;
 using UnityEngine.EventSystems;
 
 #if UNITY_5_5_OR_NEWER

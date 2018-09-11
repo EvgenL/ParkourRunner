@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 
-[System.AttributeUsage(System.AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
-public class vReadOnlyAttribute : PropertyAttribute
+namespace Basic_Locomotion.Scripts.Generic
 {
-    public readonly bool justInPlayMode;
-
-    public vReadOnlyAttribute(bool justInPlayMode = true)
+    [System.AttributeUsage(System.AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
+    public class vReadOnlyAttribute : PropertyAttribute
     {
-        this.justInPlayMode = justInPlayMode;
+        public readonly bool justInPlayMode;
+
+        public vReadOnlyAttribute(bool justInPlayMode = true)
+        {
+            this.justInPlayMode = justInPlayMode;
+        }
     }
 }

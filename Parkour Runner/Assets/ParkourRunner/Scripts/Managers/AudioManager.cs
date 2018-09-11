@@ -1,50 +1,50 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Assets.ParkourRunner.Scripts;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour {
+namespace ParkourRunner.Scripts.Managers
+{
+    public class AudioManager : MonoBehaviour {
 
-    #region Singleton
+        #region Singleton
 
-    public static AudioManager Instance;
+        public static AudioManager Instance;
 
-    private void Awake()
-    {
-        DontDestroyOnLoad(this);
-        if (Instance == null)
+        private void Awake()
         {
-            Instance = this;
+            DontDestroyOnLoad(this);
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(this);
+            }
         }
-        else
+
+        #endregion
+
+        public Sound[] Sounds;
+
+        private void Start()
         {
-            Destroy(this);
+            foreach (var s in Sounds)
+            {
+                s.Source = gameObject.AddComponent<AudioSource>();
+
+                s.Source.clip = s.Clip;
+                s.Source.volume = s.Volume;
+                s.Source.pitch = s.Pitch;
+                s.Source.loop = s.Loop;
+            }
         }
-    }
 
-    #endregion
-
-    public Sound[] Sounds;
-
-    private void Start()
-    {
-        foreach (var s in Sounds)
+        public void PlaySound(string soundName)
         {
-            s.Source = gameObject.AddComponent<AudioSource>();
-
-            s.Source.clip = s.Clip;
-            s.Source.volume = s.Volume;
-            s.Source.pitch = s.Pitch;
-            s.Source.loop = s.Loop;
+            Sound s = Array.Find(Sounds, x => x.Name == soundName);
+            if (s == null) return;
+            s.Source.Play();
         }
-    }
 
-    public void PlaySound(string soundName)
-    {
-        Sound s = Array.Find(Sounds, x => x.Name == soundName);
-        if (s == null) return;
-        s.Source.Play();
     }
-
 }

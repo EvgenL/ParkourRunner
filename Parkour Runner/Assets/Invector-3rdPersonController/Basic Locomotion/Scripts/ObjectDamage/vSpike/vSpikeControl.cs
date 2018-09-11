@@ -1,16 +1,19 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class vSpikeControl : MonoBehaviour
+namespace Basic_Locomotion.Scripts.ObjectDamage.vSpike
 {
-    [HideInInspector]
-    public List<Transform> attachColliders;
-   
-    void Start()
+    public class vSpikeControl : MonoBehaviour
     {
-        attachColliders = new List<Transform>();
-        var objs = GetComponentsInChildren<vSpike>();
-        foreach (vSpike obj in objs)
-            obj.control = this;
+        [HideInInspector]
+        public List<Transform> attachColliders;
+   
+        void Start()
+        {
+            attachColliders = new List<Transform>();
+            var objs = GetComponentsInChildren<vSpike>();
+            foreach (vSpike obj in objs)
+                obj.control = this;
+        }
     }
 }

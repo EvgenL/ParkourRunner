@@ -1,7 +1,9 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Basic_Locomotion.Scripts.CharacterController.Actions;
+using ItemManager.Scripts.vItemEnumsBuilder;
+using UnityEngine;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     public class vItemCollection : vTriggerGenericAction
     {

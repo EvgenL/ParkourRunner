@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     public class vItemWindowDisplay : MonoBehaviour
     {

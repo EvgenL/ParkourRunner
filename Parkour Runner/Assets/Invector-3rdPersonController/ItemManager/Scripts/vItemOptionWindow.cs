@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using ItemManager.Scripts.vItemEnumsBuilder;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     public class vItemOptionWindow : MonoBehaviour
     {

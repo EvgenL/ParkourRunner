@@ -4,10 +4,15 @@ using UnityEditor;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.IO;
+using Basic_Locomotion.Scripts.Camera;
+using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.CharacterController.Actions;
 using Invector;
 using Invector.CharacterController;
+using Melee_Combat.Scripts.CharacterController;
+using Melee_Combat.Scripts.LockOn;
+using Melee_Combat.Scripts.MeleeWeapon;
 using UnityEngine.EventSystems;
-using Invector.CharacterController.Actions;
 
 public class vCreateMeleeCharacterEditor : EditorWindow
 {

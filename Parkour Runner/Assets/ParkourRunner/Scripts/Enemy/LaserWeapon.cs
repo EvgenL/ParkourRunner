@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
-using System.Text;
-using Assets.Scripts.Managers;
-using RootMotion.Demos;
-using TMPro;
+using ParkourRunner.Scripts.Managers;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Assets.Scripts.Enemy
+namespace ParkourRunner.Scripts.Enemy
 {
     enum LaserAttackType
     {

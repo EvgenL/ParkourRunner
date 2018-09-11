@@ -1,11 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿using UnityEditor;
+using UnityEngine;
 #if UNITY_EDITOR
-using UnityEditor;
+
 #endif
 
-namespace Jacovone.CameraTools
+namespace PathMagic.Scripts
 {
 	/// <summary>
 	/// Path magic follower. Attach this script on a PathMagic or PathMagicAnimator instance. The current

@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
-using Invector.CharacterController;
-#if UNITY_5_3_OR_NEWER
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_5_3_OR_NEWER
+
 #endif
 
-namespace Invector
+namespace Basic_Locomotion.Scripts.CharacterController
 {
     public class vGameController : MonoBehaviour
     {

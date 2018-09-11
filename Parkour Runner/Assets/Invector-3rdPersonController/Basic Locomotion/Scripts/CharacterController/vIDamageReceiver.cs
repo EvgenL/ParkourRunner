@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Basic_Locomotion.Scripts.ObjectDamage;
+using UnityEngine;
 
-namespace Invector.EventSystems
+namespace Basic_Locomotion.Scripts.CharacterController
 {
     public interface vIDamageReceiver
     {

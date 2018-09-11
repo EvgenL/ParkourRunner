@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEditor;
 using System.Linq.Expressions;
 using System;
+using Basic_Locomotion.Scripts.Generic;
 
 [CustomPropertyDrawer(typeof(vHandler))]
 public class vHandlerDrawer : PropertyDrawer

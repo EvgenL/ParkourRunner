@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-namespace Invector
+namespace Melee_Combat.Scripts.WaypointSystem
 {
     public class vWaypointArea : MonoBehaviour
     {

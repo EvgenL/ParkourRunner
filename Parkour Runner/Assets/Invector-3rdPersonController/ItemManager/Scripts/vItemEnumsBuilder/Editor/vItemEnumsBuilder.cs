@@ -4,6 +4,9 @@ using System.Collections;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using Basic_Locomotion.Scripts.Generic;
+using ItemManager.Scripts.vItemEnumsBuilder;
+
 namespace Invector.ItemManager
 {
     public class vItemEnumsBuilder

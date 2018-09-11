@@ -1,28 +1,33 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using Basic_Locomotion.Scripts.CharacterController.Actions;
+using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
-[vClassHeader("vCollectableStandalone", false)]
-public class vCollectableStandalone : vTriggerGenericAction
+namespace Melee_Combat.Scripts.MeleeWeapon
 {
-    public string targetEquipPoint;
-    public GameObject weapon;
-    public Sprite weaponIcon;
-    public string weaponText;
-    public UnityEvent OnEquip;
-    public UnityEvent OnDrop;
-  
-    private vCollectMeleeControl manager;   
-
-    public override IEnumerator OnDoActionDelay(GameObject cc)
+    [vClassHeader("vCollectableStandalone", false)]
+    public class vCollectableStandalone : vTriggerGenericAction
     {
-        yield return StartCoroutine(base.OnDoActionDelay(cc));
+        public string targetEquipPoint;
+        public GameObject weapon;
+        public Sprite weaponIcon;
+        public string weaponText;
+        public UnityEvent OnEquip;
+        public UnityEvent OnDrop;
+  
+        private vCollectMeleeControl manager;   
 
-        manager = cc.GetComponent<vCollectMeleeControl>();
-
-        if (manager != null)
+        public override IEnumerator OnDoActionDelay(GameObject cc)
         {
-            manager.HandleCollectableInput(this);
+            yield return StartCoroutine(base.OnDoActionDelay(cc));
+
+            manager = cc.GetComponent<vCollectMeleeControl>();
+
+            if (manager != null)
+            {
+                manager.HandleCollectableInput(this);
+            }
         }
     }
 }

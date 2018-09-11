@@ -1,67 +1,71 @@
-﻿using UnityEngine;
-using System.Collections;
-using Invector.EventSystems;
+﻿using System.Collections;
+using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.ObjectDamage;
+using UnityEngine;
 
-public class vBreakableObject : MonoBehaviour, vIDamageReceiver
+namespace Melee_Combat._3DModels.Other.Vases.Script
 {
-    public Transform brokenObject;
-    [Header("Break Object Settings")]
-    [Tooltip("Break objet  OnTrigger with Player rolling")]
-    public bool breakOnPlayerRoll = true;
-    [Tooltip("Break objet  OnCollision with other object")]
-    public bool breakOnCollision = true;
-    [Tooltip("Rigidbody velocity to break OnCollision whit other object")]
-    public float maxVelocityToBreak = 5f;
-    public UnityEngine.Events.UnityEvent OnBroken;
-    private bool isBroken;
-    private Collider _collider;
-    private Rigidbody _rigidBody;
-
-    void Start()
+    public class vBreakableObject : MonoBehaviour, vIDamageReceiver
     {
-        _collider = GetComponent<Collider>();
-        _rigidBody = GetComponent<Rigidbody>();
-    }
+        public Transform brokenObject;
+        [Header("Break Object Settings")]
+        [Tooltip("Break objet  OnTrigger with Player rolling")]
+        public bool breakOnPlayerRoll = true;
+        [Tooltip("Break objet  OnCollision with other object")]
+        public bool breakOnCollision = true;
+        [Tooltip("Rigidbody velocity to break OnCollision whit other object")]
+        public float maxVelocityToBreak = 5f;
+        public UnityEngine.Events.UnityEvent OnBroken;
+        private bool isBroken;
+        private Collider _collider;
+        private Rigidbody _rigidBody;
 
-    public void TakeDamage(vDamage damage, bool hitReaction)
-    {
-        if (!isBroken)
+        void Start()
         {
-            isBroken = true;
-            StartCoroutine(BreakObjet());
+            _collider = GetComponent<Collider>();
+            _rigidBody = GetComponent<Rigidbody>();
         }
-    }
 
-    IEnumerator BreakObjet()
-    {
-        if (_rigidBody) Destroy(_rigidBody);
-        if (_collider) Destroy(_collider);
-        yield return new WaitForEndOfFrame();
-        brokenObject.transform.parent = null;
-        brokenObject.gameObject.SetActive(true);
-        OnBroken.Invoke();
-        Destroy(gameObject);
-    }
-
-    void OnTriggerStay(Collider other)
-    {
-        if (breakOnPlayerRoll && other.gameObject.CompareTag("Player"))
+        public void TakeDamage(vDamage damage, bool hitReaction)
         {
-            var thirPerson = other.gameObject.GetComponent<Invector.CharacterController.vThirdPersonController>();
-            if (thirPerson && thirPerson.isRolling && !isBroken)
+            if (!isBroken)
             {
                 isBroken = true;
                 StartCoroutine(BreakObjet());
             }
         }
-    }
 
-    void OnCollisionEnter(Collision other)
-    {
-        if (breakOnCollision && _rigidBody && _rigidBody.velocity.magnitude > 5f && !isBroken)
+        IEnumerator BreakObjet()
         {
-            isBroken = true;
-            StartCoroutine(BreakObjet());
+            if (_rigidBody) Destroy(_rigidBody);
+            if (_collider) Destroy(_collider);
+            yield return new WaitForEndOfFrame();
+            brokenObject.transform.parent = null;
+            brokenObject.gameObject.SetActive(true);
+            OnBroken.Invoke();
+            Destroy(gameObject);
+        }
+
+        void OnTriggerStay(Collider other)
+        {
+            if (breakOnPlayerRoll && other.gameObject.CompareTag("Player"))
+            {
+                var thirPerson = other.gameObject.GetComponent<vThirdPersonController>();
+                if (thirPerson && thirPerson.isRolling && !isBroken)
+                {
+                    isBroken = true;
+                    StartCoroutine(BreakObjet());
+                }
+            }
+        }
+
+        void OnCollisionEnter(Collision other)
+        {
+            if (breakOnCollision && _rigidBody && _rigidBody.velocity.magnitude > 5f && !isBroken)
+            {
+                isBroken = true;
+                StartCoroutine(BreakObjet());
+            }
         }
     }
 }

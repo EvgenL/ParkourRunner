@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     public class vWindowPop_up : MonoBehaviour
     {

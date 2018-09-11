@@ -1,10 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Invector.CharacterController;
+using Basic_Locomotion.Scripts.Camera;
+using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
 
-namespace Invector
+namespace Melee_Combat.Scripts.LockOn
 {
     [vClassHeader("Lock-On")]
     public abstract class vLockOnBehaviour : vMonoBehaviour

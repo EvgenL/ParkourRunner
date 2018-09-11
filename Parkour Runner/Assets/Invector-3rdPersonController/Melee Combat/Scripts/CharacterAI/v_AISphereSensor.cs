@@ -1,127 +1,130 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using Invector.CharacterController;
+﻿using System.Collections.Generic;
+using Basic_Locomotion.Scripts.CharacterController;
+using UnityEngine;
 
-[RequireComponent(typeof(SphereCollider))]
-public class v_AISphereSensor : MonoBehaviour
+namespace Melee_Combat.Scripts.CharacterAI
 {
-    [Header("Who the AI can chase")]
-    [Tooltip("Character won't hit back when receive damage, check false and it will automatically add the Tag of the attacker")]
-    [HideInInspector]
-    public bool passiveToDamage = false;    
-	[HideInInspector]
-    public List<string> tagsToDetect = new List<string>() { "Player" };
-    public LayerMask obstacleLayer = 1 << 0;
-    [HideInInspector]
-    public bool getFromDistance;
-
-    public List<Transform> targetsInArea;
-
-    void Start()
+    [RequireComponent(typeof(SphereCollider))]
+    public class v_AISphereSensor : MonoBehaviour
     {
-        targetsInArea = new List<Transform>();
-    }
+        [Header("Who the AI can chase")]
+        [Tooltip("Character won't hit back when receive damage, check false and it will automatically add the Tag of the attacker")]
+        [HideInInspector]
+        public bool passiveToDamage = false;    
+        [HideInInspector]
+        public List<string> tagsToDetect = new List<string>() { "Player" };
+        public LayerMask obstacleLayer = 1 << 0;
+        [HideInInspector]
+        public bool getFromDistance;
 
-    public void SetTagToDetect(Transform _transform)
-    {
-        if (_transform!=null && tagsToDetect != null && !tagsToDetect.Contains(_transform.tag))
+        public List<Transform> targetsInArea;
+
+        void Start()
         {
-            tagsToDetect.Add(_transform.tag);
-            targetsInArea.Add(_transform);
+            targetsInArea = new List<Transform>();
         }
-    }
 
-    public void RemoveTag(Transform _transform)
-    {
-        if (tagsToDetect != null && tagsToDetect.Contains(_transform.tag))
+        public void SetTagToDetect(Transform _transform)
         {
-            tagsToDetect.Remove(_transform.tag);
-            if (targetsInArea.Contains(_transform))
-                targetsInArea.Remove(_transform);
-        }
-    }
-
-    public void SetColliderRadius(float radius)
-    {
-        var collider = GetComponent<SphereCollider>();
-        if (collider)
-            collider.radius = radius;
-    }
-
-    public Transform GetTargetTransform()
-    {
-        if (targetsInArea.Count > 0)
-        {
-            SortTargets();
-            if (targetsInArea.Count > 0)
-                return targetsInArea[0];
-        }
-        return null;
-    }
-
-	public vCharacter GetTargetvCharacter()
-    {
-        if (targetsInArea.Count > 0)
-        {
-            SortCharacters();
-            if (targetsInArea.Count > 0)
+            if (_transform!=null && tagsToDetect != null && !tagsToDetect.Contains(_transform.tag))
             {
-	            var vChar = targetsInArea[0].GetComponent<vCharacter>();
-                if (vChar != null && vChar.currentHealth > 0)
-                    return vChar;
+                tagsToDetect.Add(_transform.tag);
+                targetsInArea.Add(_transform);
             }
         }
 
-        return null;
-    }
-
-    void SortCharacters()
-    {
-        for (int i = targetsInArea.Count-1; i >=0; i--)
+        public void RemoveTag(Transform _transform)
         {
-            var t = targetsInArea[i];
-            if (t == null || t.GetComponent<vCharacter>() == null)
+            if (tagsToDetect != null && tagsToDetect.Contains(_transform.tag))
             {
-                targetsInArea.RemoveAt(i);  
+                tagsToDetect.Remove(_transform.tag);
+                if (targetsInArea.Contains(_transform))
+                    targetsInArea.Remove(_transform);
             }
-        } 
+        }
+
+        public void SetColliderRadius(float radius)
+        {
+            var collider = GetComponent<SphereCollider>();
+            if (collider)
+                collider.radius = radius;
+        }
+
+        public Transform GetTargetTransform()
+        {
+            if (targetsInArea.Count > 0)
+            {
+                SortTargets();
+                if (targetsInArea.Count > 0)
+                    return targetsInArea[0];
+            }
+            return null;
+        }
+
+        public vCharacter GetTargetvCharacter()
+        {
+            if (targetsInArea.Count > 0)
+            {
+                SortCharacters();
+                if (targetsInArea.Count > 0)
+                {
+                    var vChar = targetsInArea[0].GetComponent<vCharacter>();
+                    if (vChar != null && vChar.currentHealth > 0)
+                        return vChar;
+                }
+            }
+
+            return null;
+        }
+
+        void SortCharacters()
+        {
+            for (int i = targetsInArea.Count-1; i >=0; i--)
+            {
+                var t = targetsInArea[i];
+                if (t == null || t.GetComponent<vCharacter>() == null)
+                {
+                    targetsInArea.RemoveAt(i);  
+                }
+            } 
            
 
-        if (getFromDistance)
-            targetsInArea.Sort(delegate (Transform c1, Transform c2)
-            {
-                return Vector3.Distance(this.transform.position, c1 != null ? c1.transform.position : Vector3.one * Mathf.Infinity).CompareTo
-                    ((Vector3.Distance(this.transform.position, c2 != null ? c2.transform.position : Vector3.one * Mathf.Infinity)));
-            });
-    }
-
-    void SortTargets()
-    {
-        for (int i = targetsInArea.Count-1; i >=0; i--)
-        {
-            var t = targetsInArea[i];
-            if (t == null)
-            {
-                targetsInArea.RemoveAt(i);               
-            }
+            if (getFromDistance)
+                targetsInArea.Sort(delegate (Transform c1, Transform c2)
+                {
+                    return Vector3.Distance(this.transform.position, c1 != null ? c1.transform.position : Vector3.one * Mathf.Infinity).CompareTo
+                        ((Vector3.Distance(this.transform.position, c2 != null ? c2.transform.position : Vector3.one * Mathf.Infinity)));
+                });
         }
-        if (getFromDistance)
-            targetsInArea.Sort(delegate (Transform c1, Transform c2)
+
+        void SortTargets()
+        {
+            for (int i = targetsInArea.Count-1; i >=0; i--)
             {
-                return Vector3.Distance(this.transform.position, c1 != null ? c1.transform.position : Vector3.one * Mathf.Infinity).CompareTo
-                    ((Vector3.Distance(this.transform.position, c2 != null ? c2.transform.position : Vector3.one * Mathf.Infinity)));
-            });
-    }
+                var t = targetsInArea[i];
+                if (t == null)
+                {
+                    targetsInArea.RemoveAt(i);               
+                }
+            }
+            if (getFromDistance)
+                targetsInArea.Sort(delegate (Transform c1, Transform c2)
+                {
+                    return Vector3.Distance(this.transform.position, c1 != null ? c1.transform.position : Vector3.one * Mathf.Infinity).CompareTo
+                        ((Vector3.Distance(this.transform.position, c2 != null ? c2.transform.position : Vector3.one * Mathf.Infinity)));
+                });
+        }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (tagsToDetect.Contains(other.gameObject.tag) && !targetsInArea.Contains(other.transform))        
-            targetsInArea.Add(other.transform);        
-    }
+        void OnTriggerEnter(Collider other)
+        {
+            if (tagsToDetect.Contains(other.gameObject.tag) && !targetsInArea.Contains(other.transform))        
+                targetsInArea.Add(other.transform);        
+        }
 
-    void OnTriggerExit(Collider other)
-    {
-        if (tagsToDetect.Contains(other.gameObject.tag) && targetsInArea.Contains(other.transform))
-            targetsInArea.Remove(other.transform);
+        void OnTriggerExit(Collider other)
+        {
+            if (tagsToDetect.Contains(other.gameObject.tag) && targetsInArea.Contains(other.transform))
+                targetsInArea.Remove(other.transform);
+        }
     }
 }

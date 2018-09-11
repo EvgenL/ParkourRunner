@@ -1,13 +1,15 @@
-﻿using UnityEngine;
-using System.Collections;
-#if MOBILE_INPUT
-using UnityStandardAssets.CrossPlatformInput;
+﻿#if MOBILE_INPUT
 #endif
-#if UNITY_5_3_OR_NEWER
+using System.Collections;
+using Basic_Locomotion.Scripts.Camera;
+using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_5_3_OR_NEWER
+
 #endif
 
-namespace Invector.CharacterController
+namespace Basic_Locomotion.Scripts.CharacterController
 {
     [vClassHeader("Input Manager", iconName = "inputIcon")]
     public class vThirdPersonInput : vMonoBehaviour
@@ -322,11 +324,11 @@ namespace Invector.CharacterController
 
         public virtual void CameraInput()
         {
-            if (!Camera.main) Debug.Log("Missing a Camera with the tag MainCamera, please add one.");
+            if (!UnityEngine.Camera.main) Debug.Log("Missing a Camera with the tag MainCamera, please add one.");
             if(!ignoreCameraRotation)
             {
-                if (!keepDirection) cc.UpdateTargetDirection(Camera.main.transform);
-                RotateWithCamera(Camera.main.transform);
+                if (!keepDirection) cc.UpdateTargetDirection(UnityEngine.Camera.main.transform);
+                RotateWithCamera(UnityEngine.Camera.main.transform);
             }
 
             if (tpCamera == null)

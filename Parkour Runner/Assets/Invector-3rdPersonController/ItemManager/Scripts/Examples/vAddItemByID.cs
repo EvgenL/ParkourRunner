@@ -1,30 +1,32 @@
 ﻿using UnityEngine;
-using Invector.ItemManager;
 
-public class vAddItemByID : MonoBehaviour
+namespace ItemManager.Scripts.Examples
 {
-    public int id, amount;
-    public bool autoEquip;
-    public bool destroyAfter;
-
-    /// <summary>
-    /// Simple example on how to add one or more items into the inventory using code
-    /// You can also auto equip the item if it's a MeleeWeapon Type
-    /// </summary>
-    /// <param name="other"></param>
-	void OnTriggerEnter(Collider other)
+    public class vAddItemByID : MonoBehaviour
     {
-        if(other.gameObject.CompareTag("Player"))
+        public int id, amount;
+        public bool autoEquip;
+        public bool destroyAfter;
+
+        /// <summary>
+        /// Simple example on how to add one or more items into the inventory using code
+        /// You can also auto equip the item if it's a MeleeWeapon Type
+        /// </summary>
+        /// <param name="other"></param>
+        void OnTriggerEnter(Collider other)
         {
-            var itemManager = other.gameObject.GetComponent<vItemManager>();
-            if(itemManager)
+            if(other.gameObject.CompareTag("Player"))
             {
-                var reference = new ItemReference(id);
-                reference.amount = amount;
-                reference.autoEquip = autoEquip;
-                itemManager.AddItem(reference);
+                var itemManager = other.gameObject.GetComponent<vItemManager>();
+                if(itemManager)
+                {
+                    var reference = new ItemReference(id);
+                    reference.amount = amount;
+                    reference.autoEquip = autoEquip;
+                    itemManager.AddItem(reference);
+                }
+                if (destroyAfter) Destroy(gameObject);
             }
-            if (destroyAfter) Destroy(gameObject);
         }
     }
 }

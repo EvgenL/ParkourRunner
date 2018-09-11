@@ -2,6 +2,7 @@
 using UnityEditor;
 using System;
 using System.Reflection;
+using Basic_Locomotion.Scripts.Generic;
 
 [CustomPropertyDrawer(typeof(vButtonAttribute))]
 public class SingletonEditor : DecoratorDrawer

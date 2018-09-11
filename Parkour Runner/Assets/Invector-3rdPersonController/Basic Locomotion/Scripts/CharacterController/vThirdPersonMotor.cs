@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Basic_Locomotion.Scripts.Generic;
+using Basic_Locomotion.Scripts.ObjectDamage;
 using UnityEngine;
-using Invector.EventSystems;
 using UnityEngine.Events;
 
-namespace Invector.CharacterController
+namespace Basic_Locomotion.Scripts.CharacterController
 {
     public abstract class vThirdPersonMotor : vCharacter
     {

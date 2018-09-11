@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEditor;
 using System;
+using Basic_Locomotion.Scripts.ObjectDamage;
 
 [CanEditMultipleObjects]
 [CustomEditor(typeof(vObjectDamage))]

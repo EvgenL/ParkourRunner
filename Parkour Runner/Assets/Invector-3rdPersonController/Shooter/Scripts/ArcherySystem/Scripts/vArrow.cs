@@ -1,18 +1,22 @@
-﻿using UnityEngine;
+﻿using Shooter.Scripts.Weapon;
+using UnityEngine;
 
-public class vArrow : MonoBehaviour
+namespace Shooter.Scripts.ArcherySystem.Scripts
 {
-    public vProjectileControl projectileControl;
-    public Transform detachObject;
-    public bool alignToNormal = true;
-    [HideInInspector]
-    public float penetration;
-
-    public void OnDestroyProjectile(RaycastHit hit)
+    public class vArrow : MonoBehaviour
     {
-        detachObject.parent = hit.transform;
-        if (alignToNormal)
-            detachObject.rotation = Quaternion.LookRotation(-hit.normal);
-        detachObject.position = hit.point + transform.forward * penetration;
+        public vProjectileControl projectileControl;
+        public Transform detachObject;
+        public bool alignToNormal = true;
+        [HideInInspector]
+        public float penetration;
+
+        public void OnDestroyProjectile(RaycastHit hit)
+        {
+            detachObject.parent = hit.transform;
+            if (alignToNormal)
+                detachObject.rotation = Quaternion.LookRotation(-hit.normal);
+            detachObject.position = hit.point + transform.forward * penetration;
+        }
     }
 }

@@ -1,41 +1,45 @@
-﻿using UnityEngine;
-using Invector.CharacterController;
+﻿using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.ObjectDamage;
+using UnityEngine;
 
-public class vPunchingBag : MonoBehaviour
+namespace Basic_Locomotion.Scripts.Generic
 {
-    public Rigidbody _rigidbody;
-    public float forceMultipler = 0.5f;
-    public SpringJoint joint;
-    public vCharacter character;
-
-    void Start()
+    public class vPunchingBag : MonoBehaviour
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        character = GetComponent<vCharacter>();
-        character.onReceiveDamage.AddListener(TakeDamage);
-    }
+        public Rigidbody _rigidbody;
+        public float forceMultipler = 0.5f;
+        public SpringJoint joint;
+        public vCharacter character;
 
-    public void TakeDamage(vDamage damage)
-    {
-        var point = damage.hitPosition;
-        var relativePoint = transform.position;
-        relativePoint.y = point.y;
-        var forceForward = relativePoint - point;
-
-        if (character != null && joint != null && character.currentHealth < 0)
+        void Start()
         {
-            joint.connectedBody = null;
-            if (character.removeComponentsAfterDie)
-            {
-                foreach (MonoBehaviour mono in character.gameObject.GetComponentsInChildren<MonoBehaviour>())
-                    if (mono != this)
-                        Destroy(mono);
-            }
+            _rigidbody = GetComponent<Rigidbody>();
+            character = GetComponent<vCharacter>();
+            character.onReceiveDamage.AddListener(TakeDamage);
         }
 
-        if (_rigidbody != null)
+        public void TakeDamage(vDamage damage)
         {
-            _rigidbody.AddForce(forceForward * (damage.damageValue * forceMultipler), ForceMode.Impulse);
+            var point = damage.hitPosition;
+            var relativePoint = transform.position;
+            relativePoint.y = point.y;
+            var forceForward = relativePoint - point;
+
+            if (character != null && joint != null && character.currentHealth < 0)
+            {
+                joint.connectedBody = null;
+                if (character.removeComponentsAfterDie)
+                {
+                    foreach (MonoBehaviour mono in character.gameObject.GetComponentsInChildren<MonoBehaviour>())
+                        if (mono != this)
+                            Destroy(mono);
+                }
+            }
+
+            if (_rigidbody != null)
+            {
+                _rigidbody.AddForce(forceForward * (damage.damageValue * forceMultipler), ForceMode.Impulse);
+            }
         }
     }
 }

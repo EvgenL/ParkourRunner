@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using ParkourRunner.Scripts.Managers;
 using UnityEngine;
 
-namespace Assets.Scripts.Pick_Ups
+namespace ParkourRunner.Scripts.Track.Pick_Ups
 {
     public abstract class PickUp : MonoBehaviour
     {

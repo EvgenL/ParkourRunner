@@ -1,6 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
-namespace Invector.CharacterController.v2_5D
+﻿using System.Collections;
+using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
+
+namespace Basic_Locomotion.Scripts.CharacterController.Examples._2._5D
 {
     [vClassHeader("2.5D Input")]
     public class v2_5DInput : vThirdPersonInput

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Melee_Combat.Scripts.MeleeWeapon;
 using UnityEditor;
 
 [CustomEditor(typeof(vCollectMeleeControl))]

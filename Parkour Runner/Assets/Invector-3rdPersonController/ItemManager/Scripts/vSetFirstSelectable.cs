@@ -1,35 +1,38 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class vSetFirstSelectable : MonoBehaviour
+namespace ItemManager.Scripts
 {
-    public GameObject firstSelectable;
-
-    public void ApplyFirstSelectable(GameObject firstSelectable)
+    public class vSetFirstSelectable : MonoBehaviour
     {
-        this.firstSelectable = firstSelectable;
-    }
+        public GameObject firstSelectable;
 
-    void OnEnable()
-    {
-        StartCoroutine(SetSelectableHandle(firstSelectable));
-    }
-
-    IEnumerator SetSelectableHandle(GameObject target)
-    {
-        if (this.enabled)
+        public void ApplyFirstSelectable(GameObject firstSelectable)
         {
-            yield return new WaitForEndOfFrame();
-            SetSelectable(target);
+            this.firstSelectable = firstSelectable;
         }
-    }
 
-    void SetSelectable(GameObject target)
-    {
-        var pointer = new PointerEventData(EventSystem.current);
-        ExecuteEvents.Execute(EventSystem.current.currentSelectedGameObject, pointer, ExecuteEvents.pointerExitHandler);
-        EventSystem.current.SetSelectedGameObject(target, new BaseEventData(EventSystem.current));
-        ExecuteEvents.Execute(target, pointer, ExecuteEvents.selectHandler);
+        void OnEnable()
+        {
+            StartCoroutine(SetSelectableHandle(firstSelectable));
+        }
+
+        IEnumerator SetSelectableHandle(GameObject target)
+        {
+            if (this.enabled)
+            {
+                yield return new WaitForEndOfFrame();
+                SetSelectable(target);
+            }
+        }
+
+        void SetSelectable(GameObject target)
+        {
+            var pointer = new PointerEventData(EventSystem.current);
+            ExecuteEvents.Execute(EventSystem.current.currentSelectedGameObject, pointer, ExecuteEvents.pointerExitHandler);
+            EventSystem.current.SetSelectedGameObject(target, new BaseEventData(EventSystem.current));
+            ExecuteEvents.Execute(target, pointer, ExecuteEvents.selectHandler);
+        }
     }
 }

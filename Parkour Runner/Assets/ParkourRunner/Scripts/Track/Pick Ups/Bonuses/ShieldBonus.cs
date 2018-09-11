@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Assets.Scripts.Managers;
-using Assets.Scripts.Pick_Ups.Effects;
-using Invector.CharacterController;
+﻿using ParkourRunner.Scripts.Managers;
 using UnityEngine;
 
-namespace Assets.Scripts.Pick_Ups.Bonuses
+namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 {
     class ShieldBonus : MonoBehaviour
     {

@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-namespace Jacovone
+namespace PathMagic.Scripts
 {
 	[ExecuteInEditMode]
 	public class DistributeOnPath : MonoBehaviour

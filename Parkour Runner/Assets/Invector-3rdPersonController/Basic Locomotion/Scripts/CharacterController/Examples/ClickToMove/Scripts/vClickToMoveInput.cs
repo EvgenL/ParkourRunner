@@ -1,6 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
-namespace Invector.CharacterController.ClickToMove
+﻿using System.Collections;
+using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
+
+namespace Basic_Locomotion.Scripts.CharacterController.Examples.ClickToMove.Scripts
 {
     [vClassHeader("Click To Move Input")]
     public class vClickToMoveInput : vThirdPersonInput
@@ -40,7 +42,7 @@ namespace Invector.CharacterController.ClickToMove
 
             if (Input.GetMouseButton(0))
             {
-                if (Physics.Raycast(tpCamera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, clickMoveLayer))
+                if (Physics.Raycast(tpCamera.GetComponent<UnityEngine.Camera>().ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, clickMoveLayer))
                 {
                     if (onEnableCursor != null)
                     {

@@ -5,8 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityStandardAssets.Effects;
 
-
-namespace UnityStandardAssets.SceneUtils
+namespace SampleScenes.Scripts
 {
     public class ParticleSceneControls : MonoBehaviour
     {

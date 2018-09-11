@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEditor;
 using System.Reflection;
+using Basic_Locomotion.Scripts.Generic;
+
 [CustomPropertyDrawer(typeof(vHideInInspectorAttribute),true)]
 public class vHideInInspectorDrawer : PropertyDrawer
 {

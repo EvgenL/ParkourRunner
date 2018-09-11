@@ -1,41 +1,44 @@
 ﻿using UnityEngine;
-#if UNITY_5_3_OR_NEWER
 using UnityEngine.SceneManagement;
+#if UNITY_5_3_OR_NEWER
+
 #endif
-public class vFindSpawnPoint : MonoBehaviour {
-	public Transform spawnPoint;
-	public string spawnPointName;
-	public GameObject target;
+namespace Basic_Locomotion.Scripts.Generic
+{
+    public class vFindSpawnPoint : MonoBehaviour {
+        public Transform spawnPoint;
+        public string spawnPointName;
+        public GameObject target;
 	
-	public void AlighObjetToSpawnPoint(GameObject target,string spawnPointName)
-	{
-		this.target = target;
-		this.spawnPointName = spawnPointName;
-		//		Debug.Log(spawnPointName+" "+gameObject.name);
-		#if UNITY_5_4_OR_NEWER
-		SceneManager.sceneLoaded += OnLevelFinishedLoading;
-		#endif
-		DontDestroyOnLoad(gameObject);
+        public void AlighObjetToSpawnPoint(GameObject target,string spawnPointName)
+        {
+            this.target = target;
+            this.spawnPointName = spawnPointName;
+            //		Debug.Log(spawnPointName+" "+gameObject.name);
+#if UNITY_5_4_OR_NEWER
+            SceneManager.sceneLoaded += OnLevelFinishedLoading;
+#endif
+            DontDestroyOnLoad(gameObject);
 		
-	}
-	#if UNITY_5_4_OR_NEWER
-	void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
-	{
-		var spawnPoint = GameObject.Find(spawnPointName);
-		if(spawnPoint && target)
-		{
-			target.transform.position = spawnPoint.transform.position;
-			target.transform.rotation = spawnPoint.transform.rotation;
-		}
-		else
-		{
-            try
+        }
+#if UNITY_5_4_OR_NEWER
+        void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+        {
+            var spawnPoint = GameObject.Find(spawnPointName);
+            if(spawnPoint && target)
             {
-                Destroy(gameObject);
+                target.transform.position = spawnPoint.transform.position;
+                target.transform.rotation = spawnPoint.transform.rotation;
             }
-            catch { }
-		}
-	}
+            else
+            {
+                try
+                {
+                    Destroy(gameObject);
+                }
+                catch { }
+            }
+        }
 #else
     public void OnLevelWasLoaded(int level)
     {
@@ -56,4 +59,5 @@ public class vFindSpawnPoint : MonoBehaviour {
     }
 #endif
 
+    }
 }

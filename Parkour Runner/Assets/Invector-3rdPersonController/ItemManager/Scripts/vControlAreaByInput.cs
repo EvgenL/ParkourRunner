@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Basic_Locomotion.Scripts.CharacterController;
+using UnityEngine;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     public class vControlAreaByInput : MonoBehaviour
     {

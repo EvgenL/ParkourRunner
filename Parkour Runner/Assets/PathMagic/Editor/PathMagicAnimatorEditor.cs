@@ -1,13 +1,14 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using PathMagic.Scripts;
 using UnityEditor;
 using UnityEditorInternal;
 
 namespace Jacovone
 {
 	[CanEditMultipleObjects]
-	[CustomEditor (typeof(Jacovone.PathMagicAnimator))]
+	[CustomEditor (typeof(PathMagicAnimator))]
 	/// <summary>
 /// Path magic editor. This i sthe editor class for PathMagic instances. It defines the inspector behavios to
 /// configure a complete PathMagic instance.

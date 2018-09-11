@@ -1,11 +1,13 @@
-﻿using Invector;
-using UnityEngine;
+﻿using UnityEngine;
 
-[vClassHeader("vComment",false, "icon_v2")]
-public class vComment : vMonoBehaviour
+namespace Basic_Locomotion.Scripts.Generic
 {
-	#if UNITY_EDITOR
-	[TextAreaAttribute (5, 3000)]
-	public string comment;
-	#endif
+    [vClassHeader("vComment",false, "icon_v2")]
+    public class vComment : vMonoBehaviour
+    {
+#if UNITY_EDITOR
+        [TextArea (5, 3000)]
+        public string comment;
+#endif
+    }
 }

@@ -1,22 +1,18 @@
-﻿	using System;
+﻿using System;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 #if UNITY_EDITOR
-using UnityEditor;
 #endif
-using UnityEngine.UI;
 
-namespace UnityStandardAssets.CrossPlatformInput
+namespace ParkourRunner.Scripts.Player
 {
     public class ParkoutTilt : MonoBehaviour
     {
-
-
         public enum AxisOptions
         {
             ForwardAxis,
             SidewaysAxis,
         }
-
 
         [Serializable]
         public class AxisMapping
@@ -33,7 +29,6 @@ namespace UnityStandardAssets.CrossPlatformInput
             public MappingType type;
             public string axisName;
         }
-
 
         public AxisMapping mapping;
         public float fullTiltAngle = 25;
@@ -56,7 +51,6 @@ namespace UnityStandardAssets.CrossPlatformInput
             {
                 angle = Mathf.Atan2(Input.acceleration.x, -Input.acceleration.y) * Mathf.Rad2Deg +
                         centreAngleOffset;
-
             }
 
             float mappedValue = Mathf.InverseLerp(-fullTiltAngle, fullTiltAngle, angle) * 2 - 1;
@@ -65,6 +59,7 @@ namespace UnityStandardAssets.CrossPlatformInput
                 _smoothValue = mappedValue;
                 return;
             }
+
             //write to buffer
             for (int i = 1; i < BufferSize; i++)
             {

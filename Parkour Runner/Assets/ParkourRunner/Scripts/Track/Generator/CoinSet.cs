@@ -1,41 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts;
+﻿using System.Collections.Generic;
+using ParkourRunner.Scripts.Managers;
+using ParkourRunner.Scripts.Track.Pick_Ups;
 using UnityEngine;
 
-public class CoinSet : CoinPoints
+namespace ParkourRunner.Scripts.Track.Generator
 {
-
-   [SerializeField] private List<Transform> _spots;
-
-    public float ChanceToGenerateCoins = 0.3f;
-
-    private void Start()
+    public class CoinSet : CoinPoints
     {
-        if (Random.Range(0f, 1f) < ChanceToGenerateCoins)
+
+        [SerializeField] private List<Transform> _spots;
+
+        public float ChanceToGenerateCoins = 0.3f;
+
+        private void Start()
         {
-            Generate();
+            if (Random.Range(0f, 1f) < ChanceToGenerateCoins)
+            {
+                Generate();
+            }
         }
-    }
 
-    public override void Generate()
-    {
-        GameManager GameManager = GameManager.Instance;
-
-        for (int i = 0; i < _spots.Count; i++)
+        public override void Generate()
         {
-            var spot = _spots[i];
+            GameManager GameManager = GameManager.Instance;
 
-            var coinGo = PoolManager.Instance.Spawn(
-                CoinPrefab,
-                spot.position,
-                Quaternion.AngleAxis(i * 10, Vector3.up)
+            for (int i = 0; i < _spots.Count; i++)
+            {
+                var spot = _spots[i];
+
+                var coinGo = PoolManager.Instance.Spawn(
+                    CoinPrefab,
+                    spot.position,
+                    Quaternion.AngleAxis(i * 10, Vector3.up)
                 );
 
-            var coinScript = coinGo.GetComponent<Coin>();
-            GameManager.Coins.Add(coinScript);
-        }
+                var coinScript = coinGo.GetComponent<Coin>();
+                GameManager.Coins.Add(coinScript);
+            }
 
-        Used = true;
+            Used = true;
+        }
     }
 }

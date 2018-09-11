@@ -1,11 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.EventSystems;
-#if MOBILE_INPUT
 using UnityStandardAssets.CrossPlatformInput;
+#if MOBILE_INPUT
+
 #endif
 
-namespace Invector
+namespace Basic_Locomotion.Scripts.CharacterController
 {
     public class vInput : MonoBehaviour
     {

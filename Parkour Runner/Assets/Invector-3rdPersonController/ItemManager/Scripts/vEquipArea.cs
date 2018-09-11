@@ -1,9 +1,10 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.UI;
+﻿using System.Collections.Generic;
 using System.Text;
+using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     public class vEquipArea : MonoBehaviour
     {

@@ -1,30 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class CameraTilt : MonoBehaviour
+namespace ParkourRunner.Scripts.Player
 {
-    private Quaternion _baseRotation;
-    private Transform _camera;
-
-    private float _maxAngle;
-
-    private void OnEnable()
+    public class CameraTilt : MonoBehaviour
     {
-        _camera = Camera.main.transform;
-        _baseRotation = _camera.rotation;
-        _maxAngle = GetComponent<ParkoutTilt>().fullTiltAngle;
-    }
+        private Quaternion _baseRotation;
+        private Transform _camera;
 
-    private void OnDisable()
-    {
-        _camera.rotation = _baseRotation;
-    }
+        private float _maxAngle;
 
-    void Update ()
-	{
-	    var angleZ = -CrossPlatformInputManager.GetAxis("Horizontal") * _maxAngle;
-        _camera.rotation = _baseRotation * Quaternion.Euler(0, 0, angleZ);
-	}
+        private void OnEnable()
+        {
+            _camera = Camera.main.transform;
+            _baseRotation = _camera.rotation;
+            _maxAngle = GetComponent<ParkoutTilt>().fullTiltAngle;
+        }
+
+        private void OnDisable()
+        {
+            _camera.rotation = _baseRotation;
+        }
+
+        void Update ()
+        {
+            var angleZ = -CrossPlatformInputManager.GetAxis("Horizontal") * _maxAngle;
+            _camera.rotation = _baseRotation * Quaternion.Euler(0, 0, angleZ);
+        }
+    }
 }

@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 
-public class vRandomAttackBehaviour : StateMachineBehaviour
+namespace Melee_Combat.Scripts.MeleeWeapon
 {
-    public int attackCount;
-
-    //OnStateMachineEnter is called when entering a statemachine via its Entry Node
-    override public void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
+    public class vRandomAttackBehaviour : StateMachineBehaviour
     {
-        animator.SetInteger("RandomAttack", Random.Range(0, attackCount));
+        public int attackCount;
+
+        //OnStateMachineEnter is called when entering a statemachine via its Entry Node
+        override public void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
+        {
+            animator.SetInteger("RandomAttack", Random.Range(0, attackCount));
+        }
     }
 }

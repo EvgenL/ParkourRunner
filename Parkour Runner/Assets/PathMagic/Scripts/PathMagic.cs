@@ -1,18 +1,15 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
-using System.Collections;
-using System;
-
-#if UNITY_EDITOR
+﻿using System;
 using UnityEditor;
+using UnityEngine;
+using UnityEngine.Events;
+#if UNITY_EDITOR
+
 #endif
 
-namespace Jacovone
+namespace PathMagic.Scripts
 {
 	#if UNITY_EDITOR
-	using UnityEditor;
-
-	[ExecuteInEditMode]
+    [ExecuteInEditMode]
 	[InitializeOnLoad]
 	#endif
 
@@ -110,7 +107,7 @@ namespace Jacovone
 		public bool disableOrientation = false;
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="Jacovone.PathMagic"/> disable orientation.
+		/// Gets or sets a value indicating whether this <see cref="PathMagic"/> disable orientation.
 		/// </summary>
 		/// <value><c>true</c> if disable orientation; otherwise, <c>false</c>.</value>
 		public bool DisableOrientation {
@@ -146,7 +143,7 @@ namespace Jacovone
 		public bool globalFollowPath = false;
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="Jacovone.PathMagic"/> 
+		/// Gets or sets a value indicating whether this <see cref="PathMagic"/> 
 		/// follows path globally (at each frame).
 		/// </summary>
 		/// <value><c>true</c> if global follow path; otherwise, <c>false</c>.</value>
@@ -205,7 +202,7 @@ namespace Jacovone
 		public bool loop = false;
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="Jacovone.PathMagic"/> is loopin.
+		/// Gets or sets a value indicating whether this <see cref="PathMagic"/> is loopin.
 		/// Stop the animator at the end of the path or the path is cyclic?
 		/// </summary>
 		/// <value><c>true</c> if th epath is looping; otherwise, <c>false</c>.</value>
@@ -224,7 +221,7 @@ namespace Jacovone
 		public bool autoStart = false;
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="Jacovone.PathMagic"/> auto start.
+		/// Gets or sets a value indicating whether this <see cref="PathMagic"/> auto start.
 		/// Start automatically the animation when the player starts?
 		/// </summary>
 		/// <value><c>true</c> if the path auto starts; otherwise, <c>false</c>.</value>
@@ -314,7 +311,7 @@ namespace Jacovone
 		public bool presampledPath = false;
 
 		/// <summary>
-		/// Gets a value indicating whether this <see cref="Jacovone.PathMagic"/> presampled path. If true, the path 
+		/// Gets a value indicating whether this <see cref="PathMagic"/> presampled path. If true, the path 
 		/// is sampled and animation go through samples, this is a tool to walk on the path at a constant velocity
 		/// </summary>
 		/// <value><c>true</c> if presampled path; otherwise, <c>false</c>.</value>

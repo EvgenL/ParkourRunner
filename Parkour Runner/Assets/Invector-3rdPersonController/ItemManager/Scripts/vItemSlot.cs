@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using Basic_Locomotion.Scripts.CharacterController;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     public delegate void ItemSlotEvent(vItemSlot item);
     public class vItemSlot : MonoBehaviour, IPointerClickHandler, ISelectHandler, IDeselectHandler, ISubmitHandler, IPointerEnterHandler, IPointerExitHandler
@@ -114,7 +115,7 @@ namespace Invector.ItemManager
 
         public virtual void OnPointerEnter(PointerEventData eventData)
         {
-            if(Invector.vInput.instance.inputDevice == InputDevice.MouseKeyboard)
+            if(vInput.instance.inputDevice == InputDevice.MouseKeyboard)
             {
                 EventSystem.current.SetSelectedGameObject(this.gameObject);
                 if (onSelectSlotCallBack != null)
@@ -124,7 +125,7 @@ namespace Invector.ItemManager
 
         public virtual void OnPointerExit(PointerEventData eventData)
         {
-            if (Invector.vInput.instance.inputDevice == InputDevice.MouseKeyboard)
+            if (vInput.instance.inputDevice == InputDevice.MouseKeyboard)
             {
                 if (onDeselectSlotCallBack != null)
                     onDeselectSlotCallBack(this);
@@ -134,7 +135,7 @@ namespace Invector.ItemManager
         public virtual void OnPointerClick(PointerEventData eventData)
         {
 #if UNITY_ANDROID || UNITY_IOS
-            if (Invector.vInput.instance.inputDevice == InputDevice.Mobile)
+            if (vInput.instance.inputDevice == InputDevice.Mobile)
 #else
             if (Invector.vInput.instance.inputDevice == InputDevice.MouseKeyboard)
 #endif

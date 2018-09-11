@@ -1,72 +1,75 @@
-﻿using UnityEngine;
-using Invector;
-
-#if UNITY_5_3_OR_NEWER
+﻿using Basic_Locomotion.Scripts.CharacterController;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+#if UNITY_5_3_OR_NEWER
+
 #endif
 
-public class vChangeScenes : MonoBehaviour
+namespace Basic_Locomotion.Scripts.Generic
 {
-    vGameController gm;
-
-    private void Start()
+    public class vChangeScenes : MonoBehaviour
     {
-        gm = FindObjectOfType<vGameController>();
-    }
+        vGameController gm;
 
-    public void LoadThirdPersonScene()
-    {
-        Destroy(gm.currentPlayer);
-        Destroy(gm.gameObject);
+        private void Start()
+        {
+            gm = FindObjectOfType<vGameController>();
+        }
+
+        public void LoadThirdPersonScene()
+        {
+            Destroy(gm.currentPlayer);
+            Destroy(gm.gameObject);
 
 #if UNITY_5_3_OR_NEWER
-        SceneManager.LoadScene("3rdPersonController-Demo");
+            SceneManager.LoadScene("3rdPersonController-Demo");
 #else
         Application.LoadLevel("3rdPersonController-Demo");
 #endif
-    }
+        }
 
-    public void LoadTopDownScene()
-    {
-        Destroy(gm.currentPlayer);
-        Destroy(gm.gameObject);
+        public void LoadTopDownScene()
+        {
+            Destroy(gm.currentPlayer);
+            Destroy(gm.gameObject);
 #if UNITY_5_3_OR_NEWER
-        SceneManager.LoadScene("TopDownController-Demo");
+            SceneManager.LoadScene("TopDownController-Demo");
 #else
         Application.LoadLevel("TopDownController-Demo");
 #endif
-    }
+        }
 
-    public void LoadPlatformScene()
-    {
-        Destroy(gm.currentPlayer);
-        Destroy(gm.gameObject);
+        public void LoadPlatformScene()
+        {
+            Destroy(gm.currentPlayer);
+            Destroy(gm.gameObject);
 #if UNITY_5_3_OR_NEWER
-        SceneManager.LoadScene("2.5DController-Demo");
+            SceneManager.LoadScene("2.5DController-Demo");
 #else
         Application.LoadLevel("2.5DController-Demo");
 #endif
-    }
+        }
 
-    public void LoadIsometricScene()
-    {
-        Destroy(gm.currentPlayer);
-        Destroy(gm.gameObject);
+        public void LoadIsometricScene()
+        {
+            Destroy(gm.currentPlayer);
+            Destroy(gm.gameObject);
 #if UNITY_5_3_OR_NEWER
-        SceneManager.LoadScene("IsometricController-Demo");
+            SceneManager.LoadScene("IsometricController-Demo");
 #else
         Application.LoadLevel("IsometricController-Demo");
 #endif
-    }
+        }
 
-    public void LoadVMansion()
-    {
-        Destroy(gm.currentPlayer);
-        Destroy(gm.gameObject);
+        public void LoadVMansion()
+        {
+            Destroy(gm.currentPlayer);
+            Destroy(gm.gameObject);
 #if UNITY_5_3_OR_NEWER
-        SceneManager.LoadScene("V-Mansion");
+            SceneManager.LoadScene("V-Mansion");
 #else
         Application.LoadLevel("V-Mansion");
 #endif
+        }
     }
 }

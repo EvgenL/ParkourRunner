@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     public class vEquipAreaControl : MonoBehaviour
     {

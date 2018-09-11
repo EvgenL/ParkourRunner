@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEditor;
 using Invector;
 using System;
+using Melee_Combat.Scripts.MeleeWeapon;
 
 public class vCreateMeleeWeaponEditor : EditorWindow
 {

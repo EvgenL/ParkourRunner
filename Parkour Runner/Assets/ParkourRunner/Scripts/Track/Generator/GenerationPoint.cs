@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using ParkourRunner.Scripts.Managers;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace ParkourRunner.Scripts.Track.Generator
 {
     public abstract class GenerationPoint : MonoBehaviour
     {

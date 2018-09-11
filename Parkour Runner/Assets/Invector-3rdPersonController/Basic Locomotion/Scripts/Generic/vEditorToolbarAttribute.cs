@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 
-public class vEditorToolbarAttribute : PropertyAttribute
+namespace Basic_Locomotion.Scripts.Generic
 {
-    public readonly string title;
-    public vEditorToolbarAttribute(string title)
+    public class vEditorToolbarAttribute : PropertyAttribute
     {
-        this.title = title;
+        public readonly string title;
+        public vEditorToolbarAttribute(string title)
+        {
+            this.title = title;
+        }
     }
 }

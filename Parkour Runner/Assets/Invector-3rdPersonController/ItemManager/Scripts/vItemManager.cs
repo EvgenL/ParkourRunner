@@ -1,13 +1,16 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Invector.CharacterController;
-using Invector.CharacterController.Actions;
+using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.CharacterController.Actions;
+using Basic_Locomotion.Scripts.Generic;
+using ItemManager.Scripts.vItemEnumsBuilder;
+using UnityEngine;
+
 #if UNITY_EDITOR
 
 #endif
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     public class vItemManager : vMonoBehaviour
     {
@@ -994,7 +997,7 @@ namespace Invector.ItemManager
     public class ApplyAttributeEvent
     {
         [SerializeField]
-        public vItemAttributes attribute;
+        public vItemEnumsBuilder.vItemAttributes attribute;
         [SerializeField]
         public OnApplyAttribute onApplyAttribute;
     }

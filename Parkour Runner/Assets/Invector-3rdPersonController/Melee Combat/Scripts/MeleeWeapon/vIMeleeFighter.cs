@@ -1,6 +1,8 @@
-﻿using UnityEngine;
-using Invector.CharacterController;
-namespace Invector.EventSystems
+﻿using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.ObjectDamage;
+using UnityEngine;
+
+namespace Melee_Combat.Scripts.MeleeWeapon
 {
     public interface vIMeleeFighter: vIAttackReceiver
     {

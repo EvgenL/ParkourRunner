@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
-namespace Invector
+namespace ItemManager.Scripts
 {
     public class vItemCollectionTextHUD : MonoBehaviour
     {

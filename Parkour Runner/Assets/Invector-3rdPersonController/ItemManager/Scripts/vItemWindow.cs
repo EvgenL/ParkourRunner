@@ -1,11 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
+﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.EventSystems;
 using System.Text;
+using ItemManager.Scripts.vItemEnumsBuilder;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     public delegate void OnSubmitSlot(vItemSlot slot);
     public delegate void OnSelectSlot(vItemSlot slot);

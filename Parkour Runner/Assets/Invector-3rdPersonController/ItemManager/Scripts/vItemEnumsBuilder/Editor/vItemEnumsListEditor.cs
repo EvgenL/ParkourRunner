@@ -7,6 +7,7 @@ using System.Reflection.Emit;
 using UnityEditor;
 using UnityEngine;
 using System.Linq;
+using ItemManager.Scripts.vItemEnumsBuilder;
 
 namespace Invector.ItemManager.DynamicEnum
 {

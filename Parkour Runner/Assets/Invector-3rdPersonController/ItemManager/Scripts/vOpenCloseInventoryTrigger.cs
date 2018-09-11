@@ -1,4 +1,6 @@
-﻿namespace Invector.ItemManager
+﻿using Basic_Locomotion.Scripts.Generic;
+
+namespace ItemManager.Scripts
 {
     [vClassHeader("vOpenClose Inventory Trigger", false)]
     public class vOpenCloseInventoryTrigger : vMonoBehaviour

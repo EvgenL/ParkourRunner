@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.ParkourRunner.Scripts.Player
+namespace ParkourRunner.Scripts.Player
 {
     [CreateAssetMenu(menuName = "ParkouRunner/Trick", fileName = "New Trick")]
     public class Trick : ScriptableObject

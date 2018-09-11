@@ -1,6 +1,6 @@
 ﻿using UnityEngine.UI;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {   
     public class vEquipmentDisplay : vItemSlot
     {

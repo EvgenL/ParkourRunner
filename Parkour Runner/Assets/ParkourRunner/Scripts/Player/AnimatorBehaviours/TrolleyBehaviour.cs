@@ -1,34 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts.Player;
-using Assets.Scripts.Player.InvectorMods;
-using Invector.CharacterController;
-using Invector.CharacterController.Actions;
+﻿using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.CharacterController.Actions;
+using ParkourRunner.Scripts.Player.InvectorMods;
 using UnityEngine;
 
-public class TrolleyBehaviour : StateMachineBehaviour
+namespace ParkourRunner.Scripts.Player.AnimatorBehaviours
 {
-    public AvatarIKGoal IKHand;
-
-    ParkourThirdPersonController _player;
-
-    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class TrolleyBehaviour : StateMachineBehaviour
     {
-        if (_player == null) _player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
+        public AvatarIKGoal IKHand;
 
-        _player.TrolleyHand = IKHand;
+        ParkourThirdPersonController _player;
 
-        if (_player.IsSlidingTrolley) return;
-        _player.IsSlidingTrolley = true;
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            if (_player == null) _player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
 
-        _player._capsuleCollider.isTrigger = true; // disable the collision of the player if necessary 
-        _player._rigidbody.useGravity = false; // disable gravity of the player
-        _player._rigidbody.velocity = Vector3.zero;
+            _player.TrolleyHand = IKHand;
 
-        var trolleyTrigger = _player.GetComponent<vGenericAction>().triggerAction
-            .GetComponent<ParkourTriggerTrolleyAction>();
+            if (_player.IsSlidingTrolley) return;
+            _player.IsSlidingTrolley = true;
 
-        _player.TrolleyOffset = trolleyTrigger.PlayerOffset;
-        _player.TargetTransform = trolleyTrigger.HoldPointTransform;
+            _player._capsuleCollider.isTrigger = true; // disable the collision of the player if necessary 
+            _player._rigidbody.useGravity = false; // disable gravity of the player
+            _player._rigidbody.velocity = Vector3.zero;
+
+            var trolleyTrigger = _player.GetComponent<vGenericAction>().triggerAction
+                .GetComponent<ParkourTriggerTrolleyAction>();
+
+            _player.TrolleyOffset = trolleyTrigger.PlayerOffset;
+            _player.TargetTransform = trolleyTrigger.HoldPointTransform;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Basic_Locomotion.Scripts.Generic;
 using UnityEditor;
 [CustomPropertyDrawer(typeof(vReadOnlyAttribute))]
 public class vReadOnlyAttributeDrawer : PropertyDrawer

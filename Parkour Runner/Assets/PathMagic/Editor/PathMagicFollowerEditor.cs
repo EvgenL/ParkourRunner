@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using PathMagic.Scripts;
 using UnityEditor;
 using UnityEditorInternal;
 
@@ -35,7 +36,7 @@ namespace Jacovone.CameraTools
 
 			PathMagicFollower pmf = (PathMagicFollower)target;
 
-			if (pmf.GetComponent<PathMagic> () == null && pmf.GetComponent<PathMagicAnimator> () == null) {
+			if (pmf.GetComponent<PathMagic.Scripts.PathMagic> () == null && pmf.GetComponent<PathMagicAnimator> () == null) {
 				EditorGUILayout.HelpBox ("Please attach this script to a PathMagic or PathMagicAnimator instance.", MessageType.Warning);
 			} else {
 

@@ -1,4 +1,4 @@
-namespace Invector.ItemManager {
+namespace ItemManager.Scripts.vItemEnumsBuilder {
      public enum vItemType {
        Consumable=0,
        MeleeWeapon=1,

@@ -1,152 +1,153 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using Invector.ItemManager;
-using Invector;
+﻿using System.Collections.Generic;
+using Basic_Locomotion.Scripts.Generic;
+using ItemManager.Scripts;
+using ItemManager.Scripts.vItemEnumsBuilder;
+using UnityEngine;
 
-[vClassHeader("Ammo Manager", iconName = "ammoIcon")]
-public class vAmmoManager : vMonoBehaviour
+namespace Shooter.Scripts.Shooter
 {
-    public vAmmoListData ammoListData;
-    [HideInInspector]
-    public vItemManager itemManager;
-
-    [HideInInspector]
-    public List<vAmmo> ammos = new List<vAmmo>();
-    public delegate void OnUpdateTotalAmmo();
-    public OnUpdateTotalAmmo updateTotalAmmo = delegate { };
-
-    void Start()
+    [vClassHeader("Ammo Manager", iconName = "ammoIcon")]
+    public class vAmmoManager : vMonoBehaviour
     {
-        itemManager = GetComponent<vItemManager>();
-        if (itemManager)
-        {
-            itemManager.onAddItem.AddListener(AddAmmo);
-            itemManager.onDropItem.AddListener(DropAmmo);
-            itemManager.onLeaveItem.AddListener(LeaveAmmo);
-            itemManager.onChangeItemAmount.AddListener(ChangeItemAmount);
-        }
+        public vAmmoListData ammoListData;
+        [HideInInspector]
+        public vItemManager itemManager;
 
-        if (ammoListData)
+        [HideInInspector]
+        public List<vAmmo> ammos = new List<vAmmo>();
+        public delegate void OnUpdateTotalAmmo();
+        public OnUpdateTotalAmmo updateTotalAmmo = delegate { };
+
+        void Start()
         {
-            ammos.Clear();
-            for (int i = 0; i < ammoListData.ammos.Count; i++)
+            itemManager = GetComponent<vItemManager>();
+            if (itemManager)
             {
-                var ammo = new vAmmo(ammoListData.ammos[i]);
-                ammo.onDestroyAmmoItem = new vAmmo.OnDestroyItem(OnDestroyAmmoItem);
-                ammos.Add(ammo);
+                itemManager.onAddItem.AddListener(AddAmmo);
+                itemManager.onDropItem.AddListener(DropAmmo);
+                itemManager.onLeaveItem.AddListener(LeaveAmmo);
+                itemManager.onChangeItemAmount.AddListener(ChangeItemAmount);
+            }
+
+            if (ammoListData)
+            {
+                ammos.Clear();
+                for (int i = 0; i < ammoListData.ammos.Count; i++)
+                {
+                    var ammo = new vAmmo(ammoListData.ammos[i]);
+                    ammo.onDestroyAmmoItem = new vAmmo.OnDestroyItem(OnDestroyAmmoItem);
+                    ammos.Add(ammo);
+                }
             }
         }
-    }
 
-    public vAmmo GetAmmo(int id)
-    {
-        return ammos.Find(a => a.ammoID == id);
-    }
+        public vAmmo GetAmmo(int id)
+        {
+            return ammos.Find(a => a.ammoID == id);
+        }
 
-    public void AddAmmo(string ammoName, int id, int amount)
-    {
-        var ammo = ammos.Find(a => a.ammoID == id);
-        if (ammo == null)
+        public void AddAmmo(string ammoName, int id, int amount)
         {
-            ammo = new vAmmo(ammoName, id, amount);
-            ammos.Add(ammo);
-            ammo.onDestroyAmmoItem = new vAmmo.OnDestroyItem(OnDestroyAmmoItem);
-        }
-        else if (ammo != null)
-        {
-            ammo.AddAmmo(amount);
-        }
-        UpdateTotalAmmo();
-    }
-
-    public void AddAmmo(int id, int amount)
-    {
-        var ammo = ammos.Find(a => a.ammoID == id);
-        if (ammo == null)
-        {
-            ammo = new vAmmo("", id, amount);
-            ammos.Add(ammo);
-            ammo.onDestroyAmmoItem = new vAmmo.OnDestroyItem(OnDestroyAmmoItem);
-        }
-        else if (ammo != null)
-        {
-            ammo.AddAmmo(amount);
-        }
-        UpdateTotalAmmo();
-    }
-
-    public void AddAmmo(vItem item)
-    {
-        if (item.type == vItemType.Ammo)
-        {
-            var ammo = ammos.Find(a => a.ammoID == item.id);
+            var ammo = ammos.Find(a => a.ammoID == id);
             if (ammo == null)
             {
-                ammo = new vAmmo(item.name, item.id, item.amount);
+                ammo = new vAmmo(ammoName, id, amount);
                 ammos.Add(ammo);
                 ammo.onDestroyAmmoItem = new vAmmo.OnDestroyItem(OnDestroyAmmoItem);
             }
-            ammo.ammoItems.Add(item);
+            else if (ammo != null)
+            {
+                ammo.AddAmmo(amount);
+            }
+            UpdateTotalAmmo();
         }
-        UpdateTotalAmmo();
-    }
 
-    protected void ChangeItemAmount(vItem item)
-    {
-        if (item.type == vItemType.Ammo)
+        public void AddAmmo(int id, int amount)
         {
-            var ammo = ammos.Find(a => a.ammoID == item.id);
+            var ammo = ammos.Find(a => a.ammoID == id);
             if (ammo == null)
             {
-                ammo = new vAmmo(item.name, item.id, item.amount);
+                ammo = new vAmmo("", id, amount);
                 ammos.Add(ammo);
                 ammo.onDestroyAmmoItem = new vAmmo.OnDestroyItem(OnDestroyAmmoItem);
             }
-        }
-        UpdateTotalAmmo();
-    }
-
-    public void LeaveAmmo(vItem item, int amount)
-    {
-        if (item.type == vItemType.Ammo)
-        {
-            var ammo = ammos.Find(a => a.ammoID == item.id);
-            if (ammo != null)
+            else if (ammo != null)
             {
-                if ((item.amount - amount) <= 0 && ammo.ammoItems.Contains(item))
-                    ammo.ammoItems.Remove(item);
+                ammo.AddAmmo(amount);
             }
+            UpdateTotalAmmo();
         }
-        UpdateTotalAmmo();
-    }
 
-    public void DropAmmo(vItem item, int amount)
-    {
-        if (item.type == vItemType.Ammo)
+        public void AddAmmo(vItem item)
         {
-            var ammo = ammos.Find(a => a.ammoID == item.id);
-            if (ammo != null)
+            if (item.type == vItemType.Ammo)
             {
-                if ((item.amount - amount) <= 0 && ammo.ammoItems.Contains(item))
-                    ammo.ammoItems.Remove(item);
+                var ammo = ammos.Find(a => a.ammoID == item.id);
+                if (ammo == null)
+                {
+                    ammo = new vAmmo(item.name, item.id, item.amount);
+                    ammos.Add(ammo);
+                    ammo.onDestroyAmmoItem = new vAmmo.OnDestroyItem(OnDestroyAmmoItem);
+                }
+                ammo.ammoItems.Add(item);
             }
+            UpdateTotalAmmo();
         }
-        UpdateTotalAmmo();
+
+        protected void ChangeItemAmount(vItem item)
+        {
+            if (item.type == vItemType.Ammo)
+            {
+                var ammo = ammos.Find(a => a.ammoID == item.id);
+                if (ammo == null)
+                {
+                    ammo = new vAmmo(item.name, item.id, item.amount);
+                    ammos.Add(ammo);
+                    ammo.onDestroyAmmoItem = new vAmmo.OnDestroyItem(OnDestroyAmmoItem);
+                }
+            }
+            UpdateTotalAmmo();
+        }
+
+        public void LeaveAmmo(vItem item, int amount)
+        {
+            if (item.type == vItemType.Ammo)
+            {
+                var ammo = ammos.Find(a => a.ammoID == item.id);
+                if (ammo != null)
+                {
+                    if ((item.amount - amount) <= 0 && ammo.ammoItems.Contains(item))
+                        ammo.ammoItems.Remove(item);
+                }
+            }
+            UpdateTotalAmmo();
+        }
+
+        public void DropAmmo(vItem item, int amount)
+        {
+            if (item.type == vItemType.Ammo)
+            {
+                var ammo = ammos.Find(a => a.ammoID == item.id);
+                if (ammo != null)
+                {
+                    if ((item.amount - amount) <= 0 && ammo.ammoItems.Contains(item))
+                        ammo.ammoItems.Remove(item);
+                }
+            }
+            UpdateTotalAmmo();
+        }
+
+        public void UpdateTotalAmmo()
+        {
+            updateTotalAmmo.Invoke();
+        }
+
+        void OnDestroyAmmoItem(vItem item)
+        {
+            if (itemManager) itemManager.LeaveItem(item, item.amount);
+        }
     }
 
-    public void UpdateTotalAmmo()
-    {
-        updateTotalAmmo.Invoke();
-    }
-
-    void OnDestroyAmmoItem(vItem item)
-    {
-        if (itemManager) itemManager.LeaveItem(item, item.amount);
-    }
-}
-
-namespace Invector
-{
     [System.Serializable]
     public class vAmmo
     {
@@ -233,4 +234,3 @@ namespace Invector
         }
     }
 }
-

@@ -1,20 +1,22 @@
-﻿using UnityEngine;
-using System.Collections;
-using Jacovone;
+﻿using PathMagic.Scripts;
+using UnityEngine;
 
-public class Control : MonoBehaviour
+namespace PathMagic.Demo_Scenes.Scripts
 {
-	public PathMagicAnimator pma;
+    public class Control : MonoBehaviour
+    {
+        public PathMagicAnimator pma;
 
-	// Use this for initialization
-	void Start ()
-	{
+        // Use this for initialization
+        void Start ()
+        {
 	
-	}
+        }
 	
-	// Update is called once per frame
-	void Update ()
-	{
-		pma.VelocityBias = Input.GetAxis ("Horizontal") / 2f;
-	}
+        // Update is called once per frame
+        void Update ()
+        {
+            pma.VelocityBias = Input.GetAxis ("Horizontal") / 2f;
+        }
+    }
 }

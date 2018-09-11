@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using Basic_Locomotion.Scripts.CharacterController;
+using UnityEngine;
 using UnityEngine.Events;
-namespace Invector.ItemManager
+
+namespace Basic_Locomotion.Scripts.Generic
 {
     public class vChangeInputTypeTrigger : MonoBehaviour
     {

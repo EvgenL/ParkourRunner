@@ -1,9 +1,11 @@
-﻿using Invector.EventSystems;
-using System.Collections;
+﻿using System.Collections;
+using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.ObjectDamage;
+using Melee_Combat.Scripts.MeleeWeapon;
+using Melee_Combat.Scripts.WaypointSystem;
 using UnityEngine;
-using Invector.CharacterController;
 
-namespace Invector
+namespace Melee_Combat.Scripts.CharacterAI
 {
     public class v_AIController : v_AIAnimator, vIMeleeFighter
     {

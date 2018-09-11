@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEditor.Callbacks;
 using UnityEditorInternal;
 using System;
+using Basic_Locomotion.Scripts.FootStep.Scripts;
 
 [CanEditMultipleObjects]
 [CustomEditor(typeof(vFootStep), true)]

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-namespace Invector
+namespace Basic_Locomotion.Scripts.Camera.CullingFadeControl
 {
     public class vCullingFadeControl : MonoBehaviour
     {
@@ -30,8 +30,8 @@ namespace Invector
             get
             {
                 Transform cT = transform;
-                if (Camera.main != null)
-                    cT = Camera.main.transform;
+                if (UnityEngine.Camera.main != null)
+                    cT = UnityEngine.Camera.main.transform;
                 if (cT == transform)
                 {
                     Debug.LogWarning("Invector : Missing MainCamera");

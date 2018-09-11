@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     public class vItemAttributesManager : MonoBehaviour
     {

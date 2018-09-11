@@ -1,7 +1,9 @@
 ﻿using System.Collections;
+using Basic_Locomotion.Scripts.Generic;
+using Shooter.Scripts.Weapon;
 using UnityEngine;
 
-namespace Invector
+namespace Shooter.Scripts.ArcherySystem.Scripts
 {
     [vClassHeader("v Bow Control")]
     [RequireComponent(typeof(vShooterWeapon))]

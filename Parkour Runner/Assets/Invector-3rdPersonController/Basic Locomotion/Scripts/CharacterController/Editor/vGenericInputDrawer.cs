@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEditor;
 using System;
+using Basic_Locomotion.Scripts.CharacterController;
 
 namespace Invector.CharacterController
 {

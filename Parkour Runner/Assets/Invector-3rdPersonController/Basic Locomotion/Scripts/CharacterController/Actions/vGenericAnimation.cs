@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
-namespace Invector.CharacterController.Actions
+namespace Basic_Locomotion.Scripts.CharacterController.Actions
 {
     [vClassHeader("Generic Animation", "Use this script to trigger a simple animation.")]
     public class vGenericAnimation : vMonoBehaviour

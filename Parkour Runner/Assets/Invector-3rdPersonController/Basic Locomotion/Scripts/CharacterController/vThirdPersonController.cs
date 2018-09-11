@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
 
-namespace Invector.CharacterController
+namespace Basic_Locomotion.Scripts.CharacterController
 {
     [vClassHeader("THIRD PERSON CONTROLLER", iconName = "controllerIcon")]
     public class vThirdPersonController : vThirdPersonAnimator

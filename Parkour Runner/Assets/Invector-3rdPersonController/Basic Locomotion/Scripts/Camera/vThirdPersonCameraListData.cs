@@ -1,16 +1,18 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-[System.Serializable]
-public class vThirdPersonCameraListData : ScriptableObject 
+namespace Basic_Locomotion.Scripts.Camera
 {
-	[SerializeField] public string Name;
-	[SerializeField] public List<vThirdPersonCameraState> tpCameraStates;
+    [System.Serializable]
+    public class vThirdPersonCameraListData : ScriptableObject 
+    {
+        [SerializeField] public string Name;
+        [SerializeField] public List<vThirdPersonCameraState> tpCameraStates;
 
-	public vThirdPersonCameraListData()
-	{
-		tpCameraStates = new List<vThirdPersonCameraState> ();
-		tpCameraStates.Add (new vThirdPersonCameraState ("Default"));
-	}
+        public vThirdPersonCameraListData()
+        {
+            tpCameraStates = new List<vThirdPersonCameraState> ();
+            tpCameraStates.Add (new vThirdPersonCameraState ("Default"));
+        }
+    }
 }

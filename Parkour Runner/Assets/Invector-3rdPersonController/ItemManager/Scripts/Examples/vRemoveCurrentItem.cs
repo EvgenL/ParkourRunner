@@ -1,40 +1,42 @@
-﻿using UnityEngine;
-using Invector.ItemManager;
-using Invector;
+﻿using Basic_Locomotion.Scripts.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
-[vClassHeader("Remove Current Item",false)]
-public class vRemoveCurrentItem : vMonoBehaviour
+namespace ItemManager.Scripts.Examples
 {
-    public enum Type
+    [vClassHeader("Remove Current Item",false)]
+    public class vRemoveCurrentItem : vMonoBehaviour
     {
-        UnequipItem,
-        DestroyItem,        
-        DropItem
-    }
-
-    public Type type = Type.UnequipItem;
-    [Tooltip("Immediately equip the item ignoring the Equip animation")]
-    public bool immediate = true;    
-    [Tooltip("Index Area of your Inventory Prefab")]
-    public int indexOfArea;
-    public UnityEvent OnTriggerEnterEvent;
-
-    void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.CompareTag("Player"))
+        public enum Type
         {
-            var itemManager = other.gameObject.GetComponent<vItemManager>();
-            if(itemManager)
+            UnequipItem,
+            DestroyItem,        
+            DropItem
+        }
+
+        public Type type = Type.UnequipItem;
+        [Tooltip("Immediately equip the item ignoring the Equip animation")]
+        public bool immediate = true;    
+        [Tooltip("Index Area of your Inventory Prefab")]
+        public int indexOfArea;
+        public UnityEvent OnTriggerEnterEvent;
+
+        void OnTriggerEnter(Collider other)
+        {
+            if(other.gameObject.CompareTag("Player"))
             {
-                if(type == Type.UnequipItem)
-                    itemManager.UnequipCurrentEquipedItem(indexOfArea, immediate);
-                else if(type == Type.DestroyItem)
-                    itemManager.LeaveCurrentEquipedItem(indexOfArea, immediate);
-                else
-                    itemManager.DropCurrentEquipedItem(indexOfArea, immediate);
+                var itemManager = other.gameObject.GetComponent<vItemManager>();
+                if(itemManager)
+                {
+                    if(type == Type.UnequipItem)
+                        itemManager.UnequipCurrentEquipedItem(indexOfArea, immediate);
+                    else if(type == Type.DestroyItem)
+                        itemManager.LeaveCurrentEquipedItem(indexOfArea, immediate);
+                    else
+                        itemManager.DropCurrentEquipedItem(indexOfArea, immediate);
+                }
+                OnTriggerEnterEvent.Invoke();            
             }
-            OnTriggerEnterEvent.Invoke();            
         }
     }
 }

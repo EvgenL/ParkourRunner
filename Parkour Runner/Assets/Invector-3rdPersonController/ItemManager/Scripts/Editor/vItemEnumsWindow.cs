@@ -3,6 +3,9 @@ using System.Collections;
 using UnityEditor;
 using System;
 using System.Collections.Generic;
+using Basic_Locomotion.Scripts.Generic;
+using ItemManager.Scripts.vItemEnumsBuilder;
+
 namespace Invector.ItemManager
 {
     public class vItemEnumsWindow : EditorWindow

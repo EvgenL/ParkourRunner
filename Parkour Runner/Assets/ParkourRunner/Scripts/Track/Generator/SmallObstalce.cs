@@ -1,9 +1,7 @@
-﻿
-using UnityEditor;
+﻿using ParkourRunner.Scripts.Managers;
 using UnityEngine;
-using Random = System.Random;
 
-namespace Assets.Scripts.Track
+namespace ParkourRunner.Scripts.Track.Generator
 {
     class SmallObstalce : GenerationPoint
     {

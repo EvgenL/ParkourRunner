@@ -5,6 +5,7 @@ using System;
 using UnityEditor;
 using System.Reflection;
 using System.Collections.Generic;
+using Basic_Locomotion.Scripts.Generic;
 using Invector;
 
 public class vEditorHelper : Editor

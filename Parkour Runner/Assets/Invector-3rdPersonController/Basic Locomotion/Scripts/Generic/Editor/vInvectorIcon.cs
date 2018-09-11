@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Basic_Locomotion.Scripts.Camera;
+using Basic_Locomotion.Scripts.CharacterController;
 using UnityEditor;
 //[InitializeOnLoad]
 public class vInvectorIcon
@@ -26,7 +28,7 @@ public class vInvectorIcon
         GameObject go = EditorUtility.InstanceIDToObject(instanceId) as GameObject;
         if (go == null) return;
 
-        var controller = go.GetComponent<Invector.CharacterController.vThirdPersonController>();
+        var controller = go.GetComponent<vThirdPersonController>();
         if (controller != null) DrawIcon("icon_v2", selectionRect);
     }
 

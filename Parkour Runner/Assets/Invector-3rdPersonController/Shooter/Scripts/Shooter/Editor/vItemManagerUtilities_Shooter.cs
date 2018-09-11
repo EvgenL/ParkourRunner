@@ -3,6 +3,9 @@ using System.Collections;
 using Invector.ItemManager;
 using System.Collections.Generic;
 using System;
+using Basic_Locomotion.Scripts.Generic;
+using ItemManager.Scripts;
+using Shooter.Scripts.Shooter;
 using UnityEditor.Events;
 
 public partial class vItemManagerUtilities

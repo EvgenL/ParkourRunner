@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class vThrowUI : MonoBehaviour
+namespace Shooter.Scripts.ThrowSystem.Scripts
 {
-    public vThrowObject throwManager;
-    public Text maxThrowCount;
-    public Text currentThrowCount;
-
-    private void Start()
+    public class vThrowUI : MonoBehaviour
     {
-        throwManager = FindObjectOfType<vThrowObject>();
-        throwManager.onCollectObject.AddListener(UpdateCount);
-        throwManager.onThrowObject.AddListener(UpdateCount);
-        UpdateCount();
-    }
+        public vThrowObject throwManager;
+        public Text maxThrowCount;
+        public Text currentThrowCount;
 
-    void UpdateCount()
-    {
-        currentThrowCount.text = throwManager.currentThrowObject.ToString();
-        maxThrowCount.text = throwManager.maxThrowObjects.ToString();
+        private void Start()
+        {
+            throwManager = FindObjectOfType<vThrowObject>();
+            throwManager.onCollectObject.AddListener(UpdateCount);
+            throwManager.onThrowObject.AddListener(UpdateCount);
+            UpdateCount();
+        }
+
+        void UpdateCount()
+        {
+            currentThrowCount.text = throwManager.currentThrowObject.ToString();
+            maxThrowCount.text = throwManager.maxThrowObjects.ToString();
+        }
     }
 }

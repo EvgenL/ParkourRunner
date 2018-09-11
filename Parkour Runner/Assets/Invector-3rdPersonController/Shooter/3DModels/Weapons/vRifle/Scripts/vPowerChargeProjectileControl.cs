@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using Shooter.Scripts.Weapon;
 using UnityEngine;
 
-namespace Invector
+namespace Shooter._3DModels.Weapons.vRifle.Scripts
 {
     public class vPowerChargeProjectileControl : MonoBehaviour
     {

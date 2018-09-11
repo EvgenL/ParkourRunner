@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using Assets.Scripts.Managers;
-using Invector.CharacterController;
-using Invector.CharacterController.Actions;
+﻿using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.CharacterController.Actions;
+using ParkourRunner.Scripts.Managers;
 using RootMotion.Dynamics;
 using UnityEngine;
 
-namespace Assets.Scripts.Player.InvectorMods
+namespace ParkourRunner.Scripts.Player.InvectorMods
 {
     class ParkourThirdPersonController : vThirdPersonController
     {

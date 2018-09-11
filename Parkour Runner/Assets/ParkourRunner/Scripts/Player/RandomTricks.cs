@@ -1,9 +1,10 @@
 ﻿using System;
 
-namespace Assets.Scripts.Player
+namespace ParkourRunner.Scripts.Player
 {
     public static class RandomTricks
     {
+
         public static string GetTrick(string playAnimation)
         {
             int randomIndex;

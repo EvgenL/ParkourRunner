@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Invector.IK
+namespace Shooter.Scripts.SimpleIK
 {
     [System.Serializable]
     public class vIKSolver

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using PathMagic.Scripts;
+using PathMagic.Scripts.Meshes;
 using UnityEditor;
 
 namespace Jacovone.Meshes
@@ -55,7 +57,7 @@ namespace Jacovone.Meshes
 			// Ensure it gets reparented if this was a context click (otherwise does nothing)
 			GameObjectUtility.SetParentAndAlign (go, menuCommand.context as GameObject);
 
-			PathMagic path = go.AddComponent<PathMagic> ();
+			PathMagic.Scripts.PathMagic path = go.AddComponent<PathMagic.Scripts.PathMagic> ();
 
 			Waypoint wp1 = new Waypoint ();
 			wp1.Position = Vector3.zero;

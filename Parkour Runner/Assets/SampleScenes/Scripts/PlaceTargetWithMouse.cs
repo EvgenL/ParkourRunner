@@ -1,8 +1,6 @@
-using System;
 using UnityEngine;
 
-
-namespace UnityStandardAssets.SceneUtils
+namespace SampleScenes.Scripts
 {
     public class PlaceTargetWithMouse : MonoBehaviour
     {

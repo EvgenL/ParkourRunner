@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEditor;
 using System.Linq;
+using ItemManager.Scripts;
+
 namespace Invector.ItemManager
 {
     public class vItemListWindow : EditorWindow

@@ -1,57 +1,60 @@
-﻿using UnityEngine;
-using Invector.CharacterController;
-using Invector.EventSystems;
+﻿using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.ObjectDamage;
+using UnityEngine;
 
-public partial class vCollisionMessage : MonoBehaviour, vIDamageReceiver
+namespace Basic_Locomotion.Scripts.Ragdoll
 {
-    [HideInInspector]
-    public vRagdoll ragdoll;
-
-    void Start()
+    public partial class vCollisionMessage : MonoBehaviour, vIDamageReceiver
     {
-        ragdoll = GetComponentInParent<vRagdoll>();
-    }
+        [HideInInspector]
+        public vRagdoll ragdoll;
 
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision != null)
+        void Start()
         {
-            if (ragdoll)
+            ragdoll = GetComponentInParent<vRagdoll>();
+        }
+
+        void OnCollisionEnter(Collision collision)
+        {
+            if (collision != null)
             {
-                ragdoll.OnRagdollCollisionEnter(new vRagdollCollision(this.gameObject, collision));
-                if (!inAddDamage)
+                if (ragdoll)
                 {
-                    float impactforce = collision.relativeVelocity.x + collision.relativeVelocity.y + collision.relativeVelocity.z;
-                    if (impactforce > 10 || impactforce < -10)
+                    ragdoll.OnRagdollCollisionEnter(new vRagdollCollision(this.gameObject, collision));
+                    if (!inAddDamage)
                     {
-                        inAddDamage = true;
-                        vDamage damage = new vDamage((int)Mathf.Abs(impactforce) - 10);
-                        damage.ignoreDefense = true;
-                        damage.sender = collision.transform;
-                        damage.hitPosition = collision.contacts[0].point;
-                        ragdoll.ApplyDamage(damage);
-                        Invoke("ResetAddDamage", 0.1f);
+                        float impactforce = collision.relativeVelocity.x + collision.relativeVelocity.y + collision.relativeVelocity.z;
+                        if (impactforce > 10 || impactforce < -10)
+                        {
+                            inAddDamage = true;
+                            vDamage damage = new vDamage((int)Mathf.Abs(impactforce) - 10);
+                            damage.ignoreDefense = true;
+                            damage.sender = collision.transform;
+                            damage.hitPosition = collision.contacts[0].point;
+                            ragdoll.ApplyDamage(damage);
+                            Invoke("ResetAddDamage", 0.1f);
+                        }
                     }
                 }
             }
         }
-    }
 
-    bool inAddDamage;
+        bool inAddDamage;
 
-    void ResetAddDamage()
-    {
-        inAddDamage = false;
-    }
-
-    public void TakeDamage(vDamage damage, bool hitReaction = true)
-    {
-        if (!ragdoll) return;
-        if (!ragdoll.iChar.isDead)
+        void ResetAddDamage()
         {
-            inAddDamage = true;
-            ragdoll.ApplyDamage(damage);
-            Invoke("ResetAddDamage", 0.1f);
+            inAddDamage = false;
+        }
+
+        public void TakeDamage(vDamage damage, bool hitReaction = true)
+        {
+            if (!ragdoll) return;
+            if (!ragdoll.iChar.isDead)
+            {
+                inAddDamage = true;
+                ragdoll.ApplyDamage(damage);
+                Invoke("ResetAddDamage", 0.1f);
+            }
         }
     }
 }

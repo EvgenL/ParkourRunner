@@ -1,9 +1,12 @@
-﻿using UnityEngine;
-using UnityEngine.EventSystems;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.Generic;
+using ItemManager.Scripts.vItemEnumsBuilder;
+using UnityEngine;
+using UnityEngine.EventSystems;
 
-namespace Invector.ItemManager
+namespace ItemManager.Scripts
 {
     [vClassHeader("vInventory")]
     public class vInventory : vMonoBehaviour
@@ -218,7 +221,7 @@ namespace Invector.ItemManager
         /// </summary>
         void OpenCurrentSlot()
         {
-            if (Invector.vInput.instance.inputDevice == InputDevice.Mobile)
+            if (vInput.instance.inputDevice == InputDevice.Mobile)
             {
                 if (currentEquipArea != null && openCurrentSlot.GetButtonDown())
                 {

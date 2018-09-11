@@ -1,183 +1,185 @@
-﻿using Assets.Scripts.Player.InvectorMods;
+﻿using ParkourRunner.Scripts.Player.InvectorMods;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
 
-public enum ControlsMode
+namespace ParkourRunner.Scripts.Player
 {
-    TwoButtons,
-    FourButtons,
-    Tilt
-}
-
-public class InputManager : MonoBehaviour
-{
-    public GameObject TwoButtonsContaner;
-    public GameObject FourButtonsContaner;
-    public GameObject TiltContaner;
-
-    [SerializeField] private ParkourThirdPersonInput _playerInput;
-
-    public Dropdown DebugDropdown;
-
-    [SerializeField] private ControlsMode _controlsMode;
-    [SerializeField] private Vector2 _startTouch;
-    [SerializeField] private Vector2 _swipeDelta;
-    [SerializeField] private bool _hold;
-
-    [SerializeField] private int _circleRadius = 50;
-
-    #region Singleton
-
-    public static InputManager Instance;
-
-    private void Awake()
+    public enum ControlsMode
     {
-        DontDestroyOnLoad(this);
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this);
-        }
+        TwoButtons,
+        FourButtons,
+        Tilt
     }
 
-    #endregion
-
-    private void Start()
+    public class InputManager : MonoBehaviour
     {
-        //TODO сохранить настройку
-        SwitchMode(_controlsMode);
+        public GameObject TwoButtonsContaner;
+        public GameObject FourButtonsContaner;
+        public GameObject TiltContaner;
 
-        if (_playerInput == null)
+        [SerializeField] private ParkourThirdPersonInput _playerInput;
+
+        public Dropdown DebugDropdown;
+
+        [SerializeField] private ControlsMode _controlsMode;
+        [SerializeField] private Vector2 _startTouch;
+        [SerializeField] private Vector2 _swipeDelta;
+        [SerializeField] private bool _hold;
+
+        [SerializeField] private int _circleRadius = 50;
+
+        #region Singleton
+
+        public static InputManager Instance;
+
+        private void Awake()
         {
-            _playerInput = FindObjectOfType<ParkourThirdPersonInput>();
+            DontDestroyOnLoad(this);
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(this);
+            }
         }
-    }
-    public void OnSwitchModeDebug()
-    {
-       SwitchMode((ControlsMode)DebugDropdown.value);
-    }
-    public void SwitchMode(ControlsMode mode)
-    {
-        _controlsMode = mode;
-        switch (_controlsMode)
+
+        #endregion
+
+        private void Start()
         {
-            case ControlsMode.TwoButtons:
-                TwoButtonsContaner.SetActive(true);
-                FourButtonsContaner.SetActive(false);
-                TiltContaner.SetActive(false);
-                break;
+            //TODO сохранить настройку
+            SwitchMode(_controlsMode);
 
-            case ControlsMode.FourButtons:
-                TwoButtonsContaner.SetActive(false);
-                FourButtonsContaner.SetActive(true);
-                TiltContaner.SetActive(false);
-                break;
-
-            case ControlsMode.Tilt:
-                TwoButtonsContaner.SetActive(false);
-                FourButtonsContaner.SetActive(false);
-                TiltContaner.SetActive(true);
-                break;
+            if (_playerInput == null)
+            {
+                _playerInput = FindObjectOfType<ParkourThirdPersonInput>();
+            }
         }
-    }
-
-
-    void Update()
-    {
-        switch (_controlsMode)
+        public void OnSwitchModeDebug()
         {
-            case ControlsMode.TwoButtons:
-                MouseSwipesInput();
-                MobileSwipesInput();
-                CalculateDelta();
-                CheckCircle();
-                break;
-
-            case ControlsMode.FourButtons:
-                break;
-
-            case ControlsMode.Tilt:
-                //TODO постоянный угол свайпа относительно поворота экрана
-                //MobileTiltInput();
-                MouseSwipesInput();
-                MobileSwipesInput();
-                CalculateDelta();
-                CheckCircle();
-                break;
-
-
+            SwitchMode((ControlsMode)DebugDropdown.value);
         }
-    }
-
-
-    private void MouseSwipesInput()
-    {
-        if (Input.GetMouseButtonDown(0))
+        public void SwitchMode(ControlsMode mode)
         {
-            _hold = true;
-            _startTouch = Input.mousePosition;
+            _controlsMode = mode;
+            switch (_controlsMode)
+            {
+                case ControlsMode.TwoButtons:
+                    TwoButtonsContaner.SetActive(true);
+                    FourButtonsContaner.SetActive(false);
+                    TiltContaner.SetActive(false);
+                    break;
+
+                case ControlsMode.FourButtons:
+                    TwoButtonsContaner.SetActive(false);
+                    FourButtonsContaner.SetActive(true);
+                    TiltContaner.SetActive(false);
+                    break;
+
+                case ControlsMode.Tilt:
+                    TwoButtonsContaner.SetActive(false);
+                    FourButtonsContaner.SetActive(false);
+                    TiltContaner.SetActive(true);
+                    break;
+            }
         }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            ResetPositions();
-        }
-    }
 
-    private void MobileSwipesInput()
-    {
-        if (Input.touchCount > 0)
+
+        void Update()
         {
-            if (Input.touches[0].phase == TouchPhase.Began)
+            switch (_controlsMode)
+            {
+                case ControlsMode.TwoButtons:
+                    MouseSwipesInput();
+                    MobileSwipesInput();
+                    CalculateDelta();
+                    CheckCircle();
+                    break;
+
+                case ControlsMode.FourButtons:
+                    break;
+
+                case ControlsMode.Tilt:
+                    //TODO постоянный угол свайпа относительно поворота экрана
+                    //MobileTiltInput();
+                    MouseSwipesInput();
+                    MobileSwipesInput();
+                    CalculateDelta();
+                    CheckCircle();
+                    break;
+
+
+            }
+        }
+
+
+        private void MouseSwipesInput()
+        {
+            if (Input.GetMouseButtonDown(0))
             {
                 _hold = true;
-                _startTouch = Input.touches[0].position;
+                _startTouch = Input.mousePosition;
             }
-            else if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
+            else if (Input.GetMouseButtonUp(0))
             {
                 ResetPositions();
             }
         }
-    }
 
-    private void CalculateDelta()
-    {
-        _swipeDelta = Vector2.zero;
-        if (_hold)
+        private void MobileSwipesInput()
         {
-            if (Input.touchCount > 0) //mob
+            if (Input.touchCount > 0)
             {
-                _swipeDelta = Input.touches[0].position - _startTouch;
-            }
-            else if (Input.GetMouseButton(0)) //pc
-            {
-                _swipeDelta = (Vector2) Input.mousePosition - _startTouch;
+                if (Input.touches[0].phase == TouchPhase.Began)
+                {
+                    _hold = true;
+                    _startTouch = Input.touches[0].position;
+                }
+                else if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
+                {
+                    ResetPositions();
+                }
             }
         }
-    }
 
-    private void CheckCircle()
-    {
-        if (_swipeDelta.magnitude > _circleRadius)
+        private void CalculateDelta()
         {
-            float x = _swipeDelta.x;
-            float y = _swipeDelta.y;
-
-            if (Mathf.Abs(x) < Mathf.Abs(y)) //Up or Down
+            _swipeDelta = Vector2.zero;
+            if (_hold)
             {
-                if (y < 0) //Down
+                if (Input.touchCount > 0) //mob
                 {
-                    Roll();
+                    _swipeDelta = Input.touches[0].position - _startTouch;
                 }
-                else //Up
+                else if (Input.GetMouseButton(0)) //pc
                 {
-                    Jump();
+                    _swipeDelta = (Vector2) Input.mousePosition - _startTouch;
                 }
             }
-           /* else //Left or right
+        }
+
+        private void CheckCircle()
+        {
+            if (_swipeDelta.magnitude > _circleRadius)
+            {
+                float x = _swipeDelta.x;
+                float y = _swipeDelta.y;
+
+                if (Mathf.Abs(x) < Mathf.Abs(y)) //Up or Down
+                {
+                    if (y < 0) //Down
+                    {
+                        Roll();
+                    }
+                    else //Up
+                    {
+                        Jump();
+                    }
+                }
+                /* else //Left or right
             {
                 if (x < 0) //Left
                 {
@@ -189,42 +191,43 @@ public class InputManager : MonoBehaviour
                 }
             }*/
 
-            ResetPositions();
+                ResetPositions();
+            }
         }
-    }
     
-    private void ResetPositions()
-    {
-        _hold = false;
-        _swipeDelta = _startTouch = Vector2.zero;
-    }
+        private void ResetPositions()
+        {
+            _hold = false;
+            _swipeDelta = _startTouch = Vector2.zero;
+        }
 
-    public void Jump()
-    {
-        _playerInput.Jump();
-        /*CrossPlatformInputManager.SetButtonDown("Jump");
+        public void Jump()
+        {
+            _playerInput.Jump();
+            /*CrossPlatformInputManager.SetButtonDown("Jump");
         CrossPlatformInputManager.SetButtonUp("Jump");*/
-    }
+        }
 
-    public void Roll()
-    {
-        _playerInput.Roll();
-        /*CrossPlatformInputManager.SetButtonDown("Roll");
+        public void Roll()
+        {
+            _playerInput.Roll();
+            /*CrossPlatformInputManager.SetButtonDown("Roll");
         CrossPlatformInputManager.SetButtonUp("Roll");*/
-    }
+        }
 
-    public void Left()
-    {
-        CrossPlatformInputManager.SetAxis("Horizontal", -1);
-    }
+        public void Left()
+        {
+            CrossPlatformInputManager.SetAxis("Horizontal", -1);
+        }
 
-    public void Right()
-    {
-        CrossPlatformInputManager.SetAxis("Horizontal", 1);
-    }
+        public void Right()
+        {
+            CrossPlatformInputManager.SetAxis("Horizontal", 1);
+        }
 
-    public void DontTurn()
-    {
-        CrossPlatformInputManager.SetAxis("Horizontal", 0);
+        public void DontTurn()
+        {
+            CrossPlatformInputManager.SetAxis("Horizontal", 0);
+        }
     }
 }

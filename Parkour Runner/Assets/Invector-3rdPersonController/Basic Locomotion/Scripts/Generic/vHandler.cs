@@ -1,13 +1,16 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-[System.Serializable]
-public class vHandler
+namespace Basic_Locomotion.Scripts.Generic
 {
-    public Transform defaultHandler;
-    public List<Transform> customHandlers;
-    public vHandler()
+    [System.Serializable]
+    public class vHandler
     {
-        customHandlers = new List<Transform>();
+        public Transform defaultHandler;
+        public List<Transform> customHandlers;
+        public vHandler()
+        {
+            customHandlers = new List<Transform>();
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEditor;
 using System;
+using Melee_Combat.Scripts.MeleeWeapon;
 
 [CustomEditor(typeof(vMeleeAttackControl))]
 public class vMeleeAttackControlEditor : Editor

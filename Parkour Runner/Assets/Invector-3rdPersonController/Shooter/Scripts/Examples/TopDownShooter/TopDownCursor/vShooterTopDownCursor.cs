@@ -1,47 +1,49 @@
 ﻿using UnityEngine;
-using Invector.CharacterController.TopDownShooter;
 
-public class vShooterTopDownCursor : MonoBehaviour
+namespace Shooter.Scripts.Examples.TopDownShooter.TopDownCursor
 {
-    private vTopDownShooterInput shooter;
-    public GameObject sprite;
-    public LineRenderer lineRender;   
-
-    void Start()
+    public class vShooterTopDownCursor : MonoBehaviour
     {
-        shooter = FindObjectOfType<vTopDownShooterInput>();
-    }   
+        private vTopDownShooterInput shooter;
+        public GameObject sprite;
+        public LineRenderer lineRender;   
 
-    void FixedUpdate()
-    {
-        if (shooter)
+        void Start()
         {
-            if (sprite)
-            {
-                if (shooter.isAiming && !sprite.gameObject.activeSelf)
-                    sprite.gameObject.SetActive(true);
-                else if (!shooter.isAiming && sprite.gameObject.activeSelf)
-                    sprite.gameObject.SetActive(false);
-            }
+            shooter = FindObjectOfType<vTopDownShooterInput>();
+        }   
 
-            transform.position = shooter.aimPosition;
-            var dir = shooter.transform.position - shooter.aimPosition;
-            dir.y = 0;
-
-            if (dir != Vector3.zero)
+        void FixedUpdate()
+        {
+            if (shooter)
             {
-                transform.rotation = Quaternion.LookRotation(dir);
-                if (lineRender)
+                if (sprite)
                 {
-                    lineRender.SetPosition(0, shooter.topDownController.lookPos);
-                    lineRender.SetPosition(1, shooter.aimPosition);
-                    if (shooter.isAiming && !lineRender.enabled)
-                        lineRender.enabled = true;
-                    else if (!shooter.isAiming && lineRender.enabled)
-                        lineRender.enabled = false;
+                    if (shooter.isAiming && !sprite.gameObject.activeSelf)
+                        sprite.gameObject.SetActive(true);
+                    else if (!shooter.isAiming && sprite.gameObject.activeSelf)
+                        sprite.gameObject.SetActive(false);
+                }
+
+                transform.position = shooter.aimPosition;
+                var dir = shooter.transform.position - shooter.aimPosition;
+                dir.y = 0;
+
+                if (dir != Vector3.zero)
+                {
+                    transform.rotation = Quaternion.LookRotation(dir);
+                    if (lineRender)
+                    {
+                        lineRender.SetPosition(0, shooter.topDownController.lookPos);
+                        lineRender.SetPosition(1, shooter.aimPosition);
+                        if (shooter.isAiming && !lineRender.enabled)
+                            lineRender.enabled = true;
+                        else if (!shooter.isAiming && lineRender.enabled)
+                            lineRender.enabled = false;
+                    }
                 }
             }
         }
-    }
 
+    }
 }

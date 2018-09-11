@@ -1,4 +1,4 @@
-﻿namespace Invector
+﻿namespace Shooter.Scripts.Weapon
 {
     public interface vIAmmoManager
     {

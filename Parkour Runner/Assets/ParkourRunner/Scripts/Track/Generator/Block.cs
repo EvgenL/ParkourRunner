@@ -1,53 +1,50 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts;
-using Assets.Scripts.Managers;
-using Invector.CharacterController;
 using UnityEngine;
 
-
-[ExecuteInEditMode]
-public class Block : MonoBehaviour
+namespace ParkourRunner.Scripts.Track.Generator
 {
-    public List<Building> Buildings = new List<Building>();
-
-    //Автоматически расставляем референсы в эдиторе
-    void Update()
+    [ExecuteInEditMode]
+    public class Block : MonoBehaviour
     {
-        if (!Application.isPlaying)
+        public List<Building> Buildings = new List<Building>();
+
+        //Автоматически расставляем референсы в эдиторе
+        void Update()
         {
-            if (Buildings.Count == 0)
+            if (!Application.isPlaying)
             {
-                Buildings = GetComponentsInChildren<Building>().ToList();
-                foreach (var building in Buildings)
+                if (Buildings.Count == 0)
                 {
-                    building.UpdateReferences();
+                    Buildings = GetComponentsInChildren<Building>().ToList();
+                    foreach (var building in Buildings)
+                    {
+                        building.UpdateReferences();
+                    }
                 }
             }
         }
-    }
 
-    public enum BlockType
-    {
-        Houses,
-        Flat,
-        Start
-    }
-
-    public BlockType Type;
-    public Block Next;
-    public Block Prev;
-    public Block Left;
-    public Block Right;
-
-
-    public void Generate()
-    {
-        foreach (var building in Buildings)
+        public enum BlockType
         {
-            building.Generate();
+            Houses,
+            Flat,
+            Start
+        }
+
+        public BlockType Type;
+        public Block Next;
+        public Block Prev;
+        public Block Left;
+        public Block Right;
+
+
+        public void Generate()
+        {
+            foreach (var building in Buildings)
+            {
+                building.Generate();
+            }
         }
     }
 }

@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using Basic_Locomotion.Scripts.CharacterController.Examples.TopDown;
+using Basic_Locomotion.Scripts.Generic;
+using Shooter.Scripts.Shooter;
+using UnityEngine;
 
-namespace Invector.CharacterController.TopDownShooter
+namespace Shooter.Scripts.Examples.TopDownShooter
 {
     [vClassHeader("TopDown Shooter Input")]
     public class vTopDownShooterInput : vShooterMeleeInput

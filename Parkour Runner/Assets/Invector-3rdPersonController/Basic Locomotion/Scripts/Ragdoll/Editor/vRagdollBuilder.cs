@@ -2,7 +2,9 @@
 using UnityEditor;
 using System.Collections;
 using System;
+using Basic_Locomotion.Scripts.Ragdoll;
 using Invector.CharacterController;
+using vCollisionMessage = Shooter.Scripts.Shooter.vCollisionMessage;
 
 class vRagdollBuilder : ScriptableWizard
 {

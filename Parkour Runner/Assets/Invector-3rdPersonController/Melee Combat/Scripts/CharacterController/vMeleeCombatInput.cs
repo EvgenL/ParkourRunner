@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.Generic;
+using Basic_Locomotion.Scripts.ObjectDamage;
+using Melee_Combat.Scripts.MeleeWeapon;
+using UnityEngine;
 #if MOBILE_INPUT
-using UnityStandardAssets.CrossPlatformInput;
 #endif
-using Invector.EventSystems;
 
-namespace Invector.CharacterController
+namespace Melee_Combat.Scripts.CharacterController
 {
     // here you can modify the Melee Combat inputs
     // if you want to modify the Basic Locomotion inputs, go to the vThirdPersonInput

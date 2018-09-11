@@ -1,7 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-namespace Invector
+using Basic_Locomotion.Scripts.ObjectDamage;
+using UnityEngine;
+
+namespace Basic_Locomotion.Scripts.Generic
 {
     [vClassHeader("HitDamage Particle", "Default hit Particle to instantiate every time you receive damage and Custom hit Particle to instantiate based on a custom AttackName from a Attack Animation State")]
     public class vHitDamageParticle : vMonoBehaviour

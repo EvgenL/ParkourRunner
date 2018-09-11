@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Assets.Scripts.Player.InvectorMods;
-using Invector.CharacterController;
+﻿using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.CharacterController.Actions;
 using UnityEngine;
 
-namespace Assets.Scripts.Player
+namespace ParkourRunner.Scripts.Player.InvectorMods
 {
     class ParkourTriggerHookAction : vTriggerGenericAction
     {

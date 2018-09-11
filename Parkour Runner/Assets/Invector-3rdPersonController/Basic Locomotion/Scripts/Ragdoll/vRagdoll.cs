@@ -1,8 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Basic_Locomotion.Scripts.CharacterController;
+using Basic_Locomotion.Scripts.Generic;
+using Basic_Locomotion.Scripts.ObjectDamage;
+using UnityEngine;
 
-namespace Invector.CharacterController
+namespace Basic_Locomotion.Scripts.Ragdoll
 {
     [vClassHeader("Ragdoll System", true, "ragdollIcon", true, "Every gameobject children of the character must have their tag added in the IgnoreTag List.")]
     public class vRagdoll : vMonoBehaviour

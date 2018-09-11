@@ -2,6 +2,9 @@
 using System.Collections;
 using Invector.ItemManager;
 using System.Collections.Generic;
+using Basic_Locomotion.Scripts.Generic;
+using ItemManager.Scripts;
+using Melee_Combat.Scripts.MeleeWeapon;
 using UnityEditor.Events;
 
 public partial class vItemManagerUtilities

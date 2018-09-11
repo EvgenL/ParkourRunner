@@ -1,23 +1,29 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using Basic_Locomotion.Scripts.CharacterController.Actions;
+using Basic_Locomotion.Scripts.Generic;
+using Shooter.Scripts.Shooter;
+using UnityEngine;
 
-[vClassHeader("vAmmoStandalone")]
-public class vAmmoStandalone : vTriggerGenericAction
+namespace Shooter.Scripts.Weapon
 {
-    [Header("Ammo Standalone Options")]
-    [Tooltip("Use the same name as in the AmmoManager")]
-    public string weaponName;
-    public int ammoID;
-    public int ammoAmount;
-    private vAmmoManager ammoManager;
-
-    public override IEnumerator OnDoActionDelay(GameObject cc)
+    [vClassHeader("vAmmoStandalone")]
+    public class vAmmoStandalone : vTriggerGenericAction
     {
-        yield return StartCoroutine(base.OnDoActionDelay(cc));
+        [Header("Ammo Standalone Options")]
+        [Tooltip("Use the same name as in the AmmoManager")]
+        public string weaponName;
+        public int ammoID;
+        public int ammoAmount;
+        private vAmmoManager ammoManager;
 
-        ammoManager = cc.gameObject.GetComponent<vAmmoManager>();
+        public override IEnumerator OnDoActionDelay(GameObject cc)
+        {
+            yield return StartCoroutine(base.OnDoActionDelay(cc));
+
+            ammoManager = cc.gameObject.GetComponent<vAmmoManager>();
 
        
-        ammoManager.AddAmmo(weaponName,ammoID,ammoAmount);       
+            ammoManager.AddAmmo(weaponName,ammoID,ammoAmount);       
+        }
     }
 }
