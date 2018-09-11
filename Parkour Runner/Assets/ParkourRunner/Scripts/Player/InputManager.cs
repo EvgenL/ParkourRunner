@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Assets.Scripts.Player.InvectorMods;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
-using UnityStandardAssets.CrossPlatformInput.PlatformSpecific;
 
 public enum ControlsMode
 {
@@ -18,14 +16,16 @@ public class InputManager : MonoBehaviour
     public GameObject FourButtonsContaner;
     public GameObject TiltContaner;
 
+    [SerializeField] private ParkourThirdPersonInput _playerInput;
+
     public Dropdown DebugDropdown;
 
-    public ControlsMode _controlsMode;
+    [SerializeField] private ControlsMode _controlsMode;
     [SerializeField] private Vector2 _startTouch;
     [SerializeField] private Vector2 _swipeDelta;
     [SerializeField] private bool _hold;
 
-    [SerializeField] private int _circleRadius = 120;
+    [SerializeField] private int _circleRadius = 50;
 
     #region Singleton
 
@@ -50,6 +50,11 @@ public class InputManager : MonoBehaviour
     {
         //TODO сохранить настройку
         SwitchMode(_controlsMode);
+
+        if (_playerInput == null)
+        {
+            _playerInput = FindObjectOfType<ParkourThirdPersonInput>();
+        }
     }
     public void OnSwitchModeDebug()
     {
@@ -196,14 +201,16 @@ public class InputManager : MonoBehaviour
 
     public void Jump()
     {
-        CrossPlatformInputManager.SetButtonDown("Jump");
-        CrossPlatformInputManager.SetButtonUp("Jump");
+        _playerInput.Jump();
+        /*CrossPlatformInputManager.SetButtonDown("Jump");
+        CrossPlatformInputManager.SetButtonUp("Jump");*/
     }
 
     public void Roll()
     {
-        CrossPlatformInputManager.SetButtonDown("Roll");
-        CrossPlatformInputManager.SetButtonUp("Roll");
+        _playerInput.Roll();
+        /*CrossPlatformInputManager.SetButtonDown("Roll");
+        CrossPlatformInputManager.SetButtonUp("Roll");*/
     }
 
     public void Left()

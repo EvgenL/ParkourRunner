@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
     public int CoinsThisRun { get; private set; }
     public int CoinMultipiler = 1;
 
+
     public List<BonusName> ActiveBonuses;
 
     public float DistanceRun;
@@ -68,11 +69,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+
         GameState = GameState.Run;
-        //TODO TEST
-        //TODO добавляем это из генератора
-        Coins = FindObjectsOfType<Coin>().ToList();
-        //TODO TEST
 
 
         ActiveBonuses = new List<BonusName>();

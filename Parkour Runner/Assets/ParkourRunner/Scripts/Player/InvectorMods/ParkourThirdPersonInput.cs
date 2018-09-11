@@ -90,53 +90,64 @@ namespace Assets.Scripts.Player.InvectorMods
         {
             if (CrossPlatformInputManager.GetButtonDown("Jump") || jumpInput.GetButtonDown())
             {
-                if (_isInInputZone && _inputZone.ReadJumpInput)
-                {
-                    _inputZone.OnPalyerJump();
-                }
-                else if (parkourController.IsSlidingTrolley)
-                {
-                    parkourController.IsSlidingTrolley = false;
-                }
-                else if (parkourController.IsUsingHook)
-                {
-                    parkourController.IsUsingHook = false;
-                }
-                else if (parkourController.IsRunningWall)
-                {
-                    //TODO разные виды джампоффа, климб
-                    parkourController.animator.SetTrigger("JumpOffWallTrigger");
-                    parkourController.IsRunningWall = false;
-                }
-                else 
-                {
-                    cc.Jump();
-                }
+                Jump();
             }
         }
+
+        public void Jump()
+        {
+            if (_isInInputZone && _inputZone.ReadJumpInput)
+            {
+                _inputZone.OnPalyerJump();
+            }
+            else if (parkourController.IsSlidingTrolley)
+            {
+                parkourController.IsSlidingTrolley = false;
+            }
+            else if (parkourController.IsUsingHook)
+            {
+                parkourController.IsUsingHook = false;
+            }
+            else if (parkourController.IsRunningWall)
+            {
+                //TODO разные виды джампоффа, климб
+                parkourController.animator.SetTrigger("JumpOffWallTrigger");
+                parkourController.IsRunningWall = false;
+            }
+            else
+            {
+                cc.Jump();
+            }
+        }
+
         protected override void RollInput()
         {
             if (CrossPlatformInputManager.GetButtonDown("Roll") || rollInput.GetButtonDown())
             {
-                if (_isInInputZone && _inputZone.ReadRollInput)
-                {
-                    _inputZone.OnPalyerRoll();
-                }
-                else if (parkourController.IsSlidingTrolley)
-                {
-                    parkourController.IsSlidingTrolley = false;
-                }
-                else if (parkourController.IsRunningWall)
-                {
-                    //TODO разные виды джампоффа, климб
-                    GameManager.Instance.PlayerCanBeDismembered = true;
-                    parkourController.animator.SetTrigger("JumpOffWallTrigger");
-                    parkourController.IsRunningWall = false;
-                }
-                else
-                {
-                    cc.Roll();
-                }
+                Roll();
+            }
+        }
+
+        public void Roll()
+        {
+            if (_isInInputZone && _inputZone.ReadRollInput)
+            {
+                _inputZone.OnPalyerRoll();
+            }
+            else if (parkourController.IsSlidingTrolley)
+            {
+                parkourController.IsSlidingTrolley = false;
+            }
+            else if (parkourController.IsRunningWall)
+            {
+                //TODO разные виды джампоффа, климб
+                GameManager.Instance.PlayerCanBeDismembered = true;
+                parkourController.animator.SetTrigger("JumpOffWallTrigger");
+                parkourController.IsRunningWall = false;
+            }
+            else
+            {
+                cc.Roll();
             }
         }
 
