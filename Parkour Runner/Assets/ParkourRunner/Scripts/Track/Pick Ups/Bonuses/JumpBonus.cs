@@ -21,7 +21,7 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
                 RefreshTime();
 
                 _oldJumpHeight = _player.jumpHeight;
-                _player.jumpHeight = _pm.InitialJumpBonusHeight + _pm.JumpUpgradeHeight;
+                _player.jumpHeight = _pm.InitialJumpBonusHeight;
 
                 //TODO play effect animation
             }

@@ -16,10 +16,6 @@
             Slide,
             LowSlide
         }
-        public enum JumpOverClose
-        {
-            JumpOver
-        }
         public enum JumpOverFar
         {
             FrontFlip,

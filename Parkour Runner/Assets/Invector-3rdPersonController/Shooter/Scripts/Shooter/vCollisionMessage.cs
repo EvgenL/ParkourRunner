@@ -1,5 +1,6 @@
 ﻿using Basic_Locomotion.Scripts.CharacterController;
 using Basic_Locomotion.Scripts.ObjectDamage;
+using Basic_Locomotion.Scripts.Ragdoll;
 using Melee_Combat.Scripts.MeleeWeapon;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace Shooter.Scripts.Shooter
     {
         public float damageMultiplier = 1f;
         private vCharacter iChar;
+        public  vRagdoll ragdoll;
         public void OnReceiveAttack(vDamage damage, vIMeleeFighter attacker)
         {       
             if (ragdoll && !ragdoll.iChar.isDead)

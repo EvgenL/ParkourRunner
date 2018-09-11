@@ -1,4 +1,5 @@
 ﻿using System;
+using ParkourRunner.Scripts.Managers;
 
 namespace ParkourRunner.Scripts.Player
 {
@@ -20,12 +21,10 @@ namespace ParkourRunner.Scripts.Player
                     return ((TrickNames.Slide)randomIndex).ToString(); 
 
                 case ("JumpOverFar"):
-                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.JumpOverFar)).Length);
-                    return ((TrickNames.JumpOverFar)randomIndex).ToString();
+                    return ProgressManager.Instance.GetRandomJumpOver().AnimationName;
 
                 case ("JumpOverClose"):
-                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.JumpOverClose)).Length);
-                    return ((TrickNames.JumpOverClose)randomIndex).ToString();
+                    return "JumpOver";
 
                 case ("Stand"):
                     randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.Stand)).Length);

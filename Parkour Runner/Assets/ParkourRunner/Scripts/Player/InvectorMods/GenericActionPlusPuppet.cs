@@ -16,7 +16,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         public bool Debug_NotRandomAnimation = false;
         public TrickNames.Roll Debug_Roll;
         public TrickNames.Slide Debug_Slide;
-        public TrickNames.JumpOverClose Debug_JumpOverClose;
         public TrickNames.JumpOverFar Debug_JumpOverFar;
         public TrickNames.Stand Debug_Stand;
 
@@ -90,12 +89,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
                 case ("Roll"):
                     return Debug_Roll.ToString();
-
-                case ("JumpOverClose"):
-                    return Debug_JumpOverClose.ToString();
-
-                case ("JumpOverFar"):
-                    return Debug_JumpOverFar.ToString();
 
                 case ("Stand"):
                     return Debug_Stand.ToString();
