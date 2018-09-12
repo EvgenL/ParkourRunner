@@ -11,8 +11,8 @@
 
         public const float MaxLaserLen = 20f;
 
-        public const float SpeedGrowPerMetre = 1f;
-
+        public const float SpeedGrowPerSec = 0.1f;
+        public const float MaxGameSpeed = 2f;
 
         //Chances to generate
         //Obstacles
@@ -28,6 +28,11 @@
         public const float ChallengePickUpPercent = 0.1f;
         public const float RelaxPickUpPercent = 0.5f;
         public const float RelaxTrickPercent = 0.5f;
-        //TODO /avg per block
+
+
+        public const float MinRunSpeed = 5f;
+        public const float MaxRunSpeed = 9f;
+        public const float MinAnimSpeed = 1f;
+        public const float MaxAnimSpeed = 2f;
     }
 }

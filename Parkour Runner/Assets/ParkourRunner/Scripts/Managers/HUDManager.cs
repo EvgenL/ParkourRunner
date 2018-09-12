@@ -32,6 +32,7 @@ namespace ParkourRunner.Scripts.Managers
         public Text CoinsText;
 
         public BonusPanel BonusPanel;
+        public PostMortemScreen PostMortemScreen;
 
         public int ShowDistanceEvery = 1000;
         private int _distanceShwonTimes;
@@ -99,6 +100,11 @@ namespace ParkourRunner.Scripts.Managers
                 _distanceShwonTimes = times;
                 print("You ran " + times * ShowDistanceEvery + " meters! Todo ui for this message");
             }
+        }
+
+        public void ShowPostMortem()
+        {
+            PostMortemScreen.Show();
         }
     }
 }

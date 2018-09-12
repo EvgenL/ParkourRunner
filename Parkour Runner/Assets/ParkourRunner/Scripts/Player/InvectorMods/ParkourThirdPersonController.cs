@@ -1,4 +1,5 @@
-﻿using Basic_Locomotion.Scripts.CharacterController;
+﻿using System.Collections;
+using Basic_Locomotion.Scripts.CharacterController;
 using Basic_Locomotion.Scripts.CharacterController.Actions;
 using ParkourRunner.Scripts.Managers;
 using RootMotion.Dynamics;
@@ -12,6 +13,14 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         public PuppetMaster PuppetMaster;
         public Weight RollPuppetCollisionResistance;
 
+        public new static ParkourThirdPersonController instance;
+
+        private void Awake()
+        {
+            base.Awake();
+            instance = this;
+        }
+
         public bool IsSlidingDown = false;
         public bool IsSlidingTrolley = false;
         public bool IsRunningWall = false;
@@ -22,19 +31,17 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         public float HookSpeed = 2f;
 
-        public float MinRunSpeed = 5f;
         public float CurrRunSpeed;
-        public float MaxRunSpeed = 7.5f;
 
-        public float MinAnimSpeed = 1f;
         public float CurrAnimSpeed;
-        public float MaxAnimSpeed = 1.2f;
 
         [HideInInspector] public Vector3 TrolleyOffset;
         [HideInInspector] public Vector3 WallOffset;
         [HideInInspector] public Vector3 HookOffset;
 
-        /*[HideInInspector]*/ public Transform TargetTransform;
+        [HideInInspector] public Transform TargetTransform;
+
+        private float _oldSpeed;
 
         //Чисто по приколу сделал чтоб он держался за IK пока едет на тарзанке
         [HideInInspector] public AvatarIKGoal TrolleyHand;
@@ -71,8 +78,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private void ResetSpeed()
         {
-            CurrRunSpeed = MinRunSpeed;
-            CurrAnimSpeed = MinAnimSpeed;
+            CurrRunSpeed = StaticConst.MinRunSpeed;
+            CurrAnimSpeed = StaticConst.MinAnimSpeed;
         }
 
         private void Update()
@@ -83,9 +90,14 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private void ControllSpeed()
         {
-            CurrRunSpeed += StaticConst.SpeedGrowPerMetre;
-            if (CurrRunSpeed > MaxRunSpeed)
-                CurrRunSpeed = MaxRunSpeed;
+            freeSpeed.runningSpeed = CurrRunSpeed;
+            freeSpeed.walkSpeed = CurrRunSpeed;
+            animator.SetFloat("TrickSpeedMultiplier", CurrAnimSpeed);
+
+            CurrRunSpeed = Utility.MapValue(GameManager.Instance.GameSpeed, 
+                1f, StaticConst.MaxGameSpeed, StaticConst.MinRunSpeed, StaticConst.MaxRunSpeed);
+            CurrAnimSpeed = Utility.MapValue(GameManager.Instance.GameSpeed, 
+                1f, StaticConst.MaxGameSpeed, StaticConst.MinAnimSpeed, StaticConst.MaxAnimSpeed);
         }
 
         private void FixedUpdate()
@@ -139,30 +151,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             animator.SetBool("IsUsingHook", IsUsingHook);
         }
 
-
-        //Позволяет врезаться головой в default layer во время переката. Работает хуйово, так что я выключил.
-        /*private void ControllRollRagdoll()
-        {
-
-            if (isRolling && BehavPuppet.collisionLayers != InRollCollisions)
-            {
-                _oldCollisions = BehavPuppet.collisionLayers;
-                BehavPuppet.collisionLayers = InRollCollisions;
-
-                _oldKnockOutDistance = BehavPuppet.knockOutDistance;
-                BehavPuppet.knockOutDistance = RollKnockOutDistance;
-
-                _oldCollisionResistance = BehavPuppet.collisionResistance;
-                BehavPuppet.collisionResistance = RollPuppetCollisionResistance;
-            }
-            else if (!isRolling && BehavPuppet.collisionLayers == InRollCollisions)
-            {
-                BehavPuppet.collisionLayers = _oldCollisions;
-                BehavPuppet.knockOutDistance = _oldKnockOutDistance;
-                BehavPuppet.collisionResistance = _oldCollisionResistance;
-            }
-        }*/
-
         public new bool actions
         {
             get { return /*isRolling ||*/ quickStop || landHigh || customAction; }
@@ -179,6 +167,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
             string randomRoll = RandomTricks.GetRandomRoll();///
             animator.CrossFadeInFixedTime(randomRoll, 0.1f);
+            _capsuleCollider.isTrigger = false;
         }
 
         public override void Jump()
@@ -215,6 +204,31 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         public void Revive()
         {
             PuppetMaster.state = PuppetMaster.State.Alive;
+        }
+
+
+        public virtual void ForceJump()
+        {
+            jumpCounter = jumpTimer;
+            isJumping = true;
+            // trigger jump animations
+            if (input.sqrMagnitude < 0.1f)
+                animator.CrossFadeInFixedTime("Jump", 0.1f);
+            else
+                animator.CrossFadeInFixedTime("JumpMove", .2f);
+
+            StartCoroutine(FreezeSpeed());
+        }
+
+        private IEnumerator FreezeSpeed()
+        {
+            _oldSpeed = CurrRunSpeed;
+            while (!isGrounded)
+            {
+                yield return null;
+                CurrRunSpeed = StaticConst.MinRunSpeed;
+            }
+            CurrRunSpeed = _oldSpeed;
         }
     }
 }

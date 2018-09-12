@@ -1,23 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ParkourRunner.Scripts.Player;
 using ParkourRunner.Scripts.Player.InvectorMods;
 using ParkourRunner.Scripts.Track.Pick_Ups;
 using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
+using RootMotion.Dynamics;
 using UnityEngine;
 
 namespace ParkourRunner.Scripts.Managers
 {
-    enum GameState
-    {
-        Run,
-        Pause,
-        Dead
-    }
 
     public class GameManager : MonoBehaviour
     {
+
+        public enum GameState
+        {
+            Run,
+            Pause,
+            Dead
+        }
         #region Singleton
 
         public static GameManager Instance;
@@ -43,20 +46,21 @@ namespace ParkourRunner.Scripts.Managers
         public int CoinsThisRun { get; private set; }
         public int CoinMultipiler = 1;
 
+        public float GameSpeed = 1f;
 
         public List<BonusName> ActiveBonuses;
 
         public float DistanceRun;
         private float _distanceRunOffset;
 
-        private GameState GameState;
+        public GameState gameState { get; private set; }
 
         ////Состояние
         //Наличие конечностей
-        private bool _leftHand = true;
-        private bool _rightHand = true;
-        private bool _leftLeg = true;
-        private bool _rightLeg = true;
+        [SerializeField] private bool _leftHand = true;
+        [SerializeField] private bool _rightHand = true;
+        [SerializeField] private bool _leftLeg = true;
+        [SerializeField] private bool _rightLeg = true;
 
         public MuscleDismember[] Limbs;
 
@@ -67,17 +71,25 @@ namespace ParkourRunner.Scripts.Managers
 
         private HUDManager _hud;
 
+
+
         private void Start()
         {
-
-            GameState = GameState.Run;
-
+            FindObjectOfType<BehaviourPuppet>().onLoseBalance.unityEvent.AddListener(ResetSpeed);
 
             ActiveBonuses = new List<BonusName>();
             _hud = HUDManager.Instance;
             Limbs = FindObjectsOfType<MuscleDismember>();
-            _player = FindObjectOfType<ParkourThirdPersonController>();
+            _player = ParkourThirdPersonController.instance;
             _playerAnimator = _player.GetComponent<Animator>();
+            
+            StartGame();
+        }
+
+        private void StartGame()
+        {
+            StartCoroutine(IncreaseGameSpeed());
+            gameState = GameState.Run;
         }
 
         // Update is called once per frame
@@ -94,7 +106,7 @@ namespace ParkourRunner.Scripts.Managers
             {
                 case (Bodypart.Body): //or
                 case (Bodypart.Head):
-                    if (dismember) GameState = GameState.Dead;
+                    if (!dismember) Die();
                     break;
 
                 case (Bodypart.LHand):
@@ -126,14 +138,9 @@ namespace ParkourRunner.Scripts.Managers
 
             if (!_leftHand && !_rightHand)
             {
-                GameState = GameState.Dead;
+                Die();
             }
             if (!_leftLeg && !_rightLeg)
-            {
-                GameState = GameState.Dead;
-            }
-
-            if (GameState == GameState.Dead)
             {
                 Die();
             }
@@ -141,16 +148,21 @@ namespace ParkourRunner.Scripts.Managers
 
         private void Die()
         {
+            gameState = GameState.Dead;
             _player.Die();
-            //TODO Предложить просмотр рекламы
+            Invoke("ShowPostMortem", 4f);
         }
 
-        private void Revive()
+        public void ShowPostMortem()
         {
-            throw new NotImplementedException();
+            _hud.ShowPostMortem();
+        }
 
+        public void Revive()
+        {
             while (HealLimb());
             _player.Revive();
+            gameState = GameState.Run;
         }
 
         public bool HealLimb()
@@ -201,6 +213,21 @@ namespace ParkourRunner.Scripts.Managers
         {
             var list = Limbs.ToList().Where(x => !x.IsDismembered).ToList();
             return list[UnityEngine.Random.Range(0, list.Count())].transform;
+        }
+
+        private IEnumerator IncreaseGameSpeed()
+        {
+            while (true)
+            {
+                GameSpeed += StaticConst.SpeedGrowPerSec * Time.deltaTime;
+                GameSpeed = Math.Min(GameSpeed, StaticConst.MaxGameSpeed);
+                yield return null;
+            }
+        }
+
+        public void ResetSpeed()
+        {
+            GameSpeed = 1f;
         }
     }
 }

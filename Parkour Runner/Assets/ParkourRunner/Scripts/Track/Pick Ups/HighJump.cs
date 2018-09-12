@@ -1,4 +1,5 @@
 ﻿using Basic_Locomotion.Scripts.CharacterController;
+using ParkourRunner.Scripts.Player.InvectorMods;
 using UnityEngine;
 
 namespace ParkourRunner.Scripts.Track.Pick_Ups
@@ -14,7 +15,7 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups
         {
             if (other.tag == "Player")
             {
-                var _player = vThirdPersonController.instance;
+                ParkourThirdPersonController _player = ParkourThirdPersonController.instance;
                 _oldJumpHeight = _player.jumpHeight;
                 _player.jumpHeight = JumpHeight;
                 _player.ForceJump();

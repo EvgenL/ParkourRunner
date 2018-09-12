@@ -73,6 +73,8 @@ namespace ParkourRunner.Scripts.Managers
         {
             var tricks = GetBoughtJumpOverTricks();
             int randomIndex = UnityEngine.Random.Range(0, tricks.Count);
+            if (randomIndex < 0) return null;
+
             return tricks[randomIndex];
         }
 

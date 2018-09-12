@@ -30,8 +30,7 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups
                     dism.DismemberMuscleRecursive();
                 }
             }
-            // gameObject.SetActive(false);
-            Destroy(gameObject, 1f);
+            gameObject.SetActive(false);
 
         }
 
