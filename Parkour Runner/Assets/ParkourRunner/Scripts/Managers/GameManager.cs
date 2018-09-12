@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ParkourRunner.Scripts.Player;
 using ParkourRunner.Scripts.Player.InvectorMods;
+using ParkourRunner.Scripts.Track.Generator;
 using ParkourRunner.Scripts.Track.Pick_Ups;
 using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using RootMotion.Dynamics;
@@ -163,6 +164,8 @@ namespace ParkourRunner.Scripts.Managers
             while (HealLimb());
             _player.Revive();
             gameState = GameState.Run;
+
+            LevelGenerator.Instance.GenerateRewardOnRevive();
         }
 
         public bool HealLimb()

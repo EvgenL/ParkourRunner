@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using ParkourRunner.Scripts.Player.InvectorMods;
 using UnityEngine;
 
 
@@ -14,7 +15,8 @@ public class DistanceAnimation : MonoBehaviour
 
 	void Start ()
 	{
-	    animator = GetComponent<Animator>();
+	    _player = ParkourThirdPersonController.instance.transform;
+        animator = GetComponent<Animator>();
 	    if (animator == null)
 	    {
 	        animator = GetComponentInChildren<Animator>();
@@ -27,7 +29,6 @@ public class DistanceAnimation : MonoBehaviour
         }
         animator.enabled = false;
         StartCoroutine(CheckPlayerDistance());
-
 	}
 
     private IEnumerator CheckPlayerDistance()
@@ -42,5 +43,4 @@ public class DistanceAnimation : MonoBehaviour
             yield return new WaitForSeconds(Delay);
         }
     }
-
 }

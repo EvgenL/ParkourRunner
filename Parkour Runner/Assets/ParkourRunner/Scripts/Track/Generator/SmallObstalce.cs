@@ -33,7 +33,7 @@ namespace ParkourRunner.Scripts.Track.Generator
             randomObs = resourcesManager.ObstaclesSmallPrefabs
                 [r];
 
-            PoolManager.Instance.Spawn(randomObs, transform.position, transform.rotation);
+            Go = PoolManager.Instance.Spawn(randomObs, transform.position, transform.rotation);
 
             Used = true;
         }

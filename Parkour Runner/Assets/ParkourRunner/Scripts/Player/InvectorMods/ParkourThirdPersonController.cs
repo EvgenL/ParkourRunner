@@ -43,6 +43,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private float _oldSpeed;
 
+        private bool _speedFreeze = false;
+
         //Чисто по приколу сделал чтоб он держался за IK пока едет на тарзанке
         [HideInInspector] public AvatarIKGoal TrolleyHand;
         void OnAnimatorIK(int layerIndex)
@@ -84,20 +86,28 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private void Update()
         {
-            ControllStates();
+            //test
+            if (customAction)
+            {
+                GameManager.Instance.PlayerCanBeDismembered = false;
+            }
+                ControllStates();
             ControllSpeed();
         }
 
         private void ControllSpeed()
         {
-            freeSpeed.runningSpeed = CurrRunSpeed;
-            freeSpeed.walkSpeed = CurrRunSpeed;
-            animator.SetFloat("TrickSpeedMultiplier", CurrAnimSpeed);
+            if (!_speedFreeze) 
+            {
+                freeSpeed.runningSpeed = CurrRunSpeed;
+                freeSpeed.walkSpeed = CurrRunSpeed;
+                animator.SetFloat("TrickSpeedMultiplier", CurrAnimSpeed);
 
-            CurrRunSpeed = Utility.MapValue(GameManager.Instance.GameSpeed, 
-                1f, StaticConst.MaxGameSpeed, StaticConst.MinRunSpeed, StaticConst.MaxRunSpeed);
-            CurrAnimSpeed = Utility.MapValue(GameManager.Instance.GameSpeed, 
-                1f, StaticConst.MaxGameSpeed, StaticConst.MinAnimSpeed, StaticConst.MaxAnimSpeed);
+                CurrRunSpeed = Utility.MapValue(GameManager.Instance.GameSpeed,
+                    1f, StaticConst.MaxGameSpeed, StaticConst.MinRunSpeed, StaticConst.MaxRunSpeed);
+                CurrAnimSpeed = Utility.MapValue(GameManager.Instance.GameSpeed,
+                    1f, StaticConst.MaxGameSpeed, StaticConst.MinAnimSpeed, StaticConst.MaxAnimSpeed);
+            }
         }
 
         private void FixedUpdate()
@@ -207,7 +217,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         }
 
 
-        public virtual void ForceJump()
+        public virtual void ForceJump(float speed = StaticConst.MinRunSpeed)
         {
             jumpCounter = jumpTimer;
             isJumping = true;
@@ -217,18 +227,23 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             else
                 animator.CrossFadeInFixedTime("JumpMove", .2f);
 
-            StartCoroutine(FreezeSpeed());
+            StartCoroutine(FreezeSpeed(speed));
         }
 
-        private IEnumerator FreezeSpeed()
+        //Это нужно чтобы на прыжке с батута всегда была постоянная скорость
+        private IEnumerator FreezeSpeed(float speed)
         {
-            _oldSpeed = CurrRunSpeed;
+            _speedFreeze = true;
+            print("jmp");
+            yield return new WaitForSeconds(0.1f);//Костыль: Пропускаем два кадра потому что isGrounded ставится не сразу после отрыва от земли
+
+            freeSpeed.runningSpeed = speed;
             while (!isGrounded)
             {
                 yield return null;
-                CurrRunSpeed = StaticConst.MinRunSpeed;
             }
-            CurrRunSpeed = _oldSpeed;
+            print("land");
+            _speedFreeze = false;
         }
     }
 }

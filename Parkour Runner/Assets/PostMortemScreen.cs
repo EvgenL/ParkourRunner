@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using ParkourRunner.Scripts.Managers;
 using UnityEngine;
+using UnityEngine.Advertisements;
 using UnityEngine.UI;
 
 public class PostMortemScreen : MonoBehaviour
 {
-
+    
     public GameObject ReviveScreen;
     public Slider ReviveScreenTimer;
+    public GameObject WatchAdButton;
 
     public GameObject ResultsScreen;
     public Text CoinsText;
@@ -20,6 +22,7 @@ public class PostMortemScreen : MonoBehaviour
 
     private GameManager _gm;
     private bool _alive = true;
+    private bool _adSeen; //Игрок уже смотрел рекламу?
 
     private void Start()
     {
@@ -30,7 +33,31 @@ public class PostMortemScreen : MonoBehaviour
     {
         _alive = false;
         ReviveScreen.SetActive(true);
+
+        if (!_adSeen && Advertisement.IsReady())
+        {
+            WatchAdButton.SetActive(true);
+        }
+        else
+        {
+            WatchAdButton.SetActive(false);
+        }
+
         StartCoroutine(CountTimer());
+    }
+
+    public void WatchAd()
+    {
+        _adSeen = true;
+        Revive();
+        ReviveScreen.SetActive(false);
+        ResultsScreen.SetActive(false);
+        AdManager.Instance.ShowVideo(AdFinishedCallback);
+    }
+
+    private void AdFinishedCallback()
+    {
+        _gm.Revive();
     }
 
     private IEnumerator CountTimer()
@@ -59,7 +86,6 @@ public class PostMortemScreen : MonoBehaviour
         _alive = true;
         StopCoroutine(CountTimer());
         ReviveScreen.SetActive(false);
-        _gm.Revive();
     }
 
     public void ExitReviveScreen()

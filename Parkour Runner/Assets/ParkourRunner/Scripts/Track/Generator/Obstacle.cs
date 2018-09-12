@@ -58,12 +58,10 @@ namespace ParkourRunner.Scripts.Track.Generator
             {
                 Debug.LogError("Не найден подходящий префаб ", transform);
             }
-        
-            PoolManager.Instance.Spawn(randomObs, transform.position, transform.rotation);
+
+            Go = PoolManager.Instance.Spawn(randomObs, transform.position, transform.rotation);
 
             Used = true;
-
-            //PoolManager.Instance.Remove(gameObject);
         }
     }
 }

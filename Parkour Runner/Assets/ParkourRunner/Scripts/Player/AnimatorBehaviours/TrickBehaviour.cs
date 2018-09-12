@@ -21,6 +21,9 @@ namespace ParkourRunner.Scripts.Player.AnimatorBehaviours
         public bool resetPlayerSettings  = true;
 
         public bool UseRootMotion = true;
+
+        public bool SwitchHandsOnDismember = true;
+
         private bool _oldUseRootMotion;
 
         private bool _handsSwitched = false;
@@ -67,6 +70,7 @@ namespace ParkourRunner.Scripts.Player.AnimatorBehaviours
 
         private void CheckLimbs(Animator animator)
         {
+            if (!SwitchHandsOnDismember) return;
             if (animator.GetBool("RightHand") && animator.GetBool("LeftHand"))
             {
                 _handsSwitched = false;
@@ -82,14 +86,15 @@ namespace ParkourRunner.Scripts.Player.AnimatorBehaviours
                     //Будем делать трюк правой рукой
                     avatarTarget = AvatarTarget.RightHand;
                     animator.SetBool("MirrorHands", true);
-                    _handsSwitched = true;
+
+                    //_handsSwitched = true;
                 }
-                else if (!_handsSwitched)
+                /*else if (_handsSwitched)
                 {
                     animator.SetBool("MirrorHands", false);
-                }
+                }*/
             }
-
+            /*
             //Если нужна правая рука
             if (avatarTarget == AvatarTarget.RightHand)
             {
@@ -101,11 +106,11 @@ namespace ParkourRunner.Scripts.Player.AnimatorBehaviours
                     animator.SetBool("MirrorHands", true);
                     _handsSwitched = true;
                 }
-                else if (!_handsSwitched)
+                else if (_handsSwitched)
                 {
                     animator.SetBool("MirrorHands", false);
                 }
-            }
+            }*/
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)

@@ -185,7 +185,7 @@ namespace ParkourRunner.Scripts.Track.Generator
         {
             while (transform.position.z < _player.position.z + ObstacleGenerationdistance)
             {
-                GenerateObstaclesSegment();
+                GenerateObstaclesSegment(State);
             }
         }
 
@@ -221,7 +221,6 @@ namespace ParkourRunner.Scripts.Track.Generator
                     break;
                 }
             }
-            ;
 
             if (_oldCenter == centerBlock)
                 return;
@@ -236,6 +235,41 @@ namespace ParkourRunner.Scripts.Track.Generator
         {
             GoBack();
             GenerateObstacles();
+        }
+
+        public void GenerateRewardOnRevive()
+        {
+            //ClearLevel();
+            ClearClosest();
+            //GoBack();
+            GenerateObstaclesSegment(GeneratorState.Reward);
+            GenerateObstaclesSegment(GeneratorState.Reward);
+
+        }
+        private void ClearClosest()
+        {
+            foreach (var block in _blockPool)
+            {
+                foreach (var Building in block.Buildings)
+                {
+                    foreach (var GPoint in Building.GPoints)
+                    {
+                        if (Vector3.Distance(GPoint.transform.position, _player.transform.position) <= 20f)
+                        {
+                            //GPoint.Clear();
+                            GPoint.Delete();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ClearLevel()
+        {
+            foreach (var block in _blockPool)
+            {
+                block.Clear();
+            }
         }
 
         private void GoBack()
@@ -351,62 +385,53 @@ namespace ParkourRunner.Scripts.Track.Generator
             }
         }
 
-        private void GenerateObstaclesSegment()
+        private void GenerateObstaclesSegment(GeneratorState s)
         {
-            switch (State)
+            //В разогреве не генерится ничего
+            if (s != GeneratorState.HeatUp)
+                GenerateOnClosestBlocks();
+
+            MoveToNextSegment(s);
+        }
+
+        private void MoveToNextSegment(GeneratorState s)
+        {
+            switch (s)
             {
                 case GeneratorState.HeatUp:
-                    //В разогреве не генерится ничего
                     State = GeneratorState.Callibration;
                     transform.position += Vector3.forward * HeatUpStateLength;
                     break;
 
                 case GeneratorState.Callibration:
-                    GenerateCallibration();
                     State = GeneratorState.Reward;
                     transform.position += Vector3.forward * CallibrationStateLength;
                     break;
 
                 case GeneratorState.Reward:
-                    GenerateReward();
                     State = GeneratorState.Challenge;
                     transform.position += Vector3.forward * RewardStateLength;
                     break;
 
                 case GeneratorState.Challenge:
-                    GenerateChallenge();
                     State = GeneratorState.Relax;
                     transform.position += Vector3.forward * ChallengeStateLength;
                     break;
 
                 case GeneratorState.Relax:
-                    GenerateRelax();
                     State = GeneratorState.Challenge;
                     transform.position += Vector3.forward * RelaxStateLength;
                     break;
             }
-            //todo pos
         }
 
-        private void GenerateCallibration()
+        private void GenerateOnClosestBlocks()
         {
             var blocks = SelectBlocksInRange(transform.position.z, CallibrationStateLength);
             foreach (var block in blocks)
             {
                 block.Generate();
             }
-        }
-        private void GenerateReward()
-        {
-            GenerateCallibration(); //TODO
-        }
-        private void GenerateRelax()
-        {
-            GenerateCallibration(); //TODO
-        }
-        private void GenerateChallenge()
-        {
-            GenerateCallibration(); //TODO
         }
 
         private List<Block> SelectBlocksInRange(float positionZ, float stateLength)

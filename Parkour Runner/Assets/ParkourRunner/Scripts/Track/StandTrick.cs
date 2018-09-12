@@ -29,7 +29,7 @@ namespace ParkourRunner.Scripts.Track
 
         public override void Generate()
         {
-            PoolManager.Instance.Spawn(StandPrefab, transform.position, transform.rotation);
+            Go = PoolManager.Instance.Spawn(StandPrefab, transform.position, transform.rotation);
             Used = true;
         }
     }

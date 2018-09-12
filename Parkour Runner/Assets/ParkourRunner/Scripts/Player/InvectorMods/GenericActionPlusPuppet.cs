@@ -21,11 +21,14 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         [SerializeField] private string _randomAnimation;
 
+        
+
         protected override void ApplyPlayerSettings()
         {
             base.ApplyPlayerSettings();
             puppetMaster.mode = PuppetMaster.Mode.Disabled;
             GameManager.Instance.PlayerCanBeDismembered = false;
+
         }
 
         protected override void ResetPlayerSettings()

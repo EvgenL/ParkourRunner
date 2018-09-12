@@ -8,6 +8,7 @@ namespace ParkourRunner.Scripts.Track.Generator
         public bool DrawGizmos = true;
         public bool Used;
         public abstract void Generate();
+        public GameObject Go;
 
         private void OnDestroy()
         {
@@ -15,6 +16,21 @@ namespace ParkourRunner.Scripts.Track.Generator
             PoolManager.Instance.Remove(gameObject);
         }
 
+        public void Clear()
+        {
+            if (Used)
+            {
+                Used = false;
 
+                if (Go != null)
+                    Destroy(Go);
+            }
+        }
+
+        public void Delete()
+        {
+            if (Go != null)
+                Destroy(Go);
+        }
     }
 }
