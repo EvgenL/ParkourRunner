@@ -17,12 +17,13 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
         private HUDManager _hud;
         [SerializeField] private BonusName _BonusName;
 
+        private bool _active;
+
         private void Start()
         {
             _pm = ProgressManager.Instance;
             _player = ParkourThirdPersonController.instance;
             _hud = HUDManager.Instance;
-            _hud.DisableBonus(_BonusName);
             //TODO play effect animation
         }
 
@@ -30,17 +31,18 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
         {
             TimeRemaining = ProgressManager.GetBonusLen(_BonusName);
             HUDManager.Instance.UpdateBonus(_BonusName, 1f);
+            _active = true;
         }
 
         void Update()
         {
+            if (!_active) return;
+
             if (_hud == null) _hud = HUDManager.Instance;
             TimeRemaining -= Time.deltaTime;
             if (TimeRemaining <= 0f)
             {
-                EndEffect();
-                _hud.DisableBonus(_BonusName);
-                enabled = false;
+                End();
                 return;
             }
 
@@ -48,6 +50,13 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
             _hud.UpdateBonus(_BonusName, percent);
 
             UpdateEffect(TimeRemaining);
+        }
+
+        private void End()
+        {
+            EndEffect();
+            _hud.DisableBonus(_BonusName);
+            _active = false;
         }
 
         protected abstract void EndEffect();

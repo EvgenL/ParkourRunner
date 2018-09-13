@@ -2,6 +2,7 @@
 using Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using Basic_Locomotion.Scripts.CharacterController;
 using ParkourRunner.Scripts.Managers;
+using ParkourRunner.Scripts.Player.InvectorMods;
 using UnityEngine;
 
 namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
@@ -23,6 +24,7 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 
         protected override void UpdateEffect(float timeRemaining)
         {
+            if (_player == null) _player = ParkourThirdPersonController.instance;
             foreach (var coin in _coins)
             {
                 if (Vector3.Distance(_player.transform.position, coin.transform.position) < StaticConst.MagnetRadius)
