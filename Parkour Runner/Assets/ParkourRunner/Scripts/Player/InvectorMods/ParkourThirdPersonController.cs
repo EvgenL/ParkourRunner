@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace ParkourRunner.Scripts.Player.InvectorMods
 {
-    class ParkourThirdPersonController : vThirdPersonController
+    public class ParkourThirdPersonController : vThirdPersonController
     {
         public BehaviourPuppet BehavPuppet;
         public PuppetMaster PuppetMaster;
@@ -15,7 +15,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         public new static ParkourThirdPersonController instance;
 
-        private void Awake()
+        private new void Awake()
         {
             base.Awake();
             instance = this;
@@ -100,7 +100,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             }
             else
             {
-                //BehavPuppet.collisionLayers = _damageLayers;
+                BehavPuppet.collisionLayers = _damageLayers;
                 GameManager.Instance.PlayerCanBeDismembered = true;
             }
 

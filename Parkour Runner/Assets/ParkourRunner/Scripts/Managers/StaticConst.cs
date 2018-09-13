@@ -3,7 +3,9 @@
     static class StaticConst
     {
 
+        public const float MagnetRadius = 8f;     //Изначальный радиус магнита
         public const float MagnetCoinVelocity = 20f; //Скорость монеток, летящих к игроку при магните
+        public const float InitialJumpBonusHeight = 12f; //Изначальная высота бонус-прыжка
 
         public const int MaxEnemyDifficulty = 5;
         public const int MinEnemyAttacks = 3;

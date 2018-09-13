@@ -57,10 +57,7 @@ namespace ParkourRunner.Scripts.Player
         {
             if (Bodypart == Bodypart.Body) return;
             if (!GameManager.Instance.PlayerCanBeDismembered)
-            {
-                print("!GameManager.Instance.PlayerCanBeDismembered");
                 return;
-            }
             if (IsDismembered) return;
             if (IsHandOrFeet)
             {

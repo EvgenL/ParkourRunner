@@ -50,8 +50,6 @@ namespace ParkourRunner.Scripts.Managers
 
         public float GameSpeed = 1f;
 
-        public List<BonusName> ActiveBonuses;
-
         public float DistanceRun;
         private float _distanceRunOffset;
 
@@ -79,7 +77,6 @@ namespace ParkourRunner.Scripts.Managers
         {
             FindObjectOfType<BehaviourPuppet>().onLoseBalance.unityEvent.AddListener(ResetSpeed);
 
-            ActiveBonuses = new List<BonusName>();
             _hud = HUDManager.Instance;
             Limbs = FindObjectsOfType<MuscleDismember>();
             _player = ParkourThirdPersonController.instance;
@@ -194,24 +191,19 @@ namespace ParkourRunner.Scripts.Managers
             switch (bonusName)
             {
                 case (BonusName.Magnet):
-                    if (ActiveBonuses.Contains(bonusName)) GetComponent<MagnetBonus>().RefreshTime();
-                    else gameObject.AddComponent<MagnetBonus>();
+                    GetComponent<MagnetBonus>().RefreshTime();
                     break;
                 case (BonusName.Jump):
-                    if (ActiveBonuses.Contains(bonusName)) GetComponent<JumpBonus>().RefreshTime();
-                    else gameObject.AddComponent<JumpBonus>();
+                    GetComponent<JumpBonus>().RefreshTime();
                     break;
                 case (BonusName.Shield):
-                    if (ActiveBonuses.Contains(bonusName)) GetComponent<ShieldBonus>().RefreshTime();
-                    else gameObject.AddComponent<ShieldBonus>();
+                    GetComponent<ShieldBonus>().RefreshTime();
                     break;
                 case (BonusName.DoubleCoins):
-                    if (ActiveBonuses.Contains(bonusName)) GetComponent<DoubleCoins>().RefreshTime();
-                    else gameObject.AddComponent<DoubleCoins>();
+                    GetComponent<DoubleCoinsBonus>().RefreshTime();
                     break;
                 case (BonusName.Boost):
-                    if (ActiveBonuses.Contains(bonusName)) GetComponent<Boost>().RefreshTime();
-                    else gameObject.AddComponent<Boost>();
+                    GetComponent<BoostBonus>().RefreshTime();
                     break;
             }
         }

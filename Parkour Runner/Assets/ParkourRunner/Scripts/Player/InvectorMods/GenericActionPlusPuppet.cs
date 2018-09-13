@@ -27,7 +27,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         {
             base.ApplyPlayerSettings();
             puppetMaster.mode = PuppetMaster.Mode.Disabled;
-            GameManager.Instance.PlayerCanBeDismembered = false;
 
         }
 
@@ -35,7 +34,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         {
             base.ResetPlayerSettings();
             puppetMaster.mode = PuppetMaster.Mode.Active;
-            GameManager.Instance.PlayerCanBeDismembered = true;
         }
         protected override void TriggerActionInput()
         {

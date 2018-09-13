@@ -1,54 +1,31 @@
 ﻿using System.Collections.Generic;
+using Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using Basic_Locomotion.Scripts.CharacterController;
 using ParkourRunner.Scripts.Managers;
 using UnityEngine;
 
 namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 {
-    class MagnetBonus : MonoBehaviour
+    class MagnetBonus : Bonus
     {
-        public float TimeRemaining;
-
+        
         private List<Coin> _coins;
 
-        private Transform _player;
-        private ProgressManager _pm;
-
-        void Start()
+        private void Start()
         {
-            _pm = ProgressManager.Instance;
-            
-            _player = vThirdPersonController.instance.transform;
             _coins = GameManager.Instance.GetCoins();
-            RefreshTime();
-
             //TODO play effect animation
         }
 
-        public void RefreshTime()
+        protected override void EndEffect()
         {
-            TimeRemaining = _pm.InitialMagnetLength + _pm.MagnetUpgradeLength;
-            HUDManager.Instance.UpdateBonus(BonusName.Magnet, 1f);
         }
 
-
-        void Update()
+        protected override void UpdateEffect(float timeRemaining)
         {
-            TimeRemaining -= Time.deltaTime;
-            if (TimeRemaining <= 0f)
-            {
-                HUDManager.Instance.DisableBonus(BonusName.Magnet);
-                Destroy(this);
-                return;
-            }
-
-            float percent = TimeRemaining / (_pm.InitialMagnetLength + _pm.MagnetUpgradeLength);
-            
-            HUDManager.Instance.UpdateBonus(BonusName.Magnet, percent);
-
             foreach (var coin in _coins)
             {
-                if (Vector3.Distance(_player.position, coin.transform.position) < _pm.MagnetRadius)
+                if (Vector3.Distance(_player.transform.position, coin.transform.position) < StaticConst.MagnetRadius)
                 {
                     var rb = coin.GetComponent<Rigidbody>();
                     if (rb == null)
@@ -57,11 +34,10 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
                         rb.useGravity = false;
                     }
 
-                    coin.transform.position = Vector3.MoveTowards(coin.transform.position, 
-                        _player.position + Vector3.up, StaticConst.MagnetCoinVelocity * Time.deltaTime);
+                    coin.transform.position = Vector3.MoveTowards(coin.transform.position,
+                        _player.transform.position + Vector3.up, StaticConst.MagnetCoinVelocity * Time.deltaTime);
                 }
-             }
-
+            }
         }
     }
 }

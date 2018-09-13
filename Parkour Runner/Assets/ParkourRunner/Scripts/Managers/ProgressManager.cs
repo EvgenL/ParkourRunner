@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ParkourRunner.Scripts.Player;
+using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using UnityEngine;
 
 namespace ParkourRunner.Scripts.Managers
 {
-    class ProgressManager : MonoBehaviour
+    public class ProgressManager : MonoBehaviour
     {
         #region Singleton
 
@@ -27,26 +28,43 @@ namespace ParkourRunner.Scripts.Managers
         #endregion
 
 
-        public float MagnetRadius = 8f;     //Изначальный радиус магнита
-        public float InitialMagnetLength = 5f;  //Изначальная длительность
-        public float MagnetUpgradeLength = 0f;  //Продаваемый бонус к длительности
+        public const float InitialMagnetLength = 5f;  //Изначальная длительность
+        public static float MagnetUpgradeLength = 0f;  //Продаваемый бонус к длительности
 
-        public float InitialJumpBonusHeight = 12f; //Изначальная высота бонус-прыжка
-        public float InitialJumpLength = 5f;  //Изначальная длительность
-        public float JumpUpgradeLength = 0f;  //Продаваемый бонус к длительности
+        public static float InitialJumpLength = 10f;  //Изначальная длительность
+        public static float JumpUpgradeLength = 0f;  //Продаваемый бонус к длительности
 
-        public float InitialShieldLength = 5f;  //Изначальная длительность
-        public float ShieldUpgradeLength = 0f;  //Продаваемый бонус к длительности
+        public const float InitialShieldLength = 10f;  //Изначальная длительность
+        public static float ShieldUpgradeLength = 0f;  //Продаваемый бонус к длительности
 
-        public float InitialBoostLength = 5f;  //Изначальная длительность
-        public float BoostUpgradeLength = 0f;  //Продаваемый бонус к длительности
+        public const float InitialBoostLength = 10f;  //Изначальная длительность
+        public static float BoostUpgradeLength = 0f;  //Продаваемый бонус к длительности
 
-        public float InitialDoubleCoinsLength = 5f;  //Изначальная длительность
-        public float DoubleCoinsUpgradeLength = 0f;  //Продаваемый бонус к длительности
+        public const float InitialDoubleCoinsLength = 10f;  //Изначальная длительность
+        public static float DoubleCoinsUpgradeLength = 0f;  //Продаваемый бонус к длительности
 
         public static int GameLaunches; //Сколько раз запущена игра
         public static float DistanceRecord { get; private set; } //Рекорд игрока
         public static float Coins { get; private set; } //Деньги игрока
+
+        public static float GetBonusLen(BonusName bonusName)
+        {
+            switch (bonusName)
+            {
+                case (BonusName.Magnet):
+                    return InitialMagnetLength + MagnetUpgradeLength;
+                case (BonusName.Jump):
+                    return InitialJumpLength + JumpUpgradeLength;
+                case (BonusName.Shield):
+                    return InitialShieldLength + ShieldUpgradeLength;
+                case (BonusName.DoubleCoins):
+                    return InitialDoubleCoinsLength + DoubleCoinsUpgradeLength;
+                case (BonusName.Boost):
+                    return InitialBoostLength + BoostUpgradeLength;
+            }
+
+            return 0;
+        }
 
         private void Start()
         {
