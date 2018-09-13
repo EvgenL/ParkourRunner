@@ -56,7 +56,11 @@ namespace ParkourRunner.Scripts.Player
         public void DismemberMuscleRecursive()
         {
             if (Bodypart == Bodypart.Body) return;
-            if (!GameManager.Instance.PlayerCanBeDismembered) return;
+            if (!GameManager.Instance.PlayerCanBeDismembered)
+            {
+                print("!GameManager.Instance.PlayerCanBeDismembered");
+                return;
+            }
             if (IsDismembered) return;
             if (IsHandOrFeet)
             {

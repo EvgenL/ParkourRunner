@@ -24,7 +24,7 @@ namespace Basic_Locomotion.Scripts.Generic
                 //Debug.Log(spawnPointName+" "+gameObject.name);
 			
                 spawnPointFinder.AlighObjetToSpawnPoint(other.gameObject,spawnPointName);
-			
+
 #if UNITY_5_3_OR_NEWER
                 SceneManager.LoadScene(levelToLoad);
 #else

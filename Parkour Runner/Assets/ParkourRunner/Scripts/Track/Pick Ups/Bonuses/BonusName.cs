@@ -4,6 +4,8 @@
     {
         Magnet,
         Shield,
-        Jump
+        Jump,
+        DoubleCoins,
+        Boost
     }
 }

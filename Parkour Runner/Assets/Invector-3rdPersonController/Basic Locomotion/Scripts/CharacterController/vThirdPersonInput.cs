@@ -105,7 +105,7 @@ namespace Basic_Locomotion.Scripts.CharacterController
 			}
 	    	catch
 	    	{
-		    	SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		        SceneManager.sceneLoaded -= OnLevelFinishedLoading;
 	    	}
         }
 

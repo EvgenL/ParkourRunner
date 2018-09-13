@@ -13,6 +13,10 @@ namespace ParkourRunner.Scripts.UIScripts
         public Slider ShieldSlider;
         public GameObject Jump;
         public Slider JumpSlider;
+        public GameObject Boost;
+        public Slider BoostSlider;
+        public GameObject DoubleCoins;
+        public Slider DoubleCoinsSlider;
 
         public void UpdateBonus(BonusName bonusName, float value)
         {
@@ -30,6 +34,14 @@ namespace ParkourRunner.Scripts.UIScripts
                     Shield.SetActive(true);
                     ShieldSlider.value = value;
                     break;
+                case (BonusName.Boost):
+                    Boost.SetActive(true);
+                    BoostSlider.value = value;
+                    break;
+                case (BonusName.DoubleCoins):
+                    DoubleCoins.SetActive(true);
+                    DoubleCoinsSlider.value = value;
+                    break;
             }
         }
 
@@ -45,6 +57,12 @@ namespace ParkourRunner.Scripts.UIScripts
                     break;
                 case (BonusName.Shield):
                     Shield.SetActive(false);
+                    break;
+                case (BonusName.Boost):
+                    Boost.SetActive(false);
+                    break;
+                case (BonusName.DoubleCoins):
+                    DoubleCoins.SetActive(false);
                     break;
             }
         }

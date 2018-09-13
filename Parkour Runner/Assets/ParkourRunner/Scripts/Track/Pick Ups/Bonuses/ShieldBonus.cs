@@ -1,4 +1,5 @@
 ﻿using ParkourRunner.Scripts.Managers;
+using ParkourRunner.Scripts.Player.InvectorMods;
 using UnityEngine;
 
 namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
@@ -8,10 +9,13 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
         public float TimeRemaining;
         
         private ProgressManager _pm;
-        
+
+        private ParkourThirdPersonController _player;
+
         void Start()
         {
             _pm = ProgressManager.Instance;
+            _player = ParkourThirdPersonController.instance;
             GameManager.Instance.PlayerCanBeDismembered = false;
             RefreshTime();
 
@@ -27,11 +31,11 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 
         void Update()
         {
-            GameManager.Instance.PlayerCanBeDismembered = false;
+            _player.Immune = true;
             TimeRemaining -= Time.deltaTime;
             if (TimeRemaining <= 0f)
             {
-                GameManager.Instance.PlayerCanBeDismembered = true;
+                _player.Immune = false;
                 HUDManager.Instance.DisableBonus(BonusName.Shield);
                 Destroy(this);
                 return;

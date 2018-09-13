@@ -26,6 +26,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         public bool IsRunningWall = false;
         public bool IsUsingHook = false;
 
+        public bool Immune = false;
+
         public float RollKnockOutDistance = 4f;
         public float _oldKnockOutDistance;
 
@@ -35,6 +37,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         public float CurrAnimSpeed;
 
+        public float SpeedMult = 1f;
+
         [HideInInspector] public Vector3 TrolleyOffset;
         [HideInInspector] public Vector3 WallOffset;
         [HideInInspector] public Vector3 HookOffset;
@@ -43,7 +47,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private float _oldSpeed;
 
-        private bool _speedFreeze = false;
+        private bool _airSpeedFreeze = false;
 
         //Чисто по приколу сделал чтоб он держался за IK пока едет на тарзанке
         [HideInInspector] public AvatarIKGoal TrolleyHand;
@@ -51,14 +55,14 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         {
             if (!IsSlidingTrolley) return;
 
-            var target = GetComponent<vGenericAction>().triggerAction.avatarTarget;
-
             animator.SetIKPositionWeight(TrolleyHand, 0.7f);
             animator.SetIKPosition(TrolleyHand, TargetTransform.position);
         }
 
 
-
+        private LayerMask _damageLayers;
+        [SerializeField] private LayerMask _immuneLayers = new LayerMask();
+        
         private LayerMask _oldCollisions;
         private Weight _oldCollisionResistance;
         //private ParkourThirdPersonInput parkourInput;
@@ -76,6 +80,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
                 _capsuleCollider.isTrigger = false;
             });
             BehavPuppet.onLoseBalance.unityEvent.AddListener(ResetSpeed);
+
+            _damageLayers = BehavPuppet.collisionLayers;
         }
 
         private void ResetSpeed()
@@ -87,19 +93,27 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         private void Update()
         {
             //test
-            if (customAction)
+            if (customAction || Immune)
             {
+                BehavPuppet.collisionLayers = _immuneLayers;
                 GameManager.Instance.PlayerCanBeDismembered = false;
             }
-                ControllStates();
+            else
+            {
+                //BehavPuppet.collisionLayers = _damageLayers;
+                GameManager.Instance.PlayerCanBeDismembered = true;
+            }
+
+            ControllStates();
             ControllSpeed();
+
         }
 
         private void ControllSpeed()
         {
-            if (!_speedFreeze) 
+            if (!_airSpeedFreeze) 
             {
-                freeSpeed.runningSpeed = CurrRunSpeed;
+                freeSpeed.runningSpeed = CurrRunSpeed * SpeedMult;
                 freeSpeed.walkSpeed = CurrRunSpeed;
                 animator.SetFloat("TrickSpeedMultiplier", CurrAnimSpeed);
 
@@ -175,7 +189,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
             if (!rollConditions || isRolling) return;
 
-            string randomRoll = RandomTricks.GetRandomRoll();///
+            string randomRoll = RandomTricks.GetRandomRoll();//я добавил
             animator.CrossFadeInFixedTime(randomRoll, 0.1f);
             _capsuleCollider.isTrigger = false;
         }
@@ -227,13 +241,13 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             else
                 animator.CrossFadeInFixedTime("JumpMove", .2f);
 
-            StartCoroutine(FreezeSpeed(speed));
+            StartCoroutine(FreezeSpeedInAir(speed));
         }
 
         //Это нужно чтобы на прыжке с батута всегда была постоянная скорость
-        private IEnumerator FreezeSpeed(float speed)
+        private IEnumerator FreezeSpeedInAir(float speed)
         {
-            _speedFreeze = true;
+            _airSpeedFreeze = true;
             print("jmp");
             yield return new WaitForSeconds(0.1f);//Костыль: Пропускаем два кадра потому что isGrounded ставится не сразу после отрыва от земли
 
@@ -243,7 +257,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
                 yield return null;
             }
             print("land");
-            _speedFreeze = false;
+            _airSpeedFreeze = false;
         }
     }
 }

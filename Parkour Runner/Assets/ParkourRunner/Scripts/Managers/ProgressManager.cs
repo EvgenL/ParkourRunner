@@ -38,6 +38,12 @@ namespace ParkourRunner.Scripts.Managers
         public float InitialShieldLength = 5f;  //Изначальная длительность
         public float ShieldUpgradeLength = 0f;  //Продаваемый бонус к длительности
 
+        public float InitialBoostLength = 5f;  //Изначальная длительность
+        public float BoostUpgradeLength = 0f;  //Продаваемый бонус к длительности
+
+        public float InitialDoubleCoinsLength = 5f;  //Изначальная длительность
+        public float DoubleCoinsUpgradeLength = 0f;  //Продаваемый бонус к длительности
+
         public static int GameLaunches; //Сколько раз запущена игра
         public static float DistanceRecord { get; private set; } //Рекорд игрока
         public static float Coins { get; private set; } //Деньги игрока

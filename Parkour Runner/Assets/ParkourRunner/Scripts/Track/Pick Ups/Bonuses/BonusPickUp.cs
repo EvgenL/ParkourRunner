@@ -9,7 +9,8 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
         protected override void Pick()
         {
             GameManager.Instance.AddBonus(BonusName);
-            Destroy(gameObject);
+            PoolManager.Instance.Remove(gameObject);
+            //Destroy(gameObject);
         }
     }
 }

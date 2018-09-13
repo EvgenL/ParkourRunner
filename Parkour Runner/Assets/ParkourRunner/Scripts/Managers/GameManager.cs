@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using ParkourRunner.Scripts.Player;
 using ParkourRunner.Scripts.Player.InvectorMods;
 using ParkourRunner.Scripts.Track.Generator;
@@ -203,6 +204,14 @@ namespace ParkourRunner.Scripts.Managers
                 case (BonusName.Shield):
                     if (ActiveBonuses.Contains(bonusName)) GetComponent<ShieldBonus>().RefreshTime();
                     else gameObject.AddComponent<ShieldBonus>();
+                    break;
+                case (BonusName.DoubleCoins):
+                    if (ActiveBonuses.Contains(bonusName)) GetComponent<DoubleCoins>().RefreshTime();
+                    else gameObject.AddComponent<DoubleCoins>();
+                    break;
+                case (BonusName.Boost):
+                    if (ActiveBonuses.Contains(bonusName)) GetComponent<Boost>().RefreshTime();
+                    else gameObject.AddComponent<Boost>();
                     break;
             }
         }

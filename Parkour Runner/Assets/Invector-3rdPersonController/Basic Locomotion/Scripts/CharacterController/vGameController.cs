@@ -40,7 +40,7 @@ namespace Basic_Locomotion.Scripts.CharacterController
                 Destroy(this.gameObject);
                 return;
             }
-            
+
             SceneManager.sceneLoaded += OnLevelFinishedLoading;
 
             var player = GameObject.FindObjectOfType<vThirdPersonController>();
