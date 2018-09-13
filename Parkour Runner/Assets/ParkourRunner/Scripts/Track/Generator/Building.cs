@@ -7,7 +7,7 @@ namespace ParkourRunner.Scripts.Track.Generator
 {
     public class Building : MonoBehaviour {
 
-        public List<GenerationPoint> GPoints = new List<GenerationPoint>();
+        public GenerationPoint[] GPoints;
 
         [SerializeField] private int StandTricksCount;
         [SerializeField] private int BonusCount;
@@ -23,7 +23,7 @@ namespace ParkourRunner.Scripts.Track.Generator
         //Автоматически расставляем референсы в эдиторе
         public void UpdateReferences()
         {
-            GPoints = GetComponentsInChildren<GenerationPoint>().ToList();
+            GPoints = GetComponentsInChildren<GenerationPoint>();
         }
 
 

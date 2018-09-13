@@ -7,14 +7,14 @@ namespace ParkourRunner.Scripts.Track.Generator
     [ExecuteInEditMode]
     public class Block : MonoBehaviour
     {
-        public List<Building> Buildings = new List<Building>();
+        public Building[] Buildings;
 
         //Автоматически расставляем референсы в эдиторе
         void Update()
         {
             if (!Application.isPlaying)
             {
-                    Buildings = GetComponentsInChildren<Building>().ToList();
+                    Buildings = GetComponentsInChildren<Building>();
                     foreach (var building in Buildings)
                     {
                         building.UpdateReferences();
