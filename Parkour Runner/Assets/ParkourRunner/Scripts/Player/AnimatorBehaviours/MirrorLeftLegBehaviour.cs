@@ -13,12 +13,11 @@ namespace ParkourRunner.Scripts.Player.AnimatorBehaviours
 
             if (!animator.GetBool("LeftLeg"))
             {
-                //Будем делать трюк правой 
-                animator.SetBool("MirrorHands", true);
+                animator.SetBool("MirriorInjured", true);
             }
             else
             {
-                animator.SetBool("MirrorHands", false);
+                animator.SetBool("MirriorInjured", false);
             }
         }
     }

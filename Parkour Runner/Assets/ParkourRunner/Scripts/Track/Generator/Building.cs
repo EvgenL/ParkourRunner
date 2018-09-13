@@ -28,6 +28,7 @@ namespace ParkourRunner.Scripts.Track.Generator
 
 
 
+
         public void Clear()
         {
             foreach (var point in GPoints)

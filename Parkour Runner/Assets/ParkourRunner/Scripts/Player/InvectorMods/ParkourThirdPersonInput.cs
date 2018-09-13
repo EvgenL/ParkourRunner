@@ -24,7 +24,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             base.Start();
             parkourController = GetComponent<ParkourThirdPersonController>();
         }
-
+        
         protected override void MoveCharacter()
         {
             if (parkourController.IsSlidingDown)
@@ -191,6 +191,12 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
             // change keedDirection from input diference
             if (keepDirection && Vector2.Distance(cc.input, oldInput) > 0.2f) keepDirection = false;
+        }
+
+        public void OnRegainBalance()
+        {
+            parkourController.Immunity(1.5f);
+            _inputZone.OnPlayerRegainBalance();
         }
     }
 }

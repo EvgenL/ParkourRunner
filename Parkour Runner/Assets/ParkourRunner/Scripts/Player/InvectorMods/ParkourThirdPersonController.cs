@@ -61,7 +61,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private GameManager _gm;
 
-        private LayerMask _damageLayers;
+        private LayerMask _damageLayers = LayerMask.NameToLayer("HouseWall");
         [SerializeField] private LayerMask _immuneLayers = new LayerMask();
         
         private LayerMask _oldCollisions;
@@ -94,21 +94,26 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private void Update()
         {
-            //test
+            CheckImmunity();
+            ControllStates();
+            ControllSpeed();
+
+        }
+
+        private void CheckImmunity()
+        {
             if (customAction || Immune)
             {
                 BehavPuppet.collisionLayers = _immuneLayers;
                 _gm.PlayerCanBeDismembered = false;
+                //PuppetMaster.mode = PuppetMaster.Mode.Disabled;
             }
             else
             {
                 BehavPuppet.collisionLayers = _damageLayers;
                 _gm.PlayerCanBeDismembered = true;
+                //PuppetMaster.mode = PuppetMaster.Mode.Active;
             }
-
-            ControllStates();
-            ControllSpeed();
-
         }
 
         private void ControllSpeed()
@@ -157,16 +162,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
                 }
             }
 
-            if (customAction)
-            {
-                if (PuppetMaster.mode != PuppetMaster.Mode.Disabled)
-                    PuppetMaster.mode = PuppetMaster.Mode.Disabled;
-            }
-            else
-            {
-                if (PuppetMaster.mode != PuppetMaster.Mode.Active)
-                    PuppetMaster.mode = PuppetMaster.Mode.Active;
-            }
         }
 
         private void ControllStates()
@@ -252,7 +247,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             float oldSpeed = jumpForward;
             _airSpeedFreeze = true;
 
-            while (isJumping || !isGrounded)//Костыль: Пропускаем два кадра потому что isGrounded ставится не сразу после отрыва от земли
+            while (isJumping || !isGrounded)
             {
                 freeSpeed.runningSpeed = speed;
                 freeSpeed.walkSpeed = speed;
@@ -262,6 +257,22 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
             _airSpeedFreeze = false;
             jumpForward = oldSpeed;
+        }
+
+        public void Immunity(float t)
+        {
+            StartCoroutine(ImmunityTime(t));
+        }
+
+        private IEnumerator ImmunityTime(float t)
+        {
+            while (t > 0)
+            {
+                t -= Time.deltaTime;
+                Immune = true;
+                yield return null;
+            }
+            Immune = false;
         }
     }
 }

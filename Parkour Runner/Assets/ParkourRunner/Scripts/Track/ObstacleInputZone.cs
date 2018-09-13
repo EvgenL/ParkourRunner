@@ -136,5 +136,17 @@ namespace ParkourRunner.Scripts.Track
                 ReadyRoll(true);
         }
 
+        public void OnPlayerRegainBalance()
+        {
+            foreach (var trig in JumpTriggers)
+            {
+                trig.autoAction = true;
+            }
+
+            foreach (var trig in RollTriggers)
+            {
+                trig.autoAction = true;
+            }
+        }
     }
 }

@@ -14,14 +14,11 @@ namespace ParkourRunner.Scripts.Track.Generator
         {
             if (!Application.isPlaying)
             {
-                if (Buildings.Count == 0)
-                {
                     Buildings = GetComponentsInChildren<Building>().ToList();
                     foreach (var building in Buildings)
                     {
                         building.UpdateReferences();
                     }
-                }
             }
         }
 

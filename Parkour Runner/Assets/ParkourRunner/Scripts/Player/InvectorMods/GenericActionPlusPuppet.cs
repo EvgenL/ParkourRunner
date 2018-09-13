@@ -18,14 +18,14 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         protected override void ApplyPlayerSettings()
         {
             base.ApplyPlayerSettings();
-            puppetMaster.mode = PuppetMaster.Mode.Disabled;
+            //puppetMaster.mode = PuppetMaster.Mode.Disabled;
 
         }
 
         protected override void ResetPlayerSettings()
         {
             base.ResetPlayerSettings();
-            puppetMaster.mode = PuppetMaster.Mode.Active;
+            //puppetMaster.mode = PuppetMaster.Mode.Active;
         }
         protected override void TriggerActionInput()
         {
