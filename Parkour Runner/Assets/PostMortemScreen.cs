@@ -7,10 +7,11 @@ using UnityEngine.UI;
 
 public class PostMortemScreen : MonoBehaviour
 {
-    
+
     public GameObject ReviveScreen;
     public Slider ReviveScreenTimer;
     public GameObject WatchAdButton;
+    public Text ReviveForMoneyBtnTxt;
 
     public GameObject ResultsScreen;
     public Text CoinsText;
@@ -33,6 +34,7 @@ public class PostMortemScreen : MonoBehaviour
     {
         _alive = false;
         ReviveScreen.SetActive(true);
+        ReviveForMoneyBtnTxt.text = _gm.ReviveCost.ToString();
 
         if (!_adSeen && Advertisement.IsReady())
         {
@@ -49,7 +51,7 @@ public class PostMortemScreen : MonoBehaviour
     public void WatchAd()
     {
         _adSeen = true;
-        Revive();
+        _alive = true;
         ReviveScreen.SetActive(false);
         ResultsScreen.SetActive(false);
         AdManager.Instance.ShowVideo(AdFinishedCallback);
@@ -57,7 +59,7 @@ public class PostMortemScreen : MonoBehaviour
 
     private void AdFinishedCallback()
     {
-        _gm.Revive();
+        Revive();
     }
 
     private IEnumerator CountTimer()
@@ -83,9 +85,7 @@ public class PostMortemScreen : MonoBehaviour
 
     public void Revive()
     {
-        _alive = true;
-        StopCoroutine(CountTimer());
-        ReviveScreen.SetActive(false);
+        _gm.Revive();
     }
 
     public void ExitReviveScreen()
@@ -99,6 +99,18 @@ public class PostMortemScreen : MonoBehaviour
 
         RecordText.text = "Best: " + ProgressManager.DistanceRecord + "m";
         CoinsText.text = "Conis: " + _gm.CoinsThisRun;
+    }
+
+    public void ReviveForMoney()
+    {
+        if (ProgressManager.SpendCoins(_gm.ReviveCost)) 
+        {
+            Revive();
+        }
+        else //Если нам не хватило денег
+        {
+            //TODO Ожидание доната
+        }
     }
 
 }

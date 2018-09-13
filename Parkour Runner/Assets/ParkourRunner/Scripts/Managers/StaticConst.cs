@@ -3,6 +3,8 @@
     static class StaticConst
     {
 
+        public const int InitialReviveCost = 1; //Изначальная цена возрождения
+
         public const float MagnetRadius = 8f;     //Изначальный радиус магнита
         public const float MagnetCoinVelocity = 20f; //Скорость монеток, летящих к игроку при магните
         public const float InitialJumpBonusHeight = 12f; //Изначальная высота бонус-прыжка
@@ -14,7 +16,7 @@
         public const float MaxLaserLen = 20f;
 
         public const float SpeedGrowPerSec = 0.1f;
-        public const float MaxGameSpeed = 2f;
+        public const float MaxGameSpeed = 2f; 
 
         //Chances to generate
         //Obstacles

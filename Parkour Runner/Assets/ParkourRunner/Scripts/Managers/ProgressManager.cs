@@ -76,7 +76,7 @@ namespace ParkourRunner.Scripts.Managers
         {
             if (GameLaunches == 0)
             {
-                //TODO
+                //TODO при первом запуске показывать туториал
             }
 
             GameLaunches++;
@@ -125,6 +125,15 @@ namespace ParkourRunner.Scripts.Managers
             //ResetTrickPurchases(); //TODO
         }
 
+        /*private void ResetTrickPurchases()
+        {
+            var tricks = ResourcesManager.Instance.JumpOverTricks.ToList();
+            foreach (var trick in tricks)
+            {
+                if (trick.name != "
+            }
+        }*/
+
         public static bool IsNewRecord(float metres)
         {
             if (metres > DistanceRecord)
@@ -147,6 +156,8 @@ namespace ParkourRunner.Scripts.Managers
                 Coins -= value;
                 return true;
             }
+            print("not enof money " + (-(Coins - value)));
+            //TODO у вас недостаточно денег. Задонатить?
             return false;
         }
     }

@@ -11,14 +11,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         public PuppetMaster puppetMaster;
         public BehaviourPuppet behaviourPuppet;
 
-        //public bool ImmuneRagdoll;
-
-        public bool Debug_NotRandomAnimation = false;
-        public TrickNames.Roll Debug_Roll;
-        public TrickNames.Slide Debug_Slide;
-        public TrickNames.JumpOverFar Debug_JumpOverFar;
-        public TrickNames.Stand Debug_Stand;
-
         [SerializeField] private string _randomAnimation;
 
         
@@ -63,11 +55,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             {
                 isPlayingAnimation = true;
 
-                if (!Debug_NotRandomAnimation)
-                    _randomAnimation = RandomTricks.GetTrick(triggerAction.playAnimation);
-                else
-                    _randomAnimation = GetNotRandomAnimation(triggerAction.playAnimation);
-
+                _randomAnimation = RandomTricks.GetTrick(triggerAction.playAnimation);
 
                 tpInput.cc.animator.CrossFadeInFixedTime(_randomAnimation, 0.1f); // trigger the action animation clip
             }
@@ -81,22 +69,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             // destroy the triggerAction if checked with destroyAfter
             if (triggerAction.destroyAfter)
                 StartCoroutine(DestroyDelay(triggerAction));
-        }
-
-        private string GetNotRandomAnimation(string playAnimation)
-        {
-            switch (playAnimation)
-            {
-
-                case ("Roll"):
-                    return Debug_Roll.ToString();
-
-                case ("Stand"):
-                    return Debug_Stand.ToString();
-
-                default: return "";
-            }
-
         }
 
         protected override bool playingAnimation
@@ -131,5 +103,33 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             base.OnActionEnter(other);
             base.OnActionStay(other);
         }
-}
+
+        protected override void AnimationBehaviour()
+        {
+            if (playingAnimation)
+            {
+                if (triggerAction.matchTarget != null)
+                {
+                    if (debugMode) Debug.Log("Match Target...");
+                    // use match target to match the Y and Z target 
+                    tpInput.cc.MatchTarget(triggerAction.matchTarget.transform.position, triggerAction.matchTarget.transform.rotation, triggerAction.avatarTarget,
+                        new MatchTargetWeightMask(triggerAction.matchTargetMask, 0), triggerAction.startMatchTarget, triggerAction.endMatchTarget);
+                }
+
+                if (triggerAction.useTriggerRotation)
+                {
+                    if (debugMode) Debug.Log("Rotate to Target...");
+                    // smoothly rotate the character to the target
+                    transform.rotation = Quaternion.Lerp(transform.rotation, triggerAction.transform.rotation, tpInput.cc.animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+                }
+
+                if (triggerAction.resetPlayerSettings && tpInput.cc.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= triggerAction.endExitTimeAnimation)
+                {
+                    if (debugMode) Debug.Log("Finish Animation");
+                    // after playing the animation we reset some values
+                    ResetPlayerSettings();
+                }
+            }
+        }
+    }
 }

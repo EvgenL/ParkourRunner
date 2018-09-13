@@ -16,7 +16,7 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
             GameManager.Instance.CoinMultipiler = 1;
         }
 
-        protected override void UpdateEffect(float timeRemaining)
+        protected override void StartEffect()
         {
             GameManager.Instance.CoinMultipiler = 2;
         }

@@ -19,7 +19,7 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups
                 ParkourThirdPersonController _player = ParkourThirdPersonController.instance;
                 _oldJumpHeight = _player.jumpHeight;
                 _player.jumpHeight = JumpHeight;
-                _player.ForceJump(JumpSpeed);
+                _player.PlatformJump(JumpSpeed);
                 Invoke("ResetJumpHeight", 0.5f); //Костыль. Если вызвать сразу, или через 0.1 сек, то высота прыжка не изменится
             }
         }

@@ -16,13 +16,6 @@ namespace ParkourRunner.Scripts.Managers
 
     public class GameManager : MonoBehaviour
     {
-
-        public enum GameState
-        {
-            Run,
-            Pause,
-            Dead
-        }
         #region Singleton
 
         public static GameManager Instance;
@@ -41,6 +34,18 @@ namespace ParkourRunner.Scripts.Managers
 
         #endregion
 
+        public MuscleDismember[] Limbs;
+
+        public List<Coin> Coins;
+
+        public enum GameState
+        {
+            Run,
+            Pause,
+            Dead
+        }
+        public GameState gameState { get; private set; }
+
         public bool PlayerCanBeDismembered = true; //Можно ли оторвать конечность? Используется скриптом на каждой кости рэгдолла.
 
         public float VelocityToDismember = 10f;
@@ -50,10 +55,16 @@ namespace ParkourRunner.Scripts.Managers
 
         public float GameSpeed = 1f;
 
-        public float DistanceRun;
-        private float _distanceRunOffset;
+        public int ReviveCost
+        {
+            get { return (StaticConst.InitialReviveCost + (int) DistanceRun) * _revives;}
+        }
 
-        public GameState gameState { get; private set; }
+        public float DistanceRun;
+        private float _distanceRunOffset; //TODO origin reset
+
+        private int _revives; //Сколько раз игрок возрождался за этот забег?
+
 
         ////Состояние
         //Наличие конечностей
@@ -62,9 +73,6 @@ namespace ParkourRunner.Scripts.Managers
         [SerializeField] private bool _leftLeg = true;
         [SerializeField] private bool _rightLeg = true;
 
-        public MuscleDismember[] Limbs;
-
-        public List<Coin> Coins;
 
         private ParkourThirdPersonController _player;
         private Animator _playerAnimator;
@@ -124,7 +132,6 @@ namespace ParkourRunner.Scripts.Managers
                     _leftLeg = dismember;
                     break;
             }
-
             CheckGameState();
         }
 
@@ -163,6 +170,8 @@ namespace ParkourRunner.Scripts.Managers
             _player.Revive();
             gameState = GameState.Run;
 
+            _revives++;
+
             LevelGenerator.Instance.GenerateRewardOnRevive();
         }
 
@@ -182,7 +191,10 @@ namespace ParkourRunner.Scripts.Managers
 
         public void AddCoin(int amount = 1)
         {
-            CoinsThisRun += amount * CoinMultipiler;
+            int add = amount * CoinMultipiler;
+            CoinsThisRun += add;
+            ProgressManager.AddCoin(add);
+
             _hud.SetCoins(CoinsThisRun);
         }
 

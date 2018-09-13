@@ -32,6 +32,7 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
             TimeRemaining = ProgressManager.GetBonusLen(_BonusName);
             HUDManager.Instance.UpdateBonus(_BonusName, 1f);
             _active = true;
+            StartEffect();
         }
 
         void Update()
@@ -59,7 +60,16 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
             _active = false;
         }
 
-        protected abstract void EndEffect();
-        protected abstract void UpdateEffect(float timeRemaining);
+        protected virtual void StartEffect()
+        {
+        }
+
+        protected virtual void EndEffect()
+        {
+        }
+
+        protected virtual void UpdateEffect(float timeRemaining)
+        {
+        }
     }
 }

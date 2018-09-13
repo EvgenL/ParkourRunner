@@ -59,6 +59,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             animator.SetIKPosition(TrolleyHand, TargetTransform.position);
         }
 
+        private GameManager _gm;
 
         private LayerMask _damageLayers;
         [SerializeField] private LayerMask _immuneLayers = new LayerMask();
@@ -69,6 +70,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         
         private new void Start()
         {
+            _gm = GameManager.Instance;
             ResetSpeed();
 
             base.Start();
@@ -96,12 +98,12 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             if (customAction || Immune)
             {
                 BehavPuppet.collisionLayers = _immuneLayers;
-                GameManager.Instance.PlayerCanBeDismembered = false;
+                _gm.PlayerCanBeDismembered = false;
             }
             else
             {
                 BehavPuppet.collisionLayers = _damageLayers;
-                GameManager.Instance.PlayerCanBeDismembered = true;
+                _gm.PlayerCanBeDismembered = true;
             }
 
             ControllStates();
@@ -117,9 +119,9 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
                 freeSpeed.walkSpeed = CurrRunSpeed;
                 animator.SetFloat("TrickSpeedMultiplier", CurrAnimSpeed);
 
-                CurrRunSpeed = Utility.MapValue(GameManager.Instance.GameSpeed,
+                CurrRunSpeed = Utility.MapValue(_gm.GameSpeed,
                     1f, StaticConst.MaxGameSpeed, StaticConst.MinRunSpeed, StaticConst.MaxRunSpeed);
-                CurrAnimSpeed = Utility.MapValue(GameManager.Instance.GameSpeed,
+                CurrAnimSpeed = Utility.MapValue(_gm.GameSpeed,
                     1f, StaticConst.MaxGameSpeed, StaticConst.MinAnimSpeed, StaticConst.MaxAnimSpeed);
             }
         }
@@ -212,7 +214,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
             // trigger jump animations
             if (input.sqrMagnitude < 0.1f)
-                animator.CrossFadeInFixedTime("Jump", 0.1f);//TODO случайная анимация прыжка (?)
+                animator.CrossFadeInFixedTime("Jump", 0.1f);
             else
                 animator.CrossFadeInFixedTime("JumpMove", .2f);
             // reduce stamina
@@ -231,7 +233,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         }
 
 
-        public virtual void ForceJump(float speed = StaticConst.MinRunSpeed)
+        public virtual void PlatformJump(float speed = StaticConst.MinRunSpeed)
         {
             jumpCounter = jumpTimer;
             isJumping = true;
@@ -247,17 +249,19 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         //Это нужно чтобы на прыжке с батута всегда была постоянная скорость
         private IEnumerator FreezeSpeedInAir(float speed)
         {
+            float oldSpeed = jumpForward;
             _airSpeedFreeze = true;
-            print("jmp");
-            yield return new WaitForSeconds(0.1f);//Костыль: Пропускаем два кадра потому что isGrounded ставится не сразу после отрыва от земли
 
-            freeSpeed.runningSpeed = speed;
-            while (!isGrounded)
+            while (isJumping || !isGrounded)//Костыль: Пропускаем два кадра потому что isGrounded ставится не сразу после отрыва от земли
             {
+                freeSpeed.runningSpeed = speed;
+                freeSpeed.walkSpeed = speed;
+                jumpForward = speed;
                 yield return null;
             }
-            print("land");
+
             _airSpeedFreeze = false;
+            jumpForward = oldSpeed;
         }
     }
 }
