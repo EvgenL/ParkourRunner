@@ -61,7 +61,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private GameManager _gm;
 
-        private LayerMask _damageLayers = LayerMask.NameToLayer("HouseWall");
+        private LayerMask _damageLayers;
         [SerializeField] private LayerMask _immuneLayers = new LayerMask();
         
         private LayerMask _oldCollisions;
@@ -70,6 +70,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         
         private new void Start()
         {
+            _damageLayers = LayerMask.NameToLayer("HouseWall");
             _gm = GameManager.Instance;
             ResetSpeed();
 
