@@ -146,8 +146,16 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         void Start ()
         {
+            //load resources
             _resourcesManager = ResourcesManager.Instance;
             _blockPrefabs = _resourcesManager.BlockPrefabs;
+            if (_blockPrefabs.Count == 0)
+            {
+                Destroy(this);
+                return;
+            }
+
+            //reset pos
             transform.position = _player.position + StartBlockOffset;
             transform.position = _player.position + StartBlockOffset;
 
@@ -155,7 +163,7 @@ namespace ParkourRunner.Scripts.Track.Generator
             {
                 _player = FindObjectOfType<vThirdPersonController>().transform;
             }
-            //_player = vThirdPersonController.instance.transform;
+            _player = vThirdPersonController.instance.transform;
         
             State = GeneratorState.HeatUp;
             StartCoroutine(Generate());
@@ -427,6 +435,7 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         private void GenerateOnClosestBlocks()
         {
+            if (_blockPool == null) return;
             var blocks = SelectBlocksInRange(transform.position.z, CallibrationStateLength);
             foreach (var block in blocks)
             {

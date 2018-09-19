@@ -196,7 +196,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         public void OnRegainBalance()
         {
             parkourController.Immunity(1.5f);
-            _inputZone.OnPlayerRegainBalance();
+            //_inputZone.OnPlayerRegainBalance();
         }
     }
 }
