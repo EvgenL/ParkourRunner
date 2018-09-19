@@ -10,7 +10,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         public float VerticalVelocityToRoll = 12;
         public float VerticalVelocityToUnpin = 20;
-
+        public float RegainBalanceInputDelay = 0.5f;
 
         public vThirdPersonInput InvectorInput;
         public Animator AnimationController;
@@ -34,6 +34,11 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         }
 
         public void OnRegainBalance()
+        {
+            Invoke("Unlock", RegainBalanceInputDelay);
+        }
+
+        private void Unlock()
         {
             InvectorInput.SetLockBasicInput(false);
         }
