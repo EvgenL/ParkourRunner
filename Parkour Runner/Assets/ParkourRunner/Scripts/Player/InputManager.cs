@@ -1,5 +1,4 @@
-﻿using System;
-using ParkourRunner.Scripts.Player.InvectorMods;
+﻿using ParkourRunner.Scripts.Player.InvectorMods;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityStandardAssets.CrossPlatformInput;
@@ -10,8 +9,7 @@ namespace ParkourRunner.Scripts.Player
     {
         TwoButtons,
         FourButtons,
-        Tilt,
-        Slider
+        Tilt
     }
 
     public class InputManager : MonoBehaviour
@@ -19,7 +17,6 @@ namespace ParkourRunner.Scripts.Player
         public GameObject TwoButtonsContaner;
         public GameObject FourButtonsContaner;
         public GameObject TiltContaner;
-        public GameObject SliderContaner;
 
         [SerializeField] private ParkourThirdPersonInput _playerInput;
 
@@ -31,8 +28,6 @@ namespace ParkourRunner.Scripts.Player
         [SerializeField] private bool _hold;
 
         [SerializeField] private int _circleRadius = 50;
-
-        private bool _isUsingSlider;
 
         #region Singleton
 
@@ -76,28 +71,18 @@ namespace ParkourRunner.Scripts.Player
                     TwoButtonsContaner.SetActive(true);
                     FourButtonsContaner.SetActive(false);
                     TiltContaner.SetActive(false);
-                    SliderContaner.SetActive(false);
                     break;
 
                 case ControlsMode.FourButtons:
                     TwoButtonsContaner.SetActive(false);
                     FourButtonsContaner.SetActive(true);
                     TiltContaner.SetActive(false);
-                    SliderContaner.SetActive(false);
                     break;
 
                 case ControlsMode.Tilt:
                     TwoButtonsContaner.SetActive(false);
                     FourButtonsContaner.SetActive(false);
                     TiltContaner.SetActive(true);
-                    SliderContaner.SetActive(false);
-                    break;
-
-                case ControlsMode.Slider:
-                    TwoButtonsContaner.SetActive(false);
-                    FourButtonsContaner.SetActive(false);
-                    TiltContaner.SetActive(false);
-                    SliderContaner.SetActive(true);
                     break;
             }
         }
@@ -108,7 +93,10 @@ namespace ParkourRunner.Scripts.Player
             switch (_controlsMode)
             {
                 case ControlsMode.TwoButtons:
-                    ReadSwipes();
+                    MouseSwipesInput();
+                    MobileSwipesInput();
+                    CalculateDelta();
+                    CheckCircle();
                     break;
 
                 case ControlsMode.FourButtons:
@@ -117,35 +105,14 @@ namespace ParkourRunner.Scripts.Player
                 case ControlsMode.Tilt:
                     //TODO постоянный угол свайпа относительно поворота экрана
                     //MobileTiltInput();
-                    ReadSwipes();
+                    MouseSwipesInput();
+                    MobileSwipesInput();
+                    CalculateDelta();
+                    CheckCircle();
                     break;
 
-                case ControlsMode.Slider:
-                    ReadSliderAndSwipes();
-                    break;
 
-    
             }
-        }
-
-        private void ReadSliderAndSwipes()
-        {
-            if (_isUsingSlider)
-            {
-                ReadSwipes(1); //Если мы держим слайдер пальцем [0], то свайпы будем читать пальцем [1]
-            }
-            else
-            {
-                ReadSwipes(0);
-            }
-        }
-
-        private void ReadSwipes(int touchN = 0)
-        {
-            MouseSwipesInput();
-            MobileSwipesInput(touchN);
-            CalculateDelta(touchN);
-            CheckCircle();
         }
 
 
@@ -162,30 +129,30 @@ namespace ParkourRunner.Scripts.Player
             }
         }
 
-        private void MobileSwipesInput(int touchN = 0)
+        private void MobileSwipesInput()
         {
             if (Input.touchCount > 0)
             {
-                if (Input.touches[touchN].phase == TouchPhase.Began)
+                if (Input.touches[0].phase == TouchPhase.Began)
                 {
                     _hold = true;
-                    _startTouch = Input.touches[touchN].position;
+                    _startTouch = Input.touches[0].position;
                 }
-                else if (Input.touches[touchN].phase == TouchPhase.Ended || Input.touches[touchN].phase == TouchPhase.Canceled)
+                else if (Input.touches[0].phase == TouchPhase.Ended || Input.touches[0].phase == TouchPhase.Canceled)
                 {
                     ResetPositions();
                 }
             }
         }
 
-        private void CalculateDelta(int touchN = 0)
+        private void CalculateDelta()
         {
             _swipeDelta = Vector2.zero;
             if (_hold)
             {
                 if (Input.touchCount > 0) //mob
                 {
-                    _swipeDelta = Input.touches[touchN].position - _startTouch;
+                    _swipeDelta = Input.touches[0].position - _startTouch;
                 }
                 else if (Input.GetMouseButton(0)) //pc
                 {
@@ -261,25 +228,6 @@ namespace ParkourRunner.Scripts.Player
         public void DontTurn()
         {
             CrossPlatformInputManager.SetAxis("Horizontal", 0);
-        }
-
-        public void OnSliderDragBegin()
-        {
-            _isUsingSlider = true;
-        }
-        public void OnSliderDragEnd()
-        {
-            _isUsingSlider = false;
-        }
-
-        public void OnSliderValueChanged(float value)
-        {
-            CrossPlatformInputManager.SetAxis("Horizontal", value);
-        }
-
-        public void SliderReset()
-        {
-            DontTurn();
         }
     }
 }
