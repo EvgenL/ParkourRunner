@@ -154,14 +154,14 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             _inputZone = zone;
             _isInInputZone = true;
 
-            LockTurning = true;
+            //LockTurning = true;
         }
 
         public void ExitInputZone()
         {
             _isInInputZone = false;
 
-            LockTurning = false;
+            //LockTurning = false;
         }
 
         public override void CameraInput()
