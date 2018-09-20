@@ -131,5 +131,19 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
                 }
             }
         }
+
+        void LateUpdate()
+        {
+            if (playingAnimation)
+            {
+                if (triggerAction.useTriggerRotation)
+                {
+                    if (debugMode) Debug.Log("Rotate to Target...");
+                    // smoothly rotate the character to the target
+                    //transform.rotation = Quaternion.identity;
+                    transform.rotation = Quaternion.Lerp(transform.rotation, triggerAction.transform.rotation, tpInput.cc.animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+                }
+            }
+        }
     }
 }

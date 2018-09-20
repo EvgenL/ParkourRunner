@@ -113,7 +113,9 @@ namespace Basic_Locomotion.Scripts.CharacterController
             // locks player movement while a animation with tag 'LockMovement' is playing
             lockMovement = IsAnimatorTag("LockMovement");
             // ! -- you can add the Tag "CustomAction" into a AnimatonState and the character will not perform any Melee action -- !            
-            customAction = IsAnimatorTag("CustomAction");            
+            customAction = IsAnimatorTag("CustomAction") 
+                            || (animator.IsInTransition(0) && animator.GetNextAnimatorStateInfo(0).IsTag("CustomAction"));            //Эту строчку добавил я, чтобы в переходе в customAction тоже давать неуязвимость игроку
+            
         }
 
         #region Locomotion Animations

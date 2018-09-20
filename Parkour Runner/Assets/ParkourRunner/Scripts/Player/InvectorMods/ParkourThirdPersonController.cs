@@ -107,7 +107,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             {
                 BehavPuppet.collisionLayers = _immuneLayers;
                 _gm.PlayerCanBeDismembered = false;
-                //PuppetMaster.mode = PuppetMaster.Mode.Disabled;
+                //PuppetMaster.mode = PuppetMaster.Mode.Kinematic;
             }
             else
             {
@@ -229,35 +229,38 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         }
 
 
-        public virtual void PlatformJump(float speed = StaticConst.MinRunSpeed)
+        public virtual void PlatformJump(float speed, float height)
         {
             jumpCounter = jumpTimer;
             isJumping = true;
             // trigger jump animations
-            if (input.sqrMagnitude < 0.1f)
-                animator.CrossFadeInFixedTime("Jump", 0.1f);
-            else
-                animator.CrossFadeInFixedTime("JumpMove", .2f);
+            animator.CrossFadeInFixedTime("JumpMove", .2f);
 
-            StartCoroutine(FreezeSpeedInAir(speed));
+            StartCoroutine(FreezeSpeedInAir(speed, height));
         }
 
         //Это нужно чтобы на прыжке с батута всегда была постоянная скорость
-        private IEnumerator FreezeSpeedInAir(float speed)
+        private IEnumerator FreezeSpeedInAir(float speed, float height)
         {
-            float oldSpeed = jumpForward;
+            if (_airSpeedFreeze) yield break;
             _airSpeedFreeze = true;
+
+            float oldSpeed = jumpForward;
+            float oldHeight = jumpHeight;
 
             while (isJumping || !isGrounded)
             {
+                print("JumpHeightModified");
                 freeSpeed.runningSpeed = speed;
                 freeSpeed.walkSpeed = speed;
                 jumpForward = speed;
+                jumpHeight = height;
                 yield return null;
             }
 
-            _airSpeedFreeze = false;
             jumpForward = oldSpeed;
+            jumpHeight = oldHeight;
+            _airSpeedFreeze = false;
         }
 
         public void Immunity(float t)
