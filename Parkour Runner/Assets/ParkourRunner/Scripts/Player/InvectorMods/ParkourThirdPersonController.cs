@@ -21,6 +21,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             instance = this;
         }
 
+        public bool IsOnJumpPlatform;
+
         public bool IsSlidingDown = false;
         public bool IsSlidingTrolley = false;
         public bool IsRunningWall = false;
@@ -236,11 +238,11 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             // trigger jump animations
             animator.CrossFadeInFixedTime("JumpMove", .2f);
 
-            StartCoroutine(FreezeSpeedInAir(speed, height));
+            StartCoroutine(FreezeInAir(speed, height));
         }
 
         //Это нужно чтобы на прыжке с батута всегда была постоянная скорость
-        private IEnumerator FreezeSpeedInAir(float speed, float height)
+        private IEnumerator FreezeInAir(float speed, float height)
         {
             if (_airSpeedFreeze) yield break;
             _airSpeedFreeze = true;
@@ -250,7 +252,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
             while (isJumping || !isGrounded)
             {
-                print("JumpHeightModified");
+                IsOnJumpPlatform = true;
                 freeSpeed.runningSpeed = speed;
                 freeSpeed.walkSpeed = speed;
                 jumpForward = speed;
@@ -261,6 +263,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             jumpForward = oldSpeed;
             jumpHeight = oldHeight;
             _airSpeedFreeze = false;
+            IsOnJumpPlatform = false;
         }
 
         public void Immunity(float t)
