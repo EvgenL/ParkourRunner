@@ -74,9 +74,10 @@ namespace ParkourRunner.Scripts.Player
 
             //News
             var newLimb = Instantiate(broadcaster.transform, broadcaster.transform.position, broadcaster.transform.rotation);
+            Destroy(newLimb.gameObject, 5f);
             var newBroadcaster = newLimb.GetComponent<MuscleCollisionBroadcaster>();
-            var newJoint = newBroadcaster.puppetMaster.muscles[broadcaster.muscleIndex].joint;
-            newJoint = newBroadcaster.GetComponent<ConfigurableJoint>();
+            var newJoint = //newBroadcaster.puppetMaster.muscles[broadcaster.muscleIndex].joint;
+                            newBroadcaster.GetComponent<ConfigurableJoint>();
 
             if (newJoint.connectedBody != null)
             {
@@ -97,10 +98,13 @@ namespace ParkourRunner.Scripts.Player
                 else
                 {
                     //TODO Удалить физику с невидимой части конечности (не особо заметный эффект)
-                    //var rb = dism.GetComponent<Rigidbody>();
-                    //Destroy(rb);
-                    //var collider = dism.GetComponent<Collider>();
-                    //Destroy(collider);
+
+                    var j = dism.GetComponent<ConfigurableJoint>();
+                    Destroy(j);
+                    var rb = dism.GetComponent<Rigidbody>();
+                    Destroy(rb);
+                    var collider = dism.GetComponent<Collider>();
+                    Destroy(collider);
                 }
 
                 //Записываем что оторвали конечность
