@@ -14,7 +14,7 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 
         private void Start()
         {
-            _coins = GameManager.Instance.GetCoins();
+            _coins = PoolManager.Instance.Coins;
             //TODO play effect animation
         }
 

@@ -28,14 +28,16 @@ public class AdManager : MonoBehaviour {
 
     public delegate void Callback();
 
-    private Callback _callback;
+    private Callback _finishCallback;
+    private Callback _skipCllback;
 
-    public void ShowVideo(Callback callback)
+    public void ShowVideo(Callback finishCallback, Callback skipCllback)
     {
-        this._callback = callback;
+        this._finishCallback = finishCallback;
+        this._skipCllback = skipCllback;
         if (Advertisement.IsReady())
         {
-            Advertisement.Show("", new ShowOptions(){resultCallback = HandleAdResult});
+            Advertisement.Show("", new ShowOptions(){resultCallback = HandleAdResult });
         }
     }
 
@@ -45,10 +47,11 @@ public class AdManager : MonoBehaviour {
         {
             case ShowResult.Finished:
                 print("Ad Finished");
-                _callback();
+                _finishCallback();
                 break;
             case ShowResult.Skipped:
                 print("Ad Skipped");
+                _skipCllback();
                 break;
             case ShowResult.Failed:
                 print("Ad Failed");

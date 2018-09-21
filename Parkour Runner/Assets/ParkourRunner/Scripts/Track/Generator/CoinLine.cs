@@ -33,7 +33,6 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         public override void Generate()
         {
-            GameManager GameManager = GameManager.Instance;
             float scaleZ = transform.localScale.z;
 
             for (float i = 0; i < scaleZ; i += DistanceBetweenCoins)
@@ -46,7 +45,7 @@ namespace ParkourRunner.Scripts.Track.Generator
                 );
 
                 var coinScript = coinGo.GetComponent<Coin>();
-                GameManager.Coins.Add(coinScript);
+                PoolManager.Instance.Coins.Add(coinScript);
             }
 
             Used = true;

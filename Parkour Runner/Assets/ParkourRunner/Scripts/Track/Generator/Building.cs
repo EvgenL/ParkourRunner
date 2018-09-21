@@ -7,7 +7,7 @@ namespace ParkourRunner.Scripts.Track.Generator
 {
     public class Building : MonoBehaviour {
 
-        public GenerationPoint[] GPoints;
+        /*public GenerationPoint[] GPoints;
 
         [SerializeField] private int StandTricksCount;
         [SerializeField] private int BonusCount;
@@ -133,6 +133,6 @@ namespace ParkourRunner.Scripts.Track.Generator
                    && pointPos.z < positionZ + stateLength
                    && pointPos.x > playerPosX - _lg.ObstacleGenerationWidth
                    && pointPos.x < playerPosX + _lg.ObstacleGenerationWidth;
-        }
+        }*/
     }
 }
