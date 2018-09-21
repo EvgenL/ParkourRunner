@@ -24,6 +24,7 @@ public class PostMortemScreen : MonoBehaviour
     private GameManager _gm;
     private bool _alive = true;
     private bool _adSeen; //Игрок уже смотрел рекламу?
+    private bool _stopTimer = false;
 
     private void Start()
     {
@@ -35,7 +36,7 @@ public class PostMortemScreen : MonoBehaviour
         _alive = false;
         ReviveScreen.SetActive(true);
         ReviveForMoneyBtnTxt.text = _gm.ReviveCost.ToString();
-
+        print("Revive cost " + _gm.ReviveCost);
         if (!_adSeen && Advertisement.IsReady())
         {
             WatchAdButton.SetActive(true);
@@ -50,16 +51,19 @@ public class PostMortemScreen : MonoBehaviour
 
     public void WatchAd()
     {
-        _adSeen = true;
-        _alive = true;
-        ReviveScreen.SetActive(false);
-        ResultsScreen.SetActive(false);
-        AdManager.Instance.ShowVideo(AdFinishedCallback);
+        _stopTimer = true;
+        AdManager.Instance.ShowVideo(AdFinishedCallback, AdSkippedCallback);
     }
 
     private void AdFinishedCallback()
     {
+        _adSeen = true;
         Revive();
+    }
+
+    private void AdSkippedCallback()
+    {
+        _stopTimer = false;
     }
 
     private IEnumerator CountTimer()
@@ -72,6 +76,7 @@ public class PostMortemScreen : MonoBehaviour
                 yield break;
             }
 
+            if (!_stopTimer)
             time += Time.deltaTime;
 
             float mappedTime = Utility.MapValue(time, 0f, TimeToRevive, 1f, 0f);
@@ -85,6 +90,9 @@ public class PostMortemScreen : MonoBehaviour
 
     public void Revive()
     {
+        _alive = true;
+        ReviveScreen.SetActive(false);
+        ResultsScreen.SetActive(false);
         _gm.Revive();
     }
 

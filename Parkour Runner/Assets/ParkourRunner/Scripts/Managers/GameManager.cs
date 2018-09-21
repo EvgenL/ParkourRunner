@@ -36,7 +36,6 @@ namespace ParkourRunner.Scripts.Managers
 
         public MuscleDismember[] Limbs;
 
-        public List<Coin> Coins;
 
         public enum GameState
         {
@@ -57,7 +56,7 @@ namespace ParkourRunner.Scripts.Managers
 
         public int ReviveCost
         {
-            get { return (StaticConst.InitialReviveCost + (int) DistanceRun) * _revives;}
+            get { return (StaticConst.InitialReviveCost + (int) DistanceRun) * _revives; }
         }
 
         public float DistanceRun;
@@ -166,16 +165,27 @@ namespace ParkourRunner.Scripts.Managers
 
         public void Revive()
         {
-            while (HealLimb());
+            //TODO Move player to start of current block
+            var cb = LevelGenerator.Instance.CenterBlock;
+            Vector3 newPos = cb.transform.position;
+            newPos.z -= LevelGenerator.Instance.BlockSide / 2f + 2f;
+            _player.transform.position = newPos;
+            Debug.DrawRay(newPos, Vector3.up * 5f, Color.red, 5f);
+            
+            //Heal player
+            HealFull();
             _player.Revive();
             gameState = GameState.Run;
-
+            
             _revives++;
-
-            LevelGenerator.Instance.GenerateRewardOnRevive();
         }
 
-        public bool HealLimb()
+        private void HealFull()
+        {
+            while (HealLimb()) ; //Heal while theres limbs
+        }
+
+        public bool HealLimb() //public чтобы лечиться с heal бонуса
         {
             foreach (var limb in Limbs)
             {
@@ -218,11 +228,6 @@ namespace ParkourRunner.Scripts.Managers
                     GetComponent<BoostBonus>().RefreshTime();
                     break;
             }
-        }
-
-        public List<Coin> GetCoins()
-        {
-            return Coins;
         }
 
         public Transform GetRandomLimb()

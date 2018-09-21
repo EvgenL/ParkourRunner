@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Basic_Locomotion.Scripts.CharacterController;
+using ParkourRunner.Scripts.Track.Pick_Ups;
 using UnityEngine;
 
 namespace ParkourRunner.Scripts.Managers
@@ -27,6 +28,8 @@ namespace ParkourRunner.Scripts.Managers
 
         [SerializeField] private float DisableDistance = 2f;
         [SerializeField] private List<GameObject> _pool = new List<GameObject>();
+        public List<Coin> Coins = new List<Coin>();
+
 
         private Transform _player;
 

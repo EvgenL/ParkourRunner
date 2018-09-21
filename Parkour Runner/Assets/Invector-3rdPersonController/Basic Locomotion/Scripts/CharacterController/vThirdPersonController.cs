@@ -23,7 +23,7 @@ namespace Basic_Locomotion.Scripts.CharacterController
             if (instance == null)
             {
                 instance = this;
-                DontDestroyOnLoad(transform.root);
+                //DontDestroyOnLoad(transform.root);
                 this.gameObject.name = gameObject.name + " Instance";
             }
             else

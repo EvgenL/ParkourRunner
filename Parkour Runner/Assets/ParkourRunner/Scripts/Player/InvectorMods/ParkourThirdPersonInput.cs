@@ -36,6 +36,11 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             {
                 cc.input.y = CrossPlatformInputManager.GetAxis("Vertical");
                 cc.input.x = CrossPlatformInputManager.GetAxis("Horizontal");
+                if (parkourController.IsOnJumpPlatform)
+                {
+                    cc.input.x = cc.input.x / 5;
+                }
+                return;
             }
 
             if (!lockInput)
@@ -186,6 +191,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         public void OnRegainBalance()
         {
             //parkourController.Immunity(1.5f);
+            if (_inputZone != null)
             _inputZone.OnPlayerRegainBalance();
         }
     }

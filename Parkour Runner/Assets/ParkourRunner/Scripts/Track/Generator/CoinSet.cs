@@ -35,7 +35,7 @@ namespace ParkourRunner.Scripts.Track.Generator
                 );
 
                 var coinScript = coinGo.GetComponent<Coin>();
-                GameManager.Coins.Add(coinScript);
+                PoolManager.Instance.Coins.Add(coinScript);
             }
 
             Used = true;

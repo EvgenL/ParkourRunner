@@ -1,11 +1,13 @@
-﻿using ParkourRunner.Scripts.Managers;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ParkourRunner.Scripts.Managers;
 using UnityEngine;
 
 namespace ParkourRunner.Scripts.Track.Generator
 {
     public class PickUpPoint : GenerationPoint
     {
-        public GameObject[] Prefabs;
+        public List<GameObject> Prefabs;
 
 
         //public GameObject MagnetPrefab;
@@ -38,7 +40,8 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         public override void Generate()
         {
-            var randPrefab = Prefabs[Random.Range(0, Prefabs.Length)];
+            Prefabs = ResourcesManager.Instance.PickUps;
+            var randPrefab = Prefabs[Random.Range(0, Prefabs.Count)];
             PoolManager.Instance.Spawn(randPrefab, transform.position + BonusPosition, Quaternion.identity);
             Used = true;
         }

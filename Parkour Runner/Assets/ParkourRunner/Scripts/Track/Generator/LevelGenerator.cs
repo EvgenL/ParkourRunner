@@ -26,6 +26,8 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         #endregion
 
+        public int GenerateBlocksForward = 2;
+
         public enum GeneratorState
         {
             HeatUp, //Разогрев
@@ -37,7 +39,7 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         //TODO для всей метровки
 
-        public float StateLength
+        /*public float StateLength
         {
             get
             {
@@ -115,8 +117,8 @@ namespace ParkourRunner.Scripts.Track.Generator
                 }
             }
         }
-
-        [SerializeField] private int BlockSide; //Сколько метров сторона одного блока
+        */
+        public int BlockSide = 150; //Сколько метров сторона одного блока
 
         [SerializeField] private Vector3 StartBlockOffset;  //Позиция стартового блока
 
@@ -137,9 +139,11 @@ namespace ParkourRunner.Scripts.Track.Generator
         public int BonusPerBuilding = 1;
 
         [SerializeField] private float ObstacleGenerationdistance = 100f;
+        [SerializeField] private float BonusGenerationdistance = 100f;
+
         public float ObstacleGenerationWidth = 50f;
 
-        private Block _oldCenter;
+        public Block CenterBlock;
 
         private ResourcesManager _resourcesManager;
         private List<GameObject> _blockPrefabs;
@@ -151,13 +155,14 @@ namespace ParkourRunner.Scripts.Track.Generator
             _blockPrefabs = _resourcesManager.BlockPrefabs;
             if (_blockPrefabs.Count == 0)
             {
+                Debug.LogError("Не найдено ни одного блока в папке Resources/Blocks");
                 Destroy(this);
                 return;
             }
 
             //reset pos
-            transform.position = _player.position + StartBlockOffset;
-            transform.position = _player.position + StartBlockOffset;
+            //transform.position = _player.position + StartBlockOffset;
+            //transform.position = _player.position + StartBlockOffset;
 
             if (_player == null)
             {
@@ -167,35 +172,33 @@ namespace ParkourRunner.Scripts.Track.Generator
         
             State = GeneratorState.HeatUp;
             StartCoroutine(Generate());
-            Instance = this;
-
         }
 
         private IEnumerator Generate()
         {
             while (true)
             {
+                //TODO чередовать релакс и челендж
                 if (State == GeneratorState.HeatUp)
                 {
                     GenerateStartBlock();
+                    CenterBlock = _blockPool[0];
                     State = GeneratorState.Challenge; //tODO
                 }
                 GenerateBlocks();
-                GenerateObstacles();
+                //GenerateObstacles();
 
-
-                // yield return new WaitForSeconds(1f);
                 yield return new WaitForSeconds(1f);
             }
         }
 
-        private void GenerateObstacles()
+        /*private void GenerateObstacles()
         {
             while (transform.position.z < _player.position.z + ObstacleGenerationdistance)
             {
                 GenerateObstaclesSegment(State);
             }
-        }
+        }*/
 
 
         private void GenerateStartBlock()
@@ -209,43 +212,35 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         private void GenerateBlocks()
         {
-            var newPool = new List<Block>();
-
-            //Выбираем блоки, которые стоят по краям карты
-
-
-            Block centerBlock = _blockPool[0];
+            Block newCenterBlock = _blockPool[0];
             foreach (var block in _blockPool)
             {
                 Vector3 blockPos = block.transform.position;
 
                 Vector3 playerPos = _player.position;
-                playerPos.y = StartBlockOffset.y;
-
-                if (playerPos.x > blockPos.x - BlockSide / 2f && playerPos.x <= blockPos.x + BlockSide / 2f
-                                                              && playerPos.z > blockPos.z - BlockSide / 2f && playerPos.z <= blockPos.z + BlockSide / 2f)
+                if (playerPos.z > blockPos.z - BlockSide / 2f && playerPos.z <= blockPos.z + BlockSide / 2f)
                 {
-                    centerBlock = block;
+                    newCenterBlock = block;
                     break;
                 }
             }
 
-            if (_oldCenter == centerBlock)
+            if (_blockPool.Count > 1 && CenterBlock == newCenterBlock)
                 return;
 
-            GenerateBlocksAround(centerBlock);
+            GenerateBlocksAfter(newCenterBlock);
             DestroyOldBlocks();
-            _oldCenter = centerBlock;
-            GenerateObstaclesOnNewBlocks();
+            CenterBlock = newCenterBlock;
+            //GenerateObstaclesOnNewBlocks();
         }
 
-        private void GenerateObstaclesOnNewBlocks()
+        /*private void GenerateObstaclesOnNewBlocks()
         {
             GoBack();
             GenerateObstacles();
-        }
+        }*/
 
-        public void GenerateRewardOnRevive()
+        /*public void GenerateRewardOnRevive()
         {
             //ClearLevel();
             ClearClosest();
@@ -253,8 +248,9 @@ namespace ParkourRunner.Scripts.Track.Generator
             GenerateObstaclesSegment(GeneratorState.Reward);
             GenerateObstaclesSegment(GeneratorState.Reward);
 
-        }
-        private void ClearClosest()
+        }*/
+
+        /*private void ClearClosest()
         {
             foreach (var block in _blockPool)
             {
@@ -271,16 +267,18 @@ namespace ParkourRunner.Scripts.Track.Generator
                 }
             }
         }
+        */
 
-        private void ClearLevel()
+        /*private void ClearLevel()
         {
             foreach (var block in _blockPool)
             {
                 block.Clear();
             }
         }
+        */
 
-        private void GoBack()
+        /*private void GoBack()
         {
             while (transform.position.z > _player.position.z)
             {
@@ -310,67 +308,30 @@ namespace ParkourRunner.Scripts.Track.Generator
                         break;
                 }
             }
-        }
+        }*/
 
 
-        public void GenerateBlocksAround(Block block)
+        public void GenerateBlocksAfter(Block block, int i = 0)
         {
+            Block nextBlockScript;
             if (block.Next == null)
             {
                 var nextBlockPrefab = GetRandomBlock();
                 var nextBlockGo = Instantiate(nextBlockPrefab,
                     block.transform.position + block.transform.forward * BlockSide, block.transform.rotation);
-                var nextBlocScript = nextBlockGo.GetComponent<Block>();
-                _blockPool.Add(nextBlocScript);
-                block.Next = nextBlocScript;
+                nextBlockScript = nextBlockGo.GetComponent<Block>();
+                _blockPool.Add(nextBlockScript);
+                block.Next = nextBlockScript;
+                block.Generate();
+                nextBlockScript.Prev = block;
             }
 
-            if (block.Right == null)
-            {
-                var rightBlockPrefab = GetRandomBlock();
-                var rightBlockGo = Instantiate(rightBlockPrefab,
-                    block.transform.position + block.transform.right * BlockSide, block.transform.rotation);
-                var rightBlocScript = rightBlockGo.GetComponent<Block>();
-                _blockPool.Add(rightBlocScript);
-                block.Right = rightBlocScript;
-                rightBlocScript.Left = block;
-            }
+            nextBlockScript = block.Next;
 
-            if (block.Left == null)
+            i++;
+            if (i < GenerateBlocksForward)
             {
-                var leftBlockPrefab = GetRandomBlock();
-                var leftBlockGo = Instantiate(leftBlockPrefab,
-                    block.transform.position + -block.transform.right * BlockSide, block.transform.rotation);
-                var leftBlocScript = leftBlockGo.GetComponent<Block>();
-                _blockPool.Add(leftBlocScript);
-                block.Left = leftBlocScript;
-                leftBlocScript.Right = block;
-            }
-        
-            if (block.Left.Next == null)
-            {
-                var lnBlockPrefab = GetRandomBlock();
-                var lnBlockGo = Instantiate(lnBlockPrefab, block.transform.position + -block.transform.right * BlockSide +
-                                                           block.transform.forward * BlockSide, block.transform.rotation);
-                var lnBlocScript = lnBlockGo.GetComponent<Block>();
-                _blockPool.Add(lnBlocScript);
-                block.Left.Next = lnBlocScript;
-                lnBlocScript.Right = block.Next;
-
-                block.Next.Left = lnBlocScript;
-            }
-
-            if (block.Right.Next == null)
-            {
-                var rnBlockPrefab = GetRandomBlock();
-                var rnBlockGo = Instantiate(rnBlockPrefab, block.transform.position + block.transform.right * BlockSide +
-                                                           block.transform.forward * BlockSide, block.transform.rotation);
-                var rnBlocScript = rnBlockGo.GetComponent<Block>();
-                _blockPool.Add(rnBlocScript);
-                block.Right.Next = rnBlocScript;
-                rnBlocScript.Left = block.Next;
-
-                block.Next.Right = rnBlocScript;
+                GenerateBlocksAfter(nextBlockScript, i);
             }
         }
 
@@ -379,9 +340,7 @@ namespace ParkourRunner.Scripts.Track.Generator
             List<Block> blocksToDestroy = new List<Block>();
             foreach (var block in _blockPool)
             {
-                if (block.transform.position.z < _player.position.z - (BlockSide/2f + 2f)
-                    || (block.transform.position.x < _player.position.x - BlockSide  * 2
-                        || block.transform.position.x > _player.position.x + BlockSide * 2))
+                if (block.transform.position.z < _player.position.z - (BlockSide/2f + 2f)) //Если игрок сощёл с предыдущего блока на 2 метра
                 {
                     blocksToDestroy.Add(block);
                 }
@@ -392,17 +351,17 @@ namespace ParkourRunner.Scripts.Track.Generator
                 Destroy(block.gameObject);
             }
         }
-
-        private void GenerateObstaclesSegment(GeneratorState s)
+        
+        /*private void GenerateObstaclesSegment(GeneratorState s)
         {
             //В разогреве не генерится ничего
             if (s != GeneratorState.HeatUp)
                 GenerateOnClosestBlocks();
 
             MoveToNextSegment(s);
-        }
+        }*/
 
-        private void MoveToNextSegment(GeneratorState s)
+        /*private void MoveToNextSegment(GeneratorState s)
         {
             switch (s)
             {
@@ -433,7 +392,7 @@ namespace ParkourRunner.Scripts.Track.Generator
             }
         }
 
-        private void GenerateOnClosestBlocks()
+        /*private void GenerateOnClosestBlocks()
         {
             if (_blockPool == null) return;
             var blocks = SelectBlocksInRange(transform.position.z, CallibrationStateLength);
@@ -441,9 +400,9 @@ namespace ParkourRunner.Scripts.Track.Generator
             {
                 block.Generate();
             }
-        }
-
-        private List<Block> SelectBlocksInRange(float positionZ, float stateLength)
+        }*/
+        
+        /*private List<Block> SelectBlocksInRange(float positionZ, float stateLength)
         {
             float z1 = positionZ;
             float z2 = positionZ + stateLength;
@@ -459,20 +418,13 @@ namespace ParkourRunner.Scripts.Track.Generator
             }
 
             return blocksRange;
-        }
+        }*/
 
 
         public GameObject GetRandomBlock()
         {
+            //TODO чередовать релакс и челленж
             return _blockPrefabs[Random.Range(0, _blockPrefabs.Count)];
         }
-    }
-    class PossibleBlockPoint
-    {
-        public Vector3 Position;
-        public Block Next;
-        public Block Prev;
-        public Block Left;
-        public Block Right;
     }
 }
