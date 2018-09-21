@@ -31,35 +31,25 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             {
                 cc.input.y = 1f;
                 cc.input.x = CrossPlatformInputManager.GetAxis("Horizontal");
-                //oldInput = cc.input;
-                return;
-            }
-            if (parkourController.IsSlidingTrolley)
-            {
-                cc.input.y = 0f;
-                cc.input.x = CrossPlatformInputManager.GetAxis("Horizontal"); //TODO Наклон на троллеи
-                //oldInput = cc.input;
-                return;
             }
             if (DebugAllowFreeWalk)
             {
                 cc.input.y = CrossPlatformInputManager.GetAxis("Vertical");
                 cc.input.x = CrossPlatformInputManager.GetAxis("Horizontal");
-                //oldInput = cc.input;
-                return;
             }
 
             if (!lockInput)
             {
-                //cc.input.y = LockRunning ? 0f : 1f;
-                //cc.input.x = LockTurning ? 0f : horizontalInput.GetAxis();
-
                 cc.input.y = LockRunning ? 0f : 1f;
                 cc.input.x = LockTurning ? 0f : CrossPlatformInputManager.GetAxis("Horizontal");
             }
             else
             {
                 cc.input = Vector2.zero;
+            }
+            if (parkourController.IsOnJumpPlatform)
+            {
+                cc.input.x = cc.input.x / 5;
             }
 
             oldInput = cc.input;
