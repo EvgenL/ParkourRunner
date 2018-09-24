@@ -10,20 +10,13 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
     class MagnetBonus : Bonus
     {
         
-        private List<Coin> _coins;
-
-        private void Start()
-        {
-            _coins = PoolManager.Instance.Coins;
-            //TODO play effect animation
-        }
-
         protected override void EndEffect()
         {
         }
 
         protected override void UpdateEffect(float timeRemaining)
         {
+            var _coins = PoolManager.Instance.Coins;
             if (_player == null) _player = ParkourThirdPersonController.instance;
             foreach (var coin in _coins)
             {
