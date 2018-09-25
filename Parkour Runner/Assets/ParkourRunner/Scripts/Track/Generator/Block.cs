@@ -30,7 +30,7 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         public BlockType Type;
         public Block Next;
-        public Block Prev;
+        //public Block Prev;
         //public Block Left;
         //public Block Right;
 
