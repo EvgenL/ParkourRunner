@@ -72,6 +72,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         
         private new void Start()
         {
+            int a;
             _damageLayers = LayerMask.NameToLayer("HouseWall");
             _gm = GameManager.Instance;
             ResetSpeed();
