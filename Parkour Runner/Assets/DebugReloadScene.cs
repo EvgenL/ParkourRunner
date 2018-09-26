@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DebugReloadScene : MonoBehaviour {
 
     public void Load(string sceneName)
     {
-        SceneLoadManager.Instance.LoadScene(sceneName);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

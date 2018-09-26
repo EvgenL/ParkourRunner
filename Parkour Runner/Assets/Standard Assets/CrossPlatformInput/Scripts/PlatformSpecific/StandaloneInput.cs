@@ -66,8 +66,7 @@ namespace UnityStandardAssets.CrossPlatformInput.PlatformSpecific
 
         public override void SetAxis(string name, float value)
         {
-            throw new Exception(
-                " This is not possible to be called for standalone input. Please check your platform and code where this is called");
+            //throw new Exception(" This is not possible to be called for standalone input. Please check your platform and code where this is called");
         }
 
 
