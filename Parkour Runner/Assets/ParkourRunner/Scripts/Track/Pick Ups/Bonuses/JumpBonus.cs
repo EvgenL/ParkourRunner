@@ -9,6 +9,8 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
     {
         private float _oldJumpHeight;
 
+        private bool IsActive = false;
+
         protected override void EndEffect()
         {
             _player.jumpHeight = _oldJumpHeight;
@@ -16,6 +18,11 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 
         protected override void StartEffect()
         {
+            if (IsActive)
+                return;
+
+            IsActive = true;
+
             _oldJumpHeight = _player.jumpHeight;
             _player.jumpHeight = StaticConst.InitialJumpBonusHeight;
         }
