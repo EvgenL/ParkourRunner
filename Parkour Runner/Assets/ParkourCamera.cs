@@ -16,9 +16,11 @@ public class ParkourCamera : MonoBehaviour
         LateUpdate
     }
 
+    public static ParkourCamera Instance;
     public Vector3 Offset;
     public bool SetOffsetAtStart = true;
     public Vector3 TrickOffset;
+
 
     [Range(0f, 1f)] public float FollowSmooth = 0.7f;
     [Range(0f, 1f)] public float AngleSmooth = 0.7f;
@@ -26,9 +28,14 @@ public class ParkourCamera : MonoBehaviour
     [SerializeField] private UpdateType _updateType;
 
     [SerializeField] private PuppetMaster _puppetMaster;
+    private float RollLength = 0.7f;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    void Start () {
 	    if (_puppetMaster == null)
 	    {
 	        _puppetMaster = FindObjectOfType<PuppetMaster>();
@@ -100,15 +107,32 @@ public class ParkourCamera : MonoBehaviour
     private IEnumerator Roll()
     {
         TrickOffset = new Vector3(0, -1f, 0);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(RollLength);
         TrickOffset = new Vector3(0, 0f, 0);
     }
     public void OnJump()
     {
+        StartCoroutine(Jump());
+    }
+    private IEnumerator Jump()
+    {
+        float oldFollow = FollowSmooth;
+        FollowSmooth = 1f;
 
+        while (FollowSmooth > oldFollow)
+        {
+            FollowSmooth -= Time.deltaTime / 2f;
+            yield return null;
+        }
+
+        FollowSmooth = oldFollow;
     }
 
     public void OnUnpin()
+    {
+
+    }
+    public void OnDie()
     {
 
     }
