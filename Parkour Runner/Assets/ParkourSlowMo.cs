@@ -24,7 +24,6 @@ public class ParkourSlowMo : MonoBehaviour
 
     public void SlowFor(float seconds)
     {
-        print("slow");
         StartCoroutine(SlForS(seconds));
     }
 

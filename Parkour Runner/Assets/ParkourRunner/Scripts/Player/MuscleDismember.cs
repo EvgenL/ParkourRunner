@@ -95,16 +95,21 @@ namespace ParkourRunner.Scripts.Player
                 {
                     dism.EnableDestroyed();
                 }
+
+                if (dism.Bodypart == Bodypart.Head)
+                {
+                    GameManager.Instance.OnHeadLost(dism.transform);
+                }
                 else
                 {
                     //TODO Удалить физику с невидимой части конечности (не особо заметный эффект)
-
+                    /*
                     var j = dism.GetComponent<ConfigurableJoint>();
                     Destroy(j);
                     var rb = dism.GetComponent<Rigidbody>();
                     Destroy(rb);
                     var collider = dism.GetComponent<Collider>();
-                    Destroy(collider);
+                    Destroy(collider);*/
                 }
 
                 //Записываем что оторвали конечность
