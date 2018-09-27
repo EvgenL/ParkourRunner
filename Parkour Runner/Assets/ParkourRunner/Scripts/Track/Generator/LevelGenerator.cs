@@ -184,7 +184,11 @@ namespace ParkourRunner.Scripts.Track.Generator
 //load resources
             _resourcesManager = ResourcesManager.Instance;
             _blockPrefabs = _resourcesManager.BlockPrefabs;
-            _challengeBlocks = _blockPrefabs.FindAll(x => x.GetComponent<Block>().Type == Block.BlockType.Challenge);
+            _challengeBlocks = 
+                _blockPrefabs.FindAll(
+                    x => x.GetComponent<Block>()
+                    .Type == 
+                    Block.BlockType.Challenge);
             _relaxBlocks = _blockPrefabs.FindAll(x => x.GetComponent<Block>().Type == Block.BlockType.Relax);
         }
 

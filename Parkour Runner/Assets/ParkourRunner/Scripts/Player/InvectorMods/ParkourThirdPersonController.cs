@@ -67,11 +67,11 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private LayerMask _damageLayers;
         [SerializeField] private LayerMask _immuneLayers = new LayerMask();
-        
+
         private LayerMask _oldCollisions;
         private Weight _oldCollisionResistance;
         //private ParkourThirdPersonInput parkourInput;
-        
+
         private new void Start()
         {
             int a;
@@ -124,7 +124,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private void ControllSpeed()
         {
-            if (!_airSpeedFreeze) 
+            if (!_airSpeedFreeze)
             {
                 freeSpeed.runningSpeed = CurrRunSpeed * SpeedMult;
                 freeSpeed.walkSpeed = CurrRunSpeed;
