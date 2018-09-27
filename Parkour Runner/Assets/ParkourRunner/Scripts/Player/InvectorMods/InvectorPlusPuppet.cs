@@ -30,12 +30,15 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         public void OnLoseBalance()
         {
+            ParkourCamera.Instance.ParkourSlowMo.SlowFor(3f);
             InvectorInput.SetLockBasicInput(true);
         }
 
         public void OnRegainBalance()
         {
             Invoke("Unlock", RegainBalanceInputDelay);
+           // ParkourCamera.Instance.ParkourSlowMo.UnSlow();
+
         }
 
         private void Unlock()

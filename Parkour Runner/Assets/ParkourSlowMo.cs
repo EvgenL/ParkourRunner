@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class ParkourSlowMo : MonoBehaviour
@@ -12,6 +13,7 @@ public class ParkourSlowMo : MonoBehaviour
     public void Slow()
     {
         Time.timeScale = SlowTimeScale;
+        
         Time.fixedDeltaTime = SlowUpdateRate;
     }
     public void UnSlow()
@@ -22,13 +24,14 @@ public class ParkourSlowMo : MonoBehaviour
 
     public void SlowFor(float seconds)
     {
+        print("slow");
         StartCoroutine(SlForS(seconds));
     }
 
     private IEnumerator SlForS(float seconds)
     {
         Slow();
-        yield return new WaitForSeconds(seconds);
+        yield return new WaitForSecondsRealtime(seconds);
         UnSlow();
     }
 

@@ -20,7 +20,7 @@ public class ParkourCamera : MonoBehaviour
     public Vector3 Offset;
     public bool SetOffsetAtStart = true;
     public Vector3 TrickOffset;
-
+    public ParkourSlowMo ParkourSlowMo;
 
     [Range(0f, 1f)] public float FollowSmooth = 0.7f;
     [Range(0f, 1f)] public float AngleSmooth = 0.7f;
@@ -33,6 +33,7 @@ public class ParkourCamera : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        ParkourSlowMo = GetComponent<ParkourSlowMo>();
     }
 
     void Start () {
