@@ -19,7 +19,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         {
             base.Awake();
             instance = this;
-            _pCamera = ParkourCamera.Instance;
         }
 
         public bool IsOnJumpPlatform;
@@ -52,7 +51,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private bool _airSpeedFreeze = false;
 
-        private ParkourCamera _pCamera;
         //Чисто по приколу сделал чтоб он держался за IK пока едет на тарзанке
         [HideInInspector] public AvatarIKGoal TrolleyHand;
         void OnAnimatorIK(int layerIndex)
@@ -67,11 +65,11 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private LayerMask _damageLayers;
         [SerializeField] private LayerMask _immuneLayers = new LayerMask();
-        
+
         private LayerMask _oldCollisions;
         private Weight _oldCollisionResistance;
         //private ParkourThirdPersonInput parkourInput;
-        
+
         private new void Start()
         {
             int a;
@@ -124,7 +122,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private void ControllSpeed()
         {
-            if (!_airSpeedFreeze) 
+            if (!_airSpeedFreeze)
             {
                 freeSpeed.runningSpeed = CurrRunSpeed * SpeedMult;
                 freeSpeed.walkSpeed = CurrRunSpeed;
@@ -192,8 +190,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
             if (!rollConditions || isRolling) return;
 
-            _pCamera.OnRoll();
-
             string randomRoll = RandomTricks.GetRandomRoll();//я добавил
             animator.CrossFadeInFixedTime(randomRoll, 0.1f);
             _capsuleCollider.isTrigger = false;
@@ -215,8 +211,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
             jumpForward = isSprinting ? freeSpeed.sprintSpeed : freeSpeed.runningSpeed;
 
-            _pCamera.OnJump();
-
             // trigger jump animations
             if (input.sqrMagnitude < 0.1f)
                 animator.CrossFadeInFixedTime("Jump", 0.1f);
@@ -229,15 +223,11 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         public void Die()
         {
-            _pCamera.OnDie();
-
             PuppetMaster.state = PuppetMaster.State.Dead;
             PuppetMaster.muscles[0].rigidbody.AddForce(_rigidbody.velocity); //толкаем таз скоростью капсулы
         }
         public void Revive()
         {
-            _pCamera.OnRegainBalance();
-
             PuppetMaster.state = PuppetMaster.State.Alive;
         }
 
