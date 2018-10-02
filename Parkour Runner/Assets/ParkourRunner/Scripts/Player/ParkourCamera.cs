@@ -23,11 +23,14 @@ public class ParkourCamera : MonoBehaviour
         LateUpdate
     }
 
-    public static ParkourCamera Instance;
     public Vector3 Offset;
     public bool SetOffsetAtStart = true;
     public Vector3 TrickOffset;
+<<<<<<< HEAD:Parkour Runner/Assets/ParkourRunner/Scripts/Player/ParkourCamera.cs
     public ParkourSlowMo ParkourSlowMo;
+=======
+
+>>>>>>> origin/mr_project:Parkour Runner/Assets/ParkourCamera.cs
     [Range(0f, 1f)] public float FollowSmooth = 0.7f;
     [Range(0f, 1f)] public float AngleSmooth = 0.7f;
 
@@ -37,6 +40,7 @@ public class ParkourCamera : MonoBehaviour
     private Transform _head;
 
     [SerializeField] private PuppetMaster _puppetMaster;
+<<<<<<< HEAD:Parkour Runner/Assets/ParkourRunner/Scripts/Player/ParkourCamera.cs
     private float RollLength = 0.7f;
     private bool _fell = false;
 
@@ -48,8 +52,11 @@ public class ParkourCamera : MonoBehaviour
         Instance = this;
         ParkourSlowMo = GetComponent<ParkourSlowMo>();
     }
+=======
+>>>>>>> origin/mr_project:Parkour Runner/Assets/ParkourCamera.cs
 
-    void Start () {
+	// Use this for initialization
+	void Start () {
 	    if (_puppetMaster == null)
 	    {
 	        _puppetMaster = FindObjectOfType<PuppetMaster>();
@@ -150,25 +157,12 @@ public class ParkourCamera : MonoBehaviour
     private IEnumerator Roll()
     {
         TrickOffset = new Vector3(0, -1f, 0);
-        yield return new WaitForSeconds(RollLength);
+        yield return new WaitForSeconds(1f);
         TrickOffset = new Vector3(0, 0f, 0);
     }
     public void OnJump()
     {
-        StartCoroutine(Jump());
-    }
-    private IEnumerator Jump()
-    {
-        float oldFollow = FollowSmooth;
-        FollowSmooth = 1f;
 
-        while (FollowSmooth > oldFollow)
-        {
-            FollowSmooth -= Time.deltaTime / 2f;
-            yield return null;
-        }
-
-        FollowSmooth = oldFollow;
     }
     public void OnLoseBalance()
     {
@@ -179,10 +173,13 @@ public class ParkourCamera : MonoBehaviour
             ParkourSlowMo.SlowFor(SlowTimeForSecondsOnFall);
         }
     }
+<<<<<<< HEAD:Parkour Runner/Assets/ParkourRunner/Scripts/Player/ParkourCamera.cs
     public void OnDie()
     {
         print("OnDie");
     }
+=======
+>>>>>>> origin/mr_project:Parkour Runner/Assets/ParkourCamera.cs
     public void OnRegainBalance()
     {
         _fell = false;
