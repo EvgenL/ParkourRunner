@@ -1,5 +1,6 @@
 ﻿using System;
 using ParkourRunner.Scripts.Managers;
+using UnityEngine;
 
 namespace ParkourRunner.Scripts.Player
 {
@@ -27,6 +28,9 @@ namespace ParkourRunner.Scripts.Player
                     return "JumpOver";
 
                 case ("Stand"):
+
+                    //TODO proc reward
+                    Debug.Log("stand! ");
                     randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.Stand)).Length);
                     return ((TrickNames.Stand)randomIndex).ToString();
 

@@ -10,7 +10,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
     {
         public PuppetMaster puppetMaster;
         public BehaviourPuppet behaviourPuppet;
-
         [SerializeField] private string _randomAnimation;
 
         
@@ -145,5 +144,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
                 }
             }
         }
+
     }
 }

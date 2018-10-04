@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+guid: c74daabcff0aab5418f05493b7338f07
+=======
 guid: 7465269b4535acd4dae3c405acbc7af1
+>>>>>>> origin/mr_project
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

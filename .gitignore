@@ -34,3 +34,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+*.unity
+
+Parkour Runner/Assets/ParkourRunner/AllTriggers.unity
+Parkour Runner/Assets/ParkourRunner/Prefabs/Character/ParkourRunner Root.prefab

@@ -11,8 +11,10 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         public PathMagic.Scripts.PathMagic Path;
 
         public Vector3 PlayerOffset;
+        public bool IsLeft;
 
         private ParkourThirdPersonController _player;
+
 
         private void Start()
         {
@@ -31,6 +33,10 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private void Play()
         {
+            if (IsLeft)
+            {
+                ParkourCamera.Instance.SwitchSides(true);
+            }
             _player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
             Path.Rewind();
             Path.Play();
@@ -47,6 +53,10 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private void JumpOff()
         {
+            if (IsLeft)
+            {
+                ParkourCamera.Instance.SwitchSides(false);
+            }
             if (_player.IsRunningWall)
             {
                 GameManager.Instance.PlayerCanBeDismembered = true;
@@ -56,6 +66,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
                 _player._capsuleCollider.isTrigger = false;
                 _player._rigidbody.useGravity = true; 
             }
+            Path.Rewind();
         }
     }
 }

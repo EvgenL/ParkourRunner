@@ -8,15 +8,15 @@ namespace ParkourRunner.Scripts.UIScripts
     {
 
         public GameObject Magnet;
-        public Slider MagnetSlider;
+        public Image MagnetSlider;
         public GameObject Shield;
-        public Slider ShieldSlider;
+        public Image ShieldSlider;
         public GameObject Jump;
-        public Slider JumpSlider;
+        public Image JumpSlider;
         public GameObject Boost;
-        public Slider BoostSlider;
+        public Image BoostSlider;
         public GameObject DoubleCoins;
-        public Slider DoubleCoinsSlider;
+        public Image DoubleCoinsSlider;
 
         public void UpdateBonus(BonusName bonusName, float value)
         {
@@ -24,23 +24,23 @@ namespace ParkourRunner.Scripts.UIScripts
             {
                 case (BonusName.Magnet):
                     Magnet.SetActive(true);
-                    MagnetSlider.value = value;
+                    MagnetSlider.fillAmount = value;
                     break;
                 case (BonusName.Jump):
                     Jump.SetActive(true);
-                    JumpSlider.value = value;
+                    JumpSlider.fillAmount = value;
                     break;
                 case (BonusName.Shield):
                     Shield.SetActive(true);
-                    ShieldSlider.value = value;
+                    ShieldSlider.fillAmount = value;
                     break;
                 case (BonusName.Boost):
                     Boost.SetActive(true);
-                    BoostSlider.value = value;
+                    BoostSlider.fillAmount = value;
                     break;
                 case (BonusName.DoubleCoins):
                     DoubleCoins.SetActive(true);
-                    DoubleCoinsSlider.value = value;
+                    DoubleCoinsSlider.fillAmount = value;
                     break;
             }
         }

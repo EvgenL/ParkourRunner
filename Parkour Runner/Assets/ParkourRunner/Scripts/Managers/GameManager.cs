@@ -112,7 +112,14 @@ namespace ParkourRunner.Scripts.Managers
             {
                 case (Bodypart.Body): //or
                 case (Bodypart.Head):
-                    if (!dismember) Die();
+                    if (!dismember)
+                    {
+                        Die();
+                    }
+                    else
+                    {
+                        ParkourCamera.Instance.OnHeadRegenerated();
+                    }
                     break;
 
                 case (Bodypart.LHand):
@@ -249,6 +256,11 @@ namespace ParkourRunner.Scripts.Managers
         public void ResetSpeed()
         {
             GameSpeed = 1f;
+        }
+
+        public void OnHeadLost(Transform head)
+        {
+            ParkourCamera.Instance.OnHeadLost(head);//todo
         }
     }
 }

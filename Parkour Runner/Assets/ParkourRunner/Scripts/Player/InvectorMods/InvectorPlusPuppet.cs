@@ -16,7 +16,14 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         public Animator AnimationController;
 
         public BehaviourPuppet Puppet;
-    
+
+        private ParkourCamera _pCamera;
+
+        private void Awake()
+        {
+            _pCamera = ParkourCamera.Instance;
+        }
+
         void Start()
         {
             StartCoroutine(LateStart());
@@ -30,11 +37,13 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         public void OnLoseBalance()
         {
+            _pCamera.OnLoseBalance();
             InvectorInput.SetLockBasicInput(true);
         }
 
         public void OnRegainBalance()
         {
+            _pCamera.OnRegainBalance();
             Invoke("Unlock", RegainBalanceInputDelay);
         }
 
