@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ParkourRunner.Scripts.Managers;
 using UnityEngine;
 
@@ -6,7 +8,6 @@ namespace ParkourRunner.Scripts.Player
 {
     public static class RandomTricks
     {
-
         public static string GetTrick(string playAnimation)
         {
             int randomIndex;
@@ -30,7 +31,13 @@ namespace ParkourRunner.Scripts.Player
                 case ("Stand"):
 
                     //TODO proc reward
+
+                    List<Trick> stands = ResourcesManager.Instance.StandTricks.Where(x => x.IsBought).ToList();
+                    randomIndex = UnityEngine.Random.Range(0, stands.Count);
+                    Trick randomTrick = stands[randomIndex];
+
                     Debug.Log("stand! ");
+
                     randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.Stand)).Length);
                     return ((TrickNames.Stand)randomIndex).ToString();
 

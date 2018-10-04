@@ -10,6 +10,8 @@ using Random = UnityEngine.Random;
 
 public class ParkourCamera : MonoBehaviour
 {
+    public static ParkourCamera Instance;
+
     private enum FollowMode
     {
         FollowPuppet,
@@ -26,11 +28,8 @@ public class ParkourCamera : MonoBehaviour
     public Vector3 Offset;
     public bool SetOffsetAtStart = true;
     public Vector3 TrickOffset;
-<<<<<<< HEAD:Parkour Runner/Assets/ParkourRunner/Scripts/Player/ParkourCamera.cs
-    public ParkourSlowMo ParkourSlowMo;
-=======
 
->>>>>>> origin/mr_project:Parkour Runner/Assets/ParkourCamera.cs
+    public ParkourSlowMo ParkourSlowMo;
     [Range(0f, 1f)] public float FollowSmooth = 0.7f;
     [Range(0f, 1f)] public float AngleSmooth = 0.7f;
 
@@ -40,7 +39,6 @@ public class ParkourCamera : MonoBehaviour
     private Transform _head;
 
     [SerializeField] private PuppetMaster _puppetMaster;
-<<<<<<< HEAD:Parkour Runner/Assets/ParkourRunner/Scripts/Player/ParkourCamera.cs
     private float RollLength = 0.7f;
     private bool _fell = false;
 
@@ -52,8 +50,7 @@ public class ParkourCamera : MonoBehaviour
         Instance = this;
         ParkourSlowMo = GetComponent<ParkourSlowMo>();
     }
-=======
->>>>>>> origin/mr_project:Parkour Runner/Assets/ParkourCamera.cs
+
 
 	// Use this for initialization
 	void Start () {
@@ -173,13 +170,11 @@ public class ParkourCamera : MonoBehaviour
             ParkourSlowMo.SlowFor(SlowTimeForSecondsOnFall);
         }
     }
-<<<<<<< HEAD:Parkour Runner/Assets/ParkourRunner/Scripts/Player/ParkourCamera.cs
+
     public void OnDie()
     {
         print("OnDie");
     }
-=======
->>>>>>> origin/mr_project:Parkour Runner/Assets/ParkourCamera.cs
     public void OnRegainBalance()
     {
         _fell = false;

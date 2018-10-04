@@ -13,13 +13,9 @@ namespace ParkourRunner.Scripts.Managers
         private const string ObstaclePrefabsPath = "Obstacles";
         private const string PickUpPath = "PickUp";
 
-        public List<GameObject> Obstacles3mPrefabs;
-        //TODO public List<GameObject> Obstacles5mPrefabs;
-
-
-        public List<GameObject> ObstaclesSmallPrefabs;
         public List<GameObject> BlockPrefabs;
-
+        public List<GameObject> ObstaclesSmallPrefabs;
+        
         public List<Trick> RollTricks;
         public List<Trick> JumpOverTricks;
         public List<Trick> StandTricks;
@@ -43,21 +39,20 @@ namespace ParkourRunner.Scripts.Managers
             }
 
             DontDestroyOnLoad(gameObject);
-            LoadResources();
+            //LoadResources();
         }
         #endregion
 
-        //TODO asynch
-        private void LoadResources()
+        /*//TODO asynch
+        public void LoadResources()
         {
-            Obstacles3mPrefabs = Resources.LoadAll<GameObject>(ObstaclePrefabsPath + "/3m/").ToList();
-            ObstaclesSmallPrefabs = Resources.LoadAll<GameObject>(ObstaclePrefabsPath + "/Small/").ToList();
             BlockPrefabs = Resources.LoadAll<GameObject>(BlockPrefabsPath + "/").ToList();
-            //RollTricks = Resources.LoadAll<Trick>(TricksPath + "/Roll/").ToList();
-            //StandTricks = Resources.LoadAll<Trick>(TricksPath + "/Stand/").ToList();
+            ObstaclesSmallPrefabs = Resources.LoadAll<GameObject>(ObstaclePrefabsPath + "/Small/").ToList();
+            RollTricks = Resources.LoadAll<Trick>(TricksPath + "/Roll/").ToList();
+            StandTricks = Resources.LoadAll<Trick>(TricksPath + "/Stand/").ToList();
             JumpOverTricks = Resources.LoadAll<Trick>(TricksPath + "/JumpOver/").ToList();
             PickUps = Resources.LoadAll<GameObject>(PickUpPath + "/").ToList();
-        }
+        }*/
 
     }
 }

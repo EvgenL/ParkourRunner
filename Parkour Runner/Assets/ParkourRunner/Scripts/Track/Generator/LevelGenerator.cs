@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Basic_Locomotion.Scripts.CharacterController;
 using ParkourRunner.Scripts.Managers;
 using ParkourRunner.Scripts.Player.InvectorMods;
@@ -214,13 +215,6 @@ namespace ParkourRunner.Scripts.Track.Generator
             }
         }
 
-        /*private void GenerateObstacles()
-        {
-            while (transform.position.z < _player.position.z + ObstacleGenerationdistance)
-            {
-                GenerateObstaclesSegment(State);
-            }
-        }*/
 
 
         private void GenerateStartBlock()
@@ -229,7 +223,7 @@ namespace ParkourRunner.Scripts.Track.Generator
             var startBlockGo = Instantiate(startBlock, _player.position + StartBlockOffset, Quaternion.identity);
             var startBlockScript = startBlockGo.GetComponent<Block>();
             _blockPool.Add(startBlockScript);
-            _blockPrefabs.Remove(startBlock);
+            //_blockPrefabs.Remove(startBlock);
             CenterBlock = startBlockScript;
             State = GeneratorState.HeatUp;
             GenerateBlocksAfter(startBlockScript);
@@ -265,83 +259,6 @@ namespace ParkourRunner.Scripts.Track.Generator
 
             return newCenterBlock;
         }
-
-        /*private void GenerateObstaclesOnNewBlocks()
-        {
-            GoBack();
-            GenerateObstacles();
-        }*/
-
-        /*public void GenerateRewardOnRevive()
-        {
-            //ClearLevel();
-            ClearClosest();
-            //GoBack();
-            GenerateObstaclesSegment(GeneratorState.Reward);
-            GenerateObstaclesSegment(GeneratorState.Reward);
-
-        }*/
-
-        /*private void ClearClosest()
-        {
-            foreach (var block in _blockPool)
-            {
-                foreach (var Building in block.Buildings)
-                {
-                    foreach (var GPoint in Building.GPoints)
-                    {
-                        if (Vector3.Distance(GPoint.transform.position, _player.transform.position) <= 20f)
-                        {
-                            //GPoint.Clear();
-                            GPoint.Delete();
-                        }
-                    }
-                }
-            }
-        }
-        */
-
-        /*private void ClearLevel()
-        {
-            foreach (var block in _blockPool)
-            {
-                block.Clear();
-            }
-        }
-        */
-
-        /*private void GoBack()
-        {
-            while (transform.position.z > _player.position.z)
-            {
-                switch (State)
-                {
-                    case GeneratorState.HeatUp:
-                        break;
-
-                    case GeneratorState.Callibration:
-                        State = GeneratorState.HeatUp;
-                        transform.position -= Vector3.forward * HeatUpStateLength;
-                        break;
-
-                    case GeneratorState.Reward:
-                        State = GeneratorState.Callibration;
-                        transform.position -= Vector3.forward * CallibrationStateLength;
-                        break;
-
-                    case GeneratorState.Challenge:
-                        State = GeneratorState.Relax;
-                        transform.position -= Vector3.forward * RelaxStateLength;
-                        break;
-
-                    case GeneratorState.Relax:
-                        State = GeneratorState.Challenge;
-                        transform.position -= Vector3.forward * ChallengeStateLength;
-                        break;
-                }
-            }
-        }*/
-
         
         public void GenerateBlocksAfter(Block block, int i = 0)
         {
@@ -383,79 +300,12 @@ namespace ParkourRunner.Scripts.Track.Generator
             }
         }
         
-        /*private void GenerateObstaclesSegment(GeneratorState s)
-        {
-            //В разогреве не генерится ничего
-            if (s != GeneratorState.HeatUp)
-                GenerateOnClosestBlocks();
-
-            MoveToNextSegment(s);
-        }*/
-
-        /*private void MoveToNextSegment(GeneratorState s)
-        {
-            switch (s)
-            {
-                case GeneratorState.HeatUp:
-                    State = GeneratorState.Callibration;
-                    transform.position += Vector3.forward * HeatUpStateLength;
-                    break;
-
-                case GeneratorState.Callibration:
-                    State = GeneratorState.Reward;
-                    transform.position += Vector3.forward * CallibrationStateLength;
-                    break;
-
-                case GeneratorState.Reward:
-                    State = GeneratorState.Challenge;
-                    transform.position += Vector3.forward * RewardStateLength;
-                    break;
-
-                case GeneratorState.Challenge:
-                    State = GeneratorState.Relax;
-                    transform.position += Vector3.forward * ChallengeStateLength;
-                    break;
-
-                case GeneratorState.Relax:
-                    State = GeneratorState.Challenge;
-                    transform.position += Vector3.forward * RelaxStateLength;
-                    break;
-            }
-        }
-
-        /*private void GenerateOnClosestBlocks()
-        {
-            if (_blockPool == null) return;
-            var blocks = SelectBlocksInRange(transform.position.z, CallibrationStateLength);
-            foreach (var block in blocks)
-            {
-                block.Generate();
-            }
-        }*/
-        
-        /*private List<Block> SelectBlocksInRange(float positionZ, float stateLength)
-        {
-            float z1 = positionZ;
-            float z2 = positionZ + stateLength;
-
-            List<Block> blocksRange = new List<Block>();
-            foreach (var block in _blockPool)
-            {
-                if (!(block.transform.position.z + BlockSide < z2 
-                      || block.transform.position.z - BlockSide > z1))
-                {
-                    blocksRange.Add(block);
-                }
-            }
-
-            return blocksRange;
-        }*/
 
 
         public GameObject GetRandomBlock()
         {
             //TODO чередовать релакс и челленж
-            return _blockPrefabs[Random.Range(0, _blockPrefabs.Count)];
+            return _challengeBlocks[Random.Range(0, _blockPrefabs.Count)];
         }
     }
     
