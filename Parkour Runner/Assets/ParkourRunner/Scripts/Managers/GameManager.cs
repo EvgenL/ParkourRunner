@@ -172,18 +172,18 @@ namespace ParkourRunner.Scripts.Managers
 
         public void Revive()
         {
-            //TODO Move player to start of current block
+
             var cb = LevelGenerator.Instance.CenterBlock;
             Vector3 newPos = cb.transform.position;
             newPos.z -= LevelGenerator.Instance.BlockSide / 2f + 2f;
-            FindObjectOfType<PuppetMaster>().transform.position = newPos;
-            Debug.DrawRay(newPos, Vector3.up * 5f, Color.red, 5f);
+            //FindObjectOfType<PuppetMaster>().transform.position = newPos;
+            Debug.DrawRay(newPos, Vector3.up * 50f, Color.red, 5f);
             
             //Heal player
+            gameState = GameState.Run;
             HealFull();
             _player.Revive();
-            gameState = GameState.Run;
-            
+
             _revives++;
         }
 

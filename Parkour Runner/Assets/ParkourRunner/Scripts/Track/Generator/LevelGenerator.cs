@@ -38,14 +38,12 @@ namespace ParkourRunner.Scripts.Track.Generator
            // Callibration, //Каллибровка
            // Reward, //Вознаграждение
             Challenge, //Трудности
-            Chill //Отдых
-            /// <summary>
-            //
+            Chill //
             //  /"""\   |   |   "|"  |    | 
             //  |       |---|    |   |    |
             //  \___/   |   |   .|.  |__  |__
             //
-            /// </summary>
+
         }
 
 
@@ -60,17 +58,9 @@ namespace ParkourRunner.Scripts.Track.Generator
         [SerializeField] private Transform _player;
 
         //Длины областей генерации препятствий
-        [SerializeField] private float HeatUpStateLength = 20;
-        [SerializeField] private float CallibrationStateLength = 20;
-        [SerializeField] private float RewardStateLength = 15;
-        [SerializeField] private float ChallengeStateLength = 25;
-        [SerializeField] private float RelaxStateLength = 15;
 
         public int StandTricksPerBuilding = 1;
         public int BonusPerBuilding = 1;
-
-        [SerializeField] private float ObstacleGenerationdistance = 100f;
-        [SerializeField] private float BonusGenerationdistance = 100f;
 
         public float ObstacleGenerationWidth = 50f;
 
@@ -101,7 +91,6 @@ namespace ParkourRunner.Scripts.Track.Generator
             //transform.position = _player.position + StartBlockOffset;
             //transform.position = _player.position + StartBlockOffset;
 
-            GenerateStartBlock();
             StartCoroutine(Generate());
         }
 
@@ -120,8 +109,6 @@ namespace ParkourRunner.Scripts.Track.Generator
         private IEnumerator Generate()
         {
             GenerateStartBlock();
-            CenterBlock = _blockPool[0];
-            State = GeneratorState.Challenge; 
             while (true)
             {
                 Tick();
@@ -193,7 +180,7 @@ namespace ParkourRunner.Scripts.Track.Generator
             var nextXpos = transform.position;
             nextXpos.x = 0;
             nextXpos.z += BlockSide;
-
+            
             if (Vector3.Distance(playerXpos, nextXpos) > GenerateBlocksForward * BlockSide) return;
 
             Block nextBlockScript;
@@ -238,10 +225,6 @@ namespace ParkourRunner.Scripts.Track.Generator
                 return _relaxBlocks[Random.Range(0, _relaxBlocks.Count)];
             else 
                 return _challengeBlocks[Random.Range(0, _challengeBlocks.Count)];
-        }
-
-        public void MoveOnRevive()
-        {
         }
     }
     
