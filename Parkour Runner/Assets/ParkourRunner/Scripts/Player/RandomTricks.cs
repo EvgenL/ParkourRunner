@@ -8,6 +8,7 @@ namespace ParkourRunner.Scripts.Player
 {
     public static class RandomTricks
     {
+
         public static string GetTrick(string playAnimation)
         {
             int randomIndex;
@@ -31,15 +32,14 @@ namespace ParkourRunner.Scripts.Player
                 case ("Stand"):
 
                     //TODO proc reward
-
-                    List<Trick> stands = ResourcesManager.Instance.StandTricks.Where(x => x.IsBought).ToList();
+                    
+                    List<Trick> stands = ResourcesManager.StandTricks.FindAll(x => x.IsBought);
                     randomIndex = UnityEngine.Random.Range(0, stands.Count);
+                    Debug.Log("RI = " + randomIndex + ". name = " + stands[randomIndex].Name);
                     Trick randomTrick = stands[randomIndex];
-
-                    Debug.Log("stand! ");
-
-                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.Stand)).Length);
-                    return ((TrickNames.Stand)randomIndex).ToString();
+                    Debug.Log("Stand: " + randomTrick.Name + ". Reward: " + randomTrick.MoneyReward);
+                    GameManager.Instance.AddCoin(randomTrick.MoneyReward);
+                    return randomTrick.AnimationName;
 
 
 

@@ -90,7 +90,7 @@ namespace ParkourRunner.Scripts.Managers
 
         public List<Trick> GetBoughtJumpOverTricks()
         {
-            return ResourcesManager.Instance.JumpOverTricks.Where(x => x.IsBought).ToList();
+            return ResourcesManager.JumpOverTricks.Where(x => x.IsBought).ToList();
         }
 
         public Trick GetRandomJumpOver()

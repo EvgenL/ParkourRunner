@@ -26,11 +26,10 @@ namespace ParkourRunner.Scripts.Track.Generator
         {
             if (Used) return;
 
-            var resourcesManager = ResourcesManager.Instance;
             GameObject randomObs = null;
 
-            int r = UnityEngine.Random.Range(0, resourcesManager.ObstaclesSmallPrefabs.Count);
-            randomObs = resourcesManager.ObstaclesSmallPrefabs[r];
+            int r = UnityEngine.Random.Range(0, ResourcesManager.ObstaclesSmallPrefabs.Count);
+            randomObs = ResourcesManager.ObstaclesSmallPrefabs[r];
 
             Go = PoolManager.Instance.Spawn(randomObs, transform.position, transform.rotation);
 

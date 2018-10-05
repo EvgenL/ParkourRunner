@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 public class ParkourCamera : MonoBehaviour
 {
     public static ParkourCamera Instance;
-
+    public float YAngle;
     private enum FollowMode
     {
         FollowPuppet,
@@ -102,7 +102,8 @@ public class ParkourCamera : MonoBehaviour
                 lookDir = GetOffsetLookDir(middle);
             }
             Quaternion toRot = Quaternion.FromToRotation(transform.forward, lookDir);
-            
+            toRot *= Quaternion.Euler(0f, 0f, YAngle);
+
             transform.rotation = Quaternion.Lerp(transform.rotation, toRot, AngleSmooth);
         }
         else if (_followMode == FollowMode.FollowTransform)

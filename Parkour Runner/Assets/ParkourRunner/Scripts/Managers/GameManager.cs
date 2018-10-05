@@ -176,7 +176,7 @@ namespace ParkourRunner.Scripts.Managers
             var cb = LevelGenerator.Instance.CenterBlock;
             Vector3 newPos = cb.transform.position;
             newPos.z -= LevelGenerator.Instance.BlockSide / 2f + 2f;
-            _player.transform.position = newPos;
+            FindObjectOfType<PuppetMaster>().transform.position = newPos;
             Debug.DrawRay(newPos, Vector3.up * 5f, Color.red, 5f);
             
             //Heal player
