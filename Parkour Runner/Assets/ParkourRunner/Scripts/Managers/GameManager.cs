@@ -172,7 +172,6 @@ namespace ParkourRunner.Scripts.Managers
 
         public void Revive()
         {
-
             var cb = LevelGenerator.Instance.CenterBlock;
             Vector3 newPos = cb.transform.position;
             newPos.z -= LevelGenerator.Instance.BlockSide / 2f + 2f;
