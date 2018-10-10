@@ -1,4 +1,6 @@
-﻿using ParkourRunner.Scripts.Managers;
+﻿using System.Net.Mime;
+using ParkourRunner.Scripts.Managers;
+using UnityEngine;
 
 namespace ParkourRunner.Scripts.Track.Pick_Ups
 {
@@ -15,8 +17,18 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups
 
         private void OnDestroy()
         {
-            PoolManager.Instance.Coins.Remove(this);
+            if (Application.isPlaying)  //Это нужно, чтобы при выключении приложения в эдиторе не получать куду нулл референсов из-за того что poolmanager is destroyed
+            {
+                PoolManager.Instance.Coins.Remove(this);
+                PoolManager.Instance.Remove(gameObject); 
+            }
         }
+
+        private void OnDisable()
+        {
+            OnDestroy();
+        }
+
         private void Awake()
         {
             PoolManager.Instance.Coins.Add(this);

@@ -14,10 +14,14 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
         protected override void EndEffect()
         {
             GameManager.Instance.CoinMultipiler = 1;
+            CharacterEffects.Instance.DoubleActive = false;
+
         }
 
         protected override void StartEffect()
         {
+            CharacterEffects.Instance.DoubleActive = true;
+
             GameManager.Instance.CoinMultipiler = 2;
         }
     }

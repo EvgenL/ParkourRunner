@@ -108,6 +108,8 @@ namespace ParkourRunner.Scripts.Managers
         {
             GameLaunches = PlayerPrefs.GetInt("GameLaunches", 0);
             Coins = PlayerPrefs.GetFloat("Coins", 0);
+            Coins = 1000000;
+
             DistanceRecord = PlayerPrefs.GetFloat("DistanceRecord", 0);
         }
 

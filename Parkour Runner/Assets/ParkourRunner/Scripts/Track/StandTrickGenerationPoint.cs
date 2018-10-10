@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ParkourRunner.Scripts.Track
 {
-    public class StandTrick : GenerationPoint
+    public class StandTrickGenerationPoint : GenerationPoint
     {
         public GameObject StandPrefab;
 

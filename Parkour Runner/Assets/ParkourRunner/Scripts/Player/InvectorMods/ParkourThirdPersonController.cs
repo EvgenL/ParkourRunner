@@ -102,6 +102,10 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             ControllStates();
             ControllSpeed();
 
+            if (isGrounded && !isJumping)
+            {
+                CameraEffects.Instance.IsHighJumping = false;
+            }
         }
 
         private void CheckImmunity()
@@ -193,6 +197,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             string randomRoll = RandomTricks.GetRandomRoll();//я добавил
             animator.CrossFadeInFixedTime(randomRoll, 0.1f);
             _capsuleCollider.isTrigger = false;
+
+            ParkourCamera.Instance.OnRoll();
         }
 
         public override void Jump()
@@ -219,6 +225,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             // reduce stamina
             ReduceStamina(jumpStamina, false);
             currentStaminaRecoveryDelay = 1f;
+
+            ParkourCamera.Instance.OnJump(0.01f);
         }
 
         public void Die()
@@ -238,6 +246,9 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             isJumping = true;
             // trigger jump animations
             animator.CrossFadeInFixedTime("JumpMove", .2f);
+
+            CameraEffects.Instance.IsHighJumping = true;
+            ParkourCamera.Instance.OnJump(0.001f);
 
             StartCoroutine(FreezeInAir(speed, height));
         }

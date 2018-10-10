@@ -10,23 +10,15 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         [SerializeField] private List<Transform> _spots;
 
-        public float ChanceToGenerateCoins = 0.3f;
-
-        private void Start()
-        {
-            if (Random.Range(0f, 1f) < ChanceToGenerateCoins)
-            {
-                Generate();
-            }
-        }
 
         public override void Generate()
         {
-            GameManager GameManager = GameManager.Instance;
-
             for (int i = 0; i < _spots.Count; i++)
             {
                 var spot = _spots[i];
+
+                if (CoinPrefab == null)
+                    CoinPrefab = Resources.Load<GameObject>("PickUp/Coin"); //TODO TEST
 
                 var coinGo = PoolManager.Instance.Spawn(
                     CoinPrefab,

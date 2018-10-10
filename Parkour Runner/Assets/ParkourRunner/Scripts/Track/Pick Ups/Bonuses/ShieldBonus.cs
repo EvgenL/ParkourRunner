@@ -9,11 +9,13 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
     {
         protected override void EndEffect()
         {
+            CharacterEffects.Instance.ShieldActive = false;
             _player.Immune = false;
         }
 
         protected override void UpdateEffect(float timeRemaining)
         {
+            CharacterEffects.Instance.ShieldActive = true;
             _player.Immune = true;
         }
     }

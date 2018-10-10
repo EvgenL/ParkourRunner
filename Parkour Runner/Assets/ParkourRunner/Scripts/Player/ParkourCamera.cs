@@ -158,14 +158,27 @@ public class ParkourCamera : MonoBehaviour
         yield return new WaitForSeconds(1f);
         TrickOffset = new Vector3(0, 0f, 0);
     }
-    public void OnJump()
+    public void OnJump(float recoveryspeed)
     {
+        StartCoroutine(Jump(recoveryspeed));
 
     }
+    private IEnumerator Jump(float recoveryspeed)
+    {
+        var oldSmooth = FollowSmooth;
+        FollowSmooth = 1f;
+        while (oldSmooth < FollowSmooth)
+        {
+            FollowSmooth -= recoveryspeed;
+            yield return null;
+
+        }
+        FollowSmooth = oldSmooth;
+    }
+
     public void OnLoseBalance()
     {
         _fell = true;
-        print("OnLoseBalance");
         if (Random.Range(0f, 1f) > SlowTimeChance)
         {
             ParkourSlowMo.SlowFor(SlowTimeForSecondsOnFall);
@@ -174,12 +187,11 @@ public class ParkourCamera : MonoBehaviour
 
     public void OnDie()
     {
-        print("OnDie");
+        print("OnDie camera");
     }
     public void OnRegainBalance()
     {
         _fell = false;
-        print("OnRegainBalance");
         ParkourSlowMo.UnSlow();
     }
 
@@ -187,13 +199,11 @@ public class ParkourCamera : MonoBehaviour
     {
         _head = head;
         _followMode = FollowMode.FollowTransform;
-        print("OnHeadLost");
     }
 
     public void OnHeadRegenerated()
     {
         _followMode = FollowMode.FollowPuppet;
-        print("OnHeadRegenerated");
         OnRegainBalance();
     }
 

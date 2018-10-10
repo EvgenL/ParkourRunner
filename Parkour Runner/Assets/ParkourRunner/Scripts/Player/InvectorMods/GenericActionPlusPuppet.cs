@@ -41,6 +41,9 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
                     {
                         OnDoAction.Invoke(triggerAction);
                         TriggerAnimation();
+                        if (triggerAction.playAnimation == "Stand")
+                         Destroy(triggerAction.gameObject)
+                        ;
                     }
                 }
             }

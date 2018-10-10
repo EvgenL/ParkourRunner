@@ -177,11 +177,24 @@ namespace ParkourRunner.Scripts.Track.Generator
             var playerXpos = _player.transform.position;
             playerXpos.x = 0;
 
-            var nextXpos = transform.position;
+            var nextXpos = block.transform.position;
             nextXpos.x = 0;
             nextXpos.z += BlockSide;
-            
-            if (Vector3.Distance(playerXpos, nextXpos) > GenerateBlocksForward * BlockSide) return;
+            playerXpos.y = nextXpos.y;
+
+            //Debug.DrawRay(nextXpos, Vector3.up * 20f, Color.red, 1f);
+            //Debug.DrawRay(playerXpos, Vector3.up * 20f, Color.red, 1f);
+
+            if (Vector3.Distance(playerXpos, nextXpos) > GenerateBlocksForward * BlockSide)
+            {
+                //Debug.DrawLine(playerXpos + Vector3.up * 20f, nextXpos + Vector3.up * 20f, Color.red, 1f);
+
+                return;
+            }
+            else
+            {
+                //Debug.DrawLine(playerXpos + Vector3.up * 20f, nextXpos + Vector3.up * 20f, Color.green, 1f);
+            }
 
             Block nextBlockScript;
             if (block.Next == null)
@@ -192,12 +205,10 @@ namespace ParkourRunner.Scripts.Track.Generator
                 nextBlockScript = nextBlockGo.GetComponent<Block>();
                 _blockPool.Add(nextBlockScript);
                 block.Next = nextBlockScript;
-                block.Generate();
+                nextBlockScript.Generate();
+                //GenerateBlocksAfter(nextBlockScript);
             }
 
-            nextBlockScript = block.Next;
-
-           //GenerateBlocksAfter(nextBlockScript);
         }
 
         private void DestroyOldBlocks()

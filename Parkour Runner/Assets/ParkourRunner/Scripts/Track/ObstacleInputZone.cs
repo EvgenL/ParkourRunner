@@ -62,6 +62,16 @@ namespace ParkourRunner.Scripts.Track
             if (c == null) return;
             _input = c;
             _input.EnterInputZone(this);
+
+            //Если игрок "влетел" в зону
+            if (c.cc.isJumping)
+            {
+                OnPalyerJump();
+            }
+            else if (c.cc.isRolling)
+            {
+                OnPalyerRoll();
+            }
         }
 
         private void OnTriggerStay(Collider other)

@@ -32,7 +32,7 @@ namespace ParkourRunner.Scripts.Player
                 case ("Stand"):
 
                     //TODO proc reward
-                    
+                    HUDManager.Instance.Flash();
                     List<Trick> stands = ResourcesManager.StandTricks.FindAll(x => x.IsBought);
                     randomIndex = UnityEngine.Random.Range(0, stands.Count);
                     Debug.Log("RI = " + randomIndex + ". name = " + stands[randomIndex].Name);
@@ -44,7 +44,6 @@ namespace ParkourRunner.Scripts.Player
 
 
                 default:
-                    UnityEngine.Debug.Log("No such trick category: " + playAnimation + ". Trying to do exact trick");
                     return playAnimation; //Для actions, которые не могут быть рандомными
             }
 
