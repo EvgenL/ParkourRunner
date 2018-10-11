@@ -15,6 +15,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private ParkourThirdPersonController _player;
 
+        private GameObject _arrowTutorialPrefab;
 
         private void Start()
         {
@@ -24,6 +25,12 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             //TODO script exec order
             //_player = vThirdPersonController.instance.transform.GetComponent<ParkourThirdPersonController>();
             //_player = vThirdPersonController.instance.GetComponent<ParkourThirdPersonController>();
+
+            _arrowTutorialPrefab = Resources.Load<GameObject>("Tutorial/ArrowUp");
+            var arrowGo = Instantiate(_arrowTutorialPrefab, transform.position + transform.up + -transform.forward,
+                Quaternion.identity);
+
+            Destroy(arrowGo, 15f);
         }
 
         private void Update()

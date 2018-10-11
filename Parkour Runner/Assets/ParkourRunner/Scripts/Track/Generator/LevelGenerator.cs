@@ -34,12 +34,18 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         public enum GeneratorState
         {
-            HeatUp, //Разогрев
-            Callibration, //Каллибровка
-            Reward, //Вознаграждение
+           // HeatUp, //Разогрев
+           // Callibration, //Каллибровка
+           // Reward, //Вознаграждение
             Challenge, //Трудности
-            Relax //Отдых
+            Chill //
+            //  /"""\   |   |   "|"  |    | 
+            //  |       |---|    |   |    |
+            //  \___/   |   |   .|.  |__  |__
+            //
+
         }
+
 
         public int BlockSide = 150; //Сколько метров сторона одного блока
 
@@ -51,101 +57,10 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         [SerializeField] private Transform _player;
 
-
-        /*public float StateLength
-        {
-            get
-            {
-                switch (State)
-                {
-                    case GeneratorState.HeatUp:
-                        return HeatUpStateLength;
-
-                    case GeneratorState.Callibration:
-                        return CallibrationStateLength;
-
-                    case GeneratorState.Relax:
-                        return RelaxStateLength;
-
-                    case GeneratorState.Reward:
-                        return RewardStateLength;
-
-                    case GeneratorState.Challenge:
-                        return ChallengeStateLength;
-
-                    default: return 0;
-                }
-            
-            }
-        }
-
-        public double ObstacleChance
-        {
-            get
-            {
-                switch (State)
-                {
-                    case GeneratorState.HeatUp:
-                        return StaticConst.HeatUpObstaclePercent;
-
-                    case GeneratorState.Callibration:
-                        return StaticConst.CallibrationObstaclePercent;
-
-                    case GeneratorState.Relax:
-                        return StaticConst.RelaxObstaclePercent;
-
-                    case GeneratorState.Reward:
-                        return StaticConst.RewardObstaclePercent;
-
-                    case GeneratorState.Challenge:
-                        return StaticConst.ChallengeObstaclePercent;
-
-                    default: return 0;
-                }
-            }
-        }
-
-        public double BonusChance
-        {
-            get
-            {
-                switch (State)
-                {
-                    case GeneratorState.HeatUp:
-                        return StaticConst.HeatUpPickUpPercent;
-
-                    case GeneratorState.Callibration:
-                        return StaticConst.CallibrationPickUpPercent;
-
-                    case GeneratorState.Relax:
-                        return StaticConst.RelaxPickUpPercent;
-
-                    case GeneratorState.Reward:
-                        return StaticConst.RewardPickUpPercent;
-
-                    case GeneratorState.Challenge:
-                        return StaticConst.ChallengePickUpPercent;
-
-                    default: return 0;
-                }
-            }
-        }
-        */
-
-
-
         //Длины областей генерации препятствий
-        [SerializeField] private float HeatUpStateLength = 20;
-        [SerializeField] private float CallibrationStateLength = 20;
-        [SerializeField] private float RewardStateLength = 15;
-        [SerializeField] private float ChallengeStateLength = 25;
-        [SerializeField] private float RelaxStateLength = 15;
 
         public int StandTricksPerBuilding = 1;
         public int BonusPerBuilding = 1;
-
-        [SerializeField] private float ObstacleGenerationdistance = 100f;
-        [SerializeField] private float BonusGenerationdistance = 100f;
 
         public float ObstacleGenerationWidth = 50f;
 
@@ -176,15 +91,13 @@ namespace ParkourRunner.Scripts.Track.Generator
             //transform.position = _player.position + StartBlockOffset;
             //transform.position = _player.position + StartBlockOffset;
 
-            GenerateStartBlock();
             StartCoroutine(Generate());
         }
 
         private void LoadPrefabs()
         {
 //load resources
-            _resourcesManager = ResourcesManager.Instance;
-            _blockPrefabs = _resourcesManager.BlockPrefabs;
+            _blockPrefabs = ResourcesManager.BlockPrefabs;
             _challengeBlocks = 
                 _blockPrefabs.FindAll(
                     x => x.GetComponent<Block>()
@@ -195,27 +108,26 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         private IEnumerator Generate()
         {
+            GenerateStartBlock();
             while (true)
             {
-
-                /*
-                //TODO чередовать релакс и челендж
-                if (State == GeneratorState.HeatUp)
-                {
-                    GenerateStartBlock();
-                    CenterBlock = _blockPool[0];
-                    State = GeneratorState.Challenge; //tODO
-                }
-                GenerateBlocks();
-                //GenerateObstacles();
-                */
-                //CheckStates();
                 Tick();
+                CheckStates();
                 yield return new WaitForSeconds(1f);
             }
         }
 
-
+        private void CheckStates()
+        {
+            if (State == GeneratorState.Challenge)
+            {
+                State = GeneratorState.Chill;
+            }
+            else //Relax 
+            {
+                State = GeneratorState.Challenge;
+            }
+        }
 
         private void GenerateStartBlock()
         {
@@ -225,7 +137,7 @@ namespace ParkourRunner.Scripts.Track.Generator
             _blockPool.Add(startBlockScript);
             //_blockPrefabs.Remove(startBlock);
             CenterBlock = startBlockScript;
-            State = GeneratorState.HeatUp;
+            State = GeneratorState.Challenge;
             GenerateBlocksAfter(startBlockScript);
         }
 
@@ -233,8 +145,8 @@ namespace ParkourRunner.Scripts.Track.Generator
         {
             var newCenterBlock = NewCenterBlock();
 
-            if (CenterBlock == newCenterBlock)
-                return;
+            //if (CenterBlock == newCenterBlock)
+            //    return;
 
             GenerateBlocksAfter(newCenterBlock);
             DestroyOldBlocks();
@@ -260,8 +172,30 @@ namespace ParkourRunner.Scripts.Track.Generator
             return newCenterBlock;
         }
         
-        public void GenerateBlocksAfter(Block block, int i = 0)
+        public void GenerateBlocksAfter(Block block)
         {
+            var playerXpos = _player.transform.position;
+            playerXpos.x = 0;
+
+            var nextXpos = block.transform.position;
+            nextXpos.x = 0;
+            nextXpos.z += BlockSide;
+            playerXpos.y = nextXpos.y;
+
+            //Debug.DrawRay(nextXpos, Vector3.up * 20f, Color.red, 1f);
+            //Debug.DrawRay(playerXpos, Vector3.up * 20f, Color.red, 1f);
+
+            if (Vector3.Distance(playerXpos, nextXpos) > GenerateBlocksForward * BlockSide)
+            {
+                //Debug.DrawLine(playerXpos + Vector3.up * 20f, nextXpos + Vector3.up * 20f, Color.red, 1f);
+
+                return;
+            }
+            else
+            {
+                //Debug.DrawLine(playerXpos + Vector3.up * 20f, nextXpos + Vector3.up * 20f, Color.green, 1f);
+            }
+
             Block nextBlockScript;
             if (block.Next == null)
             {
@@ -271,16 +205,10 @@ namespace ParkourRunner.Scripts.Track.Generator
                 nextBlockScript = nextBlockGo.GetComponent<Block>();
                 _blockPool.Add(nextBlockScript);
                 block.Next = nextBlockScript;
-                block.Generate();
+                nextBlockScript.Generate();
+                //GenerateBlocksAfter(nextBlockScript);
             }
 
-            nextBlockScript = block.Next;
-
-            i++;
-            if (i < GenerateBlocksForward)
-            {
-                GenerateBlocksAfter(nextBlockScript, i);
-            }
         }
 
         private void DestroyOldBlocks()
@@ -304,8 +232,10 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         public GameObject GetRandomBlock()
         {
-            //TODO чередовать релакс и челленж
-            return _challengeBlocks[Random.Range(0, _blockPrefabs.Count)];
+            if (State == GeneratorState.Chill && _relaxBlocks.Count > 0)
+                return _relaxBlocks[Random.Range(0, _relaxBlocks.Count)];
+            else 
+                return _challengeBlocks[Random.Range(0, _challengeBlocks.Count)];
         }
     }
     

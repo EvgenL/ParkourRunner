@@ -6,26 +6,26 @@ namespace ParkourRunner.Scripts.Player
     public class CameraTilt : MonoBehaviour
     {
         private Quaternion _baseRotation;
-        private Transform _camera;
+        private ParkourCamera _camera;
 
         private float _maxAngle;
 
         private void OnEnable()
         {
-            _camera = Camera.main.transform;
-            _baseRotation = _camera.rotation;
+            _camera = FindObjectOfType<ParkourCamera>();
+            _baseRotation = _camera.transform.rotation;
             _maxAngle = GetComponent<ParkoutTilt>().fullTiltAngle;
         }
 
         private void OnDisable()
         {
-            _camera.rotation = _baseRotation;
+            _camera.YAngle = 0f; //rotation = _baseRotation;
         }
 
         void Update ()
         {
             var angleZ = -CrossPlatformInputManager.GetAxis("Horizontal") * _maxAngle;
-            _camera.rotation = _baseRotation * Quaternion.Euler(0, 0, angleZ);
+            _camera.YAngle = angleZ; //rotation = _baseRotation * Quaternion.Euler(0, 0, angleZ);
         }
     }
 }

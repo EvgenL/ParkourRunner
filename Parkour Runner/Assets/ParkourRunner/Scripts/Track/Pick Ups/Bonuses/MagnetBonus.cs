@@ -12,6 +12,8 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
         
         protected override void EndEffect()
         {
+            CharacterEffects.Instance.MagnetActive = false;
+
         }
 
         protected override void UpdateEffect(float timeRemaining)
@@ -20,6 +22,7 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
             if (_player == null) _player = ParkourThirdPersonController.instance;
             foreach (var coin in _coins)
             {
+                if (coin == null) continue; //tODO fix
                 if (Vector3.Distance(_player.transform.position, coin.transform.position) < StaticConst.MagnetRadius)
                 {
                     var rb = coin.GetComponent<Rigidbody>();
@@ -33,6 +36,8 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
                         _player.transform.position + Vector3.up, StaticConst.MagnetCoinVelocity * Time.deltaTime);
                 }
             }
+            CharacterEffects.Instance.MagnetActive = true;
+
         }
     }
 }

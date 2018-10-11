@@ -1,5 +1,6 @@
 ﻿using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using ParkourRunner.Scripts.UIScripts;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,6 +8,12 @@ namespace ParkourRunner.Scripts.Managers
 {
     public class HUDManager : MonoBehaviour
     {
+        public enum Messages
+        {
+            Ok,
+            Great,
+            Perfect
+        }
 
         public static HUDManager Instance;
 
@@ -34,7 +41,16 @@ namespace ParkourRunner.Scripts.Managers
         public BonusPanel BonusPanel;
         public PostMortemScreen PostMortemScreen;
 
-        public int ShowDistanceEvery = 1000;
+        public Animator MetersRunAnimator;
+        public Text MetersRunText;
+        public Animator GreatTextAnimator;
+        public Text GreatText;
+        public Animator TrickNameTextAnimator;//TODO
+        public Text TrickNameText;
+        public Animator PauseAnimator;
+        public GameObject PauseGo;
+
+        public int ShowDistanceEvery = 500;
         private int _distanceShwonTimes;
 
         private bool _flashing = false;
@@ -98,13 +114,62 @@ namespace ParkourRunner.Scripts.Managers
             if (times > _distanceShwonTimes)
             {
                 _distanceShwonTimes = times;
-                print("You ran " + times * ShowDistanceEvery + " meters! Todo ui for this message");
+
+                MetersRunAnimator.enabled = true;
+                MetersRunAnimator.Play("FadeIN_OUT");
             }
+        }
+
+        public void ShowGreatMessage(Messages msg)
+        {
+            string message = "";
+            switch (msg)
+            {
+                case Messages.Ok:
+                    message = "OK";
+                    break;
+                case Messages.Great:
+                    message = "GREAT!";
+                    break;
+                case Messages.Perfect:
+                    message = "PERFECT!!!";
+                    break;
+            }
+
+            GreatText.text = message;
+            GreatTextAnimator.enabled = true;
+            GreatTextAnimator.Play("FadeIN_OUT");
         }
 
         public void ShowPostMortem()
         {
             PostMortemScreen.Show();
+        }
+
+        public void TogglePause()
+        {
+            if (GameManager.Instance.gameState == GameManager.GameState.Pause)
+            {
+                HidePause();
+            }
+            else
+            {
+                ShowPause();
+            }
+        }
+
+        public void ShowPause()
+        {
+            PauseGo.SetActive(true);
+            PauseAnimator.enabled = true;
+            PauseAnimator.SetBool("IsDisplayed", true);
+            GameManager.Instance.Pause();
+        }
+
+        public void HidePause()
+        {
+            GameManager.Instance.UnPause();
+            PauseAnimator.SetBool("IsDisplayed", false);
         }
     }
 }

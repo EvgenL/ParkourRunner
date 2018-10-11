@@ -16,12 +16,14 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
         {
             _player.SpeedMult = 1f;
             _player.Immune = false;
+            CameraEffects.Instance.IsRunningFast = true;
         }
 
         protected override void UpdateEffect(float timeRemaining)
         {
             _player.SpeedMult = 2f;
             _player.Immune = true;
+            CameraEffects.Instance.IsRunningFast = false;
             //TODO slow down last two seconds
         }
     }

@@ -58,8 +58,6 @@ namespace ParkourRunner.Scripts.Managers
                 {
                     Remove(item);
                 }
-
-
             }
         }
 
@@ -73,6 +71,7 @@ namespace ParkourRunner.Scripts.Managers
         public void Remove(GameObject obj)
         {
             _pool.Remove(obj);
+            obj.SetActive(false); //чтоб койн понял что его собираются удалить
             Destroy(obj);
             //item.SetActive(false);
         }

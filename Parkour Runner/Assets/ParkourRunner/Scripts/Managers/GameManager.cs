@@ -56,7 +56,7 @@ namespace ParkourRunner.Scripts.Managers
 
         public int ReviveCost
         {
-            get { return (StaticConst.InitialReviveCost + (int) DistanceRun) * _revives; }
+            get { return (StaticConst.InitialReviveCost + (int) DistanceRun / 10) * (_revives + 1); }
         }
 
         public float DistanceRun;
@@ -114,6 +114,7 @@ namespace ParkourRunner.Scripts.Managers
                 case (Bodypart.Head):
                     if (!dismember)
                     {
+                        print("HEAD DIE");
                         Die();
                     }
                     else
@@ -138,31 +139,38 @@ namespace ParkourRunner.Scripts.Managers
                     _leftLeg = dismember;
                     break;
             }
-            CheckGameState();
-        }
 
-        private void CheckGameState()
-        {
             _playerAnimator.SetBool("LeftHand", _leftHand);
             _playerAnimator.SetBool("RightHand", _rightHand);
             _playerAnimator.SetBool("LeftLeg", _leftLeg);
             _playerAnimator.SetBool("RightLeg", _rightLeg);
 
-            if (!_leftHand && !_rightHand)
-            {
-                Die();
-            }
-            if (!_leftLeg && !_rightLeg)
-            {
-                Die();
-            }
+            if (!dismember)
+                CheckLimbLost(); //Смотрим не проиграли ли мы ещё
+        }
+
+        private void CheckLimbLost()
+        {
+                if (!_leftHand && !_rightHand)
+                {
+                    Die();
+                }
+                else if (!_leftLeg && !_rightLeg)
+                {
+
+                    Die();
+                }
         }
 
         private void Die()
         {
-            gameState = GameState.Dead;
-            _player.Die();
-            Invoke("ShowPostMortem", 4f);
+            if (gameState != GameState.Dead)
+            {
+                print("dies");
+                gameState = GameState.Dead;
+                _player.Die();
+                Invoke("ShowPostMortem", 4f);
+            }
         }
 
         public void ShowPostMortem()
@@ -172,18 +180,20 @@ namespace ParkourRunner.Scripts.Managers
 
         public void Revive()
         {
-            //TODO Move player to start of current block
             var cb = LevelGenerator.Instance.CenterBlock;
             Vector3 newPos = cb.transform.position;
-            newPos.z -= LevelGenerator.Instance.BlockSide / 2f + 2f;
-            _player.transform.position = newPos;
-            Debug.DrawRay(newPos, Vector3.up * 5f, Color.red, 5f);
-            
+            newPos.z -= LevelGenerator.Instance.BlockSide / 2f - 2f;
+            FindObjectOfType<PuppetMaster>().enabled = false; //mode = PuppetMaster.Mode.Disabled;
+                _player.transform.position = newPos;
+            FindObjectOfType<PuppetMaster>().enabled = true; //.mode = PuppetMaster.Mode.Kinematic;
+            _player.transform.root.position = newPos;
+
+
             //Heal player
+            gameState = GameState.Run;
             HealFull();
             _player.Revive();
-            gameState = GameState.Run;
-            
+
             _revives++;
         }
 
@@ -261,6 +271,18 @@ namespace ParkourRunner.Scripts.Managers
         public void OnHeadLost(Transform head)
         {
             ParkourCamera.Instance.OnHeadLost(head);//todo
+        }
+
+        public void Pause()
+        {
+            gameState = GameState.Pause;
+            ParkourSlowMo.Instance.SmoothlyStopTime();
+        }
+
+        public void UnPause()
+        {
+            gameState = GameState.Run;
+            ParkourSlowMo.Instance.SmoothlyContinueTime();
         }
     }
 }

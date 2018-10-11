@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using UnityEngine;
 
 namespace ParkourRunner.Scripts.Track.Generator
@@ -7,9 +8,6 @@ namespace ParkourRunner.Scripts.Track.Generator
     [ExecuteInEditMode]
     public class Block : MonoBehaviour
     {
-        //public Building[] Buildings;
-        public int BonusesOnThisBlock = 1;
-
         public List<GenerationPoint> GenerationPoints;
 
         //Автоматически расставляем референсы в эдиторе
@@ -17,8 +15,14 @@ namespace ParkourRunner.Scripts.Track.Generator
         {
             if (!Application.isPlaying)
             {
-                  GenerationPoints = GetComponentsInChildren<GenerationPoint>().ToList();
+                 // GenerationPoints = GetComponentsInChildren<GenerationPoint>().ToList();
             }
+        }
+
+        //Если это будет лагать - удалим
+        private void Awake()
+        {
+            GenerationPoints = GetComponentsInChildren<GenerationPoint>().ToList();
         }
 
         public enum BlockType
@@ -30,29 +34,35 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         public BlockType Type;
         public Block Next;
-        //public Block Prev;
-        //public Block Left;
-        //public Block Right;
 
 
         public void Generate()
         {
             if (GenerationPoints.Count == 0) return;
-            for (int i = 0; i < BonusesOnThisBlock; i++)
+
+            var coins = GenerationPoints.FindAll(x => x is CoinPoints);
+            foreach (var c in coins)
             {
-                int randI = Random.Range(0, GenerationPoints.Count);
-                if (randI < 0) continue;
-                GenerationPoints[randI].Generate();
-                GenerationPoints.RemoveAt(randI);
+                c.Generate();
             }
 
-            /*foreach (var building in Buildings)
+            var tricks = GenerationPoints.FindAll(x => x is StandTrickGenerationPoint);
+            GenerateSingle(tricks);
+
+            var bonuses = GenerationPoints.FindAll(x => x is PickUpPoint);
+            GenerateSingle(bonuses);
+            }
+
+        private void GenerateSingle(List<GenerationPoint> tricks)
+        {
+            if (tricks.Count > 0)
             {
-                building.Generate();
-            }*/
+                int randI = Random.Range(0, tricks.Count);
+                GenerationPoints[randI].Generate();
+            }
         }
 
-       /*public void Clear()
+        /*public void Clear()
         {
             foreach (var building in Buildings)
             {

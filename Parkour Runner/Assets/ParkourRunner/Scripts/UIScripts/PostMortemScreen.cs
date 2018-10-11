@@ -35,8 +35,7 @@ public class PostMortemScreen : MonoBehaviour
     {
         _alive = false;
         ReviveScreen.SetActive(true);
-        ReviveForMoneyBtnTxt.text = _gm.ReviveCost.ToString();
-        print("Revive cost " + _gm.ReviveCost);
+        ReviveForMoneyBtnTxt.text = _gm.ReviveCost.ToString(); //TODO 0 cost bug
         if (!_adSeen && Advertisement.IsReady())
         {
             WatchAdButton.SetActive(true);
@@ -101,7 +100,7 @@ public class PostMortemScreen : MonoBehaviour
         ReviveScreen.SetActive(false);
         ResultsScreen.SetActive(true);
 
-        MetresText.text = "You run " + _gm.DistanceRun + "m";
+        MetresText.text = "You run " + (int)_gm.DistanceRun + "m";
 
         NewRecordText.SetActive(ProgressManager.IsNewRecord(_gm.DistanceRun));
 

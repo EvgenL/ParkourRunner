@@ -33,11 +33,12 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         public override void Generate()
         {
+            if (Used) return;
+
             float scaleZ = transform.localScale.z;
 
             for (float i = 0; i < scaleZ; i += DistanceBetweenCoins)
             {
-                //TODO POOL COINS?
                 var coinGo = PoolManager.Instance.Spawn(
                     CoinPrefab,
                     transform.position + new Vector3(0, CoinHeight, 0) + transform.forward * i,

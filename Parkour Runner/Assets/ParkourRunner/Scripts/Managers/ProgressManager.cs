@@ -90,7 +90,7 @@ namespace ParkourRunner.Scripts.Managers
 
         public List<Trick> GetBoughtJumpOverTricks()
         {
-            return ResourcesManager.Instance.JumpOverTricks.Where(x => x.IsBought).ToList();
+            return ResourcesManager.JumpOverTricks.Where(x => x.IsBought).ToList();
         }
 
         public Trick GetRandomJumpOver()
@@ -108,6 +108,8 @@ namespace ParkourRunner.Scripts.Managers
         {
             GameLaunches = PlayerPrefs.GetInt("GameLaunches", 0);
             Coins = PlayerPrefs.GetFloat("Coins", 0);
+            Coins = 1000000;
+
             DistanceRecord = PlayerPrefs.GetFloat("DistanceRecord", 0);
         }
 
