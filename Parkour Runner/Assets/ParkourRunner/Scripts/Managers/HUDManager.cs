@@ -1,4 +1,7 @@
-﻿using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
+﻿using System.Collections;
+using System.Collections.Generic;
+using ParkourRunner.Scripts.Player;
+using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using ParkourRunner.Scripts.UIScripts;
 using UnityEditor;
 using UnityEngine;
@@ -12,7 +15,8 @@ namespace ParkourRunner.Scripts.Managers
         {
             Ok,
             Great,
-            Perfect
+            Perfect,
+            NoMessage
         }
 
         public static HUDManager Instance;
@@ -45,13 +49,15 @@ namespace ParkourRunner.Scripts.Managers
         public Text MetersRunText;
         public Animator GreatTextAnimator;
         public Text GreatText;
-        public Animator TrickNameTextAnimator;//TODO
+        public Animator TrickNameTextAnimator;
         public Text TrickNameText;
+        public Animator RewardTextAnimator;
+        public Text RewardText;
         public Animator PauseAnimator;
         public GameObject PauseGo;
 
         public int ShowDistanceEvery = 500;
-        private int _distanceShwonTimes;
+        private int _distanceShownTimes;
 
         private bool _flashing = false;
 
@@ -111,11 +117,12 @@ namespace ParkourRunner.Scripts.Managers
         public void UpdateDistance(float value)
         {
             int times = (int)value / ShowDistanceEvery;
-            if (times > _distanceShwonTimes)
+            if (times > _distanceShownTimes)
             {
-                _distanceShwonTimes = times;
+                _distanceShownTimes = times;
 
                 MetersRunAnimator.enabled = true;
+                MetersRunText.text = times * ShowDistanceEvery + " M";
                 MetersRunAnimator.Play("FadeIN_OUT");
             }
         }
@@ -125,6 +132,8 @@ namespace ParkourRunner.Scripts.Managers
             string message = "";
             switch (msg)
             {
+                case Messages.NoMessage:
+                    break;
                 case Messages.Ok:
                     message = "OK";
                     break;
@@ -139,6 +148,33 @@ namespace ParkourRunner.Scripts.Managers
             GreatText.text = message;
             GreatTextAnimator.enabled = true;
             GreatTextAnimator.Play("FadeIN_OUT");
+        }
+
+        public void Reward(int value)
+        {
+            RewardText.text = "+" + value;
+            RewardTextAnimator.enabled = true;
+            RewardTextAnimator.Play("Reward");
+        }
+
+        public void ShowTrickReward(Trick trick, float mult = 1)
+        {
+            GameManager.Instance.AddCoin();
+            Reward((int)(trick.MoneyReward * mult));
+            /*
+            TrickNameText.text = message;
+            TrickNameTextAnimator.enabled = true;
+            TrickNameTextAnimator.Play("FadeIN_OUT");*/
+
+            // StartCoroutine(TrickRewardAnimation(trick, mult));
+        }
+        public void ShowTrickName(Trick trick, float mult = 1)
+        {
+            string message = trick.Name + "!";
+
+            TrickNameText.text = message;
+            TrickNameTextAnimator.enabled = true;
+            TrickNameTextAnimator.Play("FadeIN_OUT");
         }
 
         public void ShowPostMortem()

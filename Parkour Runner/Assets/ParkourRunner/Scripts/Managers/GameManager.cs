@@ -51,6 +51,7 @@ namespace ParkourRunner.Scripts.Managers
 
         public int CoinsThisRun { get; private set; }
         public int CoinMultipiler = 1;
+        public float TrickMultipiler = 1;
 
         public float GameSpeed = 1f;
 
@@ -214,6 +215,12 @@ namespace ParkourRunner.Scripts.Managers
                 }
             }
             return false;
+        }
+
+        public void DoTrick(Trick trick)
+        {
+            AddCoin((int)(trick.MoneyReward * CoinMultipiler * TrickMultipiler));
+            HUDManager.Instance.ShowTrickReward(trick, TrickMultipiler * CoinMultipiler);
         }
 
         public void AddCoin(int amount = 1)

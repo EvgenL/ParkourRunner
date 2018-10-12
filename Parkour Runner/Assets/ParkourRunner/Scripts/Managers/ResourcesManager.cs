@@ -21,6 +21,7 @@ namespace ParkourRunner.Scripts.Managers
         public static List<Trick> RollTricks;
         public static List<Trick> JumpOverTricks;
         public static List<Trick> StandTricks;
+        public static List<Trick> SlideTricks;
 
         public List<GameObject> PickUps;
 
@@ -47,22 +48,14 @@ namespace ParkourRunner.Scripts.Managers
 
         public void LoadResources()
         {
-            BlockPrefabs = _res.BlockPrefabs;
+            BlockPrefabs = _res.BlockPrefabs.FindAll(x => x.activeSelf);
+            
             ObstaclesSmallPrefabs = _res.ObstaclesSmallPrefabs;
             RollTricks = _res.RollTricks;
             JumpOverTricks = _res.JumpOverTricks;
             StandTricks = _res.StandTricks;
+            SlideTricks = _res.SlideTricks;
         }
-        /*//TODO asynch
-        public void LoadResources()
-        {
-            BlockPrefabs = Resources.LoadAll<GameObject>(BlockPrefabsPath + "/").ToList();
-            ObstaclesSmallPrefabs = Resources.LoadAll<GameObject>(ObstaclePrefabsPath + "/Small/").ToList();
-            RollTricks = Resources.LoadAll<Trick>(TricksPath + "/Roll/").ToList();
-            StandTricks = Resources.LoadAll<Trick>(TricksPath + "/Stand/").ToList();
-            JumpOverTricks = Resources.LoadAll<Trick>(TricksPath + "/JumpOver/").ToList();
-            PickUps = Resources.LoadAll<GameObject>(PickUpPath + "/").ToList();
-        }*/
-
+        
     }
 }

@@ -41,6 +41,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         public float SpeedMult = 1f;
 
+        public float HouseWallDelay = 4f;
+
         [HideInInspector] public Vector3 TrolleyOffset;
         [HideInInspector] public Vector3 WallOffset;
         [HideInInspector] public Vector3 HookOffset;
@@ -50,6 +52,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         private float _oldSpeed;
 
         private bool _airSpeedFreeze = false;
+
+
 
         //Чисто по приколу сделал чтоб он держался за IK пока едет на тарзанке
         [HideInInspector] public AvatarIKGoal TrolleyHand;
@@ -102,9 +106,42 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             ControllStates();
             ControllSpeed();
 
+            ControllStopMove();
+
             if (isGrounded && !isJumping)
             {
                 CameraEffects.Instance.IsHighJumping = false;
+            }
+        }
+
+        
+        private void ControllStopMove()
+        {
+            if (stopMove)
+            {
+                StartCoroutine(StopMoveTimer());
+            }
+        }
+
+        bool stopped;
+        private IEnumerator StopMoveTimer()
+        {
+            if (stopped)
+            {
+                yield break;
+            }
+
+            float timer = 0;
+            while (stopMove)
+            {
+                timer += Time.deltaTime;
+                yield return null;
+                if (timer >= HouseWallDelay)
+                {
+                    Die();
+                    _gm.Revive();
+                    yield break;
+                }
             }
         }
 
@@ -194,7 +231,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
             if (!rollConditions || isRolling) return;
 
-            string randomRoll = RandomTricks.GetRandomRoll();//я добавил
+            string randomRoll = RandomTricks.GetRoll();
             animator.CrossFadeInFixedTime(randomRoll, 0.1f);
             _capsuleCollider.isTrigger = false;
 

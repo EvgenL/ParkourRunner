@@ -15,6 +15,7 @@ namespace Assets.ParkourRunner.Scripts.Track.Generator
 
         public  List<Trick> RollTricks;
         public  List<Trick> JumpOverTricks;
-        public  List<Trick> StandTricks;
+        public List<Trick> StandTricks;
+        public List<Trick> SlideTricks;
     }
 }

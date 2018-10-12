@@ -90,7 +90,7 @@ namespace ParkourRunner.Scripts.Managers
 
         public List<Trick> GetBoughtJumpOverTricks()
         {
-            return ResourcesManager.JumpOverTricks.Where(x => x.IsBought).ToList();
+            return ResourcesManager.JumpOverTricks.FindAll(x => x.IsBought);
         }
 
         public Trick GetRandomJumpOver()
@@ -102,6 +102,31 @@ namespace ParkourRunner.Scripts.Managers
             return tricks[randomIndex];
         }
 
+        public Trick GetRandomStand()
+        {
+            var tricks = ResourcesManager.StandTricks.FindAll(x => x.IsBought);
+            int randomIndex = UnityEngine.Random.Range(0, tricks.Count);
+            if (randomIndex < 0) return null;
+
+            return tricks[randomIndex];
+        }
+        public Trick GetRandomRoll()
+        {
+            var tricks = ResourcesManager.RollTricks.FindAll(x => x.IsBought);
+            int randomIndex = UnityEngine.Random.Range(0, tricks.Count);
+            if (randomIndex < 0) return null;
+
+            return tricks[randomIndex];
+        }
+        public Trick GetRandomSlide()
+        {
+            var tricks = ResourcesManager.SlideTricks.FindAll(x => x.IsBought);
+
+            int randomIndex = UnityEngine.Random.Range(0, tricks.Count);
+            if (randomIndex < 0) return null;
+
+            return tricks[randomIndex];
+        }
 
 
         public static void LoadSettings()

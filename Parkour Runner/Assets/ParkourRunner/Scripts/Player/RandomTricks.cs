@@ -8,23 +8,35 @@ namespace ParkourRunner.Scripts.Player
 {
     public static class RandomTricks
     {
-
+        public static string GetRoll()
+        {
+            var trick = ProgressManager.Instance.GetRandomRoll();
+            return trick.AnimationName;
+        }
         public static string GetTrick(string playAnimation)
         {
-            int randomIndex;
+            HUDManager hm = HUDManager.Instance;
+            GameManager gm = GameManager.Instance;
+
+            Trick trick;
             switch (playAnimation)
             {
                 //TODO зависимость от открытых трюков
                 case ("Roll"):
-                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.Roll)).Length);
-                    return ((TrickNames.Roll)randomIndex).ToString(); //Получаем случайную строку из енума
+                    trick = ProgressManager.Instance.GetRandomRoll();
+                    gm.DoTrick(trick);
+                    return trick.AnimationName;
 
                 case ("Slide"):
-                    randomIndex = UnityEngine.Random.Range(0, Enum.GetValues(typeof(TrickNames.Slide)).Length);
-                    return ((TrickNames.Slide)randomIndex).ToString(); 
+                    trick = ProgressManager.Instance.GetRandomSlide();
+                    gm.DoTrick(trick);
+                    return trick.AnimationName;
 
                 case ("JumpOverFar"):
-                    return ProgressManager.Instance.GetRandomJumpOver().AnimationName;
+
+                    trick = ProgressManager.Instance.GetRandomJumpOver();
+                    gm.DoTrick(trick);
+                    return trick.AnimationName;
 
                 case ("JumpOverClose"):
                     return "JumpOver";
@@ -33,15 +45,10 @@ namespace ParkourRunner.Scripts.Player
 
                     //TODO proc reward
                     HUDManager.Instance.Flash();
-                    List<Trick> stands = ResourcesManager.StandTricks.FindAll(x => x.IsBought);
-                    randomIndex = UnityEngine.Random.Range(0, stands.Count);
-                    Debug.Log("RI = " + randomIndex + ". name = " + stands[randomIndex].Name);
-                    Trick randomTrick = stands[randomIndex];
-                    Debug.Log("Stand: " + randomTrick.Name + ". Reward: " + randomTrick.MoneyReward);
-                    GameManager.Instance.AddCoin(randomTrick.MoneyReward);
-                    return randomTrick.AnimationName;
-
-
+                    trick = ProgressManager.Instance.GetRandomStand();
+                    gm.DoTrick(trick);
+                    HUDManager.Instance.ShowTrickName(trick, gm.TrickMultipiler * gm.CoinMultipiler);
+                    return trick.AnimationName;
 
                 default:
                     return playAnimation; //Для actions, которые не могут быть рандомными
@@ -49,11 +56,6 @@ namespace ParkourRunner.Scripts.Player
 
             //TODO Зависисость от открытых трюков
             
-        }
-
-        public static string GetRandomRoll()
-        {
-            return GetTrick("Roll");
         }
     }
 

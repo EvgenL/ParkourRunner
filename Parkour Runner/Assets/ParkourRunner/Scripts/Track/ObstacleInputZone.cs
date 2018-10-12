@@ -64,11 +64,11 @@ namespace ParkourRunner.Scripts.Track
             _input.EnterInputZone(this);
 
             //Если игрок "влетел" в зону
-            if (c.cc.isJumping)
+            if (c.cc.isJumping && ReadJumpInput)
             {
                 OnPalyerJump();
             }
-            else if (c.cc.isRolling)
+            else if (c.cc.isRolling && ReadRollInput)
             {
                 OnPalyerRoll();
             }
@@ -93,6 +93,7 @@ namespace ParkourRunner.Scripts.Track
             //Когда зона получает инпут от игрока, на экране появляется вспышка
             if (mode && _isReady != mode)
             {
+                CheckScore(RollTriggers[0]);
                 HUDManager.Instance.Flash();
             }
             _isReady = mode;
@@ -108,6 +109,7 @@ namespace ParkourRunner.Scripts.Track
             //Когда зона получает инпут от игрока, на экране появляется вспышка
             if (mode && _isReady != mode)
             {
+                CheckScore(FarJumpTrigger());
                 HUDManager.Instance.Flash();
             }
             _isReady = mode;
@@ -116,6 +118,70 @@ namespace ParkourRunner.Scripts.Track
             {
                 trig.autoAction = mode;
             }
+        }
+
+        private void CheckScore(vTriggerGenericAction trigger)
+        {
+            HUDManager.Messages msg;
+            var hm =  HUDManager.Instance;
+            var gm =  GameManager.Instance;
+            if (_input == null) _input = FindObjectOfType<ParkourThirdPersonInput>();
+            if (_input.cc.isJumping || _input.cc.isRolling)
+            {
+                print("entered rolling (jumping)");
+                msg = HUDManager.Messages.NoMessage;
+                hm.ShowGreatMessage(msg);
+                return;
+            }
+
+            //Находим позицию игрока на оси z относительно препятствия
+            var triggerPos = trigger.transform.position;
+
+            var playerX0pos = _input.transform.position;
+            playerX0pos.x = triggerPos.x;
+            playerX0pos.y = triggerPos.y;
+
+            //Выясняем, не пробежал ли игрок уже мимо триггера
+            if (playerX0pos.z + 0.5f > triggerPos.z)
+            {
+                print("passed");
+                msg = HUDManager.Messages.Ok;
+                hm.ShowGreatMessage(msg);
+                gm.TrickMultipiler = 1f;
+                return;
+            }
+
+            //Если игрок нажал вовремя = проверяем тайминг для награды
+            float dist = Vector3.Distance(playerX0pos, triggerPos);
+            if (dist < 1.5f)
+            {
+                print("dist < 1f");
+                msg = HUDManager.Messages.Perfect;
+                gm.TrickMultipiler = 2.5f;
+            }
+            else if (dist < 2.5f)
+            {
+                print("dist < 2.5f");
+                gm.TrickMultipiler = 1.5f;
+                msg = HUDManager.Messages.Great;
+            }
+            else
+            {
+                print("dist > 2.5f");
+                gm.TrickMultipiler = 1f;
+                msg = HUDManager.Messages.Ok;
+            }
+            hm.ShowGreatMessage(msg);
+        }
+
+        private vTriggerGenericAction FarJumpTrigger()
+        {
+            vTriggerGenericAction farTrigger = JumpTriggers.Find(x => x.transform.name.Contains("Far"));
+            if (farTrigger == null)
+            {
+                farTrigger = JumpTriggers[0];
+            }
+            return farTrigger;
         }
 
         public void OnTriggerUsed()
