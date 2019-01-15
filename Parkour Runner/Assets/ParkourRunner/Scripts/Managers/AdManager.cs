@@ -37,7 +37,14 @@ public class AdManager : MonoBehaviour {
         this._skipCllback = skipCllback;
         if (Advertisement.IsReady())
         {
-            Advertisement.Show("", new ShowOptions(){resultCallback = HandleAdResult });
+            if (PlayerPrefs.GetInt("NoAds") == 1)
+            {
+                HandleAdResult(ShowResult.Finished);
+            }
+            else
+            {
+                Advertisement.Show("", new ShowOptions() { resultCallback = HandleAdResult });
+            }
         }
     }
 
