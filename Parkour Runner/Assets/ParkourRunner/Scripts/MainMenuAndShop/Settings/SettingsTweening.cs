@@ -1,0 +1,132 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
+public class SettingsTweening : MonoBehaviour
+{
+    [SerializeField] private float distance;
+    [SerializeField] private float _duration;
+    [SerializeField] private float _feelAmountDuration;
+
+    [SerializeField] private Sprite[] _baseBtnImgs;
+
+    [SerializeField] private GameObject _baseBtn;
+    [SerializeField] private GameObject _AGBtn;
+    [SerializeField] private GameObject _likeBtn;
+    [SerializeField] private GameObject _soundBtn;
+    [SerializeField] private GameObject _musicBtn;
+    [SerializeField] private GameObject _controll;
+    [SerializeField] private Ease _ease;
+
+    public bool IsOpend { get; private set; }
+    public bool IsInProcess { get; private set; }
+    private void Start()
+    {
+        _baseBtn.GetComponent<Button>().onClick.AddListener(() => OpenSettings());
+    }
+
+
+    private void OpenSettings()
+    {
+        _baseBtn.GetComponent<Button>().onClick.RemoveAllListeners();
+        RemoveListenersOfSettings();
+        OpenNext(_AGBtn, _baseBtn);
+    }
+    public void CloseSettings()
+    {
+        _baseBtn.GetComponent<Button>().onClick.RemoveAllListeners();
+        RemoveListenersOfSettings();
+        ClosePrevious(_musicBtn, _soundBtn);
+    }
+
+    private void OpenNext(GameObject current,GameObject baseObj)
+    {
+        IsInProcess = true;
+        current.SetActive(true);
+        current.transform.SetParent( baseObj.transform.parent);
+        var secuance = DOTween.Sequence();
+        secuance.Append(
+        current.GetComponent<RectTransform>()
+            .DOAnchorPos
+            (
+            new Vector2(baseObj.GetComponent<RectTransform>().anchoredPosition.x - baseObj.GetComponent<RectTransform>().rect.width - distance
+            , baseObj.GetComponent<RectTransform>().anchoredPosition.y), _duration).SetEase(_ease)
+            );
+        secuance.Insert(0.1f * _duration, current.GetComponent<Image>().DOFillAmount(1, _feelAmountDuration));
+        secuance.OnComplete(() =>
+        {
+            if (current.transform.childCount == 0)
+            {
+                var controllsecuance = DOTween.Sequence();
+                controllsecuance.Append(_controll.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-533.7f, 0), 0.2f));
+                controllsecuance.OnComplete(() =>
+                {
+                    _baseBtn.GetComponent<Image>().sprite = _baseBtnImgs[1];
+                    _baseBtn.GetComponent<Button>().onClick.AddListener(() => CloseSettings());
+                    AddListenersForSettings();
+                    IsOpend = true;
+                    IsInProcess = false;
+                    return;
+                });
+               
+            }
+            OpenNext(current.transform.GetChild(0).gameObject, current);
+        });
+    }
+
+   
+
+    private void ClosePrevious(GameObject current , GameObject baseObj)
+    {
+        IsInProcess = true;
+         current.transform.SetParent ( baseObj.transform);
+        var secuance = DOTween.Sequence();
+
+        secuance.Append(
+       current.GetComponent<RectTransform>()
+           .DOAnchorPos
+           (
+           new Vector2(0, 0), _duration).SetEase(_ease)
+            );
+        secuance.Insert(0.1f * _duration,current.GetComponent<Image>().DOFillAmount(0, _feelAmountDuration));
+        secuance.OnComplete(() =>
+        {
+
+           
+            current.SetActive(false);
+            if (baseObj == _baseBtn)
+            {
+                var controllsecuance = DOTween.Sequence();
+                controllsecuance.Append(_controll.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-1571f, 0), 0.2f));
+                controllsecuance.OnComplete(() =>
+                {
+                    _baseBtn.GetComponent<Image>().sprite = _baseBtnImgs[0];
+                    _baseBtn.GetComponent<Button>().onClick.AddListener(() => OpenSettings());
+                    IsOpend = false;
+                    IsInProcess = false;
+                    return;
+                });
+
+               
+            }
+            ClosePrevious(baseObj, _baseBtn.transform.parent.transform.GetChild(baseObj.transform.GetSiblingIndex()-1).gameObject);
+        });
+    }
+    private void AddListenersForSettings()
+    {
+        _AGBtn.GetComponent<Button>().onClick.AddListener(() => _AGBtn.GetComponent<SettingsBase>().OnClick());
+        _likeBtn.GetComponent<Button>().onClick.AddListener(() => _likeBtn.GetComponent<SettingsBase>().OnClick());
+        _soundBtn.GetComponent<Button>().onClick.AddListener(() => _soundBtn.GetComponent<SettingsBase>().OnClick());
+        _musicBtn.GetComponent<Button>().onClick.AddListener(() =>_musicBtn.GetComponent<SettingsBase>().OnClick());
+
+    }
+    private void RemoveListenersOfSettings()
+    {
+        _AGBtn.GetComponent<Button>().onClick.RemoveAllListeners();
+        _likeBtn.GetComponent<Button>().onClick.RemoveAllListeners();
+        _soundBtn.GetComponent<Button>().onClick.RemoveAllListeners();
+        _musicBtn.GetComponent<Button>().onClick.RemoveAllListeners();
+    }
+
+}

@@ -27,8 +27,11 @@ public class SceneLoadManager : MonoBehaviour {
 
 
     public void LoadScene(string sceneName)
-    {
+    { 
+
         SceneManager.LoadScene(sceneName);
     }
+  
+     
     //TODO asynch and loading screen
 }
