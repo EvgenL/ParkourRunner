@@ -283,10 +283,10 @@ namespace AEngine
 				return;
 
 			if (saveAdditionalToResources) {
-				if (!Directory.Exists ("Assets/Resources/" + BaseEngineConstants.AudioConfigurationPath))
-					Directory.CreateDirectory ("Assets/Resources/" + BaseEngineConstants.AudioConfigurationPath);
+				if (!Directory.Exists ("Assets/Resources/" + BaseEngineConstants.AudioResConfigurationPath))
+					Directory.CreateDirectory ("Assets/Resources/" + BaseEngineConstants.AudioResConfigurationPath);
 								
-				XmlDataParser.SaveXmlDocumentToResources (xmlDocument, BaseEngineConstants.AudioConfigurationPath, BaseEngineConstants.AudioConfigurationShortFileName);
+				XmlDataParser.SaveXmlDocumentToResources (xmlDocument, BaseEngineConstants.AudioResConfigurationPath, BaseEngineConstants.AudioConfigurationShortFileName);
 			}
 
 			XmlDataParser.SaveXmlDocumentToProject (xmlDocument, BaseEngineConstants.AudioConfigurationPath, BaseEngineConstants.AudioConfigurationShortFileName);

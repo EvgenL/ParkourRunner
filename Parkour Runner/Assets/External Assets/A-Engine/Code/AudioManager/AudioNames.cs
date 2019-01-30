@@ -4,7 +4,8 @@ namespace AEngine
 {
 	public enum EAudioBlock
 	{
-		Main
+		Menu,
+		Game
 	}
 
 	public enum ESound
@@ -14,6 +15,8 @@ namespace AEngine
 
 	public enum EMusic
 	{
+		MenuMusic1,
+		MenuMusic2,
 		GameMusic1
 	}
 }

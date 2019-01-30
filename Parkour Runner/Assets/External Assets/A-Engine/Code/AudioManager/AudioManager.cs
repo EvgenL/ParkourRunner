@@ -372,7 +372,7 @@ namespace AEngine
 			bool needSave = false;
 
 			if (!XmlDataParser.ExistsXmlFile (BaseEngineConstants.BaseSettingsPath, BaseEngineConstants.AudioSettingsShortFileName)) {
-				if (!XmlDataParser.ExistsInResourcesXmlFile (BaseEngineConstants.AudioResConfigurationPath, BaseEngineConstants.AudioConfigurationShortFileName)) {
+                if (!XmlDataParser.ExistsInResourcesXmlFile (BaseEngineConstants.AudioResConfigurationPath, BaseEngineConstants.AudioConfigurationShortFileName)) {
 					SaveAudioSettings ();
 					xmlDocument = XmlDataParser.LoadXmlDocumentFromFile (BaseEngineConstants.BaseSettingsPath, BaseEngineConstants.AudioSettingsShortFileName);
 				} else {
@@ -380,8 +380,8 @@ namespace AEngine
 					needSave = true;
 				}
 			} else {
-				xmlDocument = XmlDataParser.LoadXmlDocumentFromFile (BaseEngineConstants.BaseSettingsPath, BaseEngineConstants.AudioSettingsShortFileName);
-			}
+                xmlDocument = XmlDataParser.LoadXmlDocumentFromFile (BaseEngineConstants.BaseSettingsPath, BaseEngineConstants.AudioSettingsShortFileName);
+            }
 
 			if (!XmlDataParser.IsAnyTagExist (xmlDocument, "AudioData")) {
 				Debug.Log ("AudioData not founded"); 
@@ -393,9 +393,10 @@ namespace AEngine
 				Debug.Log ("AudioSettings  not founded"); 
 				return;
 			}
-			XmlNode audioNode = XmlDataParser.FindUniqueTagInChild (rootNode, "AudioSettings");
-
-			isMusic = bool.Parse (audioNode.Attributes ["useMusic"].Value);
+            
+            XmlNode audioNode = XmlDataParser.FindUniqueTagInChild (rootNode, "AudioSettings");
+            
+            isMusic = bool.Parse (audioNode.Attributes ["useMusic"].Value);
 			musicVolumme = float.Parse (audioNode.Attributes ["musicVolume"].Value);
 			isSound = bool.Parse (audioNode.Attributes ["useSound"].Value);
 			soundVolumme = float.Parse (audioNode.Attributes ["soundVolume"].Value);
@@ -425,14 +426,15 @@ namespace AEngine
 			maxSoundSourceCount = 3;
 			fadeTime = 0;
 			fadeOn = false;
-
+            
 			if (!XmlDataParser.ExistsInResourcesXmlFile (BaseEngineConstants.AudioResConfigurationPath, BaseEngineConstants.AudioConfigurationShortFileName))
 				return;
-
-			XmlDocument xmlDocument = XmlDataParser.LoadXmlDocumentFromResources (BaseEngineConstants.AudioResConfigurationPath, BaseEngineConstants.AudioConfigurationShortFileName);
-			XmlNode rootNode = XmlDataParser.FindUniqueTag (xmlDocument, "AudioData");
-
-			if (!XmlDataParser.IsAnyTagInChildExist (rootNode, "AudioConfiguration"))
+            
+            XmlDocument xmlDocument = XmlDataParser.LoadXmlDocumentFromResources (BaseEngineConstants.AudioResConfigurationPath, BaseEngineConstants.AudioConfigurationShortFileName);
+            
+            XmlNode rootNode = XmlDataParser.FindUniqueTag (xmlDocument, "AudioData");
+            
+            if (!XmlDataParser.IsAnyTagInChildExist (rootNode, "AudioConfiguration"))
 				return;
 
 			XmlNode configNode = XmlDataParser.FindUniqueTagInChild (rootNode, "AudioConfiguration");
