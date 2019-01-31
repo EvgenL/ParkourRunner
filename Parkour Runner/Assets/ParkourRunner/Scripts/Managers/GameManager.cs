@@ -175,6 +175,8 @@ namespace ParkourRunner.Scripts.Managers
                 gameState = GameState.Dead;
                 _player.Die();
                 Invoke("ShowPostMortem", 4f);
+
+                _audio.PlaySound(Sounds.GameOver);
             }
         }
 

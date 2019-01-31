@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using Basic_Locomotion.Scripts.CharacterController;
-using Basic_Locomotion.Scripts.CharacterController.Actions;
 using ParkourRunner.Scripts.Managers;
 using RootMotion.Dynamics;
 using UnityEngine;
+using AEngine;
 
 namespace ParkourRunner.Scripts.Player.InvectorMods
 {
@@ -236,6 +236,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             _capsuleCollider.isTrigger = false;
 
             ParkourCamera.Instance.OnRoll();
+
+            AudioManager.Instance.PlaySound(Sounds.Rift);
         }
 
         public override void Jump()
@@ -264,6 +266,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             currentStaminaRecoveryDelay = 1f;
 
             ParkourCamera.Instance.OnJump(0.01f);
+
+            AudioManager.Instance.PlaySound(Sounds.Jump);
         }
 
         public void Die()
@@ -288,6 +292,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             ParkourCamera.Instance.OnJump(0.001f);
 
             StartCoroutine(FreezeInAir(speed, height));
+
+            AudioManager.Instance.PlaySound(Sounds.Jump);
         }
 
         //Это нужно чтобы на прыжке с батута всегда была постоянная скорость

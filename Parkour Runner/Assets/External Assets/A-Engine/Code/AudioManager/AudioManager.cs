@@ -74,6 +74,7 @@ namespace AEngine
         protected override void Init()
         {
             base.Init();
+            DontDestroyOnLoad(this);
 
             LoadAudioSettings();
             LoadAudioConfiguration();

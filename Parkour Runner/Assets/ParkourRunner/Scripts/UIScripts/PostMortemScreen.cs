@@ -1,9 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using ParkourRunner.Scripts.Managers;
 using UnityEngine;
 using UnityEngine.Advertisements;
 using UnityEngine.UI;
+using AEngine;
 
 public class PostMortemScreen : MonoBehaviour
 {
@@ -26,9 +26,12 @@ public class PostMortemScreen : MonoBehaviour
     private bool _adSeen; //Игрок уже смотрел рекламу?
     private bool _stopTimer = false;
 
+    private AudioManager _audio;
+
     private void Start()
     {
         _gm = GameManager.Instance;
+        _audio = AudioManager.Instance;
     }
 
     public void Show()
@@ -45,12 +48,15 @@ public class PostMortemScreen : MonoBehaviour
             WatchAdButton.SetActive(false);
         }
 
+        _audio.PlaySound(Sounds.Result);
+
         StartCoroutine(CountTimer());
     }
 
     public void WatchAd()
     {
         _stopTimer = true;
+        _audio.PlaySound(Sounds.Tap);
         AdManager.Instance.ShowVideo(AdFinishedCallback, AdSkippedCallback);
     }
 
@@ -100,6 +106,8 @@ public class PostMortemScreen : MonoBehaviour
         ReviveScreen.SetActive(false);
         ResultsScreen.SetActive(true);
 
+        _audio.PlaySound(Sounds.ResultFull);
+
         MetresText.text = "You run " + (int)_gm.DistanceRun + "m";
 
         NewRecordText.SetActive(ProgressManager.IsNewRecord(_gm.DistanceRun));
@@ -113,6 +121,7 @@ public class PostMortemScreen : MonoBehaviour
         if (ProgressManager.SpendCoins(_gm.ReviveCost)) 
         {
             Revive();
+            _audio.PlaySound(Sounds.Tap);
         }
         else //Если нам не хватило денег
         {

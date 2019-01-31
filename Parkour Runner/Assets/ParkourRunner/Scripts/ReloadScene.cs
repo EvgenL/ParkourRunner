@@ -15,6 +15,6 @@ public class ReloadScene : MonoBehaviour
         }
 
         ParkourSlowMo.Instance.UnSlow();
-        SceneManager.LoadScene(index);
+        SceneManager.LoadScene(index);        
     }
 }

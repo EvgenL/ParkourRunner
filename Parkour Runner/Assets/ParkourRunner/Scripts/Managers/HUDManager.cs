@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using ParkourRunner.Scripts.Player;
+﻿using ParkourRunner.Scripts.Player;
 using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using ParkourRunner.Scripts.UIScripts;
 using AEngine;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -207,6 +204,7 @@ namespace ParkourRunner.Scripts.Managers
             GameManager.Instance.Pause();
 
             _audio.PlaySound(Sounds.Tap);
+            _audio.PlaySound(Sounds.WinSimple);
         }
 
         public void HidePause()

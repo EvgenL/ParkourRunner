@@ -1,6 +1,6 @@
 <AudioData>
   <AudioSettings useMusic="False" musicVolume="1" useSound="True" soundVolume="1" />
-  <AudioConfiguration SoundSourceCount="3" fade="1.5" fadeOn="True" />
+  <AudioConfiguration SoundSourceCount="4" fade="1.5" fadeOn="False" />
   <AudioBlock Name="Menu">
     <Music MusicNotReplyLength="1">
       <Track Name="MenuMusic1" Path="AudioResources/Musics/MenuMusic1" Volume="1" />
@@ -8,6 +8,8 @@
     </Music>
     <Sound>
       <Track Name="Tap" Path="AudioResources/Sounds/Tap" Volume="1" />
+      <Track Name="WinSimple" Path="AudioResources/Sounds/WinSimple" Volume="1" />
+      <Track Name="ResultFull" Path="AudioResources/Sounds/ResultFull" Volume="1" />
     </Sound>
   </AudioBlock>
   <AudioBlock Name="Game">
@@ -17,6 +19,12 @@
     <Sound>
       <Track Name="Tap" Path="AudioResources/Sounds/Tap" Volume="1" />
       <Track Name="Coin" Path="AudioResources/Sounds/Coin" Volume="1" />
+      <Track Name="WinSimple" Path="AudioResources/Sounds/WinSimple" Volume="1" />
+      <Track Name="GameOver" Path="AudioResources/Sounds/GameOver" Volume="1" />
+      <Track Name="Result" Path="AudioResources/Sounds/Result" Volume="1" />
+      <Track Name="Jump" Path="AudioResources/Sounds/Jump" Volume="1" />
+      <Track Name="Rift" Path="AudioResources/Sounds/Rift" Volume="1" />
+      <Track Name="Bonus" Path="AudioResources/Sounds/Bonus" Volume="1" />
     </Sound>
   </AudioBlock>
 </AudioData>

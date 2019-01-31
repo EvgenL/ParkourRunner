@@ -1,5 +1,5 @@
 ﻿using ParkourRunner.Scripts.Managers;
-using UnityEngine;
+using AEngine;
 
 namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 {
@@ -11,7 +11,7 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
         {
             GameManager.Instance.AddBonus(BonusName);
             PoolManager.Instance.Remove(gameObject);
-            //Destroy(gameObject);
+            AudioManager.Instance.PlaySound(Sounds.Bonus);
         }
     }
 }
