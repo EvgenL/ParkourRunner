@@ -93,7 +93,7 @@ namespace ParkourRunner.Scripts.Managers
             
             StartGame();
 
-            _audio.LoadAudioBlock(EAudioBlock.Game);
+            _audio.LoadAudioBlock(AudioBlocks.Game);
             _audio.PlayMusic();
         }
 
@@ -182,7 +182,7 @@ namespace ParkourRunner.Scripts.Managers
         {
             _hud.ShowPostMortem();
 
-            _audio.LoadAudioBlock(EAudioBlock.Menu);
+            _audio.LoadAudioBlock(AudioBlocks.Menu);
             _audio.PlayMusic();
         }
 
@@ -204,7 +204,7 @@ namespace ParkourRunner.Scripts.Managers
 
             _revives++;
 
-            _audio.LoadAudioBlock(EAudioBlock.Game);
+            _audio.LoadAudioBlock(AudioBlocks.Game);
             _audio.PlayMusic();
         }
 
@@ -240,6 +240,8 @@ namespace ParkourRunner.Scripts.Managers
             ProgressManager.AddCoin(add);
 
             _hud.SetCoins(CoinsThisRun);
+
+            _audio.PlaySound(Sounds.Coin);
         }
 
         public void AddBonus(BonusName bonusName)

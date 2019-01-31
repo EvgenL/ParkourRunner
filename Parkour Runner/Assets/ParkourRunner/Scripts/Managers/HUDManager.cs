@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ParkourRunner.Scripts.Player;
 using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using ParkourRunner.Scripts.UIScripts;
+using AEngine;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,6 +34,8 @@ namespace ParkourRunner.Scripts.Managers
             {
                 Destroy(this);
             }
+
+            _audio = AudioManager.Instance;
         }
 
         #endregion
@@ -60,6 +63,8 @@ namespace ParkourRunner.Scripts.Managers
         private int _distanceShownTimes;
 
         private bool _flashing = false;
+
+        private AudioManager _audio;
 
         void Start()
         {
@@ -200,12 +205,16 @@ namespace ParkourRunner.Scripts.Managers
             PauseAnimator.enabled = true;
             PauseAnimator.SetBool("IsDisplayed", true);
             GameManager.Instance.Pause();
+
+            _audio.PlaySound(Sounds.Tap);
         }
 
         public void HidePause()
         {
             GameManager.Instance.UnPause();
             PauseAnimator.SetBool("IsDisplayed", false);
+
+            _audio.PlaySound(Sounds.Tap);
         }
     }
 }

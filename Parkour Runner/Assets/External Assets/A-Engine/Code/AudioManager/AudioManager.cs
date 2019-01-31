@@ -87,24 +87,7 @@ namespace AEngine
             musicTrackVolume = 0;
             state = AudioState.Default;
         }
-
-        /*
-        void Awake()
-        {
-			LoadAudioSettings ();
-			LoadAudioConfiguration ();
-
-            musicSource = AddAudioSource ();
-            soundSource = new List<AudioSource>();
-			soundSource.Add (AddAudioSource ());
-			            
-			audioBlock = new AudioBlock ();
-			delay = 0;
-			musicTrackVolume = 0;
-			state = AudioState.Default;
-        }
-        */
-
+        
 		private AudioSource AddAudioSource ()
 		{
 			AudioSource source = gameObject.AddComponent<AudioSource> ();
@@ -136,7 +119,7 @@ namespace AEngine
 			return true;
         }
 
-		public bool LoadAudioBlock(EAudioBlock block)
+		public bool LoadAudioBlock(AudioBlocks block)
 		{
 			return LoadAudioBlock(block.ToString());
 		}
@@ -166,7 +149,7 @@ namespace AEngine
 			delay = audioBlock.music.delay;
 		}
 
-		public void PlayMusic (EMusic musicTrack)
+		public void PlayMusic (Musics musicTrack)
 		{
 			PlayMusic(musicTrack.ToString());
 		}
@@ -181,7 +164,7 @@ namespace AEngine
 			return false;
 		}
 
-		public bool IsPlayingSound (ESound soundTrack)
+		public bool IsPlayingSound (Sounds soundTrack)
 		{
 			return IsPlayingSound(soundTrack.ToString());
 		}
@@ -196,7 +179,7 @@ namespace AEngine
 			}
 		}
 
-		public void PlayUniqueSound (params ESound[] soundTracks)
+		public void PlayUniqueSound (params Sounds[] soundTracks)
 		{
 			for (int i = 0; i < soundTracks.Length; i++) {
 				if (!IsPlayingSound (soundTracks[i])) {
@@ -212,7 +195,7 @@ namespace AEngine
 			PlaySound (soundNames[index]);
 		}
 
-		public void PlayRandomSound (params ESound[] soundTracks)
+		public void PlayRandomSound (params Sounds[] soundTracks)
 		{
 			int index = Random.Range (0, soundTracks.Length);
 			PlaySound (soundTracks[index]);
@@ -244,7 +227,7 @@ namespace AEngine
 			audioBlock.PlaySoundTrack (soundSource [index], soundName, soundVolumme);
 		}
 
-		public void PlaySound (ESound soundTrack, bool dontPlayIfSameIsPlaying = false)
+		public void PlaySound (Sounds soundTrack, bool dontPlayIfSameIsPlaying = false)
 		{
 			PlaySound(soundTrack.ToString(), dontPlayIfSameIsPlaying);
 		}
@@ -262,12 +245,12 @@ namespace AEngine
 			}
 		}
 
-		public void StorSound(ESound soundTrack)
+		public void StopSound(Sounds soundTrack)
 		{
 			StopSound(soundTrack.ToString());
 		}
 
-		void Update ()
+        void Update ()
 		{
 			if (musicSource.isPlaying) {
 				if (!isMusic) {
@@ -314,8 +297,8 @@ namespace AEngine
 					state = AudioState.Default;
 				return;
 			}
-			
-			delay -= ATime.realDeltaTime;
+
+            delay -= Time.unscaledDeltaTime;
 			if (delay <= 0) {
 				PlayMusic ();
 			}

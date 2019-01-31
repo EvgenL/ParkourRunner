@@ -1,5 +1,5 @@
 <AudioData>
-  <AudioSettings useMusic="True" musicVolume="1" useSound="True" soundVolume="1" />
+  <AudioSettings useMusic="False" musicVolume="1" useSound="True" soundVolume="1" />
   <AudioConfiguration SoundSourceCount="3" fade="1.5" fadeOn="True" />
   <AudioBlock Name="Menu">
     <Music MusicNotReplyLength="1">
@@ -16,6 +16,7 @@
     </Music>
     <Sound>
       <Track Name="Tap" Path="AudioResources/Sounds/Tap" Volume="1" />
+      <Track Name="Coin" Path="AudioResources/Sounds/Coin" Volume="1" />
     </Sound>
   </AudioBlock>
 </AudioData>

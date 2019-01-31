@@ -2,18 +2,19 @@
 
 namespace AEngine
 {
-	public enum EAudioBlock
+	public enum AudioBlocks
 	{
 		Menu,
 		Game
 	}
 
-	public enum ESound
+	public enum Sounds
 	{
-		Tap
+		Tap,
+		Coin
 	}
 
-	public enum EMusic
+	public enum Musics
 	{
 		MenuMusic1,
 		MenuMusic2,
