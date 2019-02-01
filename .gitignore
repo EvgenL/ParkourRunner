@@ -34,21 +34,4 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-*.unity
-
-Parkour Runner/Assets/ParkourRunner/AllTriggers.unity
-Parkour Runner/Assets/ParkourRunner/Prefabs/Character/ParkourRunner Root.prefab
-Parkour Runner/Assets/Resources/block_training.prefab
-Parkour Runner/Assets/Resources/Blocks/block1.prefab
-Parkour Runner/Assets/Resources/Blocks/block10.prefab
-Parkour Runner/Assets/Resources/Blocks/block11.prefab
-Parkour Runner/Assets/Resources/Blocks/block12.prefab
-Parkour Runner/Assets/Resources/Blocks/block13.prefab
-Parkour Runner/Assets/Resources/Blocks/block14.prefab
-Parkour Runner/Assets/Resources/Blocks/block15.prefab
-Parkour Runner/Assets/Resources/Blocks/block2.prefab
-Parkour Runner/Assets/Resources/Blocks/block3.prefab
-Parkour Runner/Assets/Resources/Blocks/block5.prefab
-Parkour Runner/Assets/Resources/Blocks/block6.prefab
-Parkour Runner/Assets/Resources/Blocks/block8.prefab
-Parkour Runner/Assets/Resources/Blocks/block9.prefab
+#*.unity
