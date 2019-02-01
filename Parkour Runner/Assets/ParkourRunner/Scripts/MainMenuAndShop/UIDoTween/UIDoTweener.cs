@@ -126,6 +126,8 @@ public class UIDoTweener : MonoBehaviour {
     }
     private IEnumerator OpenGame()
     {
+        _audio.PlaySound(Sounds.Tap);
+
         SettingsTweening settings = FindObjectOfType<SettingsTweening>();
 
         while (settings.IsInProcess)
@@ -166,6 +168,8 @@ public class UIDoTweener : MonoBehaviour {
 
     private void BackToMain()
     {
+        _audio.PlaySound(Sounds.Tap);
+
         RemoveAllListeners();
         for (int i = 0; i < _shop.transform.GetChild(0).childCount; i++)
         {
@@ -199,8 +203,7 @@ public class UIDoTweener : MonoBehaviour {
             });
         });
     }
-
-
+    
     private void RemoveAllListeners()
     {
         _shopBtn.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
@@ -208,11 +211,20 @@ public class UIDoTweener : MonoBehaviour {
         _playBtnFromShop.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
         _backBtnFromShop.gameObject.GetComponent<Button>().onClick.RemoveAllListeners();
     }
+
     private void AddListeners()
     {
-        _shopBtn.gameObject.GetComponent<Button>().onClick.AddListener(() => StartCoroutine( OpenShop()));
+        _shopBtn.gameObject.GetComponent<Button>().onClick.AddListener(OpenShopClick);
+
         _playBtn.gameObject.GetComponent<Button>().onClick.AddListener(() =>StartCoroutine( OpenGame()));
         _playBtnFromShop.gameObject.GetComponent<Button>().onClick.AddListener(() =>StartCoroutine( OpenGame()));
         _backBtnFromShop.gameObject.GetComponent<Button>().onClick.AddListener(() => BackToMain());
+    }
+
+    private void OpenShopClick()
+    {
+        _audio.PlaySound(Sounds.Tap);
+
+        StartCoroutine(OpenShop());
     }
 }

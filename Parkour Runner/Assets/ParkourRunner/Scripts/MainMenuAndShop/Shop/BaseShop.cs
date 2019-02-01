@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using AEngine;
 
 public enum ShopsType
 {
@@ -9,21 +8,27 @@ public enum ShopsType
     bonusShop,
     tricksShop
 }
-public  class BaseShop : MonoBehaviour {
 
-
+public  class BaseShop : MonoBehaviour
+{
     [SerializeField] private Button _donatBtn;
     [SerializeField] private Button _bonusesBtn;
     [SerializeField] private Button _tricksBtn;
     [SerializeField] private GameObject _shopsBody;
     [SerializeField] private GameObject[] _allShops;
 
+    private AudioManager _audio;
+
+    private void Awake()
+    {
+        _audio = AudioManager.Instance;
+    }
+
     private void Start()
     {
         _shopsBody.GetComponent<Image>().color = _bonusesBtn.gameObject.GetComponent<Image>().color;
         ActiveThisShop(_allShops[(int)ShopsType.bonusShop]);
-
-
+        
         _donatBtn.onClick.AddListener(() =>  ActiveCurrentShop(ShopsType.donatShop));
        _bonusesBtn.onClick.AddListener(() => ActiveCurrentShop(ShopsType.bonusShop));
         _tricksBtn.onClick.AddListener(() => ActiveCurrentShop(ShopsType.tricksShop));
@@ -32,7 +37,6 @@ public  class BaseShop : MonoBehaviour {
 
     private void ActiveCurrentShop(ShopsType shop)
     {
-
         switch (shop)
         {
             case ShopsType.donatShop: _shopsBody.GetComponent<Image>().color = _donatBtn.gameObject.GetComponent<Image>().color;
@@ -47,6 +51,8 @@ public  class BaseShop : MonoBehaviour {
             default:
                 break;
         }
+
+        _audio.PlaySound(Sounds.ShopSlot);
     }
 
     private void ActiveThisShop(GameObject shop)

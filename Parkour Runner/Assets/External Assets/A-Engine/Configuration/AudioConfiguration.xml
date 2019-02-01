@@ -1,13 +1,16 @@
 <AudioData>
-  <AudioSettings useMusic="True" musicVolume="0.65" useSound="True" soundVolume="1" />
-  <AudioConfiguration SoundSourceCount="3" fade="1.5" fadeOn="False" />
+  <AudioSettings useMusic="True" musicVolume="0.6" useSound="True" soundVolume="1" />
+  <AudioConfiguration SoundSourceCount="3" fade="0" fadeOn="False" />
   <AudioBlock Name="Menu">
     <Music DelayBetweenTracks="0.1" MusicNotReplyLength="1">
-      <Track Name="MenuMusic1" Path="AudioResources/Musics/MenuMusic1" Volume="0.9" />
-      <Track Name="MenuMusic2" Path="AudioResources/Musics/MenuMusic2" Volume="0.9" />
+      <Track Name="MenuMusic1" Path="AudioResources/Musics/MenuMusic1" Volume="0.6" />
+      <Track Name="MenuMusic2" Path="AudioResources/Musics/MenuMusic2" Volume="0.6" />
     </Music>
     <Sound>
       <Track Name="Tap" Path="AudioResources/Sounds/Tap" Volume="1" />
+      <Track Name="WinSimple" Path="AudioResources/Sounds/WinSimple" Volume="1" />
+      <Track Name="ShopSlot" Path="AudioResources/Sounds/ShopSlot" Volume="1" />
+      <Track Name="UpgradeBonus" Path="AudioResources/Sounds/UpgradeBonus" Volume="1" />
     </Sound>
   </AudioBlock>
   <AudioBlock Name="Game">

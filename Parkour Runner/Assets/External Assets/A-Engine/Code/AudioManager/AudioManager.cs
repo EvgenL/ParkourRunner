@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using System.Xml;
 
 namespace AEngine
@@ -255,8 +256,9 @@ namespace AEngine
 		{
 			if (musicSource.isPlaying) {
 				if (!isMusic) {
-					if (Fade (false))
-						musicSource.Stop ();
+                    if (Fade (false))
+                    	musicSource.Stop ();
+                    musicSource.Stop();
 				}
 
 				if (state == AudioState.Default)

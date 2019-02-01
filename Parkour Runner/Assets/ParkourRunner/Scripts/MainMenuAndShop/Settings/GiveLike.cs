@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using AEngine;
 
-public  class GiveLike :SettingsBase {
+public class GiveLike : SettingsBase
+{
     public override void OnClick()
     {
-        
+        AudioManager.Instance.PlaySound(Sounds.Tap);
     }
-
 }

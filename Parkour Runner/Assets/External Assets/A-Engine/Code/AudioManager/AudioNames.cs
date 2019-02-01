@@ -11,8 +11,10 @@ namespace AEngine
 	public enum Sounds
 	{
 		Tap,
-		Coin,
 		WinSimple,
+		ShopSlot,
+		UpgradeBonus,
+		Coin,
 		GameOver,
 		ResultFull,
 		Jump,

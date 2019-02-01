@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using AEngine;
 
-public class OpenURL : SettingsBase {
-
+public class OpenURL : SettingsBase
+{
     public override void OnClick()
     {
+        AudioManager.Instance.PlaySound(Sounds.Tap);
         Application.OpenURL("https://alivegames.ru/");
     }
 }

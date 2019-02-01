@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using AEngine;
+
 public class SettingsTweening : MonoBehaviour
 {
     [SerializeField] private float distance;
@@ -21,23 +21,30 @@ public class SettingsTweening : MonoBehaviour
 
     public bool IsOpend { get; private set; }
     public bool IsInProcess { get; private set; }
+
     private void Start()
     {
         _baseBtn.GetComponent<Button>().onClick.AddListener(() => OpenSettings());
     }
-
-
+    
     private void OpenSettings()
     {
         _baseBtn.GetComponent<Button>().onClick.RemoveAllListeners();
         RemoveListenersOfSettings();
         OpenNext(_AGBtn, _baseBtn);
+
+        AudioManager.Instance.PlaySound(Sounds.Tap);
+        AudioManager.Instance.PlaySound(Sounds.WinSimple);
     }
+
     public void CloseSettings()
     {
         _baseBtn.GetComponent<Button>().onClick.RemoveAllListeners();
         RemoveListenersOfSettings();
         ClosePrevious(_musicBtn, _soundBtn);
+
+        AudioManager.Instance.PlaySound(Sounds.Tap);
+        AudioManager.Instance.PlaySound(Sounds.WinSimple);
     }
 
     private void OpenNext(GameObject current,GameObject baseObj)
@@ -75,8 +82,6 @@ public class SettingsTweening : MonoBehaviour
         });
     }
 
-   
-
     private void ClosePrevious(GameObject current , GameObject baseObj)
     {
         IsInProcess = true;
@@ -113,14 +118,15 @@ public class SettingsTweening : MonoBehaviour
             ClosePrevious(baseObj, _baseBtn.transform.parent.transform.GetChild(baseObj.transform.GetSiblingIndex()-1).gameObject);
         });
     }
+
     private void AddListenersForSettings()
     {
         _AGBtn.GetComponent<Button>().onClick.AddListener(() => _AGBtn.GetComponent<SettingsBase>().OnClick());
         _likeBtn.GetComponent<Button>().onClick.AddListener(() => _likeBtn.GetComponent<SettingsBase>().OnClick());
         _soundBtn.GetComponent<Button>().onClick.AddListener(() => _soundBtn.GetComponent<SettingsBase>().OnClick());
         _musicBtn.GetComponent<Button>().onClick.AddListener(() =>_musicBtn.GetComponent<SettingsBase>().OnClick());
-
     }
+
     private void RemoveListenersOfSettings()
     {
         _AGBtn.GetComponent<Button>().onClick.RemoveAllListeners();
@@ -128,5 +134,4 @@ public class SettingsTweening : MonoBehaviour
         _soundBtn.GetComponent<Button>().onClick.RemoveAllListeners();
         _musicBtn.GetComponent<Button>().onClick.RemoveAllListeners();
     }
-
 }

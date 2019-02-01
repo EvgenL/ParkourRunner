@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using AEngine;
+
 public class ShopBonusesPanel : MonoBehaviour
 {
 
@@ -54,9 +54,9 @@ public class ShopBonusesPanel : MonoBehaviour
             _name = value;
         }
     }
+
     private void Start()
     {
-       
         _purchasedBonusesCount = GetPurchasedBonusesCount();
         _bonusRestoreValue = GetPurchasedBonusesCount();
         SetUnitsImgs();
@@ -69,6 +69,7 @@ public class ShopBonusesPanel : MonoBehaviour
         {
             Shoping.GetBonus(gameObject.name);
             SetUnitsToActive();
+            AudioManager.Instance.PlaySound(Sounds.UpgradeBonus);
         }
         PossibilityOfPurchase();
     }
