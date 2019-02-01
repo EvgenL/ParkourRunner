@@ -1,9 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using AEngine;
 
 public class UIDoTweener : MonoBehaviour {
 
@@ -38,7 +37,12 @@ public class UIDoTweener : MonoBehaviour {
     [SerializeField] private RectTransform _backBtnEndPosFromShop;
     private Vector2 _backbtnStartPosFromShop;
     [SerializeField] private float _backBtnDurationFromShop;
+
+    private AudioManager _audio;
+
     public static int priority=1;
+
+
     private void Awake()
     {
         _playbtnStartPos = _playBtn.GetComponent<RectTransform>().anchoredPosition;
@@ -47,12 +51,15 @@ public class UIDoTweener : MonoBehaviour {
         _shopStartPos = _shop.GetComponent<RectTransform>().anchoredPosition;
         _playbtnStartPosFromShop = _playBtnFromShop.GetComponent<RectTransform>().anchoredPosition;
         _backbtnStartPosFromShop=_backBtnFromShop.GetComponent<RectTransform>().anchoredPosition;
-       
-    }
 
+        _audio = AudioManager.Instance;
+    }
 
     private void Start()
     {
+        _audio.LoadAudioBlock(AudioBlocks.Menu);
+        _audio.PlayMusic();
+
         Time.timeScale = 1;
         if (priority == 0)
         {
@@ -71,11 +78,8 @@ public class UIDoTweener : MonoBehaviour {
             StartCoroutine(EnableBtnsRaycastTargetTo(true, 0.1f));
             AddListeners();
         });
-
-       
-
-
     }
+
     public IEnumerator OpenShop()
     {
         SettingsTweening settings = FindObjectOfType<SettingsTweening>();

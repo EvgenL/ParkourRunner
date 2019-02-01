@@ -1,8 +1,5 @@
 ﻿// A-Engine, Code version: 1
 
-using UnityEngine;
-using System.Collections;
-
 namespace AEngine
 {
 	public class BaseEngineConstants
@@ -19,9 +16,9 @@ namespace AEngine
 		public const int MenuDataEnumsOffset = 1;
 
 		public const string AudioNamesFileName = "AudioNames.cs";
-		public const string AudioNamesEnumForBlocks = "EAudioBlock";
-		public const string AudioNamesEnumForSounds = "ESound";
-		public const string AudioNamesEnumForMusics = "EMusic";
+		public const string AudioNamesEnumForBlocks = "AudioBlocks";
+		public const string AudioNamesEnumForSounds = "Sounds";
+		public const string AudioNamesEnumForMusics = "Musics";
 		public const int AudioNamesEnumsOffset = 1;
 	}
 }

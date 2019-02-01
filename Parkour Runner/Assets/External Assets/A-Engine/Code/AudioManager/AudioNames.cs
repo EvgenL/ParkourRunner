@@ -12,15 +12,15 @@ namespace AEngine
 	{
 		Tap,
 		Coin,
-        WinSimple,
-        GameOver,
-        Result,
-        ResultFull,
-        Jump,
-        Rift,
-        Bonus,
-        Explosion
-    }
+		WinSimple,
+		GameOver,
+		ResultFull,
+		Jump,
+		Rift,
+		Bonus,
+		Explosion,
+		Result
+	}
 
 	public enum Musics
 	{

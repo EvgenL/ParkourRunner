@@ -345,11 +345,11 @@ namespace AEngine
 
 		private void SaveNamesInCode()
 		{
-			CodeManager.ClearBlock(BaseEngineConstants.AudioNamesFileName, "", BaseEngineConstants.AudioNamesEnumForBlocks, 1);
+            CodeManager.ClearBlock(BaseEngineConstants.AudioNamesFileName, "", BaseEngineConstants.AudioNamesEnumForBlocks, 1);
 			CodeManager.ClearBlock(BaseEngineConstants.AudioNamesFileName, "", BaseEngineConstants.AudioNamesEnumForSounds, 1);
 			CodeManager.ClearBlock(BaseEngineConstants.AudioNamesFileName, "", BaseEngineConstants.AudioNamesEnumForMusics, 1);
-
-			List<string> blocks = new List<string>();
+            
+            List<string> blocks = new List<string>();
 			List<string> sounds = new List<string>();
 			List<string> musics = new List<string>();
 			foreach (var data in audioData)
@@ -358,11 +358,11 @@ namespace AEngine
 				JoinItemsToList(sounds, data.Value.sound.GetTracksNames());
 				JoinItemsToList(musics, data.Value.music.GetTracksNames());
 			}
-
-			CodeManager.AddItemsToBlock(BaseEngineConstants.AudioNamesFileName, "", BaseEngineConstants.AudioNamesEnumForBlocks, blocks.ToArray(), 1);
-			CodeManager.AddItemsToBlock(BaseEngineConstants.AudioNamesFileName, "", BaseEngineConstants.AudioNamesEnumForSounds, sounds.ToArray(), 1);
-			CodeManager.AddItemsToBlock(BaseEngineConstants.AudioNamesFileName, "", BaseEngineConstants.AudioNamesEnumForMusics, musics.ToArray(), 1);
-		}
+            
+            CodeManager.AddItemsToBlock(BaseEngineConstants.AudioNamesFileName, "", BaseEngineConstants.AudioNamesEnumForBlocks, blocks.ToArray(), 1);
+            CodeManager.AddItemsToBlock(BaseEngineConstants.AudioNamesFileName, "", BaseEngineConstants.AudioNamesEnumForSounds, sounds.ToArray(), 1);
+            CodeManager.AddItemsToBlock(BaseEngineConstants.AudioNamesFileName, "", BaseEngineConstants.AudioNamesEnumForMusics, musics.ToArray(), 1);
+        }
 
 		private void JoinItemsToList(List<string> baseList, List<string> sourceList)
 		{

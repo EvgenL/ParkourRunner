@@ -7,8 +7,8 @@ using ParkourRunner.Scripts.Player.InvectorMods;
 using ParkourRunner.Scripts.Track.Generator;
 using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using RootMotion.Dynamics;
-using AEngine;
 using UnityEngine;
+using AEngine;
 
 namespace ParkourRunner.Scripts.Managers
 {
@@ -183,9 +183,6 @@ namespace ParkourRunner.Scripts.Managers
         public void ShowPostMortem()
         {
             _hud.ShowPostMortem();
-
-            _audio.LoadAudioBlock(AudioBlocks.Menu);
-            _audio.PlayMusic();
         }
 
         public void Revive()
@@ -205,9 +202,6 @@ namespace ParkourRunner.Scripts.Managers
             _player.Revive();
 
             _revives++;
-
-            _audio.LoadAudioBlock(AudioBlocks.Game);
-            _audio.PlayMusic();
         }
 
         private void HealFull()
