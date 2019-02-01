@@ -25,6 +25,7 @@
       <Track Name="Jump" Path="AudioResources/Sounds/Jump" Volume="1" />
       <Track Name="Rift" Path="AudioResources/Sounds/Rift" Volume="1" />
       <Track Name="Bonus" Path="AudioResources/Sounds/Bonus" Volume="1" />
+      <Track Name="Explosion" Path="AudioResources/Sounds/Explosion" Volume="1" />
     </Sound>
   </AudioBlock>
 </AudioData>

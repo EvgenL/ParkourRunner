@@ -1,8 +1,6 @@
 ﻿// A-Engine, Code version: 1
 
 using UnityEngine;
-using UnityEditor;
-using System.Collections;
 
 namespace AEngine
 {

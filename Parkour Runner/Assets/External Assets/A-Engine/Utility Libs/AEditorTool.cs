@@ -1,12 +1,12 @@
 ﻿// A-Engine, Code version: 1
 
+#if UNITY_EDITOR
+
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using System.Collections;
 using System.Collections.Generic;
 using System;
-using System.IO;
 
 namespace AEngine
 {
@@ -128,3 +128,5 @@ namespace AEngine
 		}
 	}
 }
+
+#endif

@@ -1,6 +1,7 @@
 ﻿using ParkourRunner.Scripts.Player;
 using RootMotion.Dynamics;
 using UnityEngine;
+using AEngine;
 
 namespace ParkourRunner.Scripts.Track.Pick_Ups
 {
@@ -14,8 +15,9 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups
         private void OnTriggerEnter(Collider other)
         {
             Explosion.Play();
-            var broadcaster =
-                other.transform.GetComponent<MuscleCollisionBroadcaster>();
+            AudioManager.Instance.PlaySound(Sounds.Explosion);
+
+            var broadcaster = other.transform.GetComponent<MuscleCollisionBroadcaster>();
             if (broadcaster != null)
             {
                 //Puppet.SetState(BehaviourPuppet.State.Unpinned);

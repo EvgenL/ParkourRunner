@@ -1,4 +1,5 @@
 ﻿using ParkourRunner.Scripts.Managers;
+using AEngine;
 
 namespace ParkourRunner.Scripts.Track.Pick_Ups
 {
@@ -6,6 +7,8 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups
 
         protected override void Pick()
         {
+            AudioManager.Instance.PlaySound(Sounds.Bonus);
+
             if (GameManager.Instance.HealLimb())
             {
                 Destroy(gameObject);

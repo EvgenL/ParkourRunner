@@ -18,7 +18,8 @@ namespace AEngine
         ResultFull,
         Jump,
         Rift,
-        Bonus
+        Bonus,
+        Explosion
     }
 
 	public enum Musics
