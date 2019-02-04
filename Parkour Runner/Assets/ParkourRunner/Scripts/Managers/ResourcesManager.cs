@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using ParkourRunner.Scripts.Player;
 using UnityEngine;
 using Assets.ParkourRunner.Scripts.Track.Generator;
+
 namespace ParkourRunner.Scripts.Managers
 {
     public class ResourcesManager : MonoBehaviour
     {
-
-
        [SerializeField] private Res _res;
         private const string TricksPath = "Tricks";
         private const string BlockPrefabsPath = "Blocks";
@@ -56,6 +54,5 @@ namespace ParkourRunner.Scripts.Managers
             StandTricks = _res.StandTricks;
             SlideTricks = _res.SlideTricks;
         }
-        
     }
 }
