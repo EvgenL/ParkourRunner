@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Collections;
 using System.Xml;
 
 namespace AEngine
@@ -64,8 +63,6 @@ namespace AEngine
 		private AudioBlock audioBlock;
 		private float delay;
 
-        //public const int MaxSoundSourceCount = 3;
-
         private AudioSource musicSource = null;
         private List<AudioSource> soundSource = null;
 
@@ -109,14 +106,16 @@ namespace AEngine
 			
 			if (!XmlDataParser.IsAnyTagInChildExist (rootNode, "AudioBlock"))
 				return false;
-			
-			foreach (XmlNode item in XmlDataParser.FindAllTagsInChild(rootNode, "AudioBlock")) {
-				if (blockName == item.Attributes ["Name"].Value) {
-					audioBlock.LoadFromXml (item);
-					audioBlock.LoadAudioResources ();
-					break;
-				}
-			}
+
+            foreach (XmlNode item in XmlDataParser.FindAllTagsInChild(rootNode, "AudioBlock"))
+            {
+                if (blockName == item.Attributes["Name"].Value)
+                {
+                    audioBlock.LoadFromXml(item);
+                    audioBlock.LoadAudioResources();
+                    break;
+                }
+            }
 
 			return true;
         }
@@ -131,7 +130,8 @@ namespace AEngine
 			if (!isMusic)
 				return;
 
-			if (fade && fadeTime > 0) {
+			if (fade && fadeTime > 0)
+            {
 				state = AudioState.FadeOffForNewMusic;
 				return;
 			}

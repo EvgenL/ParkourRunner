@@ -39,20 +39,26 @@ public  class BaseShop : MonoBehaviour
     {
         switch (shop)
         {
-            case ShopsType.donatShop: _shopsBody.GetComponent<Image>().color = _donatBtn.gameObject.GetComponent<Image>().color;
+            case ShopsType.donatShop:
+                _shopsBody.GetComponent<Image>().color = _donatBtn.gameObject.GetComponent<Image>().color;
                 ActiveThisShop(_allShops[(int)ShopsType.donatShop]);
                 break;
-            case ShopsType.bonusShop: _shopsBody.GetComponent<Image>().color = _bonusesBtn.gameObject.GetComponent<Image>().color;
+
+            case ShopsType.bonusShop:
+                _shopsBody.GetComponent<Image>().color = _bonusesBtn.gameObject.GetComponent<Image>().color;
                 ActiveThisShop(_allShops[(int)ShopsType.bonusShop]);
                 break;
-            case ShopsType.tricksShop:_shopsBody.GetComponent<Image>().color= _tricksBtn.gameObject.GetComponent<Image>().color;
+
+            case ShopsType.tricksShop:
+                _shopsBody.GetComponent<Image>().color = _tricksBtn.gameObject.GetComponent<Image>().color;
                 ActiveThisShop(_allShops[(int)ShopsType.tricksShop]);
                 break;
+
             default:
                 break;
         }
 
-        _audio.PlaySound(Sounds.ShopSlot);
+        _audio.PlaySound(Sounds.Tap);
     }
 
     private void ActiveThisShop(GameObject shop)

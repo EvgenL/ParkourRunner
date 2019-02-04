@@ -2,7 +2,6 @@
 using ParkourRunner.Scripts.Player.InvectorMods;
 using UnityEngine;
 
-
 public class DistanceAnimation : MonoBehaviour
 {
     public float ActivationDistance = 10f;
@@ -11,8 +10,7 @@ public class DistanceAnimation : MonoBehaviour
     private Animator animator;
 
     private static float Delay = 0.3f;
-
-
+    
 	void Start ()
 	{
 	    _player = ParkourThirdPersonController.instance.transform;

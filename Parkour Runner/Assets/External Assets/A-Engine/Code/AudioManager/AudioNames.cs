@@ -21,7 +21,9 @@ namespace AEngine
 		Rift,
 		Bonus,
 		Explosion,
-		Result
+		Result,
+		CollisionHit,
+		Laser
 	}
 
 	public enum Musics

@@ -4,7 +4,6 @@ using AEngine;
 
 public class ShopBonusesPanel : MonoBehaviour
 {
-
     [SerializeField] private Image _bonusImg;
     [SerializeField] private Text _price;
     [SerializeField] private Button _buyBtn;
@@ -15,9 +14,7 @@ public class ShopBonusesPanel : MonoBehaviour
     private string _name;
     private int _purchasedBonusesCount;
     private int _bonusRestoreValue;
-
-
-
+    
     public Image MyImage
     {
         get
@@ -94,7 +91,6 @@ public class ShopBonusesPanel : MonoBehaviour
         }
     }
     
-
     private void SetUnitsToActive()
     {
         for (int i = 0; i < _unitsPlace.transform.childCount; i++)
@@ -121,6 +117,5 @@ public class ShopBonusesPanel : MonoBehaviour
             _buyBtn.gameObject.GetComponent<Image>().enabled = true;
             _price.enabled = true;
         }
-
     }
 }

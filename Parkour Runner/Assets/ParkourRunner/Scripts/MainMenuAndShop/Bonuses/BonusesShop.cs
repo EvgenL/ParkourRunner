@@ -1,15 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class BonusesShop : MonoBehaviour
 
+public class BonusesShop : MonoBehaviour
 {
     [SerializeField] private List <BonusesShopData> _allBonuses = new List<BonusesShopData>();
     [SerializeField] private GameObject _bonusesPanel;
     [SerializeField] private GameObject _bonusesPlace;
 
     private List<GameObject> _allPanels = new List<GameObject>();
+
     private void Start()
     {
         InstantBonusesPanels();
@@ -26,6 +26,7 @@ public class BonusesShop : MonoBehaviour
             temporalPanel.GetComponentInChildren<Button>().onClick.AddListener(() => temporalPanel.GetComponent<ShopBonusesPanel>().BuyThisThing());
             _allPanels.Add(temporalPanel);
         }
+
         _allPanels[0].GetComponentInChildren<Button>().onClick.AddListener(() => MakeAPurchase(0));
         _allPanels[1].GetComponentInChildren<Button>().onClick.AddListener(() => MakeAPurchase(1));
         _allPanels[2].GetComponentInChildren<Button>().onClick.AddListener(() => MakeAPurchase(2));
@@ -37,7 +38,4 @@ public class BonusesShop : MonoBehaviour
     {
         _allPanels[index].GetComponent<ShopBonusesPanel>().MyPrice.text = _allBonuses[index].PayForThis;
     }
-
-
-
 }

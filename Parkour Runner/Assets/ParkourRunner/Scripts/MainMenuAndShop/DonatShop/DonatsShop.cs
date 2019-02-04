@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class DonatsShop : MonoBehaviour
 {
     [SerializeField] private List<DonatShopData> _allDonats = new List<DonatShopData>();
     [SerializeField] private GameObject _donatsPanel;
     [SerializeField] private GameObject _donatsPlace;
-
 
     private void Start()
     {
@@ -24,6 +23,4 @@ public class DonatsShop : MonoBehaviour
             temporalPanel.GetComponentInChildren<Button>().onClick.AddListener(() => temporalPanel.GetComponent<ShopDonatsPanel>().BuyThisThing());
         }
     }
-
-
 }

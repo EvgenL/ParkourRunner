@@ -1,6 +1,8 @@
 ﻿using ParkourRunner.Scripts.Player;
+using ParkourRunner.Scripts.Managers;
 using RootMotion.Dynamics;
 using UnityEngine;
+using AEngine;
 
 namespace ParkourRunner.Scripts.Track
 {
@@ -13,6 +15,11 @@ namespace ParkourRunner.Scripts.Track
             // If is a muscle...
             if (broadcaster != null)
             {
+                if (GameManager.Instance.gameState != GameManager.GameState.Dead)
+                {
+                    AudioManager.Instance.PlayUniqueSound(Sounds.Laser);
+                }
+
                 //broadcaster.Hit(unpin, ray.direction * force, hit.point);
 
                 // Remove the muscle and its children

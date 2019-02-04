@@ -28,6 +28,8 @@
       <Track Name="Bonus" Path="AudioResources/Sounds/Bonus" Volume="1" />
       <Track Name="Explosion" Path="AudioResources/Sounds/Explosion" Volume="1" />
       <Track Name="Result" Path="AudioResources/Sounds/Result" Volume="1" />
+      <Track Name="CollisionHit" Path="AudioResources/Sounds/CollisionHit" Volume="1" />
+      <Track Name="Laser" Path="AudioResources/Sounds/Laser" Volume="1" />
     </Sound>
   </AudioBlock>
 </AudioData>

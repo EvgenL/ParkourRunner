@@ -76,7 +76,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private new void Start()
         {
-            int a;
             _damageLayers = LayerMask.NameToLayer("HouseWall");
             _gm = GameManager.Instance;
             ResetSpeed();
@@ -88,6 +87,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             BehavPuppet.onLoseBalance.unityEvent.AddListener(delegate {
                 IsSlidingTrolley = false;
                 _capsuleCollider.isTrigger = false;
+                if (PuppetMaster.state != PuppetMaster.State.Dead)
+                    AudioManager.Instance.PlaySound(Sounds.CollisionHit);
             });
             BehavPuppet.onLoseBalance.unityEvent.AddListener(ResetSpeed);
 
@@ -221,6 +222,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         {
             get { return /*isRolling ||*/ quickStop || landHigh || customAction; }
         }
+
         public override void Roll()
         {
             bool staminaCondition = currentStamina > rollStamina;
@@ -275,12 +277,12 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             PuppetMaster.state = PuppetMaster.State.Dead;
             PuppetMaster.muscles[0].rigidbody.AddForce(_rigidbody.velocity); //толкаем таз скоростью капсулы
         }
+
         public void Revive()
         {
             PuppetMaster.state = PuppetMaster.State.Alive;
         }
-
-
+        
         public virtual void PlatformJump(float speed, float height)
         {
             jumpCounter = jumpTimer;

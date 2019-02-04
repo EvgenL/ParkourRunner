@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using AEngine;
+
 public class ShopDonatsPanel : MonoBehaviour
 {
     [SerializeField] private Image _donatImg;
@@ -36,7 +36,10 @@ public class ShopDonatsPanel : MonoBehaviour
         {
             _buyBtn.gameObject.GetComponent<Image>().enabled = false;
         }
+
         Shoping.GetDonat(gameObject.name);
+
+        AudioManager.Instance.PlaySound(Sounds.ShopSlot);
     }
 }
 
