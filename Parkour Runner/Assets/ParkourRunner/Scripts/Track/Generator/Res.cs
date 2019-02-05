@@ -33,7 +33,6 @@ namespace Assets.ParkourRunner.Scripts.Track.Generator
         [SerializeField] private DefaulEnvironmentSettings _defaultEnvironment;
         [SerializeField] private List<SpecialEnvironmentSettings> _specialEnvironments;
 
-        public  List<GameObject> BlockPrefabs;
         public  List<GameObject> ObstaclesSmallPrefabs;
         public  List<Trick> RollTricks;
         public  List<Trick> JumpOverTricks;

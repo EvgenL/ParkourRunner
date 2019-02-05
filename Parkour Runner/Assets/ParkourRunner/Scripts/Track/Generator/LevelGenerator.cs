@@ -67,10 +67,9 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         public Block CenterBlock;
 
-        //private ResourcesManager _resourcesManager;
-        private List<GameObject> _blockPrefabs;
-        private List<GameObject> _challengeBlocks;
-        private List<GameObject> _relaxBlocks;
+        //private List<GameObject> _blockPrefabs;
+        //private List<GameObject> _challengeBlocks;
+        //private List<GameObject> _relaxBlocks;
 
         private void Awake()
         {
@@ -90,7 +89,7 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         void Start ()
         {
-            if (_blockPrefabs.Count == 0)
+            if (_defaultEnvironment.blocks.Count == 0)
             {
                 Debug.LogError("Не найдено ни одного блока в папке Resources/Blocks");
                 Destroy(this);
@@ -129,9 +128,9 @@ namespace ParkourRunner.Scripts.Track.Generator
             _defaultEnvironment = ResourcesManager.DefaultEnvironment;
             _specialEnvironments = ResourcesManager.SpecialEnvironments;
 
-            _blockPrefabs = ResourcesManager.BlockPrefabs;
-            _challengeBlocks = _blockPrefabs.FindAll(x => x.GetComponent<Block>().Type == Block.BlockType.Challenge);
-            _relaxBlocks = _blockPrefabs.FindAll(x => x.GetComponent<Block>().Type == Block.BlockType.Relax);
+            //_blockPrefabs = ResourcesManager.BlockPrefabs;
+            //_challengeBlocks = _blockPrefabs.FindAll(x => x.GetComponent<Block>().Type == Block.BlockType.Challenge);
+            //_relaxBlocks = _blockPrefabs.FindAll(x => x.GetComponent<Block>().Type == Block.BlockType.Relax);
         }
         
         private IEnumerator Generate()
@@ -226,17 +225,13 @@ namespace ParkourRunner.Scripts.Track.Generator
                 //Debug.DrawLine(playerXpos + Vector3.up * 20f, nextXpos + Vector3.up * 20f, Color.green, 1f);
             }
 
-            Block nextBlockScript;
             if (block.Next == null)
             {
-                var nextBlockPrefab = GetRandomBlock();
-                var nextBlockGo = Instantiate(nextBlockPrefab,
-                    block.transform.position + block.transform.forward * BlockSide, block.transform.rotation);
-                nextBlockScript = nextBlockGo.GetComponent<Block>();
-                _blockPool.Add(nextBlockScript);
-                block.Next = nextBlockScript;
-                nextBlockScript.Generate();
-                //GenerateBlocksAfter(nextBlockScript);
+                var nextBlock = Instantiate(GetRandomBlock(), block.transform.position + block.transform.forward * BlockSide, block.transform.rotation);
+
+                _blockPool.Add(nextBlock);
+                block.Next = nextBlock;
+                nextBlock.Generate();
             }
 
         }
@@ -258,9 +253,9 @@ namespace ParkourRunner.Scripts.Track.Generator
             }
         }
         
-        public GameObject GetRandomBlock()
+        public Block GetRandomBlock()
         {
-            GameObject result = null;
+            Block result = null;
 
             switch(_environmentState)
             {
@@ -287,13 +282,13 @@ namespace ParkourRunner.Scripts.Track.Generator
             return result;
         }
 
-        private GameObject DefaultBlockGeneration()
+        private Block DefaultBlockGeneration()
         {
-            GameObject result;
+            Block result;
 
             if (_environmentLength > 0)     // Генерируем дефолтные блоки
             {
-                result = _defaultEnvironment.blocks[Random.Range(0, _defaultEnvironment.blocks.Count)].gameObject;
+                result = _defaultEnvironment.blocks[Random.Range(0, _defaultEnvironment.blocks.Count)];
                 _environmentLength--;
             }
             else        // Запас дефолтных блоков закончился, генерация по весам (дефолтные, или с маленькой вероятностью переходим на спец. блоки)
@@ -304,20 +299,18 @@ namespace ParkourRunner.Scripts.Track.Generator
                 result = WeightBlockGeneration();
             }
 
-            AudioManager.Instance.PlaySound(Sounds.Bonus);
-
             return result;
         }
 
-        private GameObject WeightBlockGeneration()
+        private Block WeightBlockGeneration()
         {
-            GameObject result;
+            Block result;
 
             _environmentIndex = _generationWeights.Get();
 
             if (_environmentIndex == DEFAULT_INDEX)
             {
-                result = _defaultEnvironment.blocks[Random.Range(0, _defaultEnvironment.blocks.Count)].gameObject;
+                result = _defaultEnvironment.blocks[Random.Range(0, _defaultEnvironment.blocks.Count)];
             }
             else
             {
@@ -326,7 +319,7 @@ namespace ParkourRunner.Scripts.Track.Generator
                 _environmentState = EnvironmentGenerations.Special;
                 _environmentLength = Random.Range(environment.minCount, environment.maxCount);
 
-                result = (environment.startPoint != null) ? environment.startPoint.gameObject : environment.blocks[Random.Range(0, environment.blocks.Count)].gameObject;
+                result = (environment.startPoint != null) ? environment.startPoint : environment.blocks[Random.Range(0, environment.blocks.Count)];
 
                 if (environment.startPoint == null)
                 {
@@ -334,20 +327,18 @@ namespace ParkourRunner.Scripts.Track.Generator
                 }
             }
 
-            AudioManager.Instance.PlaySound(Sounds.Bonus);
-
             return result;
         }
 
-        private GameObject SpecialBlockGeneration()
+        private Block SpecialBlockGeneration()
         {
-            GameObject result;
+            Block result;
                         
             var environment = _specialEnvironments[_environmentIndex - 1];      // 0 индекс под дефолтные блоки, так что спец. блоки на 1 меньше
 
             if (_environmentLength > 0)
             {
-                result = environment.blocks[Random.Range(0, environment.blocks.Count)].gameObject;
+                result = environment.blocks[Random.Range(0, environment.blocks.Count)];
                 _environmentLength--;
             }
             else
@@ -355,15 +346,13 @@ namespace ParkourRunner.Scripts.Track.Generator
                 _environmentState = EnvironmentGenerations.Default;
                 _environmentLength = _defaultEnvironment.separateCount;
                                 
-                result = (environment.finishPoint != null) ? environment.finishPoint.gameObject : (_defaultEnvironment.blocks[Random.Range(0, _defaultEnvironment.blocks.Count)].gameObject);
+                result = (environment.finishPoint != null) ? environment.finishPoint : (_defaultEnvironment.blocks[Random.Range(0, _defaultEnvironment.blocks.Count)]);
 
                 if (environment.finishPoint == null)
                 {
                     _environmentLength--;
                 }
             }
-
-            AudioManager.Instance.PlaySound(Sounds.Bonus);
 
             return result;
         }
