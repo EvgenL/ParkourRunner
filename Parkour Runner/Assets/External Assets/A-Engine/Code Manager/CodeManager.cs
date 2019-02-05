@@ -1,8 +1,7 @@
 ﻿// A-Engine, Code version: 1
-
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.IO;
@@ -136,3 +135,4 @@ namespace AEngine
 		}
 	}
 }
+#endif
