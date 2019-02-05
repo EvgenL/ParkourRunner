@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Basic_Locomotion.Scripts.CharacterController;
 using ParkourRunner.Scripts.Managers;
 using ParkourRunner.Scripts.Player.InvectorMods;
 using UnityEngine;
@@ -73,7 +71,6 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         void Start ()
         {
-
             if (_blockPrefabs.Count == 0)
             {
                 Debug.LogError("Не найдено ни одного блока в папке Resources/Blocks");
@@ -98,11 +95,7 @@ namespace ParkourRunner.Scripts.Track.Generator
         {
 //load resources
             _blockPrefabs = ResourcesManager.BlockPrefabs;
-            _challengeBlocks = 
-                _blockPrefabs.FindAll(
-                    x => x.GetComponent<Block>()
-                    .Type == 
-                    Block.BlockType.Challenge);
+            _challengeBlocks = _blockPrefabs.FindAll(x => x.GetComponent<Block>().Type == Block.BlockType.Challenge);
             _relaxBlocks = _blockPrefabs.FindAll(x => x.GetComponent<Block>().Type == Block.BlockType.Relax);
         }
 

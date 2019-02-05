@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using UnityEngine;
 
 namespace ParkourRunner.Scripts.Track.Generator
@@ -8,23 +7,6 @@ namespace ParkourRunner.Scripts.Track.Generator
     [ExecuteInEditMode]
     public class Block : MonoBehaviour
     {
-        public List<GenerationPoint> GenerationPoints;
-
-        //Автоматически расставляем референсы в эдиторе
-        void Update()
-        {
-            if (!Application.isPlaying)
-            {
-                 // GenerationPoints = GetComponentsInChildren<GenerationPoint>().ToList();
-            }
-        }
-
-        //Если это будет лагать - удалим
-        private void Awake()
-        {
-            GenerationPoints = GetComponentsInChildren<GenerationPoint>().ToList();
-        }
-
         public enum BlockType
         {
             Challenge,
@@ -32,9 +14,33 @@ namespace ParkourRunner.Scripts.Track.Generator
             Start
         }
 
+        public enum EnvironmentKinds
+        {
+            Default,
+            Tunnel
+        }
+
+        public List<GenerationPoint> GenerationPoints;
+        [SerializeField] private EnvironmentKinds _environment;
         public BlockType Type;
         public Block Next;
 
+        public EnvironmentKinds Environment { get { return _environment; } }
+
+        //Если это будет лагать - удалим
+        private void Awake()
+        {
+            GenerationPoints = GetComponentsInChildren<GenerationPoint>().ToList();
+        }
+
+        //Автоматически расставляем референсы в эдиторе
+        void Update()
+        {
+            if (!Application.isPlaying)
+            {
+                // GenerationPoints = GetComponentsInChildren<GenerationPoint>().ToList();
+            }
+        }
 
         public void Generate()
         {
