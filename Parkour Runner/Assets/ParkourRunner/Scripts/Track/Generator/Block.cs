@@ -13,20 +13,11 @@ namespace ParkourRunner.Scripts.Track.Generator
             Relax,
             Start
         }
-
-        public enum EnvironmentKinds
-        {
-            Default,
-            Tunnel
-        }
-
+        
         public List<GenerationPoint> GenerationPoints;
-        [SerializeField] private EnvironmentKinds _environment;
         public BlockType Type;
         public Block Next;
-
-        public EnvironmentKinds Environment { get { return _environment; } }
-
+                
         //Если это будет лагать - удалим
         private void Awake()
         {
