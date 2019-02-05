@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ParkourRunner.Scripts.Managers;
 using ParkourRunner.Scripts.Player.InvectorMods;
 using Assets.ParkourRunner.Scripts.Track.Generator;
@@ -20,16 +21,8 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         public enum GeneratorState
         {
-           // HeatUp, //Разогрев
-           // Callibration, //Каллибровка
-           // Reward, //Вознаграждение
-            Challenge, //Трудности
-            Chill //
-            //  /"""\   |   |   "|"  |    | 
-            //  |       |---|    |   |    |
-            //  \___/   |   |   .|.  |__  |__
-            //
-
+            Challenge,
+            Chill
         }
 
         private enum EnvironmentGenerations
@@ -47,7 +40,8 @@ namespace ParkourRunner.Scripts.Track.Generator
         private ChanceSystem<int> _generationWeights;
         private int _environmentIndex;
 
-
+        private Block _lastBlock;
+        
         public int BlockSide = 150; //Сколько метров сторона одного блока
 
         [SerializeField] private Vector3 StartBlockOffset;  //Позиция стартового блока
@@ -86,7 +80,6 @@ namespace ParkourRunner.Scripts.Track.Generator
             LoadPrefabs();
         }
 
-
         void Start ()
         {
             if (_defaultEnvironment.blocks.Count == 0)
@@ -114,7 +107,7 @@ namespace ParkourRunner.Scripts.Track.Generator
             }
 
             _generationWeights.CalculateChanceWeights();
-
+                        
             _environmentState = EnvironmentGenerations.Default;
             _environmentLength = Mathf.Clamp(_defaultEnvironment.startCount, 0, Mathf.Abs(_defaultEnvironment.startCount));
             _environmentIndex = DEFAULT_INDEX;
@@ -166,6 +159,8 @@ namespace ParkourRunner.Scripts.Track.Generator
             _blockPool.Add(startBlockGo);
             CenterBlock = startBlockGo;
             State = GeneratorState.Challenge;
+
+            _lastBlock = startBlockGo;
 
             GenerateBlocksAfter(startBlockGo);
         }
@@ -279,7 +274,15 @@ namespace ParkourRunner.Scripts.Track.Generator
                 return _challengeBlocks[Random.Range(0, _challengeBlocks.Count)];
             */
 
+            _lastBlock = result;
+
             return result;
+        }
+
+        private Block GetBlockFromList(List<Block> list)
+        {
+            var blocks = list.Where(x => x != _lastBlock).ToList();
+            return blocks[Random.Range(0, blocks.Count)];
         }
 
         private Block DefaultBlockGeneration()
@@ -288,7 +291,7 @@ namespace ParkourRunner.Scripts.Track.Generator
 
             if (_environmentLength > 0)     // Генерируем дефолтные блоки
             {
-                result = _defaultEnvironment.blocks[Random.Range(0, _defaultEnvironment.blocks.Count)];
+                result = GetBlockFromList(_defaultEnvironment.blocks); //_defaultEnvironment.blocks[Random.Range(0, _defaultEnvironment.blocks.Count)];
                 _environmentLength--;
             }
             else        // Запас дефолтных блоков закончился, генерация по весам (дефолтные, или с маленькой вероятностью переходим на спец. блоки)
@@ -310,7 +313,7 @@ namespace ParkourRunner.Scripts.Track.Generator
 
             if (_environmentIndex == DEFAULT_INDEX)
             {
-                result = _defaultEnvironment.blocks[Random.Range(0, _defaultEnvironment.blocks.Count)];
+                result = GetBlockFromList(_defaultEnvironment.blocks); //_defaultEnvironment.blocks[Random.Range(0, _defaultEnvironment.blocks.Count)];
             }
             else
             {
@@ -319,7 +322,7 @@ namespace ParkourRunner.Scripts.Track.Generator
                 _environmentState = EnvironmentGenerations.Special;
                 _environmentLength = Random.Range(environment.minCount, environment.maxCount);
 
-                result = (environment.startPoint != null) ? environment.startPoint : environment.blocks[Random.Range(0, environment.blocks.Count)];
+                result = (environment.startPoint != null) ? environment.startPoint : GetBlockFromList(environment.blocks);//environment.blocks[Random.Range(0, environment.blocks.Count)];
 
                 if (environment.startPoint == null)
                 {
@@ -338,7 +341,7 @@ namespace ParkourRunner.Scripts.Track.Generator
 
             if (_environmentLength > 0)
             {
-                result = environment.blocks[Random.Range(0, environment.blocks.Count)];
+                result = GetBlockFromList(environment.blocks); //environment.blocks[Random.Range(0, environment.blocks.Count)];
                 _environmentLength--;
             }
             else
@@ -346,7 +349,7 @@ namespace ParkourRunner.Scripts.Track.Generator
                 _environmentState = EnvironmentGenerations.Default;
                 _environmentLength = _defaultEnvironment.separateCount;
                                 
-                result = (environment.finishPoint != null) ? environment.finishPoint : (_defaultEnvironment.blocks[Random.Range(0, _defaultEnvironment.blocks.Count)]);
+                result = (environment.finishPoint != null) ? environment.finishPoint : GetBlockFromList(_defaultEnvironment.blocks); //(_defaultEnvironment.blocks[Random.Range(0, _defaultEnvironment.blocks.Count)]);
 
                 if (environment.finishPoint == null)
                 {
