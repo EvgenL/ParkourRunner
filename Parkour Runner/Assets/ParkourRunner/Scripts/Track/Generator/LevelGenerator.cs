@@ -2,30 +2,18 @@
 using System.Collections.Generic;
 using ParkourRunner.Scripts.Managers;
 using ParkourRunner.Scripts.Player.InvectorMods;
+using Assets.ParkourRunner.Scripts.Track.Generator;
 using UnityEngine;
+using AEngine;
 
 namespace ParkourRunner.Scripts.Track.Generator
 {
     public class LevelGenerator : MonoBehaviour
     {
+        private const int DEFAULT_INDEX = 0;
+
         #region Singleton
-
         public static LevelGenerator Instance;
-
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(this);
-                return;
-            }
-            LoadPrefabs();
-        }
-
         #endregion
 
         public int GenerateBlocksForward = 2;
@@ -43,6 +31,20 @@ namespace ParkourRunner.Scripts.Track.Generator
             //
 
         }
+
+        private enum EnvironmentGenerations
+        {
+            Default,    // Дефолтные блоки в определенном количестве
+            Weight,     // Генерация дефолтных блоков (наибольший вес), пока не сработает вес специальных блоков
+            Special     // Специальные блоки в определенном количестве (Robopolis, Tunnel)
+        }
+
+        private Res.DefaulEnvironmentSettings _defaultEnvironment;
+        private List<Res.SpecialEnvironmentSettings> _specialEnvironments;
+
+        private EnvironmentGenerations _environmentState;
+        private int _environmentLength;
+        private ChanceSystem<int> _generationWeights;
 
 
         public int BlockSide = 150; //Сколько метров сторона одного блока
@@ -64,10 +66,25 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         public Block CenterBlock;
 
-        private ResourcesManager _resourcesManager;
+        //private ResourcesManager _resourcesManager;
         private List<GameObject> _blockPrefabs;
         private List<GameObject> _challengeBlocks;
         private List<GameObject> _relaxBlocks;
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(this);
+                return;
+            }
+            LoadPrefabs();
+        }
+
 
         void Start ()
         {
@@ -82,23 +99,38 @@ namespace ParkourRunner.Scripts.Track.Generator
             {
                 _player = FindObjectOfType<ParkourThirdPersonController>().transform;
             }
-
-
+                                    
             //reset pos
             //transform.position = _player.position + StartBlockOffset;
             //transform.position = _player.position + StartBlockOffset;
 
+            _generationWeights = new ChanceSystem<int>();
+
+            _generationWeights.Add(DEFAULT_INDEX, _defaultEnvironment.nextWeight);
+            for (int i = 0; i < _specialEnvironments.Count; i++)
+            {
+                _generationWeights.Add(i + 1, _specialEnvironments[i].nextWeight);      // 0 занят под дефолтные блоки, так что индекс на 1 больше
+            }
+
+            _generationWeights.CalculateChanceWeights();
+
+            _environmentState = EnvironmentGenerations.Default;
+            _environmentLength = _defaultEnvironment.startCount;
+
             StartCoroutine(Generate());
         }
-
+        
         private void LoadPrefabs()
         {
-//load resources
+            //load resources
+            _defaultEnvironment = ResourcesManager.DefaultEnvironment;
+            _specialEnvironments = ResourcesManager.SpecialEnvironments;
+
             _blockPrefabs = ResourcesManager.BlockPrefabs;
             _challengeBlocks = _blockPrefabs.FindAll(x => x.GetComponent<Block>().Type == Block.BlockType.Challenge);
             _relaxBlocks = _blockPrefabs.FindAll(x => x.GetComponent<Block>().Type == Block.BlockType.Relax);
         }
-
+        
         private IEnumerator Generate()
         {
             GenerateStartBlock();
@@ -221,8 +253,6 @@ namespace ParkourRunner.Scripts.Track.Generator
             }
         }
         
-
-
         public GameObject GetRandomBlock()
         {
             if (State == GeneratorState.Chill && _relaxBlocks.Count > 0)

@@ -13,6 +13,9 @@ namespace ParkourRunner.Scripts.Managers
         private const string ObstaclePrefabsPath = "Obstacles";
         private const string PickUpPath = "PickUp";
 
+        public static Res.DefaulEnvironmentSettings DefaultEnvironment;
+        public static List<Res.SpecialEnvironmentSettings> SpecialEnvironments;
+
         public static List<GameObject> BlockPrefabs;
         public static List<GameObject> ObstaclesSmallPrefabs;
         
@@ -46,6 +49,9 @@ namespace ParkourRunner.Scripts.Managers
 
         public void LoadResources()
         {
+            DefaultEnvironment = _res.DefaultEnvironment;
+            SpecialEnvironments = _res.SpecialEnvironments;
+
             BlockPrefabs = _res.BlockPrefabs.FindAll(x => x.activeSelf);
             
             ObstaclesSmallPrefabs = _res.ObstaclesSmallPrefabs;
