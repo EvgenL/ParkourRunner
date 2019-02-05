@@ -15,6 +15,7 @@ namespace Assets.ParkourRunner.Scripts.Track.Generator
             public int startCount;
             public int separateCount;
             public float nextWeight;
+            public Block startPoint;
             public List<Block> blocks;
         }
 
