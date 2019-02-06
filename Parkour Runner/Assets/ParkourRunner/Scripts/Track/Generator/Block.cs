@@ -58,13 +58,5 @@ namespace ParkourRunner.Scripts.Track.Generator
                 GenerationPoints[randI].Generate();
             }
         }
-
-        /*public void Clear()
-        {
-            foreach (var building in Buildings)
-            {
-                building.Clear();
-            }
-        }*/
     }
 }

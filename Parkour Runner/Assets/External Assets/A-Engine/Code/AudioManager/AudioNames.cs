@@ -23,7 +23,8 @@ namespace AEngine
 		Explosion,
 		Result,
 		CollisionHit,
-		Laser
+		Laser,
+		PlatformUp
 	}
 
 	public enum Musics
