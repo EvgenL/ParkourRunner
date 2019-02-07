@@ -17,39 +17,22 @@ public class ShopBonusesPanel : MonoBehaviour
     
     public Image MyImage
     {
-        get
-        {
-            return _bonusImg;
-        }
-
-        set
-        {
-            _bonusImg = value;
-        }
+        get { return _bonusImg; }
+        set { _bonusImg = value; }
     }
+
+    public BonusName BonusKind { get; set; }
 
     public Text MyPrice
     {
-        get
-        {
-            return _price;
-        }
-        set
-        {
-            _price = value;
-        }
+        get { return _price; }
+        set { _price = value; }
     }
 
     public string MyName
     {
-        get
-        {
-            return _name;
-        }
-        set
-        {
-            _name = value;
-        }
+        get { return _name; }
+        set { _name = value; }
     }
 
     private void Start()

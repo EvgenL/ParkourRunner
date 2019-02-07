@@ -3,28 +3,22 @@
 [CreateAssetMenu(fileName = "New BonusShopData", menuName = "BonusShopData", order = 51)]
 public class BonusesShopData : ScriptableObject
 {
-    [SerializeField] private string _bonusName;
     [SerializeField] private Sprite _bonusIcon;
+    [SerializeField] private BonusName _bonusKind;
+    [SerializeField] private int[] _prices;
+
+    [Header("Old")]
+    [SerializeField] private string _bonusName;
     [SerializeField] private float _payForThis;
-    
-    
 
-    public string BonusesName
-    {
-        get
-        {
-            return _bonusName;
-        }
-    }
+    public Sprite BonusesIcon { get { return _bonusIcon; } }
 
-    public Sprite BonusesIcon
-    {
-        get
-        {
-            return _bonusIcon;
-        }
-    }
-    
+    public BonusName BonusKind { get { return _bonusKind; } }
+
+    public int[] Prices { get { return _prices; } }
+
+    // OLD
+    public string BonusesName { get { return _bonusName; } }
     public string PayForThis
     {
         get
@@ -36,5 +30,4 @@ public class BonusesShopData : ScriptableObject
             _payForThis = System.Convert.ToInt32(value);
         }
     }
-	
 }
