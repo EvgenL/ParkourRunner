@@ -32,6 +32,7 @@ namespace ParkourRunner.Scripts.Managers
                 Destroy(this);
             }
 
+            _wallet = Wallet.Instance;
             _audio = AudioManager.Instance;
         }
 
@@ -39,9 +40,7 @@ namespace ParkourRunner.Scripts.Managers
 
         public Image flashImage;
         public float FlashSpeed = 5f;
-
-        public Text CoinsText;
-
+                
         public BonusPanel BonusPanel;
         public PostMortemScreen PostMortemScreen;
 
@@ -61,13 +60,14 @@ namespace ParkourRunner.Scripts.Managers
 
         private bool _flashing = false;
 
+        private Wallet _wallet;
         private AudioManager _audio;
 
         void Start()
         {
-            SetCoins(0);
+            _wallet.ResetInGameCoins();
         }
-
+                
         void Update()
         {
             ShowFlash();
@@ -97,15 +97,7 @@ namespace ParkourRunner.Scripts.Managers
                 flashImage.enabled = false;
             }
         }
-
-        public void SetCoins(int value)
-        {
-            if (value == 0)
-                CoinsText.text = "";
-            else
-                CoinsText.text = value + "$";
-        }
-
+                
         public void UpdateBonus(BonusName bonusName, float value)
         {
             BonusPanel.UpdateBonus(bonusName, value);
@@ -170,6 +162,7 @@ namespace ParkourRunner.Scripts.Managers
 
             // StartCoroutine(TrickRewardAnimation(trick, mult));
         }
+
         public void ShowTrickName(Trick trick, float mult = 1)
         {
             string message = trick.Name + "!";

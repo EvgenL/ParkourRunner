@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
 [CreateAssetMenu(fileName = "New BonusShopData", menuName = "BonusShopData", order = 51)]
 public class BonusesShopData : ScriptableObject
 {
@@ -28,10 +27,9 @@ public class BonusesShopData : ScriptableObject
     
     public string PayForThis
     {
-
         get
         {
-            return (_payForThis + PlayerPrefs.GetInt(_bonusName) * _payForThis/2).ToString();
+            return (_payForThis + Mathf.FloorToInt(PlayerPrefs.GetInt(_bonusName) * _payForThis/2)).ToString();
         }
         set
         {

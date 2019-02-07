@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ParkourRunner.Scripts.Managers;
+﻿using ParkourRunner.Scripts.Managers;
 using ParkourRunner.Scripts.Player.InvectorMods;
 using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using UnityEngine;

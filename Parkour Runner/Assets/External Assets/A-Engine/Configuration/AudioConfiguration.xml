@@ -1,6 +1,6 @@
 <AudioData>
   <AudioSettings useMusic="True" musicVolume="0.6" useSound="True" soundVolume="1" />
-  <AudioConfiguration SoundSourceCount="3" fade="0" fadeOn="False" />
+  <AudioConfiguration SoundSourceCount="4" fade="0" fadeOn="False" />
   <AudioBlock Name="Menu">
     <Music DelayBetweenTracks="0.1" MusicNotReplyLength="1">
       <Track Name="MenuMusic1" Path="AudioResources/Musics/MenuMusic1" Volume="0.6" />

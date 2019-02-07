@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using ParkourRunner.Scripts.Player;
 using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using UnityEngine;
@@ -45,8 +44,7 @@ namespace ParkourRunner.Scripts.Managers
 
         public static int GameLaunches; //Сколько раз запущена игра
         public static float DistanceRecord { get; private set; } //Рекорд игрока
-        public static float Coins { get; private set; } //Деньги игрока
-
+        
         public static float GetBonusLen(BonusName bonusName)
         {
             switch (bonusName)
@@ -132,22 +130,17 @@ namespace ParkourRunner.Scripts.Managers
         public static void LoadSettings()
         {
             GameLaunches = PlayerPrefs.GetInt("GameLaunches", 0);
-            Coins = PlayerPrefs.GetFloat("Coins", 0);
-            Coins = 1000000;
-
             DistanceRecord = PlayerPrefs.GetFloat("DistanceRecord", 0);
         }
 
         public static void SaveSettings()
         {
             PlayerPrefs.SetInt("GameLaunches", GameLaunches);
-            PlayerPrefs.SetFloat("Coins", Coins);
             PlayerPrefs.SetFloat("DistanceRecord", DistanceRecord);
         }
 
         public static void ResetSettings()
         {
-            PlayerPrefs.SetFloat("Coins", 0);
             PlayerPrefs.SetFloat("DistanceRecord", 0);
             //ResetTrickPurchases(); //TODO
         }
@@ -168,23 +161,6 @@ namespace ParkourRunner.Scripts.Managers
                 DistanceRecord = metres;
                 return true;
             }
-            return false;
-        }
-
-        public static void AddCoin(int value = 1)
-        {
-            Coins += value;
-        }
-
-        public static bool SpendCoins(int value)
-        {
-            if (Coins - value >= 0)
-            {
-                Coins -= value;
-                return true;
-            }
-            print("not enof money " + (-(Coins - value)));
-            //TODO у вас недостаточно денег. Задонатить?
             return false;
         }
     }

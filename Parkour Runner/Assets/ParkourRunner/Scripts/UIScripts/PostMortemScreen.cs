@@ -113,12 +113,13 @@ public class PostMortemScreen : MonoBehaviour
         NewRecordText.SetActive(ProgressManager.IsNewRecord(_gm.DistanceRun));
 
         RecordText.text = "Best: " + ProgressManager.DistanceRecord + "m";
-        CoinsText.text = "Conis: " + _gm.CoinsThisRun;
+        CoinsText.text = "Conis: " + Wallet.Instance.InGameCoins;
     }
 
     public void ReviveForMoney()
     {
-        if (ProgressManager.SpendCoins(_gm.ReviveCost)) 
+        //if (ProgressManager.SpendCoins(_gm.ReviveCost)) 
+        if (Wallet.Instance.SpendCoins(_gm.ReviveCost))
         {
             Revive();
             _audio.PlaySound(Sounds.Tap);

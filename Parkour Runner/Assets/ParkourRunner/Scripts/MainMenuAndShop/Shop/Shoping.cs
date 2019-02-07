@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class Shoping
 {
-
     public static void GetDonat(string donatsName)
     {
         if (donatsName == "NoAds")
@@ -13,7 +10,7 @@ public static class Shoping
         }
         else
         {
-            ParkourRunner.Scripts.Managers.ProgressManager.AddCoin(100);
+            Wallet.Instance.AddCoins(100, Wallet.WalletMode.Global);
         }
     }
 
@@ -21,5 +18,4 @@ public static class Shoping
     {
         PlayerPrefs.SetInt(bonusName, PlayerPrefs.GetInt(bonusName) +1);
     }
-
 }

@@ -25,6 +25,7 @@ namespace ParkourRunner.Scripts.Managers
             {
                 Instance = this;
 
+                _wallet = Wallet.Instance;
                 _audio = AudioManager.Instance;
             }
             else
@@ -50,7 +51,6 @@ namespace ParkourRunner.Scripts.Managers
 
         public float VelocityToDismember = 10f;
 
-        public int CoinsThisRun { get; private set; }
         public int CoinMultipiler = 1;
         public float TrickMultipiler = 1;
 
@@ -79,9 +79,8 @@ namespace ParkourRunner.Scripts.Managers
         private Animator _playerAnimator;
 
         private HUDManager _hud;
-
-
-
+        private Wallet _wallet;
+                
         private void Start()
         {
             FindObjectOfType<BehaviourPuppet>().onLoseBalance.unityEvent.AddListener(ResetSpeed);
@@ -231,12 +230,7 @@ namespace ParkourRunner.Scripts.Managers
 
         public void AddCoin(int amount = 1)
         {
-            int add = amount * CoinMultipiler;
-            CoinsThisRun += add;
-            ProgressManager.AddCoin(add);
-
-            _hud.SetCoins(CoinsThisRun);
-
+            _wallet.AddCoins(amount * CoinMultipiler, Wallet.WalletMode.InGame);
             _audio.PlaySound(Sounds.Coin);
         }
 
