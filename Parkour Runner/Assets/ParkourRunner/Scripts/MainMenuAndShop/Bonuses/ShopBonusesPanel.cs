@@ -11,7 +11,7 @@ public class ShopBonusesPanel : MonoBehaviour
     [SerializeField] private Sprite _activeUnit;
     [SerializeField] private Sprite _deactiveUnit;
     [SerializeField] private GameObject _coinImg;
-    private string _name;
+    
     private int _purchasedBonusesCount;
     private int _bonusRestoreValue;
     
@@ -23,16 +23,12 @@ public class ShopBonusesPanel : MonoBehaviour
 
     public BonusName BonusKind { get; set; }
 
+    public int[] Prices { get; set; }
+
     public Text MyPrice
     {
         get { return _price; }
         set { _price = value; }
-    }
-
-    public string MyName
-    {
-        get { return _name; }
-        set { _name = value; }
     }
 
     private void Start()
@@ -43,20 +39,36 @@ public class ShopBonusesPanel : MonoBehaviour
         PossibilityOfPurchase();
     }
 
-    public void BuyThisThing()
+    public void Buy()
     {
-        if (PlayerPrefs.GetInt(gameObject.name) < 10)
+        int bonusLevel = PlayerPrefs.GetInt(this.BonusKind.ToString());
+        
+        if (bonusLevel < this.Prices.Length)
         {
-            Shoping.GetBonus(gameObject.name);
-            SetUnitsToActive();
-            AudioManager.Instance.PlaySound(Sounds.UpgradeBonus);
+            int price = this.Prices[bonusLevel];
+
+            if (Wallet.Instance.SpendCoins(price))
+            {
+                Shoping.GetBonus(this.BonusKind.ToString());
+                RefreshPrice();
+                SetUnitsToActive();
+                AudioManager.Instance.PlaySound(Sounds.UpgradeBonus);
+            }
         }
+
         PossibilityOfPurchase();
     }
 
+    public void RefreshPrice()
+    {
+        int bonusLevel = Mathf.Clamp(PlayerPrefs.GetInt(this.BonusKind.ToString()), 0, this.Prices.Length - 1);
+
+        _price.text = this.Prices[bonusLevel].ToString();
+    }
+    
     private int GetPurchasedBonusesCount()
     {
-        return PlayerPrefs.GetInt(gameObject.name);
+        return PlayerPrefs.GetInt(this.BonusKind.ToString());
     }
 
     private void SetUnitsImgs()
@@ -65,7 +77,7 @@ public class ShopBonusesPanel : MonoBehaviour
         {
             if (i < _purchasedBonusesCount)
             {
-            _unitsPlace.transform.GetChild(i).GetComponent<Image>().sprite = _activeUnit;
+                _unitsPlace.transform.GetChild(i).GetComponent<Image>().sprite = _activeUnit;
             }
             else
             {
@@ -88,13 +100,15 @@ public class ShopBonusesPanel : MonoBehaviour
 
     private void PossibilityOfPurchase()
     {
-        if (PlayerPrefs.GetInt(gameObject.name) == 10)
+        int bonusLevel = PlayerPrefs.GetInt(this.BonusKind.ToString());
+
+        if (bonusLevel == 10)
         {
             _coinImg.GetComponent<Image>().enabled = false;
             _buyBtn.gameObject.GetComponent<Image>().enabled = false;
             _price.enabled = false;
         }
-        if (PlayerPrefs.GetInt(gameObject.name) != 10)
+        if (bonusLevel != 10)
         {
             _coinImg.GetComponent<Image>().enabled = true;
             _buyBtn.gameObject.GetComponent<Image>().enabled = true;

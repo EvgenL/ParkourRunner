@@ -1,6 +1,5 @@
 ﻿using ParkourRunner.Scripts.Managers;
 using ParkourRunner.Scripts.Player.InvectorMods;
-using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using UnityEngine;
 
 namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
