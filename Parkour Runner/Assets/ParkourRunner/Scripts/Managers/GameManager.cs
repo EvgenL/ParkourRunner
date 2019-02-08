@@ -80,7 +80,7 @@ namespace ParkourRunner.Scripts.Managers
 
         private HUDManager _hud;
         private Wallet _wallet;
-                
+        
         private void Start()
         {
             FindObjectOfType<BehaviourPuppet>().onLoseBalance.unityEvent.AddListener(ResetSpeed);

@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ParkourRunner.Scripts.Player;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-public class ClickButtons : MonoBehaviour {
 
+public class ClickButtons : MonoBehaviour
+{
     [SerializeField] private GameObject _finger;
     [SerializeField] private RectTransform _forFingerPos1End;
     [SerializeField] private RectTransform _forFingerPos2End;
@@ -13,7 +13,7 @@ public class ClickButtons : MonoBehaviour {
     [SerializeField] private float _direction;
     private void Start()
     {
-        GetComponent<Button>().onClick.AddListener(() => PlayerPrefs.SetString("Config", "Click4"));
+        GetComponent<Button>().onClick.AddListener(() => Configuration.Instance.SaveInputConfiguration(ControlsMode.FourButtons));
         _finger.GetComponent<RectTransform>().anchoredPosition = new Vector2(_forFingerPos1End.anchoredPosition.x, _forFingerPos1End.anchoredPosition.y);
         ClickDemonstration();
        

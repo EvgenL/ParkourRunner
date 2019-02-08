@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
-using Basic_Locomotion.Scripts.CharacterController;
+﻿using Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using ParkourRunner.Scripts.Managers;
 using ParkourRunner.Scripts.Player.InvectorMods;
 using UnityEngine;
@@ -13,7 +11,6 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
         protected override void EndEffect()
         {
             CharacterEffects.Instance.MagnetActive = false;
-
         }
 
         protected override void UpdateEffect(float timeRemaining)

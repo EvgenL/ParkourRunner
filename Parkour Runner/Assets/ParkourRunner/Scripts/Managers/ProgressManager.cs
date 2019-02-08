@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using ParkourRunner.Scripts.Player;
-using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using UnityEngine;
 
 namespace ParkourRunner.Scripts.Managers
