@@ -3,8 +3,40 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 using AEngine;
+using System;
 
-public class UIDoTweener : MonoBehaviour {
+public class UIDoTweener : MonoBehaviour
+{
+    [Serializable]
+    private struct AnimationSettings
+    {
+        public RectTransform target;
+        public Vector2 deltaPosition;
+        public bool startAtShowPosition;
+        public float duration;
+        public float showDeltaTime;
+        public float hideDeltaTime;
+        public Ease ease;
+
+        public Vector2 HidePosition { get; private set; }
+        public Vector2 ShowPosition { get; private set; }
+
+        public void CalculatePositions()
+        {
+            this.ShowPosition = (startAtShowPosition) ? target.anchoredPosition : target.anchoredPosition + deltaPosition;
+            this.HidePosition = (startAtShowPosition) ? target.anchoredPosition + deltaPosition : target.anchoredPosition;
+        }
+
+        public void PlayShowAnimation(Sequence sequence)
+        {
+            sequence.Insert(showDeltaTime, target.DOAnchorPos(this.ShowPosition, duration)).SetEase(ease);
+        }
+
+        public void PlayHideAnimation(Sequence sequence)
+        {
+            sequence.Insert(hideDeltaTime, target.DOAnchorPos(this.HidePosition, duration)).SetEase(ease);
+        }        
+    }
 
     [SerializeField] private GameObject _sceneLoader;
 
@@ -38,6 +70,8 @@ public class UIDoTweener : MonoBehaviour {
     private Vector2 _backbtnStartPosFromShop;
     [SerializeField] private float _backBtnDurationFromShop;
 
+    [SerializeField] private AnimationSettings _walletAnim;
+
     private AudioManager _audio;
 
     public static int priority=1;
@@ -52,6 +86,8 @@ public class UIDoTweener : MonoBehaviour {
         _playbtnStartPosFromShop = _playBtnFromShop.GetComponent<RectTransform>().anchoredPosition;
         _backbtnStartPosFromShop=_backBtnFromShop.GetComponent<RectTransform>().anchoredPosition;
 
+        _walletAnim.CalculatePositions();
+                
         _audio = AudioManager.Instance;
     }
 
@@ -72,7 +108,7 @@ public class UIDoTweener : MonoBehaviour {
         secuance.Append(_playBtnEndPos.DOAnchorPos(new Vector2(GetComponent<RectTransform>().rect.width / 2, _playBtnEndPos.anchoredPosition.y), _playBtnDuration).SetEase(Ease.OutCubic));
         secuance.Insert(0.1f, _shopBtnEndPos.DOAnchorPos(new Vector2(GetComponent<RectTransform>().rect.width / 2, _shopBtnEndPos.anchoredPosition.y), _shopBtnDuration).SetEase(Ease.OutCubic));
         secuance.Insert(0.3f, _settingsPanelEndPos.DOAnchorPos(new Vector2(_settingsPanelEndPos.anchoredPosition.x, -GetComponent<RectTransform>().rect.height / 2), _settingsPanelDuration).SetEase(Ease.InOutElastic));
-
+        
         secuance.OnComplete(() =>
         {
             StartCoroutine(EnableBtnsRaycastTargetTo(true, 0.1f));
@@ -101,9 +137,11 @@ public class UIDoTweener : MonoBehaviour {
         
         secuance.Insert(0.5f+_shopDuration, _playBtnEndPosFromShop.DOAnchorPos(new Vector2(-GetComponent<RectTransform>().rect.width / 2, _playBtnEndPosFromShop.anchoredPosition.y), _playBtnDurationFromShop)).SetEase(Ease.InBounce);
         secuance.Insert(0.4f+_settingsPanelDuration, _backBtnEndPosFromShop.DOAnchorPos(new Vector2(-GetComponent<RectTransform>().rect.width / 2, _backBtnEndPosFromShop.anchoredPosition.y), _backBtnDurationFromShop)).SetEase(Ease.InBounce);
+         _walletAnim.PlayShowAnimation(secuance);
 
         secuance.Append(_shopEndPos.DOAnchorPos(new Vector2(GetComponent<RectTransform>().rect.width / 2, 0), _shopDuration)).SetEase(Ease.Flash);
-      //  secuance.Append(_settingsPanelEndPos.DOAnchorPos(new Vector2(_settingsPanelEndPos.anchoredPosition.x, -GetComponent<RectTransform>().rect.height / 2), _settingsPanelDuration/2).SetEase(Ease.InBounce)).WaitForCompletion();
+       
+        //  secuance.Append(_settingsPanelEndPos.DOAnchorPos(new Vector2(_settingsPanelEndPos.anchoredPosition.x, -GetComponent<RectTransform>().rect.height / 2), _settingsPanelDuration/2).SetEase(Ease.InBounce)).WaitForCompletion();
 
         secuance.OnComplete(() => 
         {
@@ -156,6 +194,8 @@ public class UIDoTweener : MonoBehaviour {
         secuance.Insert(0.5f , _playBtnEndPosFromShop.DOAnchorPos(new Vector2( _playbtnStartPosFromShop.x, _playBtnEndPosFromShop.anchoredPosition.y), _playBtnDurationFromShop)).SetEase(Ease.InBounce);
         secuance.Insert(0.4f , _backBtnEndPosFromShop.DOAnchorPos(new Vector2(_backbtnStartPosFromShop.x, _backBtnEndPosFromShop.anchoredPosition.y), _backBtnDurationFromShop)).SetEase(Ease.InBounce);
 
+        _walletAnim.PlayHideAnimation(secuance);
+
         secuance.Append(_shopEndPos.DOAnchorPos(new Vector2(_shopStartPos.x, _shopStartPos.y), _shopDuration)).SetEase(Ease.Flash);
         secuance.OnComplete(() => { StartCoroutine(EnableBtnsRaycastTargetTo(true, 0.1f)); });
         secuance.OnComplete(() => { OpenGameScene(); } );
@@ -185,6 +225,7 @@ public class UIDoTweener : MonoBehaviour {
 
         firstSecuance.Insert(0.5f, _playBtnEndPosFromShop.DOAnchorPos(new Vector2(_playbtnStartPosFromShop.x, _playBtnEndPosFromShop.anchoredPosition.y), _playBtnDurationFromShop)).SetEase(Ease.InBounce);
         firstSecuance.Insert(0.4f, _backBtnEndPosFromShop.DOAnchorPos(new Vector2(_backbtnStartPosFromShop.x, _backBtnEndPosFromShop.anchoredPosition.y), _backBtnDurationFromShop)).SetEase(Ease.InBounce);
+        _walletAnim.PlayHideAnimation(firstSecuance);
 
         firstSecuance.Append(_shopEndPos.DOAnchorPos(new Vector2(_shopStartPos.x, _shopStartPos.y), _shopDuration)).SetEase(Ease.Flash);
 
