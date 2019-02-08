@@ -50,18 +50,19 @@ namespace ParkourRunner.Scripts.Player
 
         private void Start()
         {
-            //TODO сохранить настройку
-            SwitchMode(_controlsMode);
+            SwitchMode(Configuration.Instance.GetInputConfiguration());
 
             if (_playerInput == null)
             {
                 _playerInput = FindObjectOfType<ParkourThirdPersonInput>();
             }
         }
+
         public void OnSwitchModeDebug()
         {
             SwitchMode((ControlsMode)DebugDropdown.value);
         }
+
         public void SwitchMode(ControlsMode mode)
         {
             _controlsMode = mode;
@@ -86,8 +87,7 @@ namespace ParkourRunner.Scripts.Player
                     break;
             }
         }
-
-
+        
         void Update()
         {
             switch (_controlsMode)
@@ -110,8 +110,6 @@ namespace ParkourRunner.Scripts.Player
                     CalculateDelta();
                     CheckCircle();
                     break;
-
-
             }
         }
 

@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ParkourRunner.Scripts.Player;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-public class Swap : MonoBehaviour {
 
+public class Swap : MonoBehaviour
+{
     [SerializeField] private GameObject _finger;
     [SerializeField] private RectTransform _forFingerPos1;
     [SerializeField] private RectTransform _forFingerPos1End;
@@ -12,10 +12,10 @@ public class Swap : MonoBehaviour {
     [SerializeField] private RectTransform _forFingerPos3End;
     [SerializeField] private RectTransform _forFingerPos4End;
     [SerializeField] private float _direction;
-
+        
     private void Start()
     {
-        GetComponent<Button>().onClick.AddListener(() => PlayerPrefs.SetString("Config", "Swap"));
+        GetComponent<Button>().onClick.AddListener(() => Configuration.Instance.SaveInputConfiguration(ControlsMode.TwoButtons));
         _finger.GetComponent<RectTransform>().anchoredPosition = new Vector2(_forFingerPos1.anchoredPosition.x, _forFingerPos1.anchoredPosition.y);
         SwapDemonstrate();
     }

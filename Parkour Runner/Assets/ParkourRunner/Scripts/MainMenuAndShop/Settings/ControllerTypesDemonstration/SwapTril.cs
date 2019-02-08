@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using ParkourRunner.Scripts.Player;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-public class SwapTril : MonoBehaviour {
 
+public class SwapTril : MonoBehaviour
+{
     [SerializeField] private GameObject _finger;
     [SerializeField] private RectTransform _forFingerPos1;
     [SerializeField] private RectTransform _forFingerPos1End;
@@ -13,8 +13,7 @@ public class SwapTril : MonoBehaviour {
     
     private void Start()
     {
-       
-        GetComponent<Button>().onClick.AddListener(() => PlayerPrefs.SetString("Config", "SwapTilt"));
+        GetComponent<Button>().onClick.AddListener(() => Configuration.Instance.SaveInputConfiguration(ControlsMode.Tilt));
         _finger.GetComponent<RectTransform>().anchoredPosition = new Vector2(_forFingerPos1.anchoredPosition.x, _forFingerPos1.anchoredPosition.y);
         SwapDemonstrate();
     }
@@ -41,9 +40,6 @@ public class SwapTril : MonoBehaviour {
                 
             });
         });
-
-
-
     }
 
 }
