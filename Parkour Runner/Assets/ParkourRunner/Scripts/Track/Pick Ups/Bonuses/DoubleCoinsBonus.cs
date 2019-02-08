@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Basic_Locomotion.Scripts.CharacterController;
-using ParkourRunner.Scripts.Managers;
-using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
-using UnityEngine;
+﻿using ParkourRunner.Scripts.Managers;
 
 namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 {
@@ -15,14 +8,12 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
         {
             GameManager.Instance.CoinMultipiler = 1;
             CharacterEffects.Instance.DoubleActive = false;
-
         }
 
         protected override void StartEffect()
         {
-            CharacterEffects.Instance.DoubleActive = true;
-
             GameManager.Instance.CoinMultipiler = 2;
+            CharacterEffects.Instance.DoubleActive = true;
         }
     }
 }

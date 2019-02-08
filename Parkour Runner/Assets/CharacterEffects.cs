@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CharacterEffects : MonoBehaviour
 {
-
     public static CharacterEffects Instance;
-
+        
     public ParticleSystem JumpL;
     public ParticleSystem JumpR;
 
@@ -17,7 +14,19 @@ public class CharacterEffects : MonoBehaviour
     public bool JumpActive;
     public bool MagnetActive;
     public bool DoubleActive;
-    public bool ShieldActive; 
+    public bool ShieldActive;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
     void Update ()
 	{

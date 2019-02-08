@@ -1,7 +1,5 @@
 ﻿using Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
-using Basic_Locomotion.Scripts.CharacterController;
 using ParkourRunner.Scripts.Managers;
-using UnityEngine;
 
 namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 {
