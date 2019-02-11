@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using AEngine;
 
 public class ClickButtons : MonoBehaviour
 {
@@ -11,13 +12,19 @@ public class ClickButtons : MonoBehaviour
     [SerializeField] private RectTransform _forFingerPos3End;
     [SerializeField] private RectTransform _forFingerPos4End;
     [SerializeField] private float _direction;
+
     private void Start()
     {
-        GetComponent<Button>().onClick.AddListener(() => Configuration.Instance.SaveInputConfiguration(ControlsMode.FourButtons));
+        GetComponent<Button>().onClick.AddListener(() =>
+        {
+            Configuration.Instance.SaveInputConfiguration(ControlsMode.FourButtons);
+            AudioManager.Instance.PlaySound(Sounds.Tap);
+        });
+
         _finger.GetComponent<RectTransform>().anchoredPosition = new Vector2(_forFingerPos1End.anchoredPosition.x, _forFingerPos1End.anchoredPosition.y);
         ClickDemonstration();
-       
     }
+
     private void ClickDemonstration()
     {
         _finger.GetComponent<Image>().color = new Color(1, 1, 1, 1);
@@ -50,6 +57,5 @@ public class ClickButtons : MonoBehaviour
             });
 
         });
-
     }
 }
