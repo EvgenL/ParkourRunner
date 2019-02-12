@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using AEngine;
 
 public class SwapTril : MonoBehaviour
 {
@@ -13,7 +14,12 @@ public class SwapTril : MonoBehaviour
     
     private void Start()
     {
-        GetComponent<Button>().onClick.AddListener(() => Configuration.Instance.SaveInputConfiguration(ControlsMode.Tilt));
+        GetComponent<Button>().onClick.AddListener(() =>
+        {
+            Configuration.Instance.SaveInputConfiguration(ControlsMode.Tilt);
+            AudioManager.Instance.PlaySound(Sounds.Tap);
+        });
+
         _finger.GetComponent<RectTransform>().anchoredPosition = new Vector2(_forFingerPos1.anchoredPosition.x, _forFingerPos1.anchoredPosition.y);
         SwapDemonstrate();
     }
@@ -41,5 +47,4 @@ public class SwapTril : MonoBehaviour
             });
         });
     }
-
 }

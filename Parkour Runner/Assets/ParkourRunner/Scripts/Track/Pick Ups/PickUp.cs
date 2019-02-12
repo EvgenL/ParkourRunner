@@ -13,12 +13,7 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups
         {
             TriggerEvent(other);
         }
-
-        private void OnTriggerStay(Collider other)
-        {
-            TriggerEvent(other);
-        }
-
+                
         private void TriggerEvent(Collider other)
         {
             if (other.CompareTag("Player"))

@@ -24,7 +24,7 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 
         public void RefreshTime()
         {
-            TimeRemaining = ProgressManager.GetBonusLen(_BonusName);
+            TimeRemaining = ProgressManager.Instance.GetBonusLen(_BonusName);
             HUDManager.Instance.UpdateBonus(_BonusName, 1f);
             _active = true;
             StartEffect();
@@ -42,7 +42,7 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
                 return;
             }
 
-            float percent = TimeRemaining / ProgressManager.GetBonusLen(_BonusName);
+            float percent = TimeRemaining / ProgressManager.Instance.GetBonusLen(_BonusName);
             _hud.UpdateBonus(_BonusName, percent);
 
             UpdateEffect(TimeRemaining);

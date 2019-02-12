@@ -25,6 +25,7 @@ namespace ParkourRunner.Scripts.Managers
 
         #endregion
 
+        [SerializeField] private List<BonusData> _pickUps;
 
         public const float InitialMagnetLength = 5f;  //Изначальная длительность
         public static float MagnetUpgradeLength = 0f;  //Продаваемый бонус к длительности
@@ -44,8 +45,31 @@ namespace ParkourRunner.Scripts.Managers
         public static int GameLaunches; //Сколько раз запущена игра
         public static float DistanceRecord { get; private set; } //Рекорд игрока
         
-        public static float GetBonusLen(BonusName bonusName)
+        public float GetBonusLen(BonusName bonusName)
         {
+            BonusData data = null;
+            foreach (BonusData item in _pickUps)
+            {
+                if (item.BonusKind == bonusName)
+                {
+                    data = item;
+                    break;
+                }
+            }
+
+            if (data != null)
+            {
+                int bonusLevel = PlayerPrefs.GetInt(bonusName.ToString());
+                if (bonusLevel >= data.DurationPowers.Length)
+                {
+                    Debug.LogError("Incorrect upgraded length, bonus level = " + bonusLevel);
+                    bonusLevel = 0;
+                }
+
+                return (bonusLevel == 0) ? data.BaseDuration : data.BaseDuration + data.DurationPowers[bonusLevel - 1];
+            }
+
+            /*
             switch (bonusName)
             {
                 case (BonusName.Magnet):
@@ -59,7 +83,8 @@ namespace ParkourRunner.Scripts.Managers
                 case (BonusName.Boost):
                     return InitialBoostLength + BoostUpgradeLength;
             }
-
+            */
+            
             return 0;
         }
 
