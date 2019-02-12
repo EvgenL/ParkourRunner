@@ -6,65 +6,82 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 {
     public abstract class Bonus : MonoBehaviour
     {
-        private float TimeRemaining;
+        [SerializeField] private BonusName _BonusName;
+
+        private float _timeRemaining;
         protected ParkourThirdPersonController _player;
         protected ProgressManager _pm;
         private HUDManager _hud;
-        [SerializeField] private BonusName _BonusName;
 
         private bool _active;
-
+                
         private void Start()
         {
             _pm = ProgressManager.Instance;
             _player = ParkourThirdPersonController.instance;
             _hud = HUDManager.Instance;
-            //TODO play effect animation
         }
 
-        public void RefreshTime()
+        private void OnDisable()
         {
-            TimeRemaining = ProgressManager.Instance.GetBonusLen(_BonusName);
-            HUDManager.Instance.UpdateBonus(_BonusName, 1f);
-            _active = true;
-            StartEffect();
+            if (GameManager.Instance != null)
+                GameManager.Instance.OnDie -= OnDie;
         }
 
         void Update()
         {
             if (!_active) return;
 
-            if (_hud == null) _hud = HUDManager.Instance;
-            TimeRemaining -= Time.deltaTime;
-            if (TimeRemaining <= 0f)
+            if (_hud == null)
+                _hud = HUDManager.Instance;
+
+            _timeRemaining -= Time.deltaTime;
+
+            if (_timeRemaining <= 0f)
             {
+                _hud.UpdateBonus(_BonusName, 0f);
                 End();
-                return;
             }
+            else
+            {
+                float percent = _timeRemaining / ProgressManager.Instance.GetBonusLen(_BonusName);
+                _hud.UpdateBonus(_BonusName, percent);
 
-            float percent = TimeRemaining / ProgressManager.Instance.GetBonusLen(_BonusName);
-            _hud.UpdateBonus(_BonusName, percent);
+                UpdateEffect(_timeRemaining);
+            }           
+        }
 
-            UpdateEffect(TimeRemaining);
+        public void RefreshTime()
+        {
+            _timeRemaining = ProgressManager.Instance.GetBonusLen(_BonusName);
+            HUDManager.Instance.UpdateBonus(_BonusName, 1f);
+            GameManager.Instance.OnDie += OnDie;
+            _active = true;
+
+            StartEffect();
         }
 
         private void End()
         {
             EndEffect();
             _hud.DisableBonus(_BonusName);
+            GameManager.Instance.OnDie -= OnDie;
             _active = false;
         }
 
-        protected virtual void StartEffect()
-        {
-        }
+        protected virtual void StartEffect() {}
 
-        protected virtual void EndEffect()
-        {
-        }
+        protected virtual void EndEffect() {}
 
-        protected virtual void UpdateEffect(float timeRemaining)
+        protected virtual void UpdateEffect(float timeRemaining) {}
+
+        #region Events
+        private void OnDie()
         {
+            _timeRemaining = 0f;
+            _hud.UpdateBonus(_BonusName, 0f);
+            End();
         }
+        #endregion
     }
 }

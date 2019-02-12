@@ -6,16 +6,21 @@ namespace ParkourRunner.Scripts.Managers
 {
     public class ProgressManager : MonoBehaviour
     {
-        #region Singleton
-
         public static ProgressManager Instance;
+        
+        [SerializeField] private List<BonusData> _pickUps;
+        
+        public static int GameLaunches; //Сколько раз запущена игра
+        public static float DistanceRecord { get; private set; } //Рекорд игрока
+        
+        
 
         private void Awake()
         {
-            DontDestroyOnLoad(this);
             if (Instance == null)
             {
                 Instance = this;
+                DontDestroyOnLoad(this);
             }
             else
             {
@@ -23,28 +28,12 @@ namespace ParkourRunner.Scripts.Managers
             }
         }
 
-        #endregion
+        private void Start()
+        {
+            LoadSettings();
+            GameLaunch();
+        }
 
-        [SerializeField] private List<BonusData> _pickUps;
-
-        public const float InitialMagnetLength = 5f;  //Изначальная длительность
-        public static float MagnetUpgradeLength = 0f;  //Продаваемый бонус к длительности
-
-        public static float InitialJumpLength = 10f;  //Изначальная длительность
-        public static float JumpUpgradeLength = 0f;  //Продаваемый бонус к длительности
-
-        public const float InitialShieldLength = 10f;  //Изначальная длительность
-        public static float ShieldUpgradeLength = 0f;  //Продаваемый бонус к длительности
-
-        public const float InitialBoostLength = 10f;  //Изначальная длительность
-        public static float BoostUpgradeLength = 0f;  //Продаваемый бонус к длительности
-
-        public const float InitialDoubleCoinsLength = 10f;  //Изначальная длительность
-        public static float DoubleCoinsUpgradeLength = 0f;  //Продаваемый бонус к длительности
-
-        public static int GameLaunches; //Сколько раз запущена игра
-        public static float DistanceRecord { get; private set; } //Рекорд игрока
-        
         public float GetBonusLen(BonusName bonusName)
         {
             BonusData data = null;
@@ -60,7 +49,7 @@ namespace ParkourRunner.Scripts.Managers
             if (data != null)
             {
                 int bonusLevel = PlayerPrefs.GetInt(bonusName.ToString());
-                if (bonusLevel >= data.DurationPowers.Length)
+                if (bonusLevel > data.DurationPowers.Length)
                 {
                     Debug.LogError("Incorrect upgraded length, bonus level = " + bonusLevel);
                     bonusLevel = 0;
@@ -69,29 +58,7 @@ namespace ParkourRunner.Scripts.Managers
                 return (bonusLevel == 0) ? data.BaseDuration : data.BaseDuration + data.DurationPowers[bonusLevel - 1];
             }
 
-            /*
-            switch (bonusName)
-            {
-                case (BonusName.Magnet):
-                    return InitialMagnetLength + MagnetUpgradeLength;
-                case (BonusName.Jump):
-                    return InitialJumpLength + JumpUpgradeLength;
-                case (BonusName.Shield):
-                    return InitialShieldLength + ShieldUpgradeLength;
-                case (BonusName.DoubleCoins):
-                    return InitialDoubleCoinsLength + DoubleCoinsUpgradeLength;
-                case (BonusName.Boost):
-                    return InitialBoostLength + BoostUpgradeLength;
-            }
-            */
-            
             return 0;
-        }
-
-        private void Start()
-        {
-            LoadSettings();
-            GameLaunch();
         }
 
         private static void GameLaunch()

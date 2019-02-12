@@ -11,10 +11,39 @@ public class CharacterEffects : MonoBehaviour
     public ParticleSystem Shield;
     public ParticleSystem Double;
 
-    public bool JumpActive;
-    public bool MagnetActive;
-    public bool DoubleActive;
-    public bool ShieldActive;
+    private bool _jumpActive;
+    private bool _magnetActive;
+    private bool _doubleActive;
+    private bool _shiedActive;
+
+    public bool JumpActive
+    {
+        get { return _jumpActive; }
+        set
+        {
+            _jumpActive = value;
+            SetParticleState(JumpL, _jumpActive);
+            SetParticleState(JumpR, _jumpActive);
+        }
+    }
+    
+    public bool MagnetActive
+    {
+        get { return _magnetActive; }
+        set { _magnetActive = value; SetParticleState(Magnet, _magnetActive); }
+    }
+
+    public bool DoubleActive
+    {
+        get { return _doubleActive; }
+        set { _doubleActive = value; SetParticleState(Double, _doubleActive); }
+    }
+    
+    public bool ShieldActive
+    {
+        get { return _shiedActive; }
+        set { _shiedActive = value; SetParticleState(Shield, _shiedActive); }
+    }
 
     private void Awake()
     {
@@ -28,70 +57,17 @@ public class CharacterEffects : MonoBehaviour
         }
     }
 
-    void Update ()
-	{
-	    if (JumpActive)
-	    {
-	        if (!JumpL.isPlaying)
-	        {
-	            JumpL.Play();
-	            JumpR.Play();
-	        }
-	    }
-	    else
-	    {
-	        if (JumpL.isPlaying)
-	        {
-	            JumpL.Stop();
-	            JumpR.Stop();
-	        }
-	    }
-
-
-	    if (MagnetActive)
-	    {
-	        if (!Magnet.isPlaying)
-	        {
-	            Magnet.Play();
-	        }
-	    }
-	    else
-	    {
-	        if (Magnet.isPlaying)
-	        {
-	            Magnet.Stop();
-	        }
-	    }
-
-
-	    if (ShieldActive)
-	    {
-	        if (!Shield.isPlaying)
-	        {
-	            Shield.Play();
-	        }
-	    }
-	    else
-	    {
-	        if (Shield.isPlaying)
-	        {
-	            Shield.Stop();
-	        }
-	    }
-
-	    if (DoubleActive)
-	    {
-	        if (!Double.isPlaying)
-	        {
-	            Double.Play();
-	        }
-	    }
-	    else
-	    {
-	        if (Double.isPlaying)
-	        {
-	            Double.Stop();
-	        }
-	    }
+    private void SetParticleState(ParticleSystem particles, bool isPlaying)
+    {
+        if (isPlaying)
+        {
+            if (!particles.isPlaying)
+                particles.Play(true);
+        }
+        else
+        {
+            if (particles.isPlaying)
+                particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
     }
 }

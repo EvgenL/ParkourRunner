@@ -7,19 +7,37 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 {
     class MagnetBonus : Bonus
     {
+        private CharacterEffects _effects;
         
+        protected override void StartEffect()
+        {
+            base.StartEffect();
+
+            if (_effects == null)
+            {
+                _effects = CharacterEffects.Instance;
+            }
+
+            _effects.MagnetActive = true;
+        }
+
         protected override void EndEffect()
         {
-            CharacterEffects.Instance.MagnetActive = false;
+            base.EndEffect();
+            _effects.MagnetActive = false;
         }
 
         protected override void UpdateEffect(float timeRemaining)
         {
             var _coins = PoolManager.Instance.Coins;
-            if (_player == null) _player = ParkourThirdPersonController.instance;
+            if (_player == null)
+                _player = ParkourThirdPersonController.instance;
+
             foreach (var coin in _coins)
             {
-                if (coin == null) continue; //tODO fix
+                if (coin == null)
+                    continue;
+
                 if (Vector3.Distance(_player.transform.position, coin.transform.position) < StaticConst.MagnetRadius)
                 {
                     var rb = coin.GetComponent<Rigidbody>();
@@ -33,8 +51,6 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
                         _player.transform.position + Vector3.up, StaticConst.MagnetCoinVelocity * Time.deltaTime);
                 }
             }
-            CharacterEffects.Instance.MagnetActive = true;
-
         }
     }
 }
