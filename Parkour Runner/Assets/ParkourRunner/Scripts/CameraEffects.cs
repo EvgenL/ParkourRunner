@@ -1,16 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CameraEffects : MonoBehaviour {
-
+public class CameraEffects : MonoBehaviour
+{
     public static CameraEffects Instance;
 
     public ParticleSystem MotionSpeedEffect;
     public bool IsRunningFast;
     public bool IsHighJumping;
 
-    private void Awake()
+    private void Start()
     {
         Instance = this;
     }
@@ -25,18 +23,9 @@ public class CameraEffects : MonoBehaviour {
         else
         {
             if (MotionSpeedEffect.isPlaying)
+            {
                 MotionSpeedEffect.Stop();
+            }
         }
     }
-
-
-    public void PlayMotionEffect()
-    {
-        MotionSpeedEffect.Play();
-    }
-    public void StopMotionEffect()
-    {
-        MotionSpeedEffect.Stop();
-    }
-
 }

@@ -14,6 +14,8 @@ namespace ParkourRunner.Scripts.Managers
 {
     public class GameManager : MonoBehaviour
     {
+        public event Action OnDie;
+
         #region Singleton
 
         public static GameManager Instance;
@@ -170,9 +172,10 @@ namespace ParkourRunner.Scripts.Managers
         {
             if (gameState != GameState.Dead)
             {
-                print("dies");
                 gameState = GameState.Dead;
                 _player.Die();
+                OnDie.SafeInvoke();
+
                 Invoke("ShowPostMortem", 4f);
 
                 _audio.PlaySound(Sounds.GameOver);

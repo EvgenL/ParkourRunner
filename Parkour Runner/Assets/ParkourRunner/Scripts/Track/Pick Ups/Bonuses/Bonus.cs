@@ -35,18 +35,23 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
         {
             if (!_active) return;
 
-            if (_hud == null) _hud = HUDManager.Instance;
+            if (_hud == null)
+                _hud = HUDManager.Instance;
+
             _timeRemaining -= Time.deltaTime;
+
             if (_timeRemaining <= 0f)
             {
+                _hud.UpdateBonus(_BonusName, 0f);
                 End();
-                return;
             }
+            else
+            {
+                float percent = _timeRemaining / ProgressManager.Instance.GetBonusLen(_BonusName);
+                _hud.UpdateBonus(_BonusName, percent);
 
-            float percent = _timeRemaining / ProgressManager.Instance.GetBonusLen(_BonusName);
-            _hud.UpdateBonus(_BonusName, percent);
-
-            UpdateEffect(_timeRemaining);
+                UpdateEffect(_timeRemaining);
+            }           
         }
 
         private void End()

@@ -51,8 +51,6 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
                         _player.transform.position + Vector3.up, StaticConst.MagnetCoinVelocity * Time.deltaTime);
                 }
             }
-
-            //CharacterEffects.Instance.MagnetActive = true;
         }
     }
 }
