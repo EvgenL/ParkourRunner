@@ -1,12 +1,10 @@
-﻿using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace ParkourRunner.Scripts.UIScripts
 {
     public class BonusPanel : MonoBehaviour
     {
-
         public GameObject Magnet;
         public Image MagnetSlider;
         public GameObject Shield;
@@ -66,7 +64,5 @@ namespace ParkourRunner.Scripts.UIScripts
                     break;
             }
         }
-
-
     }
 }

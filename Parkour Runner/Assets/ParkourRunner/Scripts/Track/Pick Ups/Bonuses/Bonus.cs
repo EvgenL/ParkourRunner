@@ -6,11 +6,12 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 {
     public abstract class Bonus : MonoBehaviour
     {
-        private float TimeRemaining;
+        [SerializeField] private BonusName _BonusName;
+
+        private float _timeRemaining;
         protected ParkourThirdPersonController _player;
         protected ProgressManager _pm;
         private HUDManager _hud;
-        [SerializeField] private BonusName _BonusName;
 
         private bool _active;
 
@@ -19,14 +20,14 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
             _pm = ProgressManager.Instance;
             _player = ParkourThirdPersonController.instance;
             _hud = HUDManager.Instance;
-            //TODO play effect animation
         }
 
         public void RefreshTime()
         {
-            TimeRemaining = ProgressManager.Instance.GetBonusLen(_BonusName);
+            _timeRemaining = ProgressManager.Instance.GetBonusLen(_BonusName);
             HUDManager.Instance.UpdateBonus(_BonusName, 1f);
             _active = true;
+
             StartEffect();
         }
 
@@ -35,17 +36,17 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
             if (!_active) return;
 
             if (_hud == null) _hud = HUDManager.Instance;
-            TimeRemaining -= Time.deltaTime;
-            if (TimeRemaining <= 0f)
+            _timeRemaining -= Time.deltaTime;
+            if (_timeRemaining <= 0f)
             {
                 End();
                 return;
             }
 
-            float percent = TimeRemaining / ProgressManager.Instance.GetBonusLen(_BonusName);
+            float percent = _timeRemaining / ProgressManager.Instance.GetBonusLen(_BonusName);
             _hud.UpdateBonus(_BonusName, percent);
 
-            UpdateEffect(TimeRemaining);
+            UpdateEffect(_timeRemaining);
         }
 
         private void End()
@@ -55,16 +56,10 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
             _active = false;
         }
 
-        protected virtual void StartEffect()
-        {
-        }
+        protected virtual void StartEffect() {}
 
-        protected virtual void EndEffect()
-        {
-        }
+        protected virtual void EndEffect() {}
 
-        protected virtual void UpdateEffect(float timeRemaining)
-        {
-        }
+        protected virtual void UpdateEffect(float timeRemaining) {}
     }
 }
