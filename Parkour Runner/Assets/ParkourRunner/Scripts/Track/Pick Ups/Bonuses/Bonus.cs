@@ -14,7 +14,7 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
         private HUDManager _hud;
 
         private bool _active;
-
+                
         private void Start()
         {
             _pm = ProgressManager.Instance;
@@ -22,13 +22,10 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
             _hud = HUDManager.Instance;
         }
 
-        public void RefreshTime()
+        private void OnDisable()
         {
-            _timeRemaining = ProgressManager.Instance.GetBonusLen(_BonusName);
-            HUDManager.Instance.UpdateBonus(_BonusName, 1f);
-            _active = true;
-
-            StartEffect();
+            if (GameManager.Instance != null)
+                GameManager.Instance.OnDie -= OnDie;
         }
 
         void Update()
@@ -54,10 +51,21 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
             }           
         }
 
+        public void RefreshTime()
+        {
+            _timeRemaining = ProgressManager.Instance.GetBonusLen(_BonusName);
+            HUDManager.Instance.UpdateBonus(_BonusName, 1f);
+            GameManager.Instance.OnDie += OnDie;
+            _active = true;
+
+            StartEffect();
+        }
+
         private void End()
         {
             EndEffect();
             _hud.DisableBonus(_BonusName);
+            GameManager.Instance.OnDie -= OnDie;
             _active = false;
         }
 
@@ -66,5 +74,14 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
         protected virtual void EndEffect() {}
 
         protected virtual void UpdateEffect(float timeRemaining) {}
+
+        #region Events
+        private void OnDie()
+        {
+            _timeRemaining = 0f;
+            _hud.UpdateBonus(_BonusName, 0f);
+            End();
+        }
+        #endregion
     }
 }
