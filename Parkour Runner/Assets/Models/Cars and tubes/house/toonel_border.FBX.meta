@@ -1,15 +1,14 @@
 fileFormatVersion: 2
-guid: b7ea087f4080ba141998cef365e24e2b
+guid: d10c9422dbaa334438388d1051b6f0f8
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
     400000: //RootNode
-    2100000: laser_undr_obst
-    2100002: 01 - Default
+    2100000: 07 - Default
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Cylinder001
+    4300000: Object004
   externalObjects: {}
   materials:
     importMaterials: 1
