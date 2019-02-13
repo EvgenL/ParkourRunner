@@ -290,8 +290,7 @@ namespace ParkourRunner.Scripts.Track.Generator
             {
                 blocks = blocks.Where(x => x.name != blockName).ToList();
             }
-
-            //var blocks = (list.Count > 1) ? (list.Where(x => x != _lastBlocks[0]).Where(x => x != _lastBlocks[1]).ToList()) : (list.Where(x => x != _lastBlocks[0]).ToList());
+            
             return blocks[Random.Range(0, blocks.Count)];
         }
 
@@ -301,7 +300,7 @@ namespace ParkourRunner.Scripts.Track.Generator
 
             if (_environmentLength > 0)     // Генерируем дефолтные блоки
             {
-                result = GetBlockFromList(_defaultEnvironment.blocks); //_defaultEnvironment.blocks[Random.Range(0, _defaultEnvironment.blocks.Count)];
+                result = GetBlockFromList(_defaultEnvironment.blocks);
                 _environmentLength--;
             }
             else        // Запас дефолтных блоков закончился, генерация по весам (дефолтные, или с маленькой вероятностью переходим на спец. блоки)
@@ -323,7 +322,7 @@ namespace ParkourRunner.Scripts.Track.Generator
 
             if (_environmentIndex == DEFAULT_INDEX)
             {
-                result = GetBlockFromList(_defaultEnvironment.blocks); //_defaultEnvironment.blocks[Random.Range(0, _defaultEnvironment.blocks.Count)];
+                result = GetBlockFromList(_defaultEnvironment.blocks);
             }
             else
             {
@@ -332,7 +331,7 @@ namespace ParkourRunner.Scripts.Track.Generator
                 _environmentState = EnvironmentGenerations.Special;
                 _environmentLength = Random.Range(environment.minCount, environment.maxCount);
 
-                result = (environment.startPoint != null) ? environment.startPoint : GetBlockFromList(environment.blocks);//environment.blocks[Random.Range(0, environment.blocks.Count)];
+                result = (environment.startPoint != null) ? environment.startPoint : GetBlockFromList(environment.blocks);
 
                 if (environment.startPoint == null)
                 {
@@ -351,7 +350,7 @@ namespace ParkourRunner.Scripts.Track.Generator
 
             if (_environmentLength > 0)
             {
-                result = GetBlockFromList(environment.blocks); //environment.blocks[Random.Range(0, environment.blocks.Count)];
+                result = GetBlockFromList(environment.blocks);
                 _environmentLength--;
             }
             else
@@ -359,7 +358,7 @@ namespace ParkourRunner.Scripts.Track.Generator
                 _environmentState = EnvironmentGenerations.Default;
                 _environmentLength = _defaultEnvironment.separateCount;
                                 
-                result = (environment.finishPoint != null) ? environment.finishPoint : GetBlockFromList(_defaultEnvironment.blocks); //(_defaultEnvironment.blocks[Random.Range(0, _defaultEnvironment.blocks.Count)]);
+                result = (environment.finishPoint != null) ? environment.finishPoint : GetBlockFromList(_defaultEnvironment.blocks);
 
                 if (environment.finishPoint == null)
                 {
