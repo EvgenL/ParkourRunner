@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoadManager : MonoBehaviour {
-
+public class SceneLoadManager : MonoBehaviour
+{
     #region Singleton
-
     public static SceneLoadManager Instance;
 
     private void Awake()
@@ -19,16 +18,10 @@ public class SceneLoadManager : MonoBehaviour {
             Destroy(this);
         }
     }
-
     #endregion
-
 
     public void LoadScene(string sceneName)
     { 
-
         SceneManager.LoadScene(sceneName);
     }
-  
-     
-    //TODO asynch and loading screen
 }
