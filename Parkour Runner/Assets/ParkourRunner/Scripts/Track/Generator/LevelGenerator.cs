@@ -12,7 +12,7 @@ namespace ParkourRunner.Scripts.Track.Generator
     public class LevelGenerator : MonoBehaviour
     {
         private const int DEFAULT_INDEX = 0;
-
+        
         #region Singleton
         public static LevelGenerator Instance;
         #endregion
@@ -40,7 +40,7 @@ namespace ParkourRunner.Scripts.Track.Generator
         private ChanceSystem<int> _generationWeights;
         private int _environmentIndex;
 
-        private Block _lastBlock;
+        private List<string> _lastBlocks;
         
         public int BlockSide = 150; //Сколько метров сторона одного блока
 
@@ -49,6 +49,8 @@ namespace ParkourRunner.Scripts.Track.Generator
         public GeneratorState State;
 
         [SerializeField] private List<Block> _blockPool;
+
+        [SerializeField] private int _numberOfNonRepeatingBlocks = 3;
 
         [SerializeField] private Transform _player;
 
@@ -64,12 +66,13 @@ namespace ParkourRunner.Scripts.Track.Generator
         //private List<GameObject> _blockPrefabs;
         //private List<GameObject> _challengeBlocks;
         //private List<GameObject> _relaxBlocks;
-
+        
         private void Awake()
         {
             if (Instance == null)
             {
                 Instance = this;
+                _lastBlocks = new List<string>();
             }
             else
             {
@@ -80,7 +83,7 @@ namespace ParkourRunner.Scripts.Track.Generator
             LoadPrefabs();
         }
 
-        void Start ()
+        private void Start()
         {
             if (_defaultEnvironment.blocks.Count == 0)
             {
@@ -94,10 +97,6 @@ namespace ParkourRunner.Scripts.Track.Generator
                 _player = FindObjectOfType<ParkourThirdPersonController>().transform;
             }
                                     
-            //reset pos
-            //transform.position = _player.position + StartBlockOffset;
-            //transform.position = _player.position + StartBlockOffset;
-
             _generationWeights = new ChanceSystem<int>();
 
             _generationWeights.Add(DEFAULT_INDEX, _defaultEnvironment.nextWeight);
@@ -117,7 +116,6 @@ namespace ParkourRunner.Scripts.Track.Generator
         
         private void LoadPrefabs()
         {
-            //load resources
             _defaultEnvironment = ResourcesManager.DefaultEnvironment;
             _specialEnvironments = ResourcesManager.SpecialEnvironments;
 
@@ -129,6 +127,7 @@ namespace ParkourRunner.Scripts.Track.Generator
         private IEnumerator Generate()
         {
             GenerateStartBlock();
+
             while (true)
             {
                 Tick();
@@ -160,8 +159,8 @@ namespace ParkourRunner.Scripts.Track.Generator
             CenterBlock = startBlockGo;
             State = GeneratorState.Challenge;
 
-            _lastBlock = startBlockGo;
-
+            _lastBlocks.Add(startBlockGo.name);
+            
             GenerateBlocksAfter(startBlockGo);
         }
 
@@ -177,7 +176,7 @@ namespace ParkourRunner.Scripts.Track.Generator
             CenterBlock = newCenterBlock;
             //GenerateObstaclesOnNewBlocks();
         }
-
+                
         private Block NewCenterBlock()
         {
             Block newCenterBlock = _blockPool[0];
@@ -274,14 +273,25 @@ namespace ParkourRunner.Scripts.Track.Generator
                 return _challengeBlocks[Random.Range(0, _challengeBlocks.Count)];
             */
 
-            _lastBlock = result;
+            _lastBlocks.Add(result.name);
+                        
+            if (_lastBlocks.Count > _numberOfNonRepeatingBlocks)
+            {
+                _lastBlocks.RemoveAt(0);
+            }
 
             return result;
         }
 
         private Block GetBlockFromList(List<Block> list)
         {
-            var blocks = list.Where(x => x != _lastBlock).ToList();
+            var blocks = new List<Block>(list);
+            foreach (var blockName in _lastBlocks)
+            {
+                blocks = blocks.Where(x => x.name != blockName).ToList();
+            }
+
+            //var blocks = (list.Count > 1) ? (list.Where(x => x != _lastBlocks[0]).Where(x => x != _lastBlocks[1]).ToList()) : (list.Where(x => x != _lastBlocks[0]).ToList());
             return blocks[Random.Range(0, blocks.Count)];
         }
 
