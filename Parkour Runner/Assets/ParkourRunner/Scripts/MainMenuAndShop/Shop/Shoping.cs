@@ -2,15 +2,19 @@
 
 public static class Shoping
 {
-    public static void GetDonat(string donatsName)
+    public static void GetDonat(DonatShopData data)
     {
-        if (donatsName == "NoAds")
+        switch (data.DonatKind)
         {
-            PlayerPrefs.SetInt("NoAds", 1);
-        }
-        else
-        {
-            Wallet.Instance.AddCoins(100, Wallet.WalletMode.Global);
+            case DonatShopData.DonatKinds.NoAds:
+                PlayerPrefs.SetInt(data.DonatKind.ToString(), 1);
+                PlayerPrefs.Save();
+                break;
+
+            case DonatShopData.DonatKinds.ByCoins1:
+            case DonatShopData.DonatKinds.ByCoins2:
+                Wallet.Instance.AddCoins(int.Parse(data.DonatValue), Wallet.WalletMode.Global);
+                break;
         }
     }
 

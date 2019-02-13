@@ -1,26 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
 [CreateAssetMenu(fileName = "New DonatShopData", menuName = "DonatShopData", order = 52)]
 public class DonatShopData : ScriptableObject
-
 {
-    [SerializeField] private string _donatName;
-    [SerializeField] private Sprite _donatIcon;
-    
-    public string DonatsName
+    public enum DonatKinds
     {
-        get
-        {
-            return _donatName;
-        }
-    }
-    public Sprite DonatsIcon
-    {
-        get
-        {
-            return _donatIcon;
-        }
+        NoAds,
+        ByCoins1,
+        ByCoins2
     }
 
+    [SerializeField] private DonatKinds _kind;
+    [SerializeField] private string _donatValue;
+
+    public DonatKinds DonatKind { get { return _kind; } }
+
+    public string DonatValue { get { return _donatValue; } }
 }
