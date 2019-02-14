@@ -31,6 +31,7 @@
       <Track Name="CollisionHit" Path="AudioResources/Sounds/CollisionHit" Volume="1" />
       <Track Name="Laser" Path="AudioResources/Sounds/Laser" Volume="1" />
       <Track Name="PlatformUp" Path="AudioResources/Sounds/PlatformUp" Volume="1" />
+      <Track Name="Bridge" Path="AudioResources/Sounds/Bridge" Volume="1" />
     </Sound>
   </AudioBlock>
 </AudioData>

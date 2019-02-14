@@ -8,7 +8,8 @@ public class DistanceAnimation : MonoBehaviour
     public enum AnimationKinds
     {
         Default,
-        PlatformUp
+        PlatformUp,
+        Bridge
     }
 
     private static float Delay = 0.3f;
@@ -67,6 +68,10 @@ public class DistanceAnimation : MonoBehaviour
 
             case AnimationKinds.PlatformUp:
                 _audio.PlaySound(Sounds.PlatformUp);
+                break;
+
+            case AnimationKinds.Bridge:
+                _audio.PlaySound(Sounds.Bridge);
                 break;
         }
     }
