@@ -15,8 +15,7 @@ namespace ParkourRunner.Scripts.Managers
 
         public static Res.DefaulEnvironmentSettings DefaultEnvironment;
         public static List<Res.SpecialEnvironmentSettings> SpecialEnvironments;
-
-        //public static List<GameObject> BlockPrefabs;
+        
         public static List<GameObject> ObstaclesSmallPrefabs;
         
         public static List<Trick> RollTricks;
@@ -27,7 +26,6 @@ namespace ParkourRunner.Scripts.Managers
         public List<GameObject> PickUps;
 
         #region Singleton
-
         public static ResourcesManager Instance;
 
         private void Awake()
@@ -51,8 +49,6 @@ namespace ParkourRunner.Scripts.Managers
         {
             DefaultEnvironment = _res.DefaultEnvironment;
             SpecialEnvironments = _res.SpecialEnvironments;
-
-            //BlockPrefabs = _res.BlockPrefabs.FindAll(x => x.activeSelf);
             
             ObstaclesSmallPrefabs = _res.ObstaclesSmallPrefabs;
             RollTricks = _res.RollTricks;
