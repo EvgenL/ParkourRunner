@@ -99,6 +99,7 @@ namespace ParkourRunner.Scripts.Managers
 
             return tricks[randomIndex];
         }
+
         public Trick GetRandomRoll()
         {
             var tricks = ResourcesManager.RollTricks.FindAll(x => x.IsBought);
@@ -107,6 +108,7 @@ namespace ParkourRunner.Scripts.Managers
 
             return tricks[randomIndex];
         }
+
         public Trick GetRandomSlide()
         {
             var tricks = ResourcesManager.SlideTricks.FindAll(x => x.IsBought);

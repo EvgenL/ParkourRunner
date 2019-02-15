@@ -63,6 +63,10 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         public Block CenterBlock;
 
+        [SerializeField] private bool _debugMode;
+
+        private List<string> _history;
+
         //private List<GameObject> _blockPrefabs;
         //private List<GameObject> _challengeBlocks;
         //private List<GameObject> _relaxBlocks;
@@ -73,6 +77,7 @@ namespace ParkourRunner.Scripts.Track.Generator
             {
                 Instance = this;
                 _lastBlocks = new List<string>();
+                _history = new List<string>();
             }
             else
             {
@@ -113,7 +118,21 @@ namespace ParkourRunner.Scripts.Track.Generator
 
             StartCoroutine(Generate());
         }
-        
+
+        private void Update()
+        {
+            if (_debugMode && Input.GetKeyUp(KeyCode.Alpha1))
+            {
+                print(string.Format("Generated {0} blocks", _history.Count));
+                foreach (var block in _history)
+                {
+                    print(block);
+                }
+
+                Debug.Break();
+            }
+        }
+
         private void LoadPrefabs()
         {
             _defaultEnvironment = ResourcesManager.DefaultEnvironment;
@@ -160,6 +179,8 @@ namespace ParkourRunner.Scripts.Track.Generator
             State = GeneratorState.Challenge;
 
             _lastBlocks.Add(startBlockGo.name);
+            if (_debugMode)
+                _history.Add(startBlockGo.name);
             
             GenerateBlocksAfter(startBlockGo);
         }
@@ -227,7 +248,6 @@ namespace ParkourRunner.Scripts.Track.Generator
                 block.Next = nextBlock;
                 nextBlock.Generate();
             }
-
         }
 
         private void DestroyOldBlocks()
@@ -274,6 +294,8 @@ namespace ParkourRunner.Scripts.Track.Generator
             */
 
             _lastBlocks.Add(result.name);
+            if (_debugMode)
+                _history.Add(result.name);
                         
             if (_lastBlocks.Count > _numberOfNonRepeatingBlocks)
             {

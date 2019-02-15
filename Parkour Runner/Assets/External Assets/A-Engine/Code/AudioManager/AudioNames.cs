@@ -24,7 +24,8 @@ namespace AEngine
 		Result,
 		CollisionHit,
 		Laser,
-		PlatformUp
+		PlatformUp,
+		Bridge
 	}
 
 	public enum Musics

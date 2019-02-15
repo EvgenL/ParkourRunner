@@ -4,40 +4,25 @@ using AEngine;
 
 public class ShopDonatsPanel : MonoBehaviour
 {
-    [SerializeField] private Image _donatImg;
+    [SerializeField] private DonatShopData _donatData;
     [SerializeField] private Button _buyBtn;
-
-    public Image MyImage
-    {
-        get
-        {
-            return _donatImg;
-        }
-
-        set
-        {
-            _donatImg = value;
-        }
-    }
-
-    public string MyName { get; set; }
-
+            
     private void Start()
     {
-        if (gameObject.name == "NoAds" && PlayerPrefs.GetInt(gameObject.name)==1)
+        if (_donatData.DonatKind == DonatShopData.DonatKinds.NoAds && PlayerPrefs.GetInt(_donatData.DonatKind.ToString()) == 1)
         {
-            _buyBtn.gameObject.GetComponent<Image>().enabled = false;
+            _buyBtn.interactable = false;
         }
     }
 
     public void BuyThisThing()
     {
-        if (gameObject.name == "NoAds")
+        if (_donatData.DonatKind == DonatShopData.DonatKinds.NoAds)
         {
-            _buyBtn.gameObject.GetComponent<Image>().enabled = false;
+            _buyBtn.interactable = false;
         }
 
-        Shoping.GetDonat(gameObject.name);
+        Shoping.GetDonat(_donatData);
 
         AudioManager.Instance.PlaySound(Sounds.ShopSlot);
     }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ParkourRunner.Scripts.Managers;
-using UnityEngine;
+﻿using ParkourRunner.Scripts.Managers;
 
 namespace ParkourRunner.Scripts.Player
 {
@@ -13,6 +9,7 @@ namespace ParkourRunner.Scripts.Player
             var trick = ProgressManager.Instance.GetRandomRoll();
             return trick.AnimationName;
         }
+
         public static string GetTrick(string playAnimation)
         {
             HUDManager hm = HUDManager.Instance;
@@ -58,6 +55,4 @@ namespace ParkourRunner.Scripts.Player
             
         }
     }
-
-    
 }
