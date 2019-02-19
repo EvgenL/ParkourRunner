@@ -12,7 +12,7 @@ public class BonusTester : MonoBehaviour
 
     [SerializeField] private BonusName _bonusName;
     [SerializeField] private TestKinds _actionMode;
-
+        
     void Update ()
     {
         if (Input.GetKeyUp(KeyCode.Alpha2))
