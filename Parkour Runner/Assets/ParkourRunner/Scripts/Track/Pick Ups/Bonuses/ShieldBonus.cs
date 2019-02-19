@@ -14,7 +14,7 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 
         protected override void EndEffect()
         {
-            base.StartEffect();
+            base.EndEffect();
 
             CharacterEffects.Instance.ShieldActive = false;
 
