@@ -1,5 +1,6 @@
 ﻿using ParkourRunner.Scripts.Managers;
 using ParkourRunner.Scripts.Player.InvectorMods;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
@@ -8,15 +9,17 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
     {
         [SerializeField] private BonusName _BonusName;
 
-        private float _timeRemaining;
-        protected ParkourThirdPersonController _player;
+        protected GameManager _gameManager;
         protected ProgressManager _pm;
-        private HUDManager _hud;
+        protected ParkourThirdPersonController _player;
 
+        private HUDManager _hud;
+        private float _timeRemaining;
         private bool _active;
                 
         private void Start()
         {
+            _gameManager = GameManager.Instance;
             _pm = ProgressManager.Instance;
             _player = ParkourThirdPersonController.instance;
             _hud = HUDManager.Instance;
@@ -69,9 +72,15 @@ namespace Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
             _active = false;
         }
 
-        protected virtual void StartEffect() {}
+        protected virtual void StartEffect()
+        {
+            _gameManager.ActiveBonuses.Add(_BonusName);
+        }
 
-        protected virtual void EndEffect() {}
+        protected virtual void EndEffect()
+        {
+            _gameManager.ActiveBonuses = _gameManager.ActiveBonuses.Where(x => x != _BonusName).ToList();
+        }
 
         protected virtual void UpdateEffect(float timeRemaining) {}
 

@@ -17,7 +17,9 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
             base.StartEffect();
 
             CharacterEffects.Instance.ShieldActive = false;
-            _player.Immune = false;
+
+            if (!_gameManager.ActiveBonuses.Contains(BonusName.Boost))
+                _player.Immune = false;
         }
     }
 }

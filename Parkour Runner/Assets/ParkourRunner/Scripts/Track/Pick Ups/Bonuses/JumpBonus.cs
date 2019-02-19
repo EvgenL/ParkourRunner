@@ -11,6 +11,8 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
 
         protected override void EndEffect()
         {
+            base.EndEffect();
+
             _player.jumpHeight = _oldJumpHeight;
             CharacterEffects.Instance.JumpActive = false;
 
@@ -21,6 +23,8 @@ namespace ParkourRunner.Scripts.Track.Pick_Ups.Bonuses
         {
             if (IsActive)
                 return;
+
+            base.StartEffect();
 
             IsActive = true;
 

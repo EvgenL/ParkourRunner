@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Assets.ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using ParkourRunner.Scripts.Player;
@@ -16,8 +17,14 @@ namespace ParkourRunner.Scripts.Managers
     {
         public event Action OnDie;
 
+        public enum GameState
+        {
+            Run,
+            Pause,
+            Dead
+        }
+                
         #region Singleton
-
         public static GameManager Instance;
         private AudioManager _audio;
 
@@ -27,6 +34,7 @@ namespace ParkourRunner.Scripts.Managers
             {
                 Instance = this;
 
+                this.ActiveBonuses = new List<BonusName>();
                 _wallet = Wallet.Instance;
                 _audio = AudioManager.Instance;
             }
@@ -35,18 +43,12 @@ namespace ParkourRunner.Scripts.Managers
                 Destroy(gameObject);
             }
         }
-
         #endregion
 
+        public List<BonusName> ActiveBonuses { get; set; }
+
         public MuscleDismember[] Limbs;
-
-
-        public enum GameState
-        {
-            Run,
-            Pause,
-            Dead
-        }
+        
         public GameState gameState { get; private set; }
 
         public bool PlayerCanBeDismembered = true; //Можно ли оторвать конечность? Используется скриптом на каждой кости рэгдолла.
@@ -175,6 +177,9 @@ namespace ParkourRunner.Scripts.Managers
                 gameState = GameState.Dead;
                 _player.Die();
                 OnDie.SafeInvoke();
+
+                this.ActiveBonuses.Clear();
+                _player.Immune = false;
 
                 Invoke("ShowPostMortem", 4f);
 

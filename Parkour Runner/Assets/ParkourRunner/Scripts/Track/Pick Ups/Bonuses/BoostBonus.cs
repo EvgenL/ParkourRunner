@@ -17,7 +17,9 @@
             base.EndEffect();
 
             _player.SpeedMult = 1f;
-            _player.Immune = false;
+
+            if (!_gameManager.ActiveBonuses.Contains(BonusName.Shield))
+                _player.Immune = false;
 
             CameraEffects.Instance.IsRunningFast = false;
         }
