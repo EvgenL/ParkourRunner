@@ -101,18 +101,10 @@ public class ShopBonusesPanel : MonoBehaviour
     private void PossibilityOfPurchase()
     {
         int bonusLevel = PlayerPrefs.GetInt(this.BonusKind.ToString());
+        bool enablePurchase = bonusLevel != 10;
 
-        if (bonusLevel == 10)
-        {
-            _coinImg.GetComponent<Image>().enabled = false;
-            _buyBtn.gameObject.GetComponent<Image>().enabled = false;
-            _price.enabled = false;
-        }
-        if (bonusLevel != 10)
-        {
-            _coinImg.GetComponent<Image>().enabled = true;
-            _buyBtn.gameObject.GetComponent<Image>().enabled = true;
-            _price.enabled = true;
-        }
+        _coinImg.GetComponent<Image>().enabled = enablePurchase;
+        _buyBtn.gameObject.SetActive(enablePurchase);
+        _price.enabled = enablePurchase;
     }
 }
