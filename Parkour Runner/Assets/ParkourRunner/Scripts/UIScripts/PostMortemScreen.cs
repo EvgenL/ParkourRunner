@@ -37,20 +37,31 @@ public class PostMortemScreen : MonoBehaviour
     public void Show()
     {
         _alive = false;
-        ReviveScreen.SetActive(true);
-        ReviveForMoneyBtnTxt.text = _gm.ReviveCost.ToString(); //TODO 0 cost bug
-        if (!_adSeen && Advertisement.IsReady())
+
+        int revivePrice = _gm.ReviveCost;
+
+        if (Wallet.Instance.AllCoins >= revivePrice)
         {
-            WatchAdButton.SetActive(true);
+            ReviveScreen.SetActive(true);
+            ReviveForMoneyBtnTxt.text = revivePrice.ToString(); // _gm.ReviveCost.ToString(); //TODO 0 cost bug
+            
+            if (!_adSeen && Advertisement.IsReady())
+            {
+                WatchAdButton.SetActive(true);
+            }
+            else
+            {
+                WatchAdButton.SetActive(false);
+            }
+
+            _audio.PlaySound(Sounds.Result);
+
+            StartCoroutine(CountTimer());
         }
         else
         {
-            WatchAdButton.SetActive(false);
+            ExitReviveScreen();
         }
-
-        _audio.PlaySound(Sounds.Result);
-
-        StartCoroutine(CountTimer());
     }
 
     public void WatchAd()

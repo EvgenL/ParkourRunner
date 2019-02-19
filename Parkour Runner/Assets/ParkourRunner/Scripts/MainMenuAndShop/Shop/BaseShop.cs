@@ -35,11 +35,11 @@ public  class BaseShop : MonoBehaviour
 
     private void Start()
     {
-        _donatTab.button.onClick.AddListener(() => OnSelectShopClisk(ShopsType.donatShop));
-        _bonusesTab.button.onClick.AddListener(() => OnSelectShopClisk(ShopsType.bonusShop));
-        _tricksTab.button.onClick.AddListener(() => OnSelectShopClisk(ShopsType.tricksShop));
+        _donatTab.button.onClick.AddListener(() => OnSelectShopClisk(ShopsType.donatShop, true));
+        _bonusesTab.button.onClick.AddListener(() => OnSelectShopClisk(ShopsType.bonusShop, true));
+        _tricksTab.button.onClick.AddListener(() => OnSelectShopClisk(ShopsType.tricksShop, true));
 
-        OnSelectShopClisk(ShopsType.bonusShop);
+        OnActivateDefaultTab(false);
     }
     
     private void ActivateTargetShop(GameObject shop)
@@ -68,7 +68,12 @@ public  class BaseShop : MonoBehaviour
     }
 
     #region Events
-    private void OnSelectShopClisk(ShopsType shop)
+    public void OnActivateDefaultTab(bool playSound)
+    {
+        OnSelectShopClisk(ShopsType.bonusShop, playSound);
+    }
+
+    private void OnSelectShopClisk(ShopsType shop, bool playSound)
     {
         switch (shop)
         {
@@ -91,7 +96,10 @@ public  class BaseShop : MonoBehaviour
                 break;
         }
 
-        _audio.PlaySound(Sounds.Tap);
+        if (playSound)
+        {
+            _audio.PlaySound(Sounds.Tap);
+        }
     }
     #endregion
 }
