@@ -7,35 +7,35 @@ public class DayTimeGenerator : MonoBehaviour
     [Serializable]
     private struct DayTime
     {
-        public Color color;
+        public Color cameraColor;
+        public Color fogColor;        
+        public float fogDensity;
         public float duration;
-        public float delay;
+        public float nextDelay;
     }
 
     [SerializeField] private Camera _targetCamera;
+    [SerializeField] private float _startDelay;
     [SerializeField] private DayTime[] _dayTimes;
 
-    private Color _currentColor;
     private int _dayIndex;
     
     private void Start()
     {
-        if (_dayTimes.Length >= 2)
+        if (_dayTimes.Length > 0)
         {
-            print("Start day and night");
-            SetColor(_dayTimes[0].color);
             _dayIndex = 0;
+            SetDayTime(_dayTimes[_dayIndex]);
 
-            //StartCoroutine(DayTimeProcess());
-        }    
-        else
-        {
-            print("Not start");
+            if (_dayTimes.Length > 1)
+                StartCoroutine(DayTimeProcess());
         }
     }
 
     private IEnumerator DayTimeProcess()
     {
+        yield return new WaitForSeconds(_startDelay);
+
         int nextDayIndex = 0;
 
         while (true)
@@ -55,16 +55,17 @@ public class DayTimeGenerator : MonoBehaviour
                 while (timeRemaining > 0f)
                 {
                     progress = Mathf.Clamp01(1f - timeRemaining / duration);
-                    SetColor(Color.Lerp(_dayTimes[_dayIndex].color, _dayTimes[nextDayIndex].color, timeRemaining / duration));
-
+                    
+                    LerpDayTime(_dayTimes[_dayIndex], _dayTimes[nextDayIndex], progress);
+                    
                     timeRemaining -= Time.deltaTime;
 
                     yield return null;
                 }
 
-                SetColor(_dayTimes[nextDayIndex].color);
-
-                yield return new WaitForSeconds(_dayTimes[_dayIndex].delay);
+                SetDayTime(_dayTimes[nextDayIndex]);
+                
+                yield return new WaitForSeconds(_dayTimes[_dayIndex].nextDelay);
 
                 _dayIndex++;
             }
@@ -73,10 +74,16 @@ public class DayTimeGenerator : MonoBehaviour
         }
     }
 
-    private void SetColor(Color color)
+    private void LerpDayTime(DayTime from, DayTime to, float progress)
     {
-        _currentColor = color;
-        RenderSettings.fogColor = color;
-        _targetCamera.backgroundColor = color;
+        _targetCamera.backgroundColor = Color.Lerp(from.cameraColor, to.cameraColor, progress);
+        RenderSettings.fogColor = Color.Lerp(from.fogColor, to.fogColor, progress);
+        RenderSettings.fogDensity = Mathf.Lerp(from.fogDensity, to.fogDensity, progress);
+    }
+
+    private void SetDayTime(DayTime dayTime)
+    {
+        const float MAX_NORMALIZED_VALUE = 1f;
+        LerpDayTime(dayTime, dayTime, MAX_NORMALIZED_VALUE);
     }
 }
