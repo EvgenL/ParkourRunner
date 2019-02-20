@@ -5,6 +5,8 @@ public class WalletUIController : MonoBehaviour
 {
     [SerializeField] private Wallet.WalletMode _walletMode;
     [SerializeField] private Text _coinsText;
+    [SerializeField] private string _textBefore;
+    [SerializeField] private bool _formatPrice;
 
     private Wallet _wallet;
 
@@ -15,7 +17,7 @@ public class WalletUIController : MonoBehaviour
         
     private void OnEnable()
     {
-        _coinsText.text = _walletMode == Wallet.WalletMode.Global ? _wallet.AllCoins.ToString() : _wallet.InGameCoins.ToString();
+        SetCoins(_walletMode == Wallet.WalletMode.Global ? _wallet.AllCoins : _wallet.InGameCoins);
 
         if (_walletMode == Wallet.WalletMode.Global)
         {
@@ -38,11 +40,16 @@ public class WalletUIController : MonoBehaviour
             _wallet.OnChangeInGameCoins -= OnChangeCoins;
         }
     }
+        
+    private void SetCoins(int coins)
+    {
+        _coinsText.text = _formatPrice ? string.Format("{0}{1:### ### ### ### ###.#}", _textBefore, coins) : _textBefore + coins.ToString();
+    }
 
     #region Events
     private void OnChangeCoins(int coins)
     {
-        _coinsText.text = coins.ToString();
+        SetCoins(coins);
     }
     #endregion
 }
