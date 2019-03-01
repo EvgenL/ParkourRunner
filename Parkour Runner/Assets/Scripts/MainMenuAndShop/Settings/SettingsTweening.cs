@@ -19,6 +19,12 @@ public class SettingsTweening : MonoBehaviour
     [SerializeField] private GameObject _controll;
     [SerializeField] private Ease _ease;
 
+    [Header("Control background")]
+    [SerializeField] private Image _controlBackground;
+    [SerializeField] private Color _enableColorBg;
+    [SerializeField] private Color _disableColorBg;
+    [SerializeField] private float _controlBackgroundDuration;
+
     public bool IsOpend { get; private set; }
     public bool IsInProcess { get; private set; }
 
@@ -61,12 +67,14 @@ public class SettingsTweening : MonoBehaviour
             , baseObj.GetComponent<RectTransform>().anchoredPosition.y), _duration).SetEase(_ease)
             );
         secuance.Insert(0.1f * _duration, current.GetComponent<Image>().DOFillAmount(1, _feelAmountDuration));
+        
         secuance.OnComplete(() =>
         {
             if (current.transform.childCount == 0)
             {
                 var controllsecuance = DOTween.Sequence();
                 controllsecuance.Append(_controll.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-533.7f, 0), 0.2f));
+                _controlBackground.DOColor(_enableColorBg, 0.5f);
                 controllsecuance.OnComplete(() =>
                 {
                     _baseBtn.GetComponent<Image>().sprite = _baseBtnImgs[1];
@@ -104,6 +112,7 @@ public class SettingsTweening : MonoBehaviour
             {
                 var controllsecuance = DOTween.Sequence();
                 controllsecuance.Append(_controll.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-1571f, 0), 0.2f));
+                _controlBackground.DOColor(_disableColorBg, 0.5f);
                 controllsecuance.OnComplete(() =>
                 {
                     _baseBtn.GetComponent<Image>().sprite = _baseBtnImgs[0];
