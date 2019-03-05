@@ -12,9 +12,16 @@ public class DistanceAnimation : MonoBehaviour
         Bridge
     }
 
+    public enum AnimationTypes
+    {
+        Default,
+        ByZ
+    }
+
     private static float Delay = 0.3f;
 
     [SerializeField] private AnimationKinds _animationKind;
+    [SerializeField] private AnimationTypes _animationType;
 
     public float ActivationDistance = 10f;
 
@@ -49,13 +56,27 @@ public class DistanceAnimation : MonoBehaviour
     {
         while (true)
         {
-            if (Vector3.Distance(transform.position, _player.position) <= ActivationDistance)
+            //if (Vector3.Distance(transform.position, _player.position) <= ActivationDistance)
+            float distance = GetDistance();
+            if (distance <= ActivationDistance && distance >= 0f)
             {
                 animator.enabled = true;
                 PlaySound();
                 yield break;
             }
             yield return new WaitForSeconds(Delay);
+        }
+    }
+
+    private float GetDistance()
+    {
+        if (_animationType == AnimationTypes.Default)
+        {
+            return Vector3.Distance(transform.position, _player.position);
+        }
+        else
+        {
+            return (transform.position.z - _player.position.z);
         }
     }
 
