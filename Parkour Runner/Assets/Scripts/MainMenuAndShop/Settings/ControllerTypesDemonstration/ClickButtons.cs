@@ -1,61 +1,40 @@
-﻿using ParkourRunner.Scripts.Player;
+﻿using System.Collections;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using AEngine;
 
-public class ClickButtons : MonoBehaviour
+public class ClickButtons : BaseControlInputSelection
 {
-    [SerializeField] private GameObject _finger;
-    [SerializeField] private RectTransform _forFingerPos1End;
-    [SerializeField] private RectTransform _forFingerPos2End;
-    [SerializeField] private RectTransform _forFingerPos3End;
-    [SerializeField] private RectTransform _forFingerPos4End;
-    [SerializeField] private float _direction;
-
-    private void Start()
+    [Serializable]
+    private struct Finger
     {
-        GetComponent<Button>().onClick.AddListener(() =>
-        {
-            Configuration.Instance.SaveInputConfiguration(ControlsMode.FourButtons);
-            AudioManager.Instance.PlaySound(Sounds.Tap);
-        });
-
-        _finger.GetComponent<RectTransform>().anchoredPosition = new Vector2(_forFingerPos1End.anchoredPosition.x, _forFingerPos1End.anchoredPosition.y);
-        ClickDemonstration();
+        public RectTransform transform;
+        public Image image;
+        public Vector2 pointOffset;
     }
 
-    private void ClickDemonstration()
+    [Header("Demonstration settings")]
+    [SerializeField] private Finger _finger;
+    [SerializeField] private float _duration = 0.6f;
+    [SerializeField] private float _beforeHideDelay = 0.2f;
+    [SerializeField] private RectTransform[] _targets;
+    
+    protected override IEnumerator DemonstrationProcess()
     {
-        _finger.GetComponent<Image>().color = new Color(1, 1, 1, 1);
-        var secuance1 = DOTween.Sequence();
-        _finger.GetComponent<RectTransform>().anchoredPosition = new Vector2(_forFingerPos1End.anchoredPosition.x, _forFingerPos1End.anchoredPosition.y);
-        secuance1.Append(_finger.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), _direction));
-        secuance1.OnComplete(() =>
-        {
-            _finger.GetComponent<Image>().color = new Color(1, 1, 1, 1);
-            var secuance2 = DOTween.Sequence();
-            _finger.GetComponent<RectTransform>().anchoredPosition = new Vector2(_forFingerPos2End.anchoredPosition.x, _forFingerPos2End.anchoredPosition.y);
-            secuance2.Append(_finger.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), _direction));
-            secuance2.OnComplete(() =>
-            {
-                _finger.GetComponent<Image>().color = new Color(1, 1, 1, 1);
-                var secuance3 = DOTween.Sequence();
-                _finger.GetComponent<RectTransform>().anchoredPosition = new Vector2(_forFingerPos3End.anchoredPosition.x, _forFingerPos3End.anchoredPosition.y);
-                secuance3.Append(_finger.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), _direction));
-                secuance3.OnComplete(() =>
-                {
-                    _finger.GetComponent<Image>().color = new Color(1, 1, 1, 1);
-                    var secuance4 = DOTween.Sequence();
-                    _finger.GetComponent<RectTransform>().anchoredPosition = new Vector2(_forFingerPos4End.anchoredPosition.x, _forFingerPos4End.anchoredPosition.y);
-                    secuance4.Append(_finger.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), _direction));
-                    secuance4.OnComplete(() =>
-                    {
-                        ClickDemonstration();
-                    });
-                });
-            });
+        int index = 0;
 
-        });
+        while (true)
+        {
+            _finger.transform.anchoredPosition = new Vector2(_targets[index].anchoredPosition.x + _finger.pointOffset.x, _targets[index].anchoredPosition.y + _finger.pointOffset.y);
+            _finger.image.color = Color.white;
+
+            yield return new WaitForSeconds(_beforeHideDelay);
+                        
+            _finger.image.DOColor(new Color(1f, 1f, 1f, 0f), _duration);
+            yield return new WaitForSeconds(_duration + 0.1f);
+
+            index = index < _targets.Length - 1 ? index + 1 : 0;
+        }
     }
 }

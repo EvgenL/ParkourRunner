@@ -1,10 +1,9 @@
-﻿using ParkourRunner.Scripts.Player;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using AEngine;
 
-public class Swap : MonoBehaviour
+public class Swap : BaseControlInputSelection
 {
     [SerializeField] private GameObject _finger;
     [SerializeField] private RectTransform _forFingerPos1;
@@ -16,16 +15,16 @@ public class Swap : MonoBehaviour
         
     private void Start()
     {
-        GetComponent<Button>().onClick.AddListener(() =>
-        {
-            Configuration.Instance.SaveInputConfiguration(ControlsMode.TwoButtons);
-            AudioManager.Instance.PlaySound(Sounds.Tap);
-        });
-
+        OnCheckControlMode(false);
         _finger.GetComponent<RectTransform>().anchoredPosition = new Vector2(_forFingerPos1.anchoredPosition.x, _forFingerPos1.anchoredPosition.y);
         SwapDemonstrate();
     }
-        
+
+    protected override IEnumerator DemonstrationProcess()
+    {
+        yield return null;
+    }
+
     private void SwapDemonstrate()
     {
         _finger.GetComponent<RectTransform>().anchoredPosition = new Vector2(_forFingerPos1.anchoredPosition.x, _forFingerPos1.anchoredPosition.y);
