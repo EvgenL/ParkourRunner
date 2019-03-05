@@ -1,19 +1,9 @@
 ﻿using System.Collections;
-using System;
 using UnityEngine;
-using UnityEngine.UI;
 using DG.Tweening;
 
 public class ClickButtons : BaseControlInputSelection
 {
-    [Serializable]
-    private struct Finger
-    {
-        public RectTransform transform;
-        public Image image;
-        public Vector2 pointOffset;
-    }
-
     [Header("Demonstration settings")]
     [SerializeField] private Finger _finger;
     [SerializeField] private float _duration = 0.6f;

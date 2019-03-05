@@ -11,6 +11,14 @@ public abstract class BaseControlInputSelection : MonoBehaviour
     private static event Action<bool> OnCheckMode;
 
     [Serializable]
+    protected struct Finger
+    {
+        public RectTransform transform;
+        public Image image;
+        public Vector2 pointOffset;
+    }
+
+    [Serializable]
     private struct ActiveState
     {
         public Color color;

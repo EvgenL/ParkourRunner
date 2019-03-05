@@ -1,49 +1,34 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections;
 
 public class SwapTril : BaseControlInputSelection
 {
-    [SerializeField] private GameObject _finger;
-    [SerializeField] private RectTransform _forFingerPos1;
-    [SerializeField] private RectTransform _forFingerPos1End;
-    [SerializeField] private RectTransform _forFingerPos2End;
-    [SerializeField] private float _direction;
+    [Header("Demonstration settings")]
+    [SerializeField] private Finger _finger;
+    [SerializeField] private RectTransform _startPosition;
+    [SerializeField] private RectTransform[] _targets;
+    [SerializeField] private float _duration;
     
-    private void Start()
+    public void SwapDemonstrate()
     {
-        OnCheckControlMode(false);
-        _finger.GetComponent<RectTransform>().anchoredPosition = new Vector2(_forFingerPos1.anchoredPosition.x, _forFingerPos1.anchoredPosition.y);
-        SwapDemonstrate();
+        StartCoroutine(DemonstrationProcess());
     }
 
     protected override IEnumerator DemonstrationProcess()
     {
-        yield return null;
-    }
-
-    public void SwapDemonstrate()
-    {
-        _finger.GetComponent<RectTransform>().anchoredPosition = new Vector2(_forFingerPos1.anchoredPosition.x, _forFingerPos1.anchoredPosition.y);
-        _finger.GetComponent<Image>().color = new Color(1, 1, 1, 1);
-        var secuance1 = DOTween.Sequence();
-        secuance1.Append(_finger.GetComponent<RectTransform>().DOAnchorPos(_forFingerPos1End.anchoredPosition, _direction));
-        secuance1.Insert(0.2f, _finger.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), _direction));
-
-        secuance1.OnComplete(() =>
+        for (int i = 0; i < _targets.Length; i++)
         {
-            _finger.GetComponent<RectTransform>().anchoredPosition = new Vector2(_forFingerPos1.anchoredPosition.x, _forFingerPos1.anchoredPosition.y);
-            _finger.GetComponent<Image>().color = new Color(1,1,1,1);
-            var secuance2 = DOTween.Sequence();
-            secuance2.Append(_finger.GetComponent<RectTransform>().DOAnchorPos(_forFingerPos2End.anchoredPosition, _direction));
-            secuance2.Insert(0.2f, _finger.GetComponent<Image>().DOColor(new Color(1, 1, 1, 0), _direction));
-            secuance2.OnComplete(() =>
-            {
-                GetComponent<Animation>().Play();
-              
-                
-            });
-        });
+            _finger.transform.anchoredPosition = _startPosition.anchoredPosition;
+            _finger.image.color = Color.white;
+
+            _finger.transform.DOAnchorPos(_targets[i].anchoredPosition, _duration);
+            yield return new WaitForSeconds(0.2f);
+            _finger.image.DOColor(new Color(1f, 1f, 1f, 0f), _duration);
+
+            yield return new WaitForSeconds(_duration + 0.1f);
+        }
+
+        this.gameObject.GetComponent<Animation>().Play();
     }
 }
