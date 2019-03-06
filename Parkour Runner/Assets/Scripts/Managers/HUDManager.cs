@@ -179,7 +179,6 @@ namespace ParkourRunner.Scripts.Managers
 
         public void TogglePause()
         {
-            print("PAUSE");
             if (GameManager.Instance.gameState == GameManager.GameState.Pause)
             {
                 HidePause();
