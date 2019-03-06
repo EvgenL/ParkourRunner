@@ -7,9 +7,9 @@ namespace ParkourRunner.Scripts.Player
 {
     public enum ControlsMode
     {
-        TwoButtons,
+        HalfScreenButtonsAndSwipe,
         FourButtons,
-        Tilt
+        TiltAndSwipe
     }
 
     public class InputManager : MonoBehaviour
@@ -68,7 +68,7 @@ namespace ParkourRunner.Scripts.Player
             _controlsMode = mode;
             switch (_controlsMode)
             {
-                case ControlsMode.TwoButtons:
+                case ControlsMode.HalfScreenButtonsAndSwipe:
                     TwoButtonsContaner.SetActive(true);
                     FourButtonsContaner.SetActive(false);
                     TiltContaner.SetActive(false);
@@ -80,7 +80,7 @@ namespace ParkourRunner.Scripts.Player
                     TiltContaner.SetActive(false);
                     break;
 
-                case ControlsMode.Tilt:
+                case ControlsMode.TiltAndSwipe:
                     TwoButtonsContaner.SetActive(false);
                     FourButtonsContaner.SetActive(false);
                     TiltContaner.SetActive(true);
@@ -92,7 +92,7 @@ namespace ParkourRunner.Scripts.Player
         {
             switch (_controlsMode)
             {
-                case ControlsMode.TwoButtons:
+                case ControlsMode.HalfScreenButtonsAndSwipe:
                     MouseSwipesInput();
                     MobileSwipesInput();
                     CalculateDelta();
@@ -102,7 +102,7 @@ namespace ParkourRunner.Scripts.Player
                 case ControlsMode.FourButtons:
                     break;
 
-                case ControlsMode.Tilt:
+                case ControlsMode.TiltAndSwipe:
                     //TODO постоянный угол свайпа относительно поворота экрана
                     //MobileTiltInput();
                     MouseSwipesInput();
@@ -216,6 +216,7 @@ namespace ParkourRunner.Scripts.Player
         public void Left()
         {
             CrossPlatformInputManager.SetAxis("Horizontal", -1);
+            print("Left");
         }
 
         public void Right()
