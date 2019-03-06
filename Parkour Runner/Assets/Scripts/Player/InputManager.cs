@@ -14,9 +14,9 @@ namespace ParkourRunner.Scripts.Player
 
     public class InputManager : MonoBehaviour
     {
-        public GameObject TwoButtonsContaner;
-        public GameObject FourButtonsContaner;
-        public GameObject TiltContaner;
+        [SerializeField] private GameObject _screenButtonsContaner;
+        [SerializeField] private GameObject _fourButtonsContaner;
+        [SerializeField] private GameObject _tiltContaner;
 
         [SerializeField] private ParkourThirdPersonInput _playerInput;
 
@@ -69,21 +69,21 @@ namespace ParkourRunner.Scripts.Player
             switch (_controlsMode)
             {
                 case ControlsMode.HalfScreenButtonsAndSwipe:
-                    TwoButtonsContaner.SetActive(true);
-                    FourButtonsContaner.SetActive(false);
-                    TiltContaner.SetActive(false);
+                    _screenButtonsContaner.SetActive(true);
+                    _fourButtonsContaner.SetActive(false);
+                    _tiltContaner.SetActive(false);
                     break;
 
                 case ControlsMode.FourButtons:
-                    TwoButtonsContaner.SetActive(false);
-                    FourButtonsContaner.SetActive(true);
-                    TiltContaner.SetActive(false);
+                    _screenButtonsContaner.SetActive(false);
+                    _fourButtonsContaner.SetActive(true);
+                    _tiltContaner.SetActive(false);
                     break;
 
                 case ControlsMode.TiltAndSwipe:
-                    TwoButtonsContaner.SetActive(false);
-                    FourButtonsContaner.SetActive(false);
-                    TiltContaner.SetActive(true);
+                    _screenButtonsContaner.SetActive(false);
+                    _fourButtonsContaner.SetActive(false);
+                    _tiltContaner.SetActive(true);
                     break;
             }
         }
