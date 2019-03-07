@@ -7,7 +7,7 @@ public class CharacterSelection : MonoBehaviour
 
     public void OnSelectButtonClick()
     {
-        PlayerPrefs.SetString("Character", _kind.ToString());
+        PlayerPrefs.SetString(CharactersData.CHARACTER_KEY, _kind.ToString());
         PlayerPrefs.Save();
 
         AudioManager.Instance.PlaySound(Sounds.Bonus);
