@@ -7,16 +7,16 @@ namespace ParkourRunner.Scripts.Player
 {
     public enum ControlsMode
     {
-        TwoButtons,
+        HalfScreenButtonsAndSwipe,
         FourButtons,
-        Tilt
+        TiltAndSwipe
     }
 
     public class InputManager : MonoBehaviour
     {
-        public GameObject TwoButtonsContaner;
-        public GameObject FourButtonsContaner;
-        public GameObject TiltContaner;
+        [SerializeField] private GameObject _screenButtonsContaner;
+        [SerializeField] private GameObject _fourButtonsContaner;
+        [SerializeField] private GameObject _tiltContaner;
 
         [SerializeField] private ParkourThirdPersonInput _playerInput;
 
@@ -68,22 +68,22 @@ namespace ParkourRunner.Scripts.Player
             _controlsMode = mode;
             switch (_controlsMode)
             {
-                case ControlsMode.TwoButtons:
-                    TwoButtonsContaner.SetActive(true);
-                    FourButtonsContaner.SetActive(false);
-                    TiltContaner.SetActive(false);
+                case ControlsMode.HalfScreenButtonsAndSwipe:
+                    _screenButtonsContaner.SetActive(true);
+                    _fourButtonsContaner.SetActive(false);
+                    _tiltContaner.SetActive(false);
                     break;
 
                 case ControlsMode.FourButtons:
-                    TwoButtonsContaner.SetActive(false);
-                    FourButtonsContaner.SetActive(true);
-                    TiltContaner.SetActive(false);
+                    _screenButtonsContaner.SetActive(false);
+                    _fourButtonsContaner.SetActive(true);
+                    _tiltContaner.SetActive(false);
                     break;
 
-                case ControlsMode.Tilt:
-                    TwoButtonsContaner.SetActive(false);
-                    FourButtonsContaner.SetActive(false);
-                    TiltContaner.SetActive(true);
+                case ControlsMode.TiltAndSwipe:
+                    _screenButtonsContaner.SetActive(false);
+                    _fourButtonsContaner.SetActive(false);
+                    _tiltContaner.SetActive(true);
                     break;
             }
         }
@@ -92,7 +92,7 @@ namespace ParkourRunner.Scripts.Player
         {
             switch (_controlsMode)
             {
-                case ControlsMode.TwoButtons:
+                case ControlsMode.HalfScreenButtonsAndSwipe:
                     MouseSwipesInput();
                     MobileSwipesInput();
                     CalculateDelta();
@@ -102,7 +102,7 @@ namespace ParkourRunner.Scripts.Player
                 case ControlsMode.FourButtons:
                     break;
 
-                case ControlsMode.Tilt:
+                case ControlsMode.TiltAndSwipe:
                     //TODO постоянный угол свайпа относительно поворота экрана
                     //MobileTiltInput();
                     MouseSwipesInput();
@@ -216,6 +216,7 @@ namespace ParkourRunner.Scripts.Player
         public void Left()
         {
             CrossPlatformInputManager.SetAxis("Horizontal", -1);
+            print("Left");
         }
 
         public void Right()

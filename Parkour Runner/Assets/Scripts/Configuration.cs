@@ -22,7 +22,7 @@ public class Configuration : MonoSingleton<Configuration>
 
     public ControlsMode GetInputConfiguration()
     {
-        ControlsMode mode = ControlsMode.Tilt;
+        ControlsMode mode = ControlsMode.TiltAndSwipe;
 
         if (!PlayerPrefs.HasKey(INPUT_MODE_KEY))
         {
