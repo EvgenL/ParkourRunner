@@ -11,6 +11,7 @@
       <Track Name="WinSimple" Path="AudioResources/Sounds/WinSimple" Volume="1" />
       <Track Name="ShopSlot" Path="AudioResources/Sounds/ShopSlot" Volume="1" />
       <Track Name="UpgradeBonus" Path="AudioResources/Sounds/UpgradeBonus" Volume="1" />
+      <Track Name="Bonus" Path="AudioResources/Sounds/Bonus" Volume="1" />
     </Sound>
   </AudioBlock>
   <AudioBlock Name="Game">
