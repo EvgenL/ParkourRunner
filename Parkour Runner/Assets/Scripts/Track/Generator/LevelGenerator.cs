@@ -96,12 +96,7 @@ namespace ParkourRunner.Scripts.Track.Generator
                 Destroy(this);
                 return;
             }
-
-            //if (_player == null)
-            //{
-            //    _player = FindObjectOfType<ParkourThirdPersonController>().transform;
-            //}
-
+            
             _player = ParkourThirdPersonController.instance.transform;
                                     
             _generationWeights = new ChanceSystem<int>();
