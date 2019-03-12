@@ -137,7 +137,7 @@ namespace ItemManager.Scripts
 #if UNITY_ANDROID || UNITY_IOS
             if (vInput.instance.inputDevice == InputDevice.Mobile)
 #else
-            if (Invector.vInput.instance.inputDevice == InputDevice.MouseKeyboard)
+            if (vInput.instance.inputDevice == InputDevice.MouseKeyboard)
 #endif
             {
                 if (eventData.button == PointerEventData.InputButton.Left)
