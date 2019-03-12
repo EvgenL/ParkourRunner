@@ -139,19 +139,16 @@ namespace ParkourRunner.Scripts.Player
         private void OnCollisionEnter(Collision collision)
         {
             if (IsDismembered) return;
-            if (collision.transform.gameObject.layer != LayerMask.NameToLayer("DamageToRagdoll")) return;
-
-            if (collision.relativeVelocity.magnitude > 
-                GameManager.Instance.VelocityToDismember)
-            {
-                DismemberMuscleRecursive();
+            if (collision.transform.gameObject.layer == LayerMask.NameToLayer("DamageToRagdoll")) {
+                if (collision.relativeVelocity.magnitude >
+                    GameManager.Instance.VelocityToDismember)
+                {
+                    DismemberMuscleRecursive();
+                }
+            }
+            else if (collision.transform.gameObject.layer == LayerMask.NameToLayer("HouseWall")) {
+                    DismemberMuscleRecursive();
             }
         }
-
-
-
-
-
-
     }
 }
