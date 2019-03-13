@@ -45,7 +45,7 @@ public class InAppManager : MonoBehaviour, IStoreListener
     /// <summary>
     /// IOS only!
     /// </summary>
-    private void RestorePurchases()
+    public void RestorePurchases()
     {
         if (!IsInitialized())
         {
