@@ -14,12 +14,13 @@ public class InAppManager : MonoBehaviour, IStoreListener
         public DonatShopData data;
     }
 
-    public static event Action<ProductConfiguration> OnBuySuccess;
+    public static event Action<DonatShopData.DonatKinds> OnBuySuccess;
+    public static event Action OnInitializationSuccess;
 
     private static IStoreController StoreController { get; set; }
     private static IExtensionProvider StoreExtensionProvider { get; set; }
 
-    [SerializeField] private ProductConfiguration[] _products;
+    [SerializeField] private DonatShopData[] _products;
     
     private void Awake()
     {
@@ -27,9 +28,9 @@ public class InAppManager : MonoBehaviour, IStoreListener
         {
             var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
-            foreach (ProductConfiguration product in _products)
+            foreach (var item in _products)
             {
-                builder.AddProduct(product.gameId, product.productType, new IDs() { { product.appleStoreId, AppleAppStore.Name }, { product.googlePlayId, GooglePlay.Name } });
+                builder.AddProduct(item.ProductGameId, item.PurchaseType, new IDs() { { item.ProductAppStoreId, AppleAppStore.Name }, { item.ProductPlayMarketId, GooglePlay.Name } });
             }
             
             UnityPurchasing.Initialize(this, builder);
@@ -116,6 +117,8 @@ public class InAppManager : MonoBehaviour, IStoreListener
         StoreExtensionProvider = extensions;
 
         RestorePurchases();
+
+        OnInitializationSuccess.SafeInvoke();
     }
 
     public void OnInitializeFailed(InitializationFailureReason error)
@@ -125,11 +128,11 @@ public class InAppManager : MonoBehaviour, IStoreListener
 
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs e)
     {
-        foreach (ProductConfiguration item in _products)
+        foreach (var item in _products)
         {
-            if (item.gameId == e.purchasedProduct.definition.id)
+            if (item.ProductGameId == e.purchasedProduct.definition.id)
             {
-                OnBuySuccess.SafeInvoke(item);
+                OnBuySuccess.SafeInvoke(item.DonatKind);
                 break;
             }
         }
