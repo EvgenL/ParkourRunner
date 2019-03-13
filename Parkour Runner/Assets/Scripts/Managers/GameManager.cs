@@ -100,6 +100,11 @@ namespace ParkourRunner.Scripts.Managers
             _audio.PlayMusic();
         }
 
+        private void OnDisable()
+        {
+            ProgressManager.SaveSettings();
+        }
+
         private void StartGame()
         {
             StartCoroutine(IncreaseGameSpeed());

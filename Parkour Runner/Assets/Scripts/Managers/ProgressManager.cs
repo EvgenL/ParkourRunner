@@ -129,7 +129,7 @@ namespace ParkourRunner.Scripts.Managers
         public static void SaveSettings()
         {
             PlayerPrefs.SetInt("GameLaunches", GameLaunches);
-            PlayerPrefs.SetFloat("DistanceRecord", DistanceRecord);
+            PlayerPrefs.SetFloat("DistanceRecord", (int)DistanceRecord);
         }
 
         public static void ResetSettings()

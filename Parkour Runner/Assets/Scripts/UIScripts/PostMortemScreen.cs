@@ -123,7 +123,7 @@ public class PostMortemScreen : MonoBehaviour
 
         NewRecordText.SetActive(ProgressManager.IsNewRecord(_gm.DistanceRun));
 
-        RecordText.text = "Best: " + ProgressManager.DistanceRecord + "m";
+        RecordText.text = "Best: " + ((int)ProgressManager.DistanceRecord) + "m";
         CoinsText.text = "Conis: " + Wallet.Instance.InGameCoins;
     }
 
