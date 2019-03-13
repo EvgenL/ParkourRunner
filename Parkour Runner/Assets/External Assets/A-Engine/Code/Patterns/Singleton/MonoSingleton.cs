@@ -37,7 +37,10 @@ namespace AEngine
         private void Awake()
         {
             if (instance == null)
+            {
                 instance = this as T;
+                Init();
+            }
         }        
 
         private void OnApplicationQuit()
