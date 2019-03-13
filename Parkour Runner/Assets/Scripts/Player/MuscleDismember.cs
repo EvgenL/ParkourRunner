@@ -146,9 +146,9 @@ namespace ParkourRunner.Scripts.Player
                     DismemberMuscleRecursive();
                 }
             }
-            else if (collision.transform.gameObject.layer == LayerMask.NameToLayer("HouseWall")) {
-                    DismemberMuscleRecursive();
-            }
+            //else if (collision.transform.gameObject.layer == LayerMask.NameToLayer("HouseWall")) {
+            //        DismemberMuscleRecursive();
+            //}
         }
     }
 }
