@@ -104,8 +104,6 @@ public class UIDoTweener : MonoBehaviour
         secuance.Insert(0.4f+_settingsPanelDuration, _backBtnEndPosFromShop.DOAnchorPos(new Vector2(-GetComponent<RectTransform>().rect.width / 2, _backBtnEndPosFromShop.anchoredPosition.y), _backBtnDurationFromShop)).SetEase(Ease.InBounce);
          
         secuance.Append(_shopEndPos.DOAnchorPos(new Vector2(GetComponent<RectTransform>().rect.width / 2, 0), _shopDuration)).SetEase(Ease.Flash);
-       
-        //  secuance.Append(_settingsPanelEndPos.DOAnchorPos(new Vector2(_settingsPanelEndPos.anchoredPosition.x, -GetComponent<RectTransform>().rect.height / 2), _settingsPanelDuration/2).SetEase(Ease.InBounce)).WaitForCompletion();
 
         secuance.OnComplete(() => 
         {
@@ -115,6 +113,8 @@ public class UIDoTweener : MonoBehaviour
         });
         
     }
+
+
 
     private IEnumerator EnableBtnsRaycastTargetTo(bool enable, float yieldRedurnTime)
     {
@@ -181,7 +181,6 @@ public class UIDoTweener : MonoBehaviour
         firstSecuance.Append(_playBtnEndPos.DOAnchorPos(new Vector2(_playbtnStartPos.x, _playBtnEndPos.anchoredPosition.y), _playBtnDuration).SetEase(Ease.InOutElastic));
 
         firstSecuance.Insert(0.1f, _shopBtnEndPos.DOAnchorPos(new Vector2(_shopbtnStartPos.x, _shopBtnEndPos.anchoredPosition.y), _shopBtnDuration).SetEase(Ease.InOutElastic));
-       // firstSecuance.Insert(0.3f, _settingsPanelEndPos.DOAnchorPos(new Vector2(_settingsPanelEndPos.anchoredPosition.x, _settingsPanelStartPos.y), _settingsPanelDuration).SetEase(Ease.InOutElastic));
 
         firstSecuance.Insert(0.5f, _playBtnEndPosFromShop.DOAnchorPos(new Vector2(_playbtnStartPosFromShop.x, _playBtnEndPosFromShop.anchoredPosition.y), _playBtnDurationFromShop)).SetEase(Ease.InBounce);
         firstSecuance.Insert(0.4f, _backBtnEndPosFromShop.DOAnchorPos(new Vector2(_backbtnStartPosFromShop.x, _backBtnEndPosFromShop.anchoredPosition.y), _backBtnDurationFromShop)).SetEase(Ease.InBounce);
