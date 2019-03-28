@@ -11,6 +11,8 @@ public class ShopBonusesPanel : MonoBehaviour
     [SerializeField] private Sprite _activeUnit;
     [SerializeField] private Sprite _deactiveUnit;
     [SerializeField] private GameObject _coinImg;
+    [SerializeField] private GameObject _priceGroup;
+    [SerializeField] private Image _lockImage;
     
     private int _purchasedBonusesCount;
     private int _bonusRestoreValue;
@@ -104,7 +106,9 @@ public class ShopBonusesPanel : MonoBehaviour
         bool enablePurchase = bonusLevel != 10;
 
         _coinImg.GetComponent<Image>().enabled = enablePurchase;
-        _buyBtn.gameObject.SetActive(enablePurchase);
         _price.enabled = enablePurchase;
+
+        _priceGroup.SetActive(enablePurchase);
+        _lockImage.enabled = !enablePurchase;
     }
 }
