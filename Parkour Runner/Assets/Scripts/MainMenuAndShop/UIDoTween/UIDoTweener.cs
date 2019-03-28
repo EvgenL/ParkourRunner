@@ -184,21 +184,7 @@ public class UIDoTweener : MonoBehaviour
         _audio.PlaySound(Sounds.Tap);
 
         RemoveAllListeners();
-        if (_additionalMenu == AdditionalMenuType.Shop)
-        {
-            for (int i = 0; i < _shop.transform.GetChild(0).childCount; i++)
-            {
-                _shop.transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < _avatar.transform.GetChild(0).childCount; i++)
-            {
-                _avatar.transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
-            }
-        }
-
+        
         StartCoroutine(EnableBtnsRaycastTargetTo(false, 0));
         var firstSecuance = DOTween.Sequence();
         firstSecuance.Append(_playBtnEndPos.DOAnchorPos(new Vector2(_playbtnStartPos.x, _playBtnEndPos.anchoredPosition.y), _playBtnDuration).SetEase(Ease.InOutElastic));
@@ -223,10 +209,6 @@ public class UIDoTweener : MonoBehaviour
             secuance.OnComplete(() => 
             {
                 StartCoroutine(EnableBtnsRaycastTargetTo(true, 0.1f));
-                if (_additionalMenu == AdditionalMenuType.Shop)
-                    _shopContent.SetActive(true);
-                else
-                    _avatarContent.SetActive(true);
                 AddListeners();
             });
         });
