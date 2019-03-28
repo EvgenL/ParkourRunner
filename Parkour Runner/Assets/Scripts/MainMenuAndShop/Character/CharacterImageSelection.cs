@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class CharacterImageSelection : MonoBehaviour
 {
+    public event Action OnAvatarImageClick;
+
     [SerializeField] private CharactersData _configuration;
     [SerializeField] private CharacterKinds _kind;
     [SerializeField] private Image _selection;
@@ -13,15 +16,15 @@ public class CharacterImageSelection : MonoBehaviour
     {
         _data = _configuration.GetCharacterData(_kind);
 
-        _selection.enabled = _data.Bought && _configuration.CurrentCharacter == _kind;
+        _selection.enabled = this.Enable; // _data.Bought && _configuration.CurrentCharacter == _kind;
     }
 
     public bool Enable { get { return _data.Bought && _configuration.CurrentCharacter == _kind; } set { _selection.enabled = value; } }
 
-    public bool CanSelect { get { return _data.Bought; } }
+    //public bool CanSelect { get { return _data.Bought; } }
 
     public void OnClick()
     {
-
+        OnAvatarImageClick.SafeInvoke();
     }
 }

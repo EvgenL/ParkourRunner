@@ -29,13 +29,22 @@ public class CharactersData : ScriptableObject
             get
             {
                 if (PlayerPrefs.HasKey(this.Key))
-                    return PlayerPrefs.GetInt(this.Key) != 0;
+                {
+                    return PlayerPrefs.GetInt(this.Key) != 0 || price <= 0;
+                }
                 else
                 {
-                    PlayerPrefs.SetInt(this.Key, 0);
+                    bool bought = price <= 0;
+                    PlayerPrefs.SetInt(this.Key, bought ? 1 : 0);
                     PlayerPrefs.Save();
-                    return false;
+                    return bought;
                 }
+            }
+
+            set
+            {
+                PlayerPrefs.SetInt(this.Key, value || price <= 0 ? 1 : 0);
+                PlayerPrefs.Save();
             }
         }
     }
