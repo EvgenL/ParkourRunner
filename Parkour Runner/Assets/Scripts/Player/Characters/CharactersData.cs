@@ -20,9 +20,50 @@ public class CharactersData : ScriptableObject
     {
         public CharacterKinds kind;
         public GameObject targetPrefab;
+        public int price;
+
+        public string Key { get { return CHARACTER_KEY + " : " + kind.ToString(); } }
+
+        public bool Bought
+        {
+            get
+            {
+                if (PlayerPrefs.HasKey(this.Key))
+                {
+                    return PlayerPrefs.GetInt(this.Key) != 0 || price <= 0;
+                }
+                else
+                {
+                    bool bought = price <= 0;
+                    PlayerPrefs.SetInt(this.Key, bought ? 1 : 0);
+                    PlayerPrefs.Save();
+                    return bought;
+                }
+            }
+
+            set
+            {
+                PlayerPrefs.SetInt(this.Key, value || price <= 0 ? 1 : 0);
+                PlayerPrefs.Save();
+            }
+        }
     }
 
     [SerializeField] private Data[] _characters;
+
+    public CharacterKinds CurrentCharacter
+    {
+        get
+        {
+            if (!PlayerPrefs.HasKey(CHARACTER_KEY))
+            {
+                PlayerPrefs.SetString(CHARACTER_KEY, CharacterKinds.Base.ToString());
+                PlayerPrefs.Save();
+            }
+
+            return (CharacterKinds)Enum.Parse(typeof(CharacterKinds), PlayerPrefs.GetString(CHARACTER_KEY));
+        }
+    }
 
     public Data GetCharacterData(CharacterKinds kind)
     {
@@ -47,5 +88,5 @@ public class CharactersData : ScriptableObject
         }
 
         return data;
-    }
+    }    
 }

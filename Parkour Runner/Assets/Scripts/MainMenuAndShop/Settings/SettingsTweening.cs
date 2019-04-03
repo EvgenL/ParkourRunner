@@ -16,6 +16,7 @@ public class SettingsTweening : MonoBehaviour
     [SerializeField] private GameObject _likeBtn;
     [SerializeField] private GameObject _soundBtn;
     [SerializeField] private GameObject _musicBtn;
+    [SerializeField] private GameObject _characterBtn;        
     [SerializeField] private GameObject _controll;
     [SerializeField] private Ease _ease;
 
@@ -47,7 +48,8 @@ public class SettingsTweening : MonoBehaviour
     {
         _baseBtn.GetComponent<Button>().onClick.RemoveAllListeners();
         RemoveListenersOfSettings();
-        ClosePrevious(_musicBtn, _soundBtn);
+        //ClosePrevious(_musicBtn, _soundBtn);
+        ClosePrevious(_characterBtn, _musicBtn);
 
         AudioManager.Instance.PlaySound(Sounds.Tap);
         AudioManager.Instance.PlaySound(Sounds.WinSimple);
@@ -134,6 +136,7 @@ public class SettingsTweening : MonoBehaviour
         _likeBtn.GetComponent<Button>().onClick.AddListener(() => _likeBtn.GetComponent<SettingsBase>().OnClick());
         _soundBtn.GetComponent<Button>().onClick.AddListener(() => _soundBtn.GetComponent<SettingsBase>().OnClick());
         _musicBtn.GetComponent<Button>().onClick.AddListener(() =>_musicBtn.GetComponent<SettingsBase>().OnClick());
+        _characterBtn.GetComponent<Button>().onClick.AddListener(() => _characterBtn.GetComponent<CharacterSettingButton>().OnClick());
     }
 
     private void RemoveListenersOfSettings()
@@ -142,5 +145,6 @@ public class SettingsTweening : MonoBehaviour
         _likeBtn.GetComponent<Button>().onClick.RemoveAllListeners();
         _soundBtn.GetComponent<Button>().onClick.RemoveAllListeners();
         _musicBtn.GetComponent<Button>().onClick.RemoveAllListeners();
+        _characterBtn.GetComponent<Button>().onClick.RemoveAllListeners();
     }
 }

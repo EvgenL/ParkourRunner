@@ -1,15 +1,101 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.UI;
 using AEngine;
 
 public class CharacterSelection : MonoBehaviour
 {
+    private static event Action<CharacterKinds> OnSelectCharacter;
+
+    [SerializeField] private CharactersData _configuration;
     [SerializeField] private CharacterKinds _kind;
+    [SerializeField] private CharacterImageSelection _avatarImage;
+
+    [Header("Buy block")]
+    [SerializeField] private GameObject _priceBlock;
+    [SerializeField] private Text _priceText;
+    [SerializeField] private GameObject _selectCaption;
+
+    [Header("Pivot block")]
+    [SerializeField] private RectTransform _avatar;
+    [SerializeField] private RectTransform _avatarGroupPivot;
+    [SerializeField] private RectTransform _avatarYPivot;
+
+    private CharactersData.Data _data;
+    private Wallet _wallet;
+
+    private bool EnableCharacter
+    {
+        get { return _data != null && _data.Bought && _configuration.CurrentCharacter == _kind; }
+        set
+        {
+            if (value)
+            {
+                PlayerPrefs.SetString(CharactersData.CHARACTER_KEY, _kind.ToString());
+                PlayerPrefs.Save();
+            }
+            
+            _avatarImage.Enable = value;
+        }
+    }
+
+    private void Awake()
+    {
+        _data = _configuration.GetCharacterData(_kind);
+        _priceText.text = _data.price.ToString();
+
+        _priceBlock.SetActive(!_data.Bought);
+        _selectCaption.SetActive(_data.Bought);
+        
+        _wallet = Wallet.Instance;
+
+        _avatarImage.OnAvatarImageClick += OnSelectButtonClick;
+    }
+
+    private void OnEnable()
+    {
+        OnSelectCharacter -= OnSelectCharacterHandle;
+        OnSelectCharacter += OnSelectCharacterHandle;
+    }
+
+    private void OnDisable()
+    {
+        OnSelectCharacter -= OnSelectCharacterHandle;
+    }
+
+    private void Start()
+    {
+        if (this.EnableCharacter)
+            OnSelectCharacter.SafeInvoke(_kind);
+    }
+
+    private void Update()
+    {
+        Vector3 position = _avatarGroupPivot.position;
+        position.x = _avatarYPivot.position.x;
+        _avatar.position = position;
+    }
 
     public void OnSelectButtonClick()
     {
-        PlayerPrefs.SetString(CharactersData.CHARACTER_KEY, _kind.ToString());
-        PlayerPrefs.Save();
+        if (!_data.Bought && _wallet.SpendCoins(_data.price))
+        {
+            AudioManager.Instance.PlaySound(Sounds.ShopSlot);
+            _data.Bought = true;
+            OnSelectCharacter.SafeInvoke(_kind);
 
-        AudioManager.Instance.PlaySound(Sounds.Bonus);
+            _priceBlock.SetActive(!_data.Bought);
+            _selectCaption.SetActive(_data.Bought);
+        }
+        else if (_data.Bought && !this.EnableCharacter)
+        {
+            AudioManager.Instance.PlaySound(Sounds.Bonus);
+            OnSelectCharacter.SafeInvoke(_kind);
+        }
+    }
+
+    private void OnSelectCharacterHandle(CharacterKinds kind)
+    {
+        this.EnableCharacter = _kind == kind;
     }
 }
