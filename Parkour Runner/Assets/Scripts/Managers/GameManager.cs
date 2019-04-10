@@ -201,7 +201,7 @@ namespace ParkourRunner.Scripts.Managers
         {
             var cb = LevelGenerator.Instance.CenterBlock;
             Vector3 newPos = cb.transform.position;
-            newPos.z -= LevelGenerator.Instance.BlockSide / 2f - 2f;
+            newPos.z -= LevelGenerator.Instance.BlockSize / 2f - 2f;
             FindObjectOfType<PuppetMaster>().enabled = false; //mode = PuppetMaster.Mode.Disabled;
                 _player.transform.position = newPos;
             FindObjectOfType<PuppetMaster>().enabled = true; //.mode = PuppetMaster.Mode.Kinematic;
