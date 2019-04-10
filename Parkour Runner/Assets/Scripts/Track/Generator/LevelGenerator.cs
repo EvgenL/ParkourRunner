@@ -74,9 +74,10 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         private void Start()
         {
-            if (_defaultEnvironment.blocks.Count == 0)
+            int count = _environment.EndlessLevel ? _defaultEnvironment.blocks.Count : _levelEnvironment.blocks.Count;
+            if (count == 0)
             {
-                Debug.LogError("Не найдено ни одного блока в папке Resources/Blocks");
+                Debug.LogError("Не найдено ни одного блока в настройках уровня");
                 Destroy(this);
                 return;
             }
