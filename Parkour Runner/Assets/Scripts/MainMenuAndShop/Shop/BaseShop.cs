@@ -22,10 +22,7 @@ public  class BaseShop : MonoBehaviour
     [SerializeField] private GameObject[] _allShops;
     [SerializeField] private Tab _donatTab;
     [SerializeField] private Tab _bonusesTab;
-    [SerializeField] private Tab _tricksTab;
-    [SerializeField] private Image _firstBroad;
-    [SerializeField] private Image _secondBroad;
-
+    
     private AudioManager _audio;
 
     private void Awake()
@@ -37,8 +34,7 @@ public  class BaseShop : MonoBehaviour
     {
         _donatTab.button.onClick.AddListener(() => OnSelectShopClisk(ShopsType.donatShop, true));
         _bonusesTab.button.onClick.AddListener(() => OnSelectShopClisk(ShopsType.bonusShop, true));
-        _tricksTab.button.onClick.AddListener(() => OnSelectShopClisk(ShopsType.tricksShop, true));
-
+        
         OnActivateDefaultTab(false);
     }
     
@@ -54,10 +50,6 @@ public  class BaseShop : MonoBehaviour
     {
         SetImageState(_donatTab.image, _donatTab == target);
         SetImageState(_bonusesTab.image, _bonusesTab == target);
-        SetImageState(_tricksTab.image, _tricksTab == target);
-
-        _firstBroad.enabled = _tricksTab == target;
-        _secondBroad.enabled = _donatTab == target;
     }
 
     private void SetImageState(Image image, bool state)
@@ -86,12 +78,7 @@ public  class BaseShop : MonoBehaviour
                 ActivateTargetShop(_allShops[(int)ShopsType.bonusShop]);
                 ActivateTargetTab(_bonusesTab);
                 break;
-
-            case ShopsType.tricksShop:
-                ActivateTargetShop(_allShops[(int)ShopsType.tricksShop]);
-                ActivateTargetTab(_tricksTab);
-                break;
-
+                
             default:
                 break;
         }

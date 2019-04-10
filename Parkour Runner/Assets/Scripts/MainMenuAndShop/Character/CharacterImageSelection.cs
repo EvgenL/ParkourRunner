@@ -16,13 +16,11 @@ public class CharacterImageSelection : MonoBehaviour
     {
         _data = _configuration.GetCharacterData(_kind);
 
-        _selection.enabled = this.Enable; // _data.Bought && _configuration.CurrentCharacter == _kind;
+        _selection.enabled = this.Enable;
     }
 
     public bool Enable { get { return _data.Bought && _configuration.CurrentCharacter == _kind; } set { _selection.enabled = value; } }
-
-    //public bool CanSelect { get { return _data.Bought; } }
-
+        
     public void OnClick()
     {
         OnAvatarImageClick.SafeInvoke();

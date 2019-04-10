@@ -9,8 +9,7 @@ namespace ParkourRunner.Scripts.Track.Generator
     {
         public enum BlockType
         {
-            Challenge,
-            Relax,
+            Default,
             Start
         }
         

@@ -7,9 +7,8 @@ using AEngine;
 
 public class PostMortemScreen : MonoBehaviour
 {
-
     public GameObject ReviveScreen;
-    public Slider ReviveScreenTimer;
+    [SerializeField] private Image _reviveProgressImg;
     public GameObject WatchAdButton;
     public Text ReviveForMoneyBtnTxt;
 
@@ -96,7 +95,7 @@ public class PostMortemScreen : MonoBehaviour
             time += Time.deltaTime;
 
             float mappedTime = Utility.MapValue(time, 0f, TimeToRevive, 1f, 0f);
-            ReviveScreenTimer.value = mappedTime;
+            _reviveProgressImg.fillAmount = mappedTime;
 
             yield return null;
         }

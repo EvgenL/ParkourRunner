@@ -146,20 +146,14 @@ public class UIDoTweener : MonoBehaviour
 
         SettingsTweening settings = FindObjectOfType<SettingsTweening>();
 
-        while (settings.IsInProcess)
-        {
-
-        yield return new WaitForEndOfFrame();  
-        }
+        yield return new WaitWhile(() => settings.IsInProcess);
         if (settings.IsOpend)
         {
             settings.CloseSettings();
         }
         RemoveAllListeners();
         StartCoroutine(EnableBtnsRaycastTargetTo(false, 0));
-
-        _shopContent.SetActive(false);
-        
+                        
         var secuance = DOTween.Sequence();
         secuance.Append(_playBtnEndPos.DOAnchorPos(new Vector2(_playbtnStartPos.x, _playBtnEndPos.anchoredPosition.y), _playBtnDuration).SetEase(Ease.InOutElastic));
 
@@ -168,8 +162,12 @@ public class UIDoTweener : MonoBehaviour
 
         secuance.Insert(0.5f , _playBtnEndPosFromShop.DOAnchorPos(new Vector2( _playbtnStartPosFromShop.x, _playBtnEndPosFromShop.anchoredPosition.y), _playBtnDurationFromShop)).SetEase(Ease.InBounce);
         secuance.Insert(0.4f , _backBtnEndPosFromShop.DOAnchorPos(new Vector2(_backbtnStartPosFromShop.x, _backBtnEndPosFromShop.anchoredPosition.y), _backBtnDurationFromShop)).SetEase(Ease.InBounce);
-                
-        secuance.Append(_shopEndPos.DOAnchorPos(new Vector2(_shopStartPos.x, _shopStartPos.y), _shopDuration)).SetEase(Ease.Flash);
+
+        if (_additionalMenu == AdditionalMenuType.Shop)
+            secuance.Append(_shopEndPos.DOAnchorPos(new Vector2(_shopStartPos.x, _shopStartPos.y), _shopDuration)).SetEase(Ease.Flash);
+        else
+            secuance.Append(_avatarEndPos.DOAnchorPos(new Vector2(_avatarStartPos.x, _avatarStartPos.y), _avatarDuration)).SetEase(Ease.Flash);
+
         secuance.OnComplete(() => { StartCoroutine(EnableBtnsRaycastTargetTo(true, 0.1f)); });
         secuance.OnComplete(() => { OpenGameScene(); } );
     }
@@ -184,21 +182,7 @@ public class UIDoTweener : MonoBehaviour
         _audio.PlaySound(Sounds.Tap);
 
         RemoveAllListeners();
-        if (_additionalMenu == AdditionalMenuType.Shop)
-        {
-            for (int i = 0; i < _shop.transform.GetChild(0).childCount; i++)
-            {
-                _shop.transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
-            }
-        }
-        else
-        {
-            for (int i = 0; i < _avatar.transform.GetChild(0).childCount; i++)
-            {
-                _avatar.transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
-            }
-        }
-
+        
         StartCoroutine(EnableBtnsRaycastTargetTo(false, 0));
         var firstSecuance = DOTween.Sequence();
         firstSecuance.Append(_playBtnEndPos.DOAnchorPos(new Vector2(_playbtnStartPos.x, _playBtnEndPos.anchoredPosition.y), _playBtnDuration).SetEase(Ease.InOutElastic));
@@ -223,10 +207,6 @@ public class UIDoTweener : MonoBehaviour
             secuance.OnComplete(() => 
             {
                 StartCoroutine(EnableBtnsRaycastTargetTo(true, 0.1f));
-                if (_additionalMenu == AdditionalMenuType.Shop)
-                    _shopContent.SetActive(true);
-                else
-                    _avatarContent.SetActive(true);
                 AddListeners();
             });
         });

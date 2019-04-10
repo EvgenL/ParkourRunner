@@ -16,11 +16,6 @@ public class CharacterSelection : MonoBehaviour
     [SerializeField] private Text _priceText;
     [SerializeField] private GameObject _selectCaption;
 
-    [Header("Pivot block")]
-    [SerializeField] private RectTransform _avatar;
-    [SerializeField] private RectTransform _avatarGroupPivot;
-    [SerializeField] private RectTransform _avatarYPivot;
-
     private CharactersData.Data _data;
     private Wallet _wallet;
 
@@ -68,14 +63,7 @@ public class CharacterSelection : MonoBehaviour
         if (this.EnableCharacter)
             OnSelectCharacter.SafeInvoke(_kind);
     }
-
-    private void Update()
-    {
-        Vector3 position = _avatarGroupPivot.position;
-        position.x = _avatarYPivot.position.x;
-        _avatar.position = position;
-    }
-
+        
     public void OnSelectButtonClick()
     {
         if (!_data.Bought && _wallet.SpendCoins(_data.price))
