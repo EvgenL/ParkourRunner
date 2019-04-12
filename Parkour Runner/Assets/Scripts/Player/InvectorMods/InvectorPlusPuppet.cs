@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using ParkourRunner.Scripts.Managers;
 using Basic_Locomotion.Scripts.CharacterController;
 using RootMotion.Dynamics;
 using UnityEngine;
@@ -45,11 +46,21 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         {
             _pCamera.OnRegainBalance();
             Invoke("Unlock", RegainBalanceInputDelay);
+            StartCoroutine(RestoreImmuneProcess(GameManager.Instance.RestoreImmuneDuration));
         }
 
         private void Unlock()
         {
             InvectorInput.SetLockBasicInput(false);
+        }
+
+        private IEnumerator RestoreImmuneProcess(float time)
+        {
+            ParkourThirdPersonController.instance.RestoreImmune = true;
+
+            yield return new WaitForSeconds(time);
+
+            ParkourThirdPersonController.instance.RestoreImmune = false;
         }
 
         void Update()

@@ -70,6 +70,7 @@ namespace ParkourRunner.Scripts.Managers
 
         private int _revives; //Сколько раз игрок возрождался за этот забег?
 
+        [SerializeField] private float _restoreImmuneDuration;
 
         ////Состояние
         //Наличие конечностей
@@ -77,13 +78,14 @@ namespace ParkourRunner.Scripts.Managers
         [SerializeField] private bool _rightHand = true;
         [SerializeField] private bool _leftLeg = true;
         [SerializeField] private bool _rightLeg = true;
-
-
+                
         private ParkourThirdPersonController _player;
         private Animator _playerAnimator;
 
         private HUDManager _hud;
         private Wallet _wallet;
+
+        public float RestoreImmuneDuration { get { return _restoreImmuneDuration; } }
         
         private void Start()
         {

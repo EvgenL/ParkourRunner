@@ -30,6 +30,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         public bool Immune = false;
 
+        public bool RestoreImmune { get; set; }
+
         public float RollKnockOutDistance = 4f;
         public float _oldKnockOutDistance;
 
@@ -88,7 +90,10 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
                 IsSlidingTrolley = false;
                 _capsuleCollider.isTrigger = false;
                 if (PuppetMaster.state != PuppetMaster.State.Dead)
+                {
+                    //this.RestoreImmune = true;
                     AudioManager.Instance.PlaySound(Sounds.CollisionHit);
+                }
             });
             BehavPuppet.onLoseBalance.unityEvent.AddListener(ResetSpeed);
 
@@ -148,7 +153,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private void CheckImmunity()
         {
-            if (customAction || Immune)
+            if (customAction || Immune || this.RestoreImmune)
             {
                 BehavPuppet.collisionLayers = _immuneLayers;
                 _gm.PlayerCanBeDismembered = false;
@@ -321,22 +326,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             jumpHeight = oldHeight;
             _airSpeedFreeze = false;
             IsOnJumpPlatform = false;
-        }
-
-        public void Immunity(float t)
-        {
-            StartCoroutine(ImmunityTime(t));
-        }
-
-        private IEnumerator ImmunityTime(float t)
-        {
-            while (t > 0)
-            {
-                t -= Time.deltaTime;
-                Immune = true;
-                yield return null;
-            }
-            Immune = false;
         }
     }
 }
