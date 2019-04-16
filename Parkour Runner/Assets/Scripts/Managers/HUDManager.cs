@@ -14,7 +14,8 @@ namespace ParkourRunner.Scripts.Managers
             Ok,
             Great,
             Perfect,
-            NoMessage
+            NoMessage,
+            LevelComplete
         }
 
         public static HUDManager Instance;
@@ -136,6 +137,10 @@ namespace ParkourRunner.Scripts.Managers
                     break;
                 case Messages.Perfect:
                     message = "PERFECT!!!";
+                    break;
+
+                case Messages.LevelComplete:
+                    message = "LEVEL COMPLETE!!!";
                     break;
             }
 
