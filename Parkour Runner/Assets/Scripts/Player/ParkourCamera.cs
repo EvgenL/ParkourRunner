@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml;
-using ParkourRunner.Scripts.Player.InvectorMods;
+﻿using System.Collections;
 using RootMotion.Dynamics;
-using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -45,15 +40,17 @@ public class ParkourCamera : MonoBehaviour
     public float SlowTimeForSecondsOnFall = 2f;
     [Range(0f, 1f)] public float SlowTimeChance = 0.5f;
 
+    public bool LockCamera { get; set; }
+
     private void Awake()
     {
         Instance = this;
         ParkourSlowMo = GetComponent<ParkourSlowMo>();
+        this.LockCamera = false;
     }
 
-
-	// Use this for initialization
-	void Start () {
+    void Start ()
+    {
 	    if (_puppetMaster == null)
 	    {
 	        _puppetMaster = FindObjectOfType<PuppetMaster>();
@@ -83,7 +80,7 @@ public class ParkourCamera : MonoBehaviour
 
     private void UpdatePosition()
     {
-        if (_followMode == FollowMode.Stop) return;
+        if (_followMode == FollowMode.Stop || this.LockCamera) return;
         
         if (_followMode == FollowMode.FollowPuppet)
         {

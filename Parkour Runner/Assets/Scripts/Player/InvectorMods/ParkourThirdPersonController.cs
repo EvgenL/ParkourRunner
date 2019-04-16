@@ -29,9 +29,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         public bool IsUsingHook = false;
 
         public bool Immune = false;
-
         public bool RestoreImmune { get; set; }
-
+                
         public float RollKnockOutDistance = 4f;
         public float _oldKnockOutDistance;
 
@@ -282,7 +281,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             PuppetMaster.state = PuppetMaster.State.Dead;
             PuppetMaster.muscles[0].rigidbody.AddForce(_rigidbody.velocity); //толкаем таз скоростью капсулы
         }
-
+                
         public void Revive()
         {
             PuppetMaster.state = PuppetMaster.State.Alive;

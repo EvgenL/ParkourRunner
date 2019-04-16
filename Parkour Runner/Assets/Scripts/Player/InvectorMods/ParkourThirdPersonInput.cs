@@ -13,7 +13,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         public bool Sprint = false;
 
         public bool DebugAllowFreeWalk = false;
-        
+                        
         private bool _isInInputZone = false;
         private ObstacleInputZone _inputZone;
 
@@ -27,6 +27,12 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         
         protected override void MoveCharacter()
         {
+            if (LockRunning)
+            {
+                cc.input = Vector2.zero;
+                return;
+            }
+
             if (parkourController.IsSlidingDown)
             {
                 cc.input.y = 1f;
@@ -42,25 +48,33 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
                 }
                 return;
             }
-
+                                                
             if (!lockInput)
             {
                 cc.input.y = LockRunning ? 0f : 1f;
-                cc.input.x = LockTurning ? 0f : CrossPlatformInputManager.GetAxis("Horizontal");
+                cc.input.x = LockTurning ? 0f : CrossPlatformInputManager.GetAxis("Horizontal");                
             }
             else
             {
                 cc.input = Vector2.zero;
             }
+
             if (parkourController.IsOnJumpPlatform)
             {
                 cc.input.x = cc.input.x / 5;
             }
-
+                                                
             oldInput = cc.input;
             // update oldInput to compare with current Input if keepDirection is true
             // if (!keepDirection)
             //oldInput = cc.input;
+        }
+
+        public void Stop()
+        {
+            cc.input = Vector2.zero;
+            LockRunning = true;
+            lockInput = true;
         }
 
         protected override void SprintInput()
@@ -81,7 +95,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         //Прыжок так же выполняет функцию трюка перед препятствием
         protected override void JumpInput()
         {
-            if (CrossPlatformInputManager.GetButtonDown("Jump") || jumpInput.GetButtonDown())
+            if (!lockInput && (CrossPlatformInputManager.GetButtonDown("Jump") || jumpInput.GetButtonDown()))
             {
                 Jump();
             }
@@ -115,7 +129,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         protected override void RollInput()
         {
-            if (CrossPlatformInputManager.GetButtonDown("Roll") || rollInput.GetButtonDown())
+            if (!lockInput && (CrossPlatformInputManager.GetButtonDown("Roll") || rollInput.GetButtonDown()))
             {
                 Roll();
             }
@@ -161,6 +175,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         public override void CameraInput()
         {
+            if (LockRunning)
+                return;
             if (!Camera.main) Debug.Log("Missing a Camera with the tag MainCamera, please add one.");
             if (!ignoreCameraRotation)
             {

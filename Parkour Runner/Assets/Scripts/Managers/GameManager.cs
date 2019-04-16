@@ -187,11 +187,23 @@ namespace ParkourRunner.Scripts.Managers
 
                 this.ActiveBonuses.Clear();
                 _player.Immune = false;
+                _player.RestoreImmune = false;
 
                 Invoke("ShowPostMortem", 4f);
 
                 _audio.PlaySound(Sounds.GameOver);
             }
+        }
+
+        public void CompleteLevel()
+        {
+            //this.gameState = GameState.Dead;
+            //_player.Die();
+            //OnDie.SafeInvoke();
+
+            this.ActiveBonuses.Clear();
+            _player.Immune = false;
+            _player.RestoreImmune = false;
         }
 
         public void ShowPostMortem()

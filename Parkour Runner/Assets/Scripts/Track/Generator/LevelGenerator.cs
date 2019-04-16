@@ -83,16 +83,19 @@ namespace ParkourRunner.Scripts.Track.Generator
             }
             
             _player = ParkourThirdPersonController.instance.transform;
-                                    
-            _generationWeights = new ChanceSystem<int>();
 
-            _generationWeights.Add(DEFAULT_INDEX, _defaultEnvironment.nextWeight);
-            for (int i = 0; i < _specialEnvironments.Count; i++)
+            if (_environment.EndlessLevel)
             {
-                _generationWeights.Add(i + 1, _specialEnvironments[i].nextWeight);      // 0 занят под дефолтные блоки, так что индекс на 1 больше
-            }
+                _generationWeights = new ChanceSystem<int>();
 
-            _generationWeights.CalculateChanceWeights();
+                _generationWeights.Add(DEFAULT_INDEX, _defaultEnvironment.nextWeight);
+                for (int i = 0; i < _specialEnvironments.Count; i++)
+                {
+                    _generationWeights.Add(i + 1, _specialEnvironments[i].nextWeight);      // 0 занят под дефолтные блоки, так что индекс на 1 больше
+                }
+
+                _generationWeights.CalculateChanceWeights();
+            }
                         
             _generationState = _environment.EndlessLevel ? EnvironmentGenerations.Default : EnvironmentGenerations.Level;
             int length = _environment.EndlessLevel ? _defaultEnvironment.startCount : _levelEnvironment.blocksCount;
