@@ -73,8 +73,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
         private LayerMask _oldCollisions;
         private Weight _oldCollisionResistance;
-        //private ParkourThirdPersonInput parkourInput;
-
+        
         private new void Start()
         {
             _damageLayers = LayerMask.NameToLayer("HouseWall");
@@ -82,17 +81,13 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
             ResetSpeed();
 
             base.Start();
-            //parkourInput = GetComponent<ParkourThirdPersonInput>();
-
+            
             //почему то туда нельзя добавить ивент из этого класса, можно только из родительского
             BehavPuppet.onLoseBalance.unityEvent.AddListener(delegate {
                 IsSlidingTrolley = false;
                 _capsuleCollider.isTrigger = false;
                 if (PuppetMaster.state != PuppetMaster.State.Dead)
-                {
-                    //this.RestoreImmune = true;
                     AudioManager.Instance.PlaySound(Sounds.CollisionHit);
-                }
             });
             BehavPuppet.onLoseBalance.unityEvent.AddListener(ResetSpeed);
 

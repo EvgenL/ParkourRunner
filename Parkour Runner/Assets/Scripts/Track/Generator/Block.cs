@@ -16,11 +16,14 @@ namespace ParkourRunner.Scripts.Track.Generator
         public List<GenerationPoint> GenerationPoints;
         public BlockType Type;
         public Block Next;
-                
+
+        public List<RestorePoint> RevivePoints { get; set; }
+
         //Если это будет лагать - удалим
         private void Awake()
         {
             GenerationPoints = GetComponentsInChildren<GenerationPoint>().ToList();
+            this.RevivePoints = new List<RestorePoint>();
         }
 
         //Автоматически расставляем референсы в эдиторе
