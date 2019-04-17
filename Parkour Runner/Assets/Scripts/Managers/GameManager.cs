@@ -197,10 +197,6 @@ namespace ParkourRunner.Scripts.Managers
 
         public void CompleteLevel()
         {
-            //this.gameState = GameState.Dead;
-            //_player.Die();
-            //OnDie.SafeInvoke();
-
             this.ActiveBonuses.Clear();
             _player.Immune = false;
             _player.RestoreImmune = false;
@@ -216,12 +212,31 @@ namespace ParkourRunner.Scripts.Managers
             var cb = LevelGenerator.Instance.CenterBlock;
             Vector3 newPos = cb.transform.position;
             newPos.z -= LevelGenerator.Instance.BlockSize / 2f - 2f;
+
+            List<RestorePoint> list = cb.RevivePoints;
+            if (list != null && list.Count > 0)
+            {
+                Vector3 playerPos = _player.transform.position;
+                List<RestorePoint> targets = list.Where(x => x.CachedTransform.position.z <= playerPos.z).ToList();
+
+                if (targets != null && targets.Count >= 0)
+                {
+                    var target = targets[0];
+                    foreach (var item in targets)
+                    {
+                        if (Vector3.Distance(playerPos, item.CachedTransform.position) < Vector3.Distance(playerPos, target.CachedTransform.position))
+                            target = item;
+                    }
+
+                    newPos = target.CachedTransform.position;
+                }
+            }
+            
             FindObjectOfType<PuppetMaster>().enabled = false; //mode = PuppetMaster.Mode.Disabled;
-                _player.transform.position = newPos;
+            _player.transform.position = newPos;
             FindObjectOfType<PuppetMaster>().enabled = true; //.mode = PuppetMaster.Mode.Kinematic;
             _player.transform.root.position = newPos;
-
-
+            
             //Heal player
             gameState = GameState.Run;
             HealFull();
