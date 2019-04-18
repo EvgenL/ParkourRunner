@@ -26,15 +26,6 @@ namespace ParkourRunner.Scripts.Track.Generator
             this.RevivePoints = new List<RestorePoint>();
         }
 
-        //Автоматически расставляем референсы в эдиторе
-        void Update()
-        {
-            if (!Application.isPlaying)
-            {
-                // GenerationPoints = GetComponentsInChildren<GenerationPoint>().ToList();
-            }
-        }
-
         public void Generate()
         {
             if (GenerationPoints.Count == 0) return;
@@ -50,7 +41,7 @@ namespace ParkourRunner.Scripts.Track.Generator
 
             var bonuses = GenerationPoints.FindAll(x => x is PickUpPoint);
             GenerateSingle(bonuses);
-            }
+        }
 
         private void GenerateSingle(List<GenerationPoint> tricks)
         {

@@ -113,8 +113,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
                 CameraEffects.Instance.IsHighJumping = false;
             }
         }
-
-        
+                
         private void ControllStopMove()
         {
             if (stopMove)
@@ -169,10 +168,8 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
                 freeSpeed.walkSpeed = CurrRunSpeed;
                 animator.SetFloat("TrickSpeedMultiplier", CurrAnimSpeed);
 
-                CurrRunSpeed = Utility.MapValue(_gm.GameSpeed,
-                    1f, StaticConst.MaxGameSpeed, StaticConst.MinRunSpeed, StaticConst.MaxRunSpeed);
-                CurrAnimSpeed = Utility.MapValue(_gm.GameSpeed,
-                    1f, StaticConst.MaxGameSpeed, StaticConst.MinAnimSpeed, StaticConst.MaxAnimSpeed);
+                CurrRunSpeed = Utility.MapValue(_gm.GameSpeed, 1f, StaticConst.MaxGameSpeed, StaticConst.MinRunSpeed, StaticConst.MaxRunSpeed);
+                CurrAnimSpeed = Utility.MapValue(_gm.GameSpeed, 1f, StaticConst.MaxGameSpeed, StaticConst.MinAnimSpeed, StaticConst.MaxAnimSpeed);
             }
         }
 
@@ -180,8 +177,7 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         {
             if (IsSlidingTrolley)
             {
-                transform.position =
-                    Vector3.MoveTowards(transform.position, TargetTransform.position + TrolleyOffset, 0.1f);
+                transform.position = Vector3.MoveTowards(transform.position, TargetTransform.position + TrolleyOffset, 0.1f);
 
                 Quaternion newRot = TargetTransform.rotation;
                 newRot.x = 0;
@@ -192,11 +188,13 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
 
                 return;
             }
+
             if (IsRunningWall)
             {
                 var newPos = Vector3.Lerp(transform.position, TargetTransform.position + WallOffset, 0.5f);
                 transform.position = newPos;
             }
+
             if (IsUsingHook)
             {
                 transform.position = Vector3.MoveTowards(transform.position, TargetTransform.position + HookOffset, HookSpeed * Time.fixedDeltaTime);
@@ -206,7 +204,6 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
                     IsUsingHook = false;
                 }
             }
-
         }
 
         private void ControllStates()

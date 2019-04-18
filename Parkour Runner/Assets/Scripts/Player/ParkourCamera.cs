@@ -186,6 +186,7 @@ public class ParkourCamera : MonoBehaviour
     {
         print("OnDie camera");
     }
+
     public void OnRegainBalance()
     {
         _fell = false;
