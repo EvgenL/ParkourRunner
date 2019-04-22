@@ -219,7 +219,7 @@ namespace ParkourRunner.Scripts.Managers
                 Vector3 playerPos = _player.transform.position;
                 List<RestorePoint> targets = list.Where(x => x.CachedTransform.position.z <= playerPos.z).ToList();
 
-                if (targets != null && targets.Count >= 0)
+                if (targets != null && targets.Count > 0)
                 {
                     var target = targets[0];
                     foreach (var item in targets)
