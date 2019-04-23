@@ -62,7 +62,13 @@ namespace ParkourRunner.Scripts.Managers
 
         public int ReviveCost
         {
-            get { return (StaticConst.InitialReviveCost + (int) DistanceRun / 10) * (_revives + 1); }
+            get
+            {
+                float distance = Mathf.Clamp(((int)DistanceRun / 10), 1f, Mathf.Infinity);
+                int cost = (StaticConst.InitialReviveCost + (int)distance / 10) * (_revives + 1);
+
+                return Mathf.RoundToInt(Mathf.Clamp(cost, StaticConst.InitialReviveCost, Mathf.Infinity));
+            }
         }
 
         public float DistanceRun;

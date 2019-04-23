@@ -177,8 +177,9 @@ namespace ParkourRunner.Scripts.Player.InvectorMods
         {
             if (IsSlidingTrolley)
             {
-                transform.position = Vector3.MoveTowards(transform.position, TargetTransform.position + TrolleyOffset, 0.1f);
-
+                float speed = 18f;
+                transform.position = Vector3.MoveTowards(transform.position, TargetTransform.position + TrolleyOffset, speed * Time.deltaTime);
+                
                 Quaternion newRot = TargetTransform.rotation;
                 newRot.x = 0;
                 newRot.z = 0;

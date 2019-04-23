@@ -6,15 +6,13 @@ namespace ParkourRunner.Scripts.Track
     [ExecuteInEditMode]
     public class TrolleyPathSetter : MonoBehaviour
     {
-
         public Transform Point1;
         public Transform Point2;
 
         public PathMagic.Scripts.PathMagic Path;
-
-    
-    
-        void Update () {
+            
+        void Update ()
+        {
             if (Point1 != null && Point2 != null && Path != null)
             {
                 Path.transform.position = Point1.position;
