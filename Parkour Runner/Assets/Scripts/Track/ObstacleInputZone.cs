@@ -157,18 +157,18 @@ namespace ParkourRunner.Scripts.Track
             {
                 print("dist < 1f");
                 msg = HUDManager.Messages.Perfect;
-                gm.TrickMultipiler = 2.5f;
+                gm.TrickMultipiler = 1.5f;
             }
             else if (dist < 2.5f)
             {
                 print("dist < 2.5f");
-                gm.TrickMultipiler = 1.5f;
+                gm.TrickMultipiler = 1f;
                 msg = HUDManager.Messages.Great;
             }
             else
             {
                 print("dist > 2.5f");
-                gm.TrickMultipiler = 1f;
+                gm.TrickMultipiler = 0.5f;
                 msg = HUDManager.Messages.Ok;
             }
             hm.ShowGreatMessage(msg);
