@@ -61,7 +61,7 @@ public class Wallet : MonoSingleton<Wallet>
 
     public bool SpendCoins(int value)
     {
-        if (this.AllCoins - value >= 0)
+        if (this.AllCoins - value >= 0 && value >= 0)
         {
             this.AllCoins -= value;
             this.InGameCoins = Mathf.Clamp(this.InGameCoins - value, 0, this.AllCoins);

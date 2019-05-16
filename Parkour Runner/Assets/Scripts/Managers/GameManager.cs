@@ -62,7 +62,13 @@ namespace ParkourRunner.Scripts.Managers
 
         public int ReviveCost
         {
-            get { return (StaticConst.InitialReviveCost + (int) DistanceRun / 10) * (_revives + 1); }
+            get
+            {
+                float distance = Mathf.Clamp(((int)DistanceRun / 10), 1f, Mathf.Infinity);
+                int cost = (StaticConst.InitialReviveCost + (int)distance / 10) * (_revives + 1);
+
+                return Mathf.RoundToInt(Mathf.Clamp(cost, StaticConst.InitialReviveCost, Mathf.Infinity));
+            }
         }
 
         public float DistanceRun;
@@ -219,7 +225,7 @@ namespace ParkourRunner.Scripts.Managers
                 Vector3 playerPos = _player.transform.position;
                 List<RestorePoint> targets = list.Where(x => x.CachedTransform.position.z <= playerPos.z).ToList();
 
-                if (targets != null && targets.Count >= 0)
+                if (targets != null && targets.Count > 0)
                 {
                     var target = targets[0];
                     foreach (var item in targets)

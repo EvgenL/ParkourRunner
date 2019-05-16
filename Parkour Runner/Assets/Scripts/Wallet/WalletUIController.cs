@@ -43,10 +43,40 @@ public class WalletUIController : MonoBehaviour
         
     private void SetCoins(int coins)
     {
-        if (coins == 0)
-            _coinsText.text = "0";
+        if (coins > 0)
+        {
+            int n = coins;
+            string txt = string.Empty;
+
+            int rank = 0;
+            while (n >= 10)
+            {
+                int last = n % 10;
+                rank++;
+
+                txt = (rank > 3) ? last.ToString() + " " + txt : last.ToString() + txt;
+                rank = (rank > 3) ? 0 : rank;
+
+                n = n / 10;
+            }
+
+            if (n > 0)
+            {
+                rank++;
+                txt = (rank > 3) ? n.ToString() + " " + txt : n.ToString() + txt;
+            }
+
+            txt = _textBefore + txt;
+
+            _coinsText.text = _formatPrice ? txt : _textBefore + coins.ToString();
+        }
         else
-            _coinsText.text = _formatPrice ? string.Format("{0}{1:### ### ### ### ###.#}", _textBefore, coins) : _textBefore + coins.ToString();
+            _coinsText.text = "0";
+            
+        //if (coins == 0)
+        //    _coinsText.text = "0";
+        //else
+        //    _coinsText.text = _formatPrice ? string.Format("{0}{1:### ### ### ### ###.#}", _textBefore, coins) : _textBefore + coins.ToString();
     }
 
     #region Events
