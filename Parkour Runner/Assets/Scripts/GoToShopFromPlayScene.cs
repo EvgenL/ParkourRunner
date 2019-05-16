@@ -2,14 +2,16 @@
 using UnityEngine.SceneManagement;
 using AEngine;
 
-public class GoToShopFromPlayScene : MonoBehaviour {
-
-	public void GoToShop()
+public class GoToShopFromPlayScene : MonoBehaviour
+{
+    public void GoToShop()
     {
-        SceneManager.LoadScene("ShopAndMainMenu");
+        //MenuController.TransitionTarget = MenuKinds.Shop;
+        MenuController.TransitionTarget = MenuKinds.None;
+        SceneManager.LoadScene("Menu");
+
         AudioManager.Instance.PlaySound(Sounds.Tap);
-        
+
         UIDoTweener.priority = 0;
     }
-  
 }

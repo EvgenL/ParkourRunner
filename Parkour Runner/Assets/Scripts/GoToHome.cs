@@ -5,7 +5,9 @@ public class GoToHome : MonoBehaviour
 {
     public void GoHome()
     {
-        SceneLoadManager.Instance.LoadScene("ShopAndMainMenu");
+        MenuController.TransitionTarget = MenuKinds.None;
+        SceneLoadManager.Instance.LoadScene("Menu");
+
         AudioManager.Instance.PlaySound(Sounds.Tap);        
     }
 }
