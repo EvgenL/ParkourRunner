@@ -1,5 +1,7 @@
 ﻿using System;
 using UnityEngine;
+using DG.Tweening;
+using AEngine;
 
 public enum MenuKinds
 {
@@ -10,11 +12,39 @@ public enum MenuKinds
 
 public class Menu : MonoBehaviour
 {
+    [Serializable]
+    protected struct AnimationSettings
+    {
+        public RectTransform target;
+        public Vector2 showPos;
+        public Vector2 hidePos;
+        public Ease showEase;
+        public Ease hideEase;
+        public float duration;
+        
+        public Tween ShowTween()
+        {
+            return target.DOAnchorPos(showPos, duration).SetEase(showEase);
+        }
+
+        public Tween ShowTween(Vector2 deltaPos, float timeDuration)
+        {
+            return target.DOAnchorPos(showPos + deltaPos, timeDuration).SetEase(showEase);
+        }
+
+        public Tween HideTween()
+        {
+            return target.DOAnchorPos(hidePos, duration).SetEase(hideEase);
+        }
+    }
+
     [SerializeField] private GameObject _menuObject;
     [SerializeField] private MenuKinds _kind;
 
-    private MenuController _menuController;
+    protected MenuController _menuController;
+    protected AudioManager _audio;
 
+    public MenuKinds Kind { get { return _kind; } }
     public bool IsActive { get { return _menuObject.activeSelf; } set { _menuObject.SetActive(value); } }
 
     public void Init(MenuController controller)
@@ -24,6 +54,7 @@ public class Menu : MonoBehaviour
             if (_menuObject == null)
                 _menuObject = this.gameObject;
 
+            _audio = AudioManager.Instance;
             _menuController = controller;
             this.IsActive = false;
 
@@ -38,11 +69,14 @@ public class Menu : MonoBehaviour
         this.IsActive = true;
     }
 
-    protected virtual void Hide(Action callback)
+    protected virtual void StartHide(Action callback)
     {
         if (_menuController.CurrentMenu == this)
             _menuController.CurrentMenu = null;
+    }
 
+    protected virtual void FinishHide(Action callback)
+    {
         callback.SafeInvoke();
         this.IsActive = false;
     }
@@ -57,7 +91,7 @@ public class Menu : MonoBehaviour
     private void OnHideMenu(MenuKinds kind, Action callback)
     {
         if (this.IsActive && _kind == kind)
-            Hide(callback);
+            StartHide(callback);
     }
     #endregion
 }
