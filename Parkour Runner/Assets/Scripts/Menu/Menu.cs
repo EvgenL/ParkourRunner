@@ -8,6 +8,7 @@ public enum MenuKinds
     None,
     MainMenu,
     Shop,
+    SelectLevelType,
     Characters
 }
 

@@ -73,7 +73,8 @@ public class MainMenu : Menu
     public void OnPlayButtonClick()
     {
         _audio.PlaySound(Sounds.Tap);
-        StartHide(OpenGame);
+        _menuController.OpenMenu(MenuKinds.SelectLevelType);
+        //StartHide(OpenGame);
     }
 
     public void OnShopButtonClick()
