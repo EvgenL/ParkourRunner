@@ -13,30 +13,27 @@ public class MainMenu : Menu
     [SerializeField] private AnimationSettings _playButtonAnim;
     [SerializeField] private AnimationSettings _shopButtonAnim;
     [SerializeField] private AnimationSettings _settingsPanelAnim;
-    
+        
     protected override void Show()
     {
         base.Show();
-
-        if (_playButtonAnim.target != null && _shopButtonAnim.target != null && _settingsPanelAnim.target != null)
+                
+        var settingsSecuance = DOTween.Sequence();
+        settingsSecuance.Append(_settingsPanelAnim.ShowTween());
+                
+        var secuance = DOTween.Sequence();
+        secuance.Append(_playButtonAnim.ShowTween(_buttonsSpringDelta, _playButtonAnim.duration * 0.9f));
+        secuance.Insert(0f, _shopButtonAnim.ShowTween(_buttonsSpringDelta, _shopButtonAnim.duration * 0.9f));
+        
+        secuance.OnComplete(() =>
         {
-            var settingsSecuance = DOTween.Sequence();
-            settingsSecuance.Append(_settingsPanelAnim.ShowTween());
+            var finalSecuance = DOTween.Sequence();
 
-            var secuance = DOTween.Sequence();
-            secuance.Append(_playButtonAnim.ShowTween(_buttonsSpringDelta, _playButtonAnim.duration * 0.95f));
-            secuance.Insert(0f, _shopButtonAnim.ShowTween(_buttonsSpringDelta, _shopButtonAnim.duration * 0.95f));
-            
-            secuance.OnComplete(() =>
-            {
-                var finalSecuance = DOTween.Sequence();
-
-                finalSecuance.Append(_playButtonAnim.ShowTween(Vector2.zero, _playButtonAnim.duration * 0.05f));
-                finalSecuance.Insert(0f, _shopButtonAnim.ShowTween(Vector2.zero, _shopButtonAnim.duration * 0.05f));
-            });
-        }
+            finalSecuance.Append(_playButtonAnim.ShowTween(Vector2.zero, _playButtonAnim.duration * 0.1f));
+            finalSecuance.Insert(0f, _shopButtonAnim.ShowTween(Vector2.zero, _shopButtonAnim.duration * 0.1f));
+        });
     }
-
+        
     protected override void StartHide(Action callback)
     {
         base.StartHide(callback);
@@ -54,23 +51,21 @@ public class MainMenu : Menu
             _settingsPanel.CloseSettings();
         }
         
-        if (_playButtonAnim.target != null && _shopButtonAnim.target != null && _settingsPanelAnim.target != null)
+        var secuance = DOTween.Sequence();
+
+        secuance.Append(_playButtonAnim.HideTween());
+        secuance.Insert(0.1f, _shopButtonAnim.HideTween());
+        secuance.Insert(0.1f, _settingsPanelAnim.HideTween());
+
+        secuance.OnComplete(() =>
         {
-            var secuance = DOTween.Sequence();
-
-            secuance.Append(_playButtonAnim.HideTween());
-            secuance.Insert(0.1f, _shopButtonAnim.HideTween());
-            secuance.Insert(0.1f, _settingsPanelAnim.HideTween());
-
-            secuance.OnComplete(() =>
-            {
-                FinishHide(callback);
-            });
-        }
+            FinishHide(callback);
+        });
     }
 
     private void OpenGame()
     {
+        MenuController.TransitionTarget = MenuKinds.None;
         _gameLoader.SetActive(true);
     }
 

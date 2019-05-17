@@ -3,12 +3,11 @@ using AEngine;
 
 public class CharacterSettingButton : SettingsBase
 {
-    [SerializeField] private UIDoTweener _uiController;
-
+    [SerializeField] private MenuController _menuController;
+    
     public override void OnClick()
     {
         AudioManager.Instance.PlaySound(Sounds.Tap);
-        
-        _uiController.OpenCharactersWindow();
+        _menuController.OpenMenu(MenuKinds.Characters);
     }
 }

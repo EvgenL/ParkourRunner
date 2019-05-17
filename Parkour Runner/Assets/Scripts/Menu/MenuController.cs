@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using AEngine;
 
 public class MenuController : MonoBehaviour
 {
@@ -11,18 +12,27 @@ public class MenuController : MonoBehaviour
     [SerializeField] private MenuKinds _defaultMenu;
     [SerializeField] private Menu[] menus;
 
+    private AudioManager _audio;
     private MenuKinds _targetMenu;
 
     public Menu CurrentMenu { get; set; }
 
     private void Awake()
     {
+        _audio = AudioManager.Instance;
+        _audio.LoadAudioBlock(AudioBlocks.Menu);
+        _audio.PlayMusic();
+
+        this.CurrentMenu = null;
+
         foreach (Menu item in menus)
             item.Init(this);
 
-        OnShowMenu.SafeInvoke(TransitionTarget == MenuKinds.None ? _defaultMenu : TransitionTarget);
-    }
+        Time.timeScale = 1f;
 
+        OpenMenu(TransitionTarget == MenuKinds.None ? MenuKinds.MainMenu : TransitionTarget);
+    }
+        
     public void OpenMenu(MenuKinds menu)
     {
         _targetMenu = menu;

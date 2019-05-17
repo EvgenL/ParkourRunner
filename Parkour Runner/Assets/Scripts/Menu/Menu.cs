@@ -7,7 +7,8 @@ public enum MenuKinds
 {
     None,
     MainMenu,
-    Shop
+    Shop,
+    Characters
 }
 
 public class Menu : MonoBehaviour

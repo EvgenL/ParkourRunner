@@ -30,7 +30,7 @@ public class UIDoTweener : MonoBehaviour
     [SerializeField] private float _settingsPanelDuration;
 
     [SerializeField] private GameObject _shop;
-    [SerializeField] private GameObject _shopContent;
+    //[SerializeField] private GameObject _shopContent;
     [SerializeField] private RectTransform _shopEndPos;
     private Vector2 _shopStartPos;
     [SerializeField] private float _shopDuration;
@@ -50,9 +50,7 @@ public class UIDoTweener : MonoBehaviour
     [SerializeField] private RectTransform _avatarEndPos;
     private Vector2 _avatarStartPos;
     [SerializeField] private float _avatarDuration;
-
-    private AudioManager _audio;
-
+        
     public static int priority=1;
 
     private AdditionalMenuType _additionalMenu;
@@ -69,19 +67,16 @@ public class UIDoTweener : MonoBehaviour
         if (_settingsPanel != null)
             _settingsPanelStartPos = _settingsPanel.GetComponent<RectTransform>().anchoredPosition;
 
-        _shopStartPos = _shop.GetComponent<RectTransform>().anchoredPosition;
+        if (_shop != null)
+            _shopStartPos = _shop.GetComponent<RectTransform>().anchoredPosition;
+
         _playbtnStartPosFromShop = _playBtnFromShop.GetComponent<RectTransform>().anchoredPosition;
         _backbtnStartPosFromShop=_backBtnFromShop.GetComponent<RectTransform>().anchoredPosition;
         _avatarStartPos = _avatar.GetComponent<RectTransform>().anchoredPosition;
-                                
-        _audio = AudioManager.Instance;
     }
 
     private void Start()
     {
-        _audio.LoadAudioBlock(AudioBlocks.Menu);
-        _audio.PlayMusic();
-
         Time.timeScale = 1;
         if (priority == 0)
         {
@@ -135,7 +130,8 @@ public class UIDoTweener : MonoBehaviour
         secuance.Insert(0.5f+_shopDuration, _playBtnEndPosFromShop.DOAnchorPos(new Vector2(-GetComponent<RectTransform>().rect.width / 2, _playBtnEndPosFromShop.anchoredPosition.y), _playBtnDurationFromShop)).SetEase(Ease.InBounce);
         secuance.Insert(0.4f+_settingsPanelDuration, _backBtnEndPosFromShop.DOAnchorPos(new Vector2(-GetComponent<RectTransform>().rect.width / 2, _backBtnEndPosFromShop.anchoredPosition.y), _backBtnDurationFromShop)).SetEase(Ease.InBounce);
          
-        secuance.Append(_shopEndPos.DOAnchorPos(new Vector2(GetComponent<RectTransform>().rect.width / 2, 0), _shopDuration)).SetEase(Ease.Flash);
+        if (_shopEndPos != null)
+            secuance.Append(_shopEndPos.DOAnchorPos(new Vector2(GetComponent<RectTransform>().rect.width / 2, 0), _shopDuration)).SetEase(Ease.Flash);
 
         secuance.OnComplete(() => 
         {
@@ -165,8 +161,6 @@ public class UIDoTweener : MonoBehaviour
 
     private IEnumerator OpenGame()
     {
-        _audio.PlaySound(Sounds.Tap);
-
         SettingsTweening settings = FindObjectOfType<SettingsTweening>();
 
         yield return new WaitWhile(() => settings.IsInProcess);
@@ -192,7 +186,10 @@ public class UIDoTweener : MonoBehaviour
         secuance.Insert(0.4f , _backBtnEndPosFromShop.DOAnchorPos(new Vector2(_backbtnStartPosFromShop.x, _backBtnEndPosFromShop.anchoredPosition.y), _backBtnDurationFromShop)).SetEase(Ease.InBounce);
 
         if (_additionalMenu == AdditionalMenuType.Shop)
-            secuance.Append(_shopEndPos.DOAnchorPos(new Vector2(_shopStartPos.x, _shopStartPos.y), _shopDuration)).SetEase(Ease.Flash);
+        {
+            if (_shopEndPos != null)
+                secuance.Append(_shopEndPos.DOAnchorPos(new Vector2(_shopStartPos.x, _shopStartPos.y), _shopDuration)).SetEase(Ease.Flash);
+        }
         else
             secuance.Append(_avatarEndPos.DOAnchorPos(new Vector2(_avatarStartPos.x, _avatarStartPos.y), _avatarDuration)).SetEase(Ease.Flash);
 
@@ -207,8 +204,6 @@ public class UIDoTweener : MonoBehaviour
 
     private void BackToMain()
     {
-        _audio.PlaySound(Sounds.Tap);
-
         RemoveAllListeners();
         
         StartCoroutine(EnableBtnsRaycastTargetTo(false, 0));
@@ -222,9 +217,12 @@ public class UIDoTweener : MonoBehaviour
 
         firstSecuance.Insert(0.5f, _playBtnEndPosFromShop.DOAnchorPos(new Vector2(_playbtnStartPosFromShop.x, _playBtnEndPosFromShop.anchoredPosition.y), _playBtnDurationFromShop)).SetEase(Ease.InBounce);
         firstSecuance.Insert(0.4f, _backBtnEndPosFromShop.DOAnchorPos(new Vector2(_backbtnStartPosFromShop.x, _backBtnEndPosFromShop.anchoredPosition.y), _backBtnDurationFromShop)).SetEase(Ease.InBounce);
-        
+
         if (_additionalMenu == AdditionalMenuType.Shop)
-            firstSecuance.Append(_shopEndPos.DOAnchorPos(new Vector2(_shopStartPos.x, _shopStartPos.y), _shopDuration)).SetEase(Ease.Flash);
+        {
+            if (_shopEndPos != null)
+                firstSecuance.Append(_shopEndPos.DOAnchorPos(new Vector2(_shopStartPos.x, _shopStartPos.y), _shopDuration)).SetEase(Ease.Flash);
+        }
         else
             firstSecuance.Append(_avatarEndPos.DOAnchorPos(new Vector2(_avatarStartPos.x, _avatarStartPos.y), _avatarDuration)).SetEase(Ease.Flash);
 
@@ -310,8 +308,6 @@ public class UIDoTweener : MonoBehaviour
 
     private void OpenShopClick()
     {
-        _audio.PlaySound(Sounds.Tap);
-
         StartCoroutine(OpenShop());
     }
 
