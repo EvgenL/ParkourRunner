@@ -22,16 +22,16 @@ namespace ParkourRunner.Scripts.Track.Generator
         #region Singleton
         public static LevelGenerator Instance;
         #endregion
-                
-
-        [SerializeField] private Environment _environment;
+        
+        [SerializeField] private EnvironmentController _environmentController;
         [SerializeField] private float _blockSize = 150;
         [SerializeField] private int _generateBlocksForward = 2;
         [SerializeField] private int _numberOfNonRepeatingBlocks = 3;
-                
+
         [SerializeField] private Vector3 StartBlockOffset;
         [SerializeField] private List<Block> _blockPool;
-                
+
+        private Environment _environment;
         public Block CenterBlock;
 
         [Header("Debug mode [key '1']")]
@@ -60,6 +60,8 @@ namespace ParkourRunner.Scripts.Track.Generator
                 Instance = this;
                 _lastBlocks = new List<string>();
                 _history = new List<string>();
+
+                _environment = _environmentController.GetActualEnvironment();
 
                 _defaultEnvironment = _environment.DefaultEnvironment;
                 _specialEnvironments = _environment.SpecialEnvironments;

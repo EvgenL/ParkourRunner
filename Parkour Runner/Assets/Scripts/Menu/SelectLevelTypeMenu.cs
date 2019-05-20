@@ -50,12 +50,24 @@ public class SelectLevelTypeMenu : Menu
     public void OnEnglessLevelClick()
     {
         _audio.PlaySound(Sounds.Tap);
+
+        EnvironmentController.CheckKeys();
+        PlayerPrefs.SetInt(EnvironmentController.ENDLESS_KEY, 1);
+        PlayerPrefs.Save();
+
         StartHide(OpenGame);
     }
 
     public void OnSelectLevelClick()
     {
         _audio.PlaySound(Sounds.Tap);
+
+        EnvironmentController.CheckKeys();
+        PlayerPrefs.SetInt(EnvironmentController.ENDLESS_KEY, 0);
+        PlayerPrefs.SetInt(EnvironmentController.LEVEL_KEY, 1);
+        PlayerPrefs.Save();
+
+        StartHide(OpenGame);
     }
     #endregion
 }
