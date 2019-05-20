@@ -6,16 +6,16 @@ using AEngine;
 public class ShopMenu : Menu
 {
     [Header("Animation settings")]
-    [SerializeField] private AnimationSettings _homeButtonAnim;
-    [SerializeField] private AnimationSettings _shopAnim;
+    [SerializeField] private MovingAnimation _homeButtonAnim;
+    [SerializeField] private MovingAnimation _shopAnim;
 
     protected override void Show()
     {
         base.Show();
         
         var secuance = DOTween.Sequence();
-        secuance.Append(_shopAnim.ShowTween());
-        secuance.Insert(0f, _homeButtonAnim.ShowTween());
+        secuance.Append(_shopAnim.Show());
+        secuance.Insert(0f, _homeButtonAnim.Show());
     }
 
     protected override void StartHide(Action callback)
@@ -24,8 +24,8 @@ public class ShopMenu : Menu
 
         var secuance = DOTween.Sequence();
 
-        secuance.Append(_shopAnim.HideTween());
-        secuance.Insert(0f, _homeButtonAnim.HideTween());
+        secuance.Append(_shopAnim.Hide());
+        secuance.Insert(0f, _homeButtonAnim.Hide());
 
         secuance.OnComplete(() =>
         {

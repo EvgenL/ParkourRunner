@@ -8,6 +8,7 @@ public class DistanceUIController : MonoBehaviour
     [SerializeField] private int _tabSpace;
     [SerializeField] private bool _enableRound;
     [SerializeField] private bool _enableMetres;
+    [SerializeField] private bool _spaceBeforeMetres;
 
     private void OnEnable()
     {
@@ -24,6 +25,7 @@ public class DistanceUIController : MonoBehaviour
         float distance = PlayerPrefs.GetFloat("DistanceRecord", 0f);
 
         text += _enableRound ? Mathf.RoundToInt(distance) : distance;
+        text += _spaceBeforeMetres && _enableMetres ? " " : string.Empty;
         text += _enableMetres ? "M" : string.Empty;
 
         _distanceText.text = text;

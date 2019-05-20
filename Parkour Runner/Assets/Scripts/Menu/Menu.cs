@@ -8,34 +8,59 @@ public enum MenuKinds
     None,
     MainMenu,
     Shop,
+    SelectLevelType,
     Characters
 }
 
 public class Menu : MonoBehaviour
 {
     [Serializable]
-    protected struct AnimationSettings
+    protected struct MovingAnimation
     {
         public RectTransform target;
-        public Vector2 showPos;
-        public Vector2 hidePos;
+        public RectTransform showPoint;        
+        public RectTransform hidePoint;
         public Ease showEase;
         public Ease hideEase;
         public float duration;
-        
-        public Tween ShowTween()
+                
+        public Tween Show()
         {
-            return target.DOAnchorPos(showPos, duration).SetEase(showEase);
+            return target.DOAnchorPos(showPoint.anchoredPosition, duration).SetEase(showEase);
+        }
+                
+        public Tween Show(Vector2 targetPoint, float timeDuration)
+        {
+            return target.DOAnchorPos(targetPoint, timeDuration).SetEase(showEase);
+        }
+                
+        public Tween Hide()
+        {
+            return target.DOAnchorPos(hidePoint.anchoredPosition, duration).SetEase(hideEase);
         }
 
-        public Tween ShowTween(Vector2 deltaPos, float timeDuration)
+        public Tween Hide(Vector2 targetPoint, float timeDuration)
         {
-            return target.DOAnchorPos(showPos + deltaPos, timeDuration).SetEase(showEase);
+            return target.DOAnchorPos(targetPoint, timeDuration).SetEase(hideEase);
+        }
+    }
+
+    [Serializable]
+    protected struct AlphaAnimation
+    {
+        public CanvasGroup target;
+        public Ease showEase;
+        public Ease hideEase;
+        public float duration;
+
+        public Tween Show()
+        {
+            return target.DOFade(1f, duration).SetEase(showEase);
         }
 
-        public Tween HideTween()
+        public Tween Hide()
         {
-            return target.DOAnchorPos(hidePos, duration).SetEase(hideEase);
+            return target.DOFade(0f, duration).SetEase(hideEase);
         }
     }
 
