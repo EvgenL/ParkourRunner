@@ -6,8 +6,8 @@ using AEngine;
 public class CharactersMenu : Menu
 {
     [Header("Animation settings")]
-    [SerializeField] private AnimationSettings _homeButtonAnim;
-    [SerializeField] private AnimationSettings _charAnim;
+    [SerializeField] private MovingAnimation _homeButtonAnim;
+    [SerializeField] private MovingAnimation _charAnim;
 
     protected override void Show()
     {
@@ -16,8 +16,8 @@ public class CharactersMenu : Menu
         if (_charAnim.target != null)
         {
             var secuance = DOTween.Sequence();
-            secuance.Append(_charAnim.ShowTween());
-            secuance.Insert(0f, _homeButtonAnim.ShowTween());
+            secuance.Append(_charAnim.Show());
+            secuance.Insert(0f, _homeButtonAnim.Show());
         }
     }
 
@@ -29,8 +29,8 @@ public class CharactersMenu : Menu
         {
             var secuance = DOTween.Sequence();
 
-            secuance.Append(_charAnim.HideTween());
-            secuance.Insert(0f, _homeButtonAnim.HideTween());
+            secuance.Append(_charAnim.Hide());
+            secuance.Insert(0f, _homeButtonAnim.Hide());
 
             secuance.OnComplete(() =>
             {
