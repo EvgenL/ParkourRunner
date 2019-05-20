@@ -57,19 +57,12 @@ public class MainMenu : Menu
             FinishHide(callback);
         });
     }
-
-    private void OpenGame()
-    {
-        MenuController.TransitionTarget = MenuKinds.None;
-        _gameLoader.SetActive(true);
-    }
-
+    
     #region Events
     public void OnPlayButtonClick()
     {
         _audio.PlaySound(Sounds.Tap);
         _menuController.OpenMenu(MenuKinds.SelectLevelType);
-        //StartHide(OpenGame);
     }
 
     public void OnShopButtonClick()

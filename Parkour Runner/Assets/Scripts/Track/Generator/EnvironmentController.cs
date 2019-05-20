@@ -5,6 +5,7 @@ public class EnvironmentController : ScriptableObject
 {
     public const string ENDLESS_KEY = "Endless";
     public const string LEVEL_KEY = "Level";
+    public const string MAX_LEVEL = "Max Level";
 
     [SerializeField] private Environment[] _levels;
 
@@ -14,10 +15,11 @@ public class EnvironmentController : ScriptableObject
 
     public static void CheckKeys()
     {
-        if (!PlayerPrefs.HasKey(LEVEL_KEY) || !PlayerPrefs.HasKey(ENDLESS_KEY))
+        if (!PlayerPrefs.HasKey(LEVEL_KEY) || !PlayerPrefs.HasKey(ENDLESS_KEY) || !PlayerPrefs.HasKey(MAX_LEVEL))
         {
             PlayerPrefs.SetInt(ENDLESS_KEY, 1);
             PlayerPrefs.SetInt(LEVEL_KEY, 1);
+            PlayerPrefs.SetInt(MAX_LEVEL, 1);
             PlayerPrefs.Save();
         }
     }

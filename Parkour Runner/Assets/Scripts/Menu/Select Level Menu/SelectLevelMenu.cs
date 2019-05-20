@@ -3,7 +3,7 @@ using UnityEngine;
 using DG.Tweening;
 using AEngine;
 
-public class SelectLevelTypeMenu : Menu
+public class SelectLevelMenu : Menu
 {
     [SerializeField] private GameObject _gameLoader;
 
@@ -14,7 +14,7 @@ public class SelectLevelTypeMenu : Menu
     protected override void Show()
     {
         base.Show();
-                
+
         var secuance = DOTween.Sequence();
         secuance.Append(_levelsAnim.Show());
         secuance.Insert(0.1f, _backButtonAnim.Show());
@@ -27,7 +27,7 @@ public class SelectLevelTypeMenu : Menu
         var secuance = DOTween.Sequence();
         secuance.Append(_backButtonAnim.Hide());
         secuance.Insert(0.2f, _levelsAnim.Hide());
-                
+
         secuance.OnComplete(() =>
         {
             FinishHide(callback);
@@ -44,24 +44,22 @@ public class SelectLevelTypeMenu : Menu
     public void OnBackButtonClick()
     {
         _audio.PlaySound(Sounds.Tap);
-        _menuController.OpenMenu(MenuKinds.MainMenu);
+        _menuController.OpenMenu(MenuKinds.SelectLevelType);
     }
 
-    public void OnEnglessLevelClick()
+    public void OnLevelSelectClick(LevelItem item)
     {
-        _audio.PlaySound(Sounds.Tap);
+        if (item.IsActive)
+        {
+            _audio.PlaySound(Sounds.Tap);
 
-        EnvironmentController.CheckKeys();
-        PlayerPrefs.SetInt(EnvironmentController.ENDLESS_KEY, 1);
-        PlayerPrefs.Save();
+            EnvironmentController.CheckKeys();
+            PlayerPrefs.SetInt(EnvironmentController.ENDLESS_KEY, 0);
+            PlayerPrefs.SetInt(EnvironmentController.LEVEL_KEY, item.Level);
+            PlayerPrefs.Save();
 
-        StartHide(OpenGame);
-    }
-
-    public void OnSelectLevelClick()
-    {
-        _audio.PlaySound(Sounds.Tap);
-        _menuController.OpenMenu(MenuKinds.SelectLevel);
+            StartHide(OpenGame);
+        }
     }
     #endregion
 }

@@ -9,6 +9,7 @@ public enum MenuKinds
     MainMenu,
     Shop,
     SelectLevelType,
+    SelectLevel,
     Characters
 }
 
