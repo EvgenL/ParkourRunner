@@ -48,7 +48,7 @@ namespace ParkourRunner.Scripts.Managers
                 List<GameObject> itemsToDestroy = new List<GameObject>();
                 foreach (var item in _pool)
                 {
-                    if (_player.position.z > item.transform.position.z + DisableDistance)
+                    if (item != null && _player.position.z > item.transform.position.z + DisableDistance)
                     {
                         itemsToDestroy.Add(item);
                     }
