@@ -7,9 +7,9 @@ public  class BaseShop : MonoBehaviour
 {
     public enum ShopsType
     {
-        donatShop,
-        bonusShop,
-        tricksShop
+        charShop,
+        coinsShop,
+        bonusShop
     }
 
     [Serializable]
@@ -17,11 +17,15 @@ public  class BaseShop : MonoBehaviour
     {
         public Button button;
         public Image image;
+        public Sprite enable;
+        public Sprite disable;
     }
 
     [SerializeField] private GameObject[] _allShops;
-    [SerializeField] private Tab _donatTab;
+    [SerializeField] private Tab _charTab;
+    [SerializeField] private Tab _coinstTab;
     [SerializeField] private Tab _bonusesTab;
+    
     
     private AudioManager _audio;
 
@@ -32,8 +36,10 @@ public  class BaseShop : MonoBehaviour
 
     private void Start()
     {
-        _donatTab.button.onClick.AddListener(() => OnSelectShopClisk(ShopsType.donatShop, true));
+        _charTab.button.onClick.AddListener(() => OnSelectShopClisk(ShopsType.charShop, true));
+        _coinstTab.button.onClick.AddListener(() => OnSelectShopClisk(ShopsType.coinsShop, true));
         _bonusesTab.button.onClick.AddListener(() => OnSelectShopClisk(ShopsType.bonusShop, true));
+        
         
         OnActivateDefaultTab(false);
     }
@@ -48,17 +54,11 @@ public  class BaseShop : MonoBehaviour
 
     private void ActivateTargetTab(Tab target)
     {
-        SetImageState(_donatTab.image, _donatTab == target);
-        SetImageState(_bonusesTab.image, _bonusesTab == target);
+        _charTab.image.sprite = _charTab == target ? _charTab.enable : _charTab.disable;
+        _coinstTab.image.sprite = _coinstTab == target ? _coinstTab.enable : _coinstTab.disable;
+        _bonusesTab.image.sprite = _bonusesTab == target ? _bonusesTab.enable : _bonusesTab.disable;
     }
-
-    private void SetImageState(Image image, bool state)
-    {
-        Color color = image.color;
-        color.a = state ? 1f : 0f;
-        image.color = color;
-    }
-
+    
     #region Events
     public void OnActivateDefaultTab(bool playSound)
     {
@@ -69,14 +69,19 @@ public  class BaseShop : MonoBehaviour
     {
         switch (shop)
         {
-            case ShopsType.donatShop:
-                ActivateTargetShop(_allShops[(int)ShopsType.donatShop]);
-                ActivateTargetTab(_donatTab);
+            case ShopsType.coinsShop:
+                ActivateTargetShop(_allShops[(int)ShopsType.coinsShop]);
+                ActivateTargetTab(_coinstTab);
                 break;
 
             case ShopsType.bonusShop:
                 ActivateTargetShop(_allShops[(int)ShopsType.bonusShop]);
                 ActivateTargetTab(_bonusesTab);
+                break;
+
+            case ShopsType.charShop:
+                ActivateTargetShop(_allShops[(int)ShopsType.charShop]);
+                ActivateTargetTab(_charTab);
                 break;
                 
             default:
