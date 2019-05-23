@@ -7,6 +7,7 @@ public class ShopMenu : Menu
 {
     [Header("Animation settings")]
     [SerializeField] private MovingAnimation _homeButtonAnim;
+    [SerializeField] private MovingAnimation _playerStatusAnim;
     [SerializeField] private MovingAnimation _shopAnim;
 
     protected override void Show()
@@ -15,6 +16,7 @@ public class ShopMenu : Menu
         
         var secuance = DOTween.Sequence();
         secuance.Append(_shopAnim.Show());
+        secuance.Insert(0f, _playerStatusAnim.Show());
         secuance.Insert(0f, _homeButtonAnim.Show());
     }
 
@@ -25,6 +27,7 @@ public class ShopMenu : Menu
         var secuance = DOTween.Sequence();
 
         secuance.Append(_shopAnim.Hide());
+        secuance.Insert(0f, _playerStatusAnim.Hide());
         secuance.Insert(0f, _homeButtonAnim.Hide());
 
         secuance.OnComplete(() =>
