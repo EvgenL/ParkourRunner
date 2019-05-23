@@ -4,6 +4,7 @@ using AEngine;
 
 public class ShopBonusesPanel : MonoBehaviour
 {
+    [SerializeField] private BonusesShopData _data;
     [SerializeField] private Image _bonusImg;
     [SerializeField] private Text _price;
     [SerializeField] private Button _buyBtn;
@@ -17,12 +18,6 @@ public class ShopBonusesPanel : MonoBehaviour
     private int _purchasedBonusesCount;
     private int _bonusRestoreValue;
     
-    public Image MyImage
-    {
-        get { return _bonusImg; }
-        set { _bonusImg = value; }
-    }
-
     public BonusName BonusKind { get; set; }
 
     public int[] Prices { get; set; }
@@ -35,6 +30,10 @@ public class ShopBonusesPanel : MonoBehaviour
 
     private void Start()
     {
+        this.BonusKind = _data.BonusKind;
+        this.Prices = _data.Prices;
+        RefreshPrice();
+
         _purchasedBonusesCount = GetPurchasedBonusesCount();
         _bonusRestoreValue = GetPurchasedBonusesCount();
         SetUnitsImgs();
