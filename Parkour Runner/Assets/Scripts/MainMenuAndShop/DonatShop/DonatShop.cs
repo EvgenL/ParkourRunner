@@ -27,6 +27,7 @@ public class DonatShop : MonoBehaviour
 	
     public void RefreshDonatPanels()
     {
+        /*
         string key = DonatShopData.DonatKinds.NoAds.ToString();
         bool enableAds = PlayerPrefs.GetInt(key) == 0;
 
@@ -50,5 +51,6 @@ public class DonatShop : MonoBehaviour
         var pos = _contentRect.anchoredPosition;
         pos.y = enableAds ? _withAdsConfig.rectY : _noAdsConfig.rectY;
         _contentRect.anchoredPosition = pos;
+        */
     }
 }

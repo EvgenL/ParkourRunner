@@ -13,6 +13,8 @@ public static class Shoping
 
             case DonatShopData.DonatKinds.ByCoins1:
             case DonatShopData.DonatKinds.ByCoins2:
+            case DonatShopData.DonatKinds.ByCoins3:
+            case DonatShopData.DonatKinds.ByCoins4:
                 Wallet.Instance.AddCoins(int.Parse(data.DonatValue), Wallet.WalletMode.Global);
                 break;
         }

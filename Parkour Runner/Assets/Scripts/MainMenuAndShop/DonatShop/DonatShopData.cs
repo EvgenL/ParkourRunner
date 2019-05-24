@@ -8,7 +8,9 @@ public class DonatShopData : ScriptableObject
     {
         NoAds,
         ByCoins1,
-        ByCoins2
+        ByCoins2,
+        ByCoins3,
+        ByCoins4
     }
 
     [Header("Base settings")]
