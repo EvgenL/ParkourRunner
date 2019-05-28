@@ -13,7 +13,7 @@ public class MainMenu : Menu
     [SerializeField] private MovingAnimation _buttonsBlockAnim;
     [SerializeField] private MovingAnimation _settingsPanelAnim;
     [SerializeField] private MovingAnimation _playerStatusAnim;
-    
+        
     protected override void Show()
     {
         base.Show();
