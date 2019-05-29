@@ -5,7 +5,7 @@ using AEngine;
 
 public class CharacterSelection : MonoBehaviour
 {
-    private static event Action<CharacterKinds> OnSelectCharacter;
+    public static event Action<CharacterKinds> OnSelectCharacter;
     private static CharacterKinds _currentSelection;
     
     [SerializeField] private CharactersData _configuration;
@@ -104,6 +104,7 @@ public class CharacterSelection : MonoBehaviour
             PlayerPrefs.SetString(CharactersData.CHARACTER_KEY, _kind.ToString());
             PlayerPrefs.Save();
 
+            _currentSelection = _kind;
             _data.Bought = true;
                         
             OnSelectCharacter.SafeInvoke(_kind);

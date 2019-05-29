@@ -18,7 +18,6 @@ public class ShopMenu : Menu
         base.Show();
         
         var secuance = DOTween.Sequence();
-        //secuance.Append(_shopAnim.Show());
         secuance.Append(_backgroundAnim.Hide());
 
         secuance.Insert(_showAfterBgDelay, _shopAnim.Show());
