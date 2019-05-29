@@ -5,34 +5,26 @@ using AEngine;
 
 public class CharacterSelection : MonoBehaviour
 {
-    private static event Action<CharacterKinds> OnSelectCharacter;
-
+    public static event Action<CharacterKinds> OnSelectCharacter;
+    private static CharacterKinds _currentSelection;
+    
     [SerializeField] private CharactersData _configuration;
     [SerializeField] private CharacterKinds _kind;
-    [SerializeField] private CharacterImageSelection _avatarImage;
-
+    [SerializeField] private Image _selection;
+    [SerializeField] private Sprite _selectedSpite;
+    [SerializeField] private Sprite _activeSprite;
+    [SerializeField] private Sprite _disableSprite;
+    
     [Header("Buy block")]
-    [SerializeField] private GameObject _priceBlock;
     [SerializeField] private Text _priceText;
+    [SerializeField] private GameObject _priceBlock;
+    [SerializeField] private GameObject _lockBlock;
     [SerializeField] private GameObject _selectCaption;
+    [SerializeField] private GameObject _buyCaption;
+    [SerializeField] private Button _button;
 
     private CharactersData.Data _data;
     private Wallet _wallet;
-
-    private bool EnableCharacter
-    {
-        get { return _data != null && _data.Bought && _configuration.CurrentCharacter == _kind; }
-        set
-        {
-            if (value)
-            {
-                PlayerPrefs.SetString(CharactersData.CHARACTER_KEY, _kind.ToString());
-                PlayerPrefs.Save();
-            }
-            
-            _avatarImage.Enable = value;
-        }
-    }
 
     private void Awake()
     {
@@ -41,16 +33,17 @@ public class CharacterSelection : MonoBehaviour
 
         _priceBlock.SetActive(!_data.Bought);
         _selectCaption.SetActive(_data.Bought);
-        
-        _wallet = Wallet.Instance;
 
-        _avatarImage.OnAvatarImageClick += OnSelectButtonClick;
+        _wallet = Wallet.Instance;
     }
 
     private void OnEnable()
     {
         OnSelectCharacter -= OnSelectCharacterHandle;
         OnSelectCharacter += OnSelectCharacterHandle;
+
+        if (_configuration.CurrentCharacter == _kind)
+            OnSelectCharacter.SafeInvoke(_kind);
     }
 
     private void OnDisable()
@@ -60,30 +53,68 @@ public class CharacterSelection : MonoBehaviour
 
     private void Start()
     {
-        if (this.EnableCharacter)
+        if (_configuration.CurrentCharacter == _kind)
+        {
+            _currentSelection = _kind;
             OnSelectCharacter.SafeInvoke(_kind);
+        }
+    }
+
+    private void RefreshSelection(CharacterKinds kind)
+    {
+        if (_currentSelection == _kind)
+        {
+            _selection.sprite = _selectedSpite;
+        }
+        else
+        {
+            _selection.sprite = _configuration.CurrentCharacter == _kind ? _activeSprite : _disableSprite;
+        }
+
+        _priceBlock.SetActive(!_data.Bought);
+        _lockBlock.SetActive(!_data.Bought);
+        _buyCaption.SetActive(!_data.Bought);
+        _button.interactable = _data.Bought || _wallet.AllCoins >= _data.price;
+
+        _selectCaption.SetActive(_data.Bought);
     }
         
     public void OnSelectButtonClick()
     {
+        if (_currentSelection != _kind)
+            AudioManager.Instance.PlaySound(Sounds.Bonus);
+
+        _currentSelection = _kind;
+
+        if (_data.Bought)
+        {
+            PlayerPrefs.SetString(CharactersData.CHARACTER_KEY, _kind.ToString());
+            PlayerPrefs.Save();
+        }
+
+        OnSelectCharacter.SafeInvoke(_kind);
+    }
+
+    public void OnBuyButtonClick()
+    {
         if (!_data.Bought && _wallet.SpendCoins(_data.price))
         {
             AudioManager.Instance.PlaySound(Sounds.ShopSlot);
-            _data.Bought = true;
-            OnSelectCharacter.SafeInvoke(_kind);
 
-            _priceBlock.SetActive(!_data.Bought);
-            _selectCaption.SetActive(_data.Bought);
-        }
-        else if (_data.Bought && !this.EnableCharacter)
-        {
-            AudioManager.Instance.PlaySound(Sounds.Bonus);
+            PlayerPrefs.SetString(CharactersData.CHARACTER_KEY, _kind.ToString());
+            PlayerPrefs.Save();
+
+            _currentSelection = _kind;
+            _data.Bought = true;
+                        
             OnSelectCharacter.SafeInvoke(_kind);
         }
+        else if (_data.Bought)
+            OnSelectButtonClick();
     }
 
     private void OnSelectCharacterHandle(CharacterKinds kind)
     {
-        this.EnableCharacter = _kind == kind;
+        RefreshSelection(kind);
     }
 }

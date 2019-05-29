@@ -47,4 +47,3 @@ public class ShopDonatsPanel : MonoBehaviour
     }
     #endregion
 }
-

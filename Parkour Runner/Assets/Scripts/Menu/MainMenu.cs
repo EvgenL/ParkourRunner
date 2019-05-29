@@ -12,6 +12,7 @@ public class MainMenu : Menu
     [SerializeField] private RectTransform _buttonsShowSpringPoint;
     [SerializeField] private MovingAnimation _buttonsBlockAnim;
     [SerializeField] private MovingAnimation _settingsPanelAnim;
+    [SerializeField] private MovingAnimation _playerStatusAnim;
         
     protected override void Show()
     {
@@ -22,7 +23,9 @@ public class MainMenu : Menu
                 
         var secuance = DOTween.Sequence();
         secuance.Append(_buttonsBlockAnim.Show(_buttonsShowSpringPoint.anchoredPosition, _buttonsBlockAnim.duration * 0.9f));
-                
+
+        secuance.Insert(0, _playerStatusAnim.Show());
+                        
         secuance.OnComplete(() =>
         {
             var finalSecuance = DOTween.Sequence();
@@ -52,6 +55,8 @@ public class MainMenu : Menu
         secuance.Append(_buttonsBlockAnim.Hide());
         secuance.Insert(0f, _settingsPanelAnim.Hide());
 
+        secuance.Insert(0, _playerStatusAnim.Hide());
+        
         secuance.OnComplete(() =>
         {
             FinishHide(callback);

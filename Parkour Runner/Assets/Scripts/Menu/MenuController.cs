@@ -13,10 +13,10 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Menu[] menus;
 
     private AudioManager _audio;
-    private MenuKinds _targetMenu;
 
+    public MenuKinds TargetMenu { get; private set; }
     public Menu CurrentMenu { get; set; }
-
+    
     private void Awake()
     {
         _audio = AudioManager.Instance;
@@ -35,7 +35,7 @@ public class MenuController : MonoBehaviour
         
     public void OpenMenu(MenuKinds menu)
     {
-        _targetMenu = menu;
+        this.TargetMenu = menu;
 
         if (this.CurrentMenu != null)
             OnHideMenu(this.CurrentMenu.Kind, ShowMenu);
@@ -45,6 +45,6 @@ public class MenuController : MonoBehaviour
 
     private void ShowMenu()
     {
-        OnShowMenu.SafeInvoke(_targetMenu);
+        this.OnShowMenu.SafeInvoke(TargetMenu);
     }
 }

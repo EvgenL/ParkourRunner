@@ -4,111 +4,69 @@ using AEngine;
 
 public class ShopBonusesPanel : MonoBehaviour
 {
+    [SerializeField] private BonusesShopData _data;
     [SerializeField] private Image _bonusImg;
     [SerializeField] private Text _price;
-    [SerializeField] private Button _buyBtn;
+    [SerializeField] private Text _description;
     [SerializeField] private GameObject _unitsPlace;
     [SerializeField] private Sprite _activeUnit;
     [SerializeField] private Sprite _deactiveUnit;
     [SerializeField] private GameObject _coinImg;
-    [SerializeField] private GameObject _priceGroup;
-    [SerializeField] private Image _lockImage;
+    [SerializeField] private GameObject _fullLabel;
     
-    private int _purchasedBonusesCount;
-    private int _bonusRestoreValue;
-    
-    public Image MyImage
-    {
-        get { return _bonusImg; }
-        set { _bonusImg = value; }
-    }
-
-    public BonusName BonusKind { get; set; }
-
-    public int[] Prices { get; set; }
-
-    public Text MyPrice
-    {
-        get { return _price; }
-        set { _price = value; }
-    }
-
     private void Start()
     {
-        _purchasedBonusesCount = GetPurchasedBonusesCount();
-        _bonusRestoreValue = GetPurchasedBonusesCount();
-        SetUnitsImgs();
+        SetProgressState();
         PossibilityOfPurchase();
     }
 
     public void Buy()
     {
-        int bonusLevel = PlayerPrefs.GetInt(this.BonusKind.ToString());
+        int bonusLevel = PlayerPrefs.GetInt(_data.BonusKind.ToString());
         
-        if (bonusLevel < this.Prices.Length)
+        if (bonusLevel < _data.Prices.Length)
         {
-            int price = this.Prices[bonusLevel];
+            int price = _data.Prices[bonusLevel];
 
             if (Wallet.Instance.SpendCoins(price))
             {
-                Shoping.GetBonus(this.BonusKind.ToString());
-                RefreshPrice();
-                SetUnitsToActive();
                 AudioManager.Instance.PlaySound(Sounds.UpgradeBonus);
+
+                Shoping.GetBonus(_data.BonusKind.ToString());
+                SetProgressState();                
             }
         }
 
         PossibilityOfPurchase();
     }
-
-    public void RefreshPrice()
+        
+    private void SetProgressState()
     {
-        int bonusLevel = Mathf.Clamp(PlayerPrefs.GetInt(this.BonusKind.ToString()), 0, this.Prices.Length - 1);
-
-        _price.text = this.Prices[bonusLevel].ToString();
-    }
-    
-    private int GetPurchasedBonusesCount()
-    {
-        return PlayerPrefs.GetInt(this.BonusKind.ToString());
-    }
-
-    private void SetUnitsImgs()
-    {
+        int progress = PlayerPrefs.GetInt(_data.BonusKind.ToString());
+        
         for (int i = 0; i < _unitsPlace.transform.childCount; i++)
         {
-            if (i < _purchasedBonusesCount)
-            {
+            if (i < progress)
                 _unitsPlace.transform.GetChild(i).GetComponent<Image>().sprite = _activeUnit;
-            }
             else
-            {
                 _unitsPlace.transform.GetChild(i).GetComponent<Image>().sprite = _deactiveUnit;
-            }
         }
+
+        _bonusImg.sprite = _data.GetActualIcon(progress);
+
+        _price.text = _data.Prices[Mathf.Clamp(progress, 0, _data.Prices.Length - 1)].ToString();
+
+        _description.text = _data.Description + string.Format(" {0}/{1}", progress, _data.Prices.Length);
     }
     
-    private void SetUnitsToActive()
-    {
-        for (int i = 0; i < _unitsPlace.transform.childCount; i++)
-        {
-            if (_unitsPlace.transform.GetChild(i).GetComponent<Image>().sprite == _deactiveUnit)
-            {
-                _unitsPlace.transform.GetChild(i).GetComponent<Image>().sprite = _activeUnit;
-                return;
-            }
-        }
-    }
-
     private void PossibilityOfPurchase()
     {
-        int bonusLevel = PlayerPrefs.GetInt(this.BonusKind.ToString());
+        int bonusLevel = PlayerPrefs.GetInt(_data.BonusKind.ToString());
         bool enablePurchase = bonusLevel != 10;
 
         _coinImg.GetComponent<Image>().enabled = enablePurchase;
         _price.enabled = enablePurchase;
 
-        _priceGroup.SetActive(enablePurchase);
-        _lockImage.enabled = !enablePurchase;
+        _fullLabel.SetActive(!enablePurchase);
     }
 }
