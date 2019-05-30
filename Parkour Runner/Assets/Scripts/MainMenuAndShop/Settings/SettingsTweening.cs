@@ -15,12 +15,14 @@ public class SettingsTweening : MonoBehaviour
     [SerializeField] private GameObject _AGBtn;
     [SerializeField] private GameObject _likeBtn;
     [SerializeField] private GameObject _soundBtn;
-    [SerializeField] private GameObject _musicBtn;
-    [SerializeField] private GameObject _controll;
+    [SerializeField] private GameObject _musicBtn;    
     [SerializeField] private Ease _ease;
 
     [Header("Control background")]
+    [SerializeField] private GameObject _controll;
     [SerializeField] private Image _controlBackground;
+    [SerializeField] private RectTransform _showAnchor;
+    [SerializeField] private RectTransform _hideAnchor;
     [SerializeField] private Color _enableColorBg;
     [SerializeField] private Color _disableColorBg;
     [SerializeField] private float _controlBackgroundDuration;
@@ -69,7 +71,7 @@ public class SettingsTweening : MonoBehaviour
             if (current.transform.childCount == 0)
             {
                 var controllsecuance = DOTween.Sequence();
-                controllsecuance.Append(_controll.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-533.7f, 0), 0.2f));
+                controllsecuance.Append(_controll.GetComponent<RectTransform>().DOAnchorPos(_showAnchor.anchoredPosition, 0.2f));
                 _controlBackground.DOColor(_enableColorBg, 0.5f);
 
                 controllsecuance.OnComplete(() =>
@@ -102,7 +104,7 @@ public class SettingsTweening : MonoBehaviour
             if (baseObj == _baseBtn)
             {
                 var controllsecuance = DOTween.Sequence();
-                controllsecuance.Append(_controll.GetComponent<RectTransform>().DOAnchorPos(new Vector2(-1571f, 0), 0.2f));
+                controllsecuance.Append(_controll.GetComponent<RectTransform>().DOAnchorPos(_hideAnchor.anchoredPosition, 0.2f));
                 _controlBackground.DOColor(_disableColorBg, 0.5f);
 
                 controllsecuance.OnComplete(() =>
