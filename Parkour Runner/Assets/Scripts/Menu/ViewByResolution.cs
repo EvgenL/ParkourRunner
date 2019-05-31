@@ -38,9 +38,7 @@ public class ViewByResolution : MonoBehaviour
 
         if (!wasFlag)
             _targetTransform.localScale = Vector3.one;
-
-        print(proportion);
-
+                
         for (int i = 0; i < _positions.Length; i++)
         {
             if (proportion <= _positions[i].proportion)

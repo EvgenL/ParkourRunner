@@ -5,6 +5,9 @@ using AEngine;
 
 public class ShopMenu : Menu
 {
+    public static event Action OnShowMenu;
+    public static event Action OnHideMenu;
+
     [Header("Animation settings")]
     [SerializeField] private float _showAfterBgDelay;
     [SerializeField] private float _hideForBgDelay;
@@ -23,6 +26,11 @@ public class ShopMenu : Menu
         secuance.Insert(_showAfterBgDelay, _shopAnim.Show());
         secuance.Insert(_showAfterBgDelay, _playerStatusAnim.Show());
         secuance.Insert(_showAfterBgDelay, _homeButtonAnim.Show());
+
+        secuance.OnComplete(() =>
+        {
+            OnShowMenu.SafeInvoke();
+        });
     }
 
     protected override void StartHide(Action callback)
@@ -39,6 +47,7 @@ public class ShopMenu : Menu
         
         secuance.OnComplete(() =>
         {
+            OnHideMenu.SafeInvoke();
             FinishHide(callback);
         });
     }
