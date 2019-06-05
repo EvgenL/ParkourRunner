@@ -47,11 +47,24 @@ public class SelectLevelTypeMenu : Menu
         _menuController.OpenMenu(MenuKinds.MainMenu);
     }
 
+    public void OnTutorialLevelClick()
+    {
+        _audio.PlaySound(Sounds.Tap);
+
+        EnvironmentController.CheckKeys();
+        PlayerPrefs.SetInt(EnvironmentController.TUTORIAL_KEY, 1);
+        PlayerPrefs.SetInt(EnvironmentController.ENDLESS_KEY, 0);
+        PlayerPrefs.Save();
+
+        StartHide(OpenGame);
+    }
+
     public void OnEnglessLevelClick()
     {
         _audio.PlaySound(Sounds.Tap);
 
         EnvironmentController.CheckKeys();
+        PlayerPrefs.SetInt(EnvironmentController.TUTORIAL_KEY, 0);
         PlayerPrefs.SetInt(EnvironmentController.ENDLESS_KEY, 1);
         PlayerPrefs.Save();
 

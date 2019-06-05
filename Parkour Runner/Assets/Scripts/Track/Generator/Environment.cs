@@ -47,4 +47,5 @@ public class Environment : ScriptableObject
     public List<SpecialEnvironmentSettings> SpecialEnvironments { get { return _specialEnvironments; } }
     public LevelEnvironmentSettings LevelEnvironment { get { return _levelEnvironment; } }
     public bool EndlessLevel { get { return _endlessLevel; } }
+    public bool TutorialLevel { get { EnvironmentController.CheckKeys(); return PlayerPrefs.GetInt(EnvironmentController.TUTORIAL_KEY) == 1; } }
 }

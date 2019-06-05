@@ -76,7 +76,7 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         private void Start()
         {
-            int count = _environment.EndlessLevel ? _defaultEnvironment.blocks.Count : _levelEnvironment.blocks.Count;
+            int count = (_environment.EndlessLevel || _environment.TutorialLevel) ? _defaultEnvironment.blocks.Count : _levelEnvironment.blocks.Count;
             if (count == 0)
             {
                 Debug.LogError("Не найдено ни одного блока в настройках уровня");
@@ -99,7 +99,7 @@ namespace ParkourRunner.Scripts.Track.Generator
                 _generationWeights.CalculateChanceWeights();
             }
                         
-            _generationState = _environment.EndlessLevel ? EnvironmentGenerations.Default : EnvironmentGenerations.Level;
+            _generationState = (_environment.EndlessLevel || _environment.TutorialLevel) ? EnvironmentGenerations.Default : EnvironmentGenerations.Level;
             int length = _environment.EndlessLevel ? _defaultEnvironment.startCount : _levelEnvironment.blocksCount;
             _environmentLength = Mathf.Clamp(length, 0, Mathf.Abs(length));
             _environmentIndex = DEFAULT_INDEX;
@@ -134,8 +134,8 @@ namespace ParkourRunner.Scripts.Track.Generator
                 
         private void GenerateStartBlock()
         {
-            var defaultBlock = _environment.EndlessLevel ? _defaultEnvironment.startPoint : _levelEnvironment.start;
-            var startList = _environment.EndlessLevel ? _defaultEnvironment.blocks : _levelEnvironment.blocks;
+            var defaultBlock = (_environment.EndlessLevel || _environment.TutorialLevel) ? _defaultEnvironment.startPoint : _levelEnvironment.start;
+            var startList = (_environment.EndlessLevel || _environment.TutorialLevel) ? _defaultEnvironment.blocks : _levelEnvironment.blocks;
 
             Block startBlock = (defaultBlock == null) ? startList.Find(x => x.Type == Block.BlockType.Start) : defaultBlock;
                         

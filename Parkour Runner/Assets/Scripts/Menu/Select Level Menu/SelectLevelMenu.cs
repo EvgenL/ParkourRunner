@@ -54,6 +54,7 @@ public class SelectLevelMenu : Menu
             _audio.PlaySound(Sounds.Tap);
 
             EnvironmentController.CheckKeys();
+            PlayerPrefs.SetInt(EnvironmentController.TUTORIAL_KEY, 0);
             PlayerPrefs.SetInt(EnvironmentController.ENDLESS_KEY, 0);
             PlayerPrefs.SetInt(EnvironmentController.LEVEL_KEY, item.Level);
             PlayerPrefs.Save();
