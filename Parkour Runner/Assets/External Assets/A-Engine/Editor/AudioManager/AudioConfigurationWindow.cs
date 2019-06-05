@@ -30,7 +30,8 @@ namespace AEngine
 		void OnEnable()
 		{			
 			if (defaultSetting == null)
-				defaultSetting = new DefaultAudioSettings ();
+				defaultSetting = new DefaultAudioSettings();
+
 			scrollPosition = Vector2.zero;
 			
 			InitConfiguration ();
@@ -133,12 +134,13 @@ namespace AEngine
 				DrawTrackList (block.sound, false);
 			}
 
-			if (removeKey != "") {
+			if (removeKey != "")
 				audioData.Remove (removeKey);
-			}
+			
 
 			GUILayout.Space (12);
-			if (GUILayout.Button ("Save")) {
+			if (GUILayout.Button ("Save"))
+            {
 				SaveConfiguration (true);
 				SaveNamesInCode();
 			}
@@ -150,17 +152,21 @@ namespace AEngine
 		{
 			if (trackList.IsFilled) {
 				string removeKey = "";
-				foreach (var item in trackList.tracks) {
+				foreach (var item in trackList.tracks)
+                {
 					Track track = item.Value;
 
 					EditorGUILayout.BeginHorizontal ();
-					if (GUILayout.Button ("-", GUILayout.Width (20))) {
+					if (GUILayout.Button ("-", GUILayout.Width (20)))
+                    {
 						removeKey = item.Key;
 					}
 					EditorGUILayout.LabelField (track.name, GUILayout.Width (120));
 					EditorGUILayout.LabelField ("Volume:", GUILayout.Width (60));
 					track.Volume = EditorGUILayout.Slider (track.Volume, 0, 1, GUILayout.Width (200));
-					if (withSpecial) {
+
+                    if (withSpecial)
+                    {
 						MusicTrackList _trackList = trackList as MusicTrackList;
 						GUILayout.Space (30);
 						EditorGUILayout.LabelField ("Not play in background", GUILayout.Width(150));
@@ -176,13 +182,16 @@ namespace AEngine
 					EditorGUILayout.EndHorizontal ();
 				}
 
-				if (removeKey != "") {
-					if (withSpecial) {
+				if (removeKey != "")
+                {
+					if (withSpecial)
+                    {
 						MusicTrackList _trackList = trackList as MusicTrackList;
 						_trackList.RemoveFromBackgroundMusic (_trackList.tracks[removeKey]);
 						_trackList.tracks.Remove (removeKey);
 					} else
 						trackList.tracks.Remove (removeKey);
+
 					if (namesList.Contains (removeKey))
 						namesList.Remove (removeKey);
 				}
@@ -191,19 +200,23 @@ namespace AEngine
 			}
 
 			EditorGUILayout.BeginHorizontal ();
-			if (GUILayout.Button("Add selected tracks", GUILayout.Width(200))) {
-				foreach (var obj in Selection.objects) {
+			if (GUILayout.Button("Add selected tracks", GUILayout.Width(200)))
+            {
+				foreach (var obj in Selection.objects)
+                {
 					string path = AssetDatabase.GetAssetPath (obj);
 					if (obj == null)
 						continue;
 
-					if (!Directory.Exists (path)) {
+					if (!Directory.Exists (path))
+                    {
 						AddTrack (trackList, path, withSpecial);
 						continue;
 					}
 
 					string[] files = Directory.GetFiles (path);
-					if (files != null) {
+					if (files != null)
+                    {
 						for (int i = 0; i < files.Length; i++)
 							AddTrack (trackList, files [i], withSpecial);
 					}
@@ -219,25 +232,31 @@ namespace AEngine
 			else
 				audioData.Clear ();
 
-			if (!XmlDataParser.ExistsInProjectXmlFile (BaseEngineConstants.AudioConfigurationPath, BaseEngineConstants.AudioConfigurationShortFileName)) {
-				CreateStandardXmlDocument ();
-			}
+			if (!XmlDataParser.ExistsInProjectXmlFile (BaseEngineConstants.AudioConfigurationPath, BaseEngineConstants.AudioConfigurationShortFileName))
+                CreateStandardXmlDocument();
+			
 
 			XmlDocument xmlDocument = XmlDataParser.LoadXmlDocumentFromProject (BaseEngineConstants.AudioConfigurationPath, BaseEngineConstants.AudioConfigurationShortFileName);
 			XmlNode rootNode = XmlDataParser.FindUniqueTag (xmlDocument, "AudioData");
-			if (XmlDataParser.IsAnyTagInChildExist (rootNode, "AudioSettings")) {
-				XmlNode defaultNode = XmlDataParser.FindUniqueTagInChild (rootNode, "AudioSettings");
-				defaultSetting.useMusic = bool.Parse(defaultNode.Attributes ["useMusic"].Value);
-				defaultSetting.musicVolume = float.Parse (defaultNode.Attributes ["musicVolume"].Value);
-				defaultSetting.useSound = bool.Parse(defaultNode.Attributes ["useSound"].Value);
-				defaultSetting.soundVolume = float.Parse (defaultNode.Attributes ["soundVolume"].Value);
-			}
 
-			if (XmlDataParser.IsAnyTagInChildExist (rootNode, "AudioConfiguration")) {
-				XmlNode configNode = XmlDataParser.FindUniqueTagInChild (rootNode, "AudioConfiguration");
-				soundSourceCount = int.Parse (configNode.Attributes ["SoundSourceCount"].Value);	
-				fadeTime = float.Parse(configNode.Attributes ["fade"].Value);
-				useFadeOn = bool.Parse (configNode.Attributes ["fadeOn"].Value);
+			if (XmlDataParser.IsAnyTagInChildExist (rootNode, "AudioSettings"))
+            {
+				XmlNode defaultNode = XmlDataParser.FindUniqueTagInChild (rootNode, "AudioSettings");
+
+                defaultSetting.useMusic = bool.Parse(defaultNode.Attributes ["useMusic"].Value);
+				defaultSetting.musicVolume = AEngineTool.ParseFloat(defaultNode.Attributes["musicVolume"].Value, 1f);
+
+                defaultSetting.useSound = bool.Parse(defaultNode.Attributes ["useSound"].Value);
+                defaultSetting.soundVolume = AEngineTool.ParseFloat(defaultNode.Attributes["soundVolume"].Value, 1f);
+            }
+
+			if (XmlDataParser.IsAnyTagInChildExist (rootNode, "AudioConfiguration"))
+            {
+                XmlNode configNode = XmlDataParser.FindUniqueTagInChild (rootNode, "AudioConfiguration");
+
+                soundSourceCount = int.Parse(configNode.Attributes ["SoundSourceCount"].Value);	
+				fadeTime = AEngineTool.ParseFloat(configNode.Attributes["fade"].Value, 0f);
+                useFadeOn = bool.Parse(configNode.Attributes ["fadeOn"].Value);
 			}
 
 			if (!XmlDataParser.IsAnyTagInChildExist (rootNode, "AudioBlock"))
@@ -273,8 +292,10 @@ namespace AEngine
 			XmlDataParser.AddAttributeToNode (xmlDocument, defaultNode, "fadeOn", useFadeOn.ToString ());
 			root.AppendChild (defaultNode);
 
-			if (audioData != null) {
-				foreach (var item in audioData) {
+			if (audioData != null)
+            {
+				foreach (var item in audioData)
+                {
 					XmlNode blockNode = xmlDocument.CreateElement ("AudioBlock");
 					item.Value.SaveToXml (xmlDocument, blockNode);
 					root.AppendChild (blockNode);
@@ -282,7 +303,8 @@ namespace AEngine
 			} else
 				return;
 
-			if (saveAdditionalToResources) {
+			if (saveAdditionalToResources)
+            {
 				if (!Directory.Exists ("Assets/Resources/" + BaseEngineConstants.AudioResConfigurationPath))
 					Directory.CreateDirectory ("Assets/Resources/" + BaseEngineConstants.AudioResConfigurationPath);
 								
@@ -297,7 +319,6 @@ namespace AEngine
 		private void CreateStandardXmlDocument ()
 		{
 			XmlDocument document = new XmlDocument ();
-			//XmlNode rootNode = XmlDataParser.CreateRootNode (document, "AudioData");
 			XmlDataParser.SaveXmlDocumentToProject (document, BaseEngineConstants.AudioConfigurationPath, BaseEngineConstants.AudioConfigurationShortFileName);
 			AssetDatabase.Refresh ();
 		}

@@ -25,6 +25,7 @@ namespace ParkourRunner.Scripts.Track.Generator
         
         [SerializeField] private EnvironmentController _environmentController;
         [SerializeField] private float _blockSize = 150;
+        [SerializeField] private float _tutorialBlockSize;
         [SerializeField] private int _generateBlocksForward = 2;
         [SerializeField] private int _numberOfNonRepeatingBlocks = 3;
 
@@ -86,7 +87,10 @@ namespace ParkourRunner.Scripts.Track.Generator
             
             _player = ParkourThirdPersonController.instance.transform;
 
-            if (_environment.EndlessLevel)
+            if (_environment.TutorialLevel)
+                _blockSize = _tutorialBlockSize;
+
+            if (_environment.EndlessLevel || _environment.TutorialLevel)
             {
                 _generationWeights = new ChanceSystem<int>();
 

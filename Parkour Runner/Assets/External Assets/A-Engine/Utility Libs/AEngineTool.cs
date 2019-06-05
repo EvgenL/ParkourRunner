@@ -34,6 +34,14 @@ namespace AEngine
 		}
 	#endregion
 
+        public static float ParseFloat(string target, float defaultValue)
+        {
+            float result = defaultValue;
+            float.TryParse(target, out result);
+
+            return result;
+        }
+
 	#region Array Extensions
 		public static void Randomize<T>(this T[] array)
 		{
