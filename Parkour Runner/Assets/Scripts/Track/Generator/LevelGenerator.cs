@@ -16,7 +16,8 @@ namespace ParkourRunner.Scripts.Track.Generator
             Default,        // Дефолтные блоки в определенном количестве
             Weight,         // Генерация дефолтных блоков (наибольший вес), пока не сработает вес специальных блоков
             Special,        // Специальные блоки в определенном количестве (Robopolis, Tunnel)
-            Level           // Генерация ограниченного числа блоков в уровне
+            Level,          // Генерация ограниченного числа блоков в уровне
+            Tutorial        // Генерация уровня-обучения. Генерация идет подряд а не случайным образом.
         }
 
         #region Singleton
@@ -25,7 +26,6 @@ namespace ParkourRunner.Scripts.Track.Generator
         
         [SerializeField] private EnvironmentController _environmentController;
         [SerializeField] private float _blockSize = 150;
-        [SerializeField] private float _tutorialBlockSize;
         [SerializeField] private int _generateBlocksForward = 2;
         [SerializeField] private int _numberOfNonRepeatingBlocks = 3;
 
@@ -43,6 +43,7 @@ namespace ParkourRunner.Scripts.Track.Generator
         private Environment.DefaulEnvironmentSettings _defaultEnvironment;
         private List<Environment.SpecialEnvironmentSettings> _specialEnvironments;
         private Environment.LevelEnvironmentSettings _levelEnvironment;
+        private Environment.TutorialEnvironmentSettings _tutorialEnvironment;
         private List<string> _history;
 
         private EnvironmentGenerations _generationState;
@@ -67,6 +68,7 @@ namespace ParkourRunner.Scripts.Track.Generator
                 _defaultEnvironment = _environment.DefaultEnvironment;
                 _specialEnvironments = _environment.SpecialEnvironments;
                 _levelEnvironment = _environment.LevelEnvironment;
+                _tutorialEnvironment = _environment.TutorialEnvironment;
             }
             else
             {
@@ -77,7 +79,11 @@ namespace ParkourRunner.Scripts.Track.Generator
 
         private void Start()
         {
-            int count = (_environment.EndlessLevel || _environment.TutorialLevel) ? _defaultEnvironment.blocks.Count : _levelEnvironment.blocks.Count;
+            int count = (_environment.EndlessLevel) ? _defaultEnvironment.blocks.Count : _levelEnvironment.blocks.Count;
+
+            if (_environment.TutorialLevel)
+                count = _tutorialEnvironment.blocks.Count;
+
             if (count == 0)
             {
                 Debug.LogError("Не найдено ни одного блока в настройках уровня");
@@ -86,11 +92,8 @@ namespace ParkourRunner.Scripts.Track.Generator
             }
             
             _player = ParkourThirdPersonController.instance.transform;
-
-            if (_environment.TutorialLevel)
-                _blockSize = _tutorialBlockSize;
-
-            if (_environment.EndlessLevel || _environment.TutorialLevel)
+                        
+            if (_environment.EndlessLevel)
             {
                 _generationWeights = new ChanceSystem<int>();
 
@@ -103,8 +106,16 @@ namespace ParkourRunner.Scripts.Track.Generator
                 _generationWeights.CalculateChanceWeights();
             }
                         
-            _generationState = (_environment.EndlessLevel || _environment.TutorialLevel) ? EnvironmentGenerations.Default : EnvironmentGenerations.Level;
+            _generationState = (_environment.EndlessLevel) ? EnvironmentGenerations.Default : EnvironmentGenerations.Level;
+
+            if (_environment.TutorialLevel)
+                _generationState = EnvironmentGenerations.Tutorial;
+
             int length = _environment.EndlessLevel ? _defaultEnvironment.startCount : _levelEnvironment.blocksCount;
+
+            if (_environment.TutorialLevel)
+                length = count;
+
             _environmentLength = Mathf.Clamp(length, 0, Mathf.Abs(length));
             _environmentIndex = DEFAULT_INDEX;
 
@@ -138,7 +149,13 @@ namespace ParkourRunner.Scripts.Track.Generator
                 
         private void GenerateStartBlock()
         {
-            var defaultBlock = (_environment.EndlessLevel || _environment.TutorialLevel) ? _defaultEnvironment.startPoint : _levelEnvironment.start;
+            Block defaultBlock = null;
+
+            if (_environment.TutorialLevel)
+                defaultBlock = _tutorialEnvironment.blocks.Count > 0 ? _tutorialEnvironment.blocks[0] : null;
+            else
+                defaultBlock = (_environment.EndlessLevel) ? _defaultEnvironment.startPoint : _levelEnvironment.start;
+
             var startList = (_environment.EndlessLevel || _environment.TutorialLevel) ? _defaultEnvironment.blocks : _levelEnvironment.blocks;
 
             Block startBlock = (defaultBlock == null) ? startList.Find(x => x.Type == Block.BlockType.Start) : defaultBlock;
@@ -193,24 +210,13 @@ namespace ParkourRunner.Scripts.Track.Generator
             nextXpos.x = 0;
             nextXpos.z += _blockSize;
             playerXpos.y = nextXpos.y;
-
-            //Debug.DrawRay(nextXpos, Vector3.up * 20f, Color.red, 1f);
-            //Debug.DrawRay(playerXpos, Vector3.up * 20f, Color.red, 1f);
-
+            
             if (Vector3.Distance(playerXpos, nextXpos) > _generateBlocksForward * _blockSize)
-            {
-                //Debug.DrawLine(playerXpos + Vector3.up * 20f, nextXpos + Vector3.up * 20f, Color.red, 1f);
-
                 return;
-            }
-            else
-            {
-                //Debug.DrawLine(playerXpos + Vector3.up * 20f, nextXpos + Vector3.up * 20f, Color.green, 1f);
-            }
-
+            
             if (block.Next == null)
             {
-                var nextBlock = Instantiate(GetRandomBlock(), block.transform.position + block.transform.forward * _blockSize, block.transform.rotation);
+                var nextBlock = Instantiate(GetNextBlock(), block.transform.position + block.transform.forward * _blockSize, block.transform.rotation);
 
                 _blockPool.Add(nextBlock);
                 block.Next = nextBlock;
@@ -235,7 +241,7 @@ namespace ParkourRunner.Scripts.Track.Generator
             }
         }
         
-        public Block GetRandomBlock()
+        public Block GetNextBlock()
         {
             Block result = null;
 
@@ -255,6 +261,10 @@ namespace ParkourRunner.Scripts.Track.Generator
 
                 case EnvironmentGenerations.Level:
                     result = LevelBlockGeneration();
+                    break;
+
+                case EnvironmentGenerations.Tutorial:
+                    result = TutorialBlockGeneration();
                     break;
             }
                         
@@ -351,6 +361,24 @@ namespace ParkourRunner.Scripts.Track.Generator
                 {
                     _environmentLength--;
                 }
+            }
+
+            return result;
+        }
+
+        private Block TutorialBlockGeneration()
+        {
+            Block result = null;
+
+            if (_environmentLength > 0)
+            {
+                int index = _tutorialEnvironment.blocks.Count - _environmentLength;
+                result = _tutorialEnvironment.blocks[index];
+                _environmentLength--;
+            }
+            else
+            {
+                result = _tutorialEnvironment.blocks[_tutorialEnvironment.blocks.Count - 1];
             }
 
             return result;
