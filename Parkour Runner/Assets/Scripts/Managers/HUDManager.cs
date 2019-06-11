@@ -160,12 +160,6 @@ namespace ParkourRunner.Scripts.Managers
         {
             GameManager.Instance.AddCoin();
             Reward((int)(trick.MoneyReward * mult));
-            /*
-            TrickNameText.text = message;
-            TrickNameTextAnimator.enabled = true;
-            TrickNameTextAnimator.Play("FadeIN_OUT");*/
-
-            // StartCoroutine(TrickRewardAnimation(trick, mult));
         }
 
         public void ShowTrickName(Trick trick, float mult = 1)
