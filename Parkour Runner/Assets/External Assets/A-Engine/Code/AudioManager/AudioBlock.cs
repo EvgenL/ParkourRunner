@@ -68,14 +68,18 @@ namespace AEngine
 			music.Clear ();
 			sound.Clear ();
 
-			if (XmlDataParser.IsAnyTagInChildExist (target, "Music")) {
+			if (XmlDataParser.IsAnyTagInChildExist (target, "Music"))
+            {
 				XmlNode musicNode = XmlDataParser.FindUniqueTagInChild (target, "Music");
-				if (XmlDataParser.IsAnyTagInChildExist (musicNode, "Track")) {
+				if (XmlDataParser.IsAnyTagInChildExist (musicNode, "Track"))
+                {
 					if (musicNode.Attributes ["DelayBetweenTracks"] != null)
-						music.delay = float.Parse (musicNode.Attributes ["DelayBetweenTracks"].Value);
+                        music.delay = AEngineTool.ParseFloat(musicNode.Attributes ["DelayBetweenTracks"].Value, 0f);
 					if (musicNode.Attributes ["MusicNotReplyLength"] != null)
 						music.musicNotReplyCount = int.Parse (musicNode.Attributes ["MusicNotReplyLength"].Value);
-					foreach (XmlNode musicTrack in XmlDataParser.FindAllTagsInChild(musicNode, "Track")) {
+
+                    foreach (XmlNode musicTrack in XmlDataParser.FindAllTagsInChild(musicNode, "Track"))
+                    {
 						Track track = LoadTrackFromXml (musicTrack);
 						music.tracks.Add (track.name, track);
 						if (musicTrack.Attributes ["Special"] == null)
@@ -84,10 +88,13 @@ namespace AEngine
 				}
 			}
 
-			if (XmlDataParser.IsAnyTagInChildExist (target, "Sound")) {
+			if (XmlDataParser.IsAnyTagInChildExist (target, "Sound"))
+            {
 				XmlNode soundNode = XmlDataParser.FindUniqueTagInChild (target, "Sound");
-				if (XmlDataParser.IsAnyTagInChildExist (soundNode, "Track")) {
-					foreach (XmlNode soundTrack in XmlDataParser.FindAllTagsInChild(soundNode, "Track")) {
+				if (XmlDataParser.IsAnyTagInChildExist (soundNode, "Track"))
+                {
+					foreach (XmlNode soundTrack in XmlDataParser.FindAllTagsInChild(soundNode, "Track"))
+                    {
 						Track track = LoadTrackFromXml (soundTrack);
 						sound.tracks.Add (track.name, track);
 					}
@@ -101,16 +108,22 @@ namespace AEngine
 
 			if (music.IsFilled) {
 				XmlNode musicNode = xmlDocument.CreateElement ("Music");
-				if (music.delay > 0)
+
+                if (music.delay > 0)
 					XmlDataParser.AddAttributeToNode(xmlDocument, musicNode, "DelayBetweenTracks", music.delay.ToString());
-				XmlDataParser.AddAttributeToNode(xmlDocument, musicNode, "MusicNotReplyLength", music.musicNotReplyCount.ToString());
-				foreach (var musicItem in music.tracks) {
-					SaveTrackToXml (xmlDocument, musicNode, musicItem.Value, music.IsBackgroundMusic(musicItem.Value) ? false : true);
+
+                XmlDataParser.AddAttributeToNode(xmlDocument, musicNode, "MusicNotReplyLength", music.musicNotReplyCount.ToString());
+
+                foreach (var musicItem in music.tracks)
+                {
+					SaveTrackToXml(xmlDocument, musicNode, musicItem.Value, music.IsBackgroundMusic(musicItem.Value) ? false : true);
 				}
-				target.AppendChild (musicNode);
+
+                target.AppendChild (musicNode);
 			}
 
-			if (sound.IsFilled) {
+			if (sound.IsFilled)
+            {
 				XmlNode soundNode = xmlDocument.CreateElement ("Sound");
 				foreach (var soundItem in sound.tracks) {
 					SaveTrackToXml (xmlDocument, soundNode, soundItem.Value);
@@ -127,7 +140,7 @@ namespace AEngine
 			if (target.Attributes ["Path"] != null)
 				track.path = target.Attributes ["Path"].Value;
 			if (target.Attributes ["Volume"] != null)
-				track.Volume = float.Parse(target.Attributes ["Volume"].Value);
+				track.Volume = AEngineTool.ParseFloat(target.Attributes ["Volume"].Value, 1f);
 			
 			return track;
 		}
@@ -139,7 +152,8 @@ namespace AEngine
 			XmlDataParser.AddAttributeToNode (xmlDocument, trackNode, "Name", track.name);
 			if (track.path != null && track.path != "")
 				XmlDataParser.AddAttributeToNode (xmlDocument, trackNode, "Path", track.path);
-			XmlDataParser.AddAttributeToNode (xmlDocument, trackNode, "Volume", track.Volume.ToString());
+
+            XmlDataParser.AddAttributeToNode (xmlDocument, trackNode, "Volume", track.Volume.ToString());
 			if (special)
 				XmlDataParser.AddAttributeToNode (xmlDocument, trackNode, "Special", "");
 

@@ -309,20 +309,24 @@ namespace AEngine
 
 		void OnApplicationFocus (bool focus)
 		{
-			if (focus) {
+			if (focus)
+            {
 				if (musicSource.volume == 0)
 					PlayMusic ();
-			} else {
+			} else
+            {
 				musicSource.volume = 0;
 			}
 		}
 
 		void OnApplicationPause (bool pause)
 		{
-			if (!pause) {
+			if (!pause)
+            {
 				if (musicSource.volume == 0)
 					PlayMusic ();
-			} else {
+			} else
+            {
 				musicSource.volume = 0;
 			}
 		}
@@ -335,15 +339,19 @@ namespace AEngine
 			}
 
 			float deltaVolume = (ATime.actualDeltaTime / fadeTime) * musicTrackVolume;
-			if (On) {
+			if (On)
+            {
 				musicSource.volume += deltaVolume;
-				if (musicSource.volume >= musicTrackVolume) {
+				if (musicSource.volume >= musicTrackVolume)
+                {
 					musicSource.volume = musicTrackVolume;
 					return true;
 				}
-			} else {
+			} else
+            {
 				musicSource.volume -= deltaVolume;
-				if (musicSource.volume <= 0) {
+				if (musicSource.volume <= 0)
+                {
 					musicSource.volume = 0;
 					return true;
 				}
@@ -357,25 +365,31 @@ namespace AEngine
 			XmlDocument xmlDocument;
 			bool needSave = false;
 
-			if (!XmlDataParser.ExistsXmlFile (BaseEngineConstants.BaseSettingsPath, BaseEngineConstants.AudioSettingsShortFileName)) {
-                if (!XmlDataParser.ExistsInResourcesXmlFile (BaseEngineConstants.AudioResConfigurationPath, BaseEngineConstants.AudioConfigurationShortFileName)) {
+			if (!XmlDataParser.ExistsXmlFile (BaseEngineConstants.BaseSettingsPath, BaseEngineConstants.AudioSettingsShortFileName))
+            {
+                if (!XmlDataParser.ExistsInResourcesXmlFile (BaseEngineConstants.AudioResConfigurationPath, BaseEngineConstants.AudioConfigurationShortFileName))
+                {
 					SaveAudioSettings ();
 					xmlDocument = XmlDataParser.LoadXmlDocumentFromFile (BaseEngineConstants.BaseSettingsPath, BaseEngineConstants.AudioSettingsShortFileName);
-				} else {
+				} else
+                {
 					xmlDocument = XmlDataParser.LoadXmlDocumentFromResources (BaseEngineConstants.AudioResConfigurationPath, BaseEngineConstants.AudioConfigurationShortFileName);
 					needSave = true;
 				}
-			} else {
+			} else
+            {
                 xmlDocument = XmlDataParser.LoadXmlDocumentFromFile (BaseEngineConstants.BaseSettingsPath, BaseEngineConstants.AudioSettingsShortFileName);
             }
 
-			if (!XmlDataParser.IsAnyTagExist (xmlDocument, "AudioData")) {
+			if (!XmlDataParser.IsAnyTagExist (xmlDocument, "AudioData"))
+            {
 				Debug.Log ("AudioData not founded"); 
 				return;
 			}
 			XmlNode rootNode = XmlDataParser.FindUniqueTag (xmlDocument, "AudioData");
 
-			if (!XmlDataParser.IsAnyTagInChildExist (rootNode, "AudioSettings")) {
+			if (!XmlDataParser.IsAnyTagInChildExist (rootNode, "AudioSettings"))
+            {
 				Debug.Log ("AudioSettings  not founded"); 
 				return;
 			}
@@ -383,9 +397,10 @@ namespace AEngine
             XmlNode audioNode = XmlDataParser.FindUniqueTagInChild (rootNode, "AudioSettings");
             
             isMusic = bool.Parse (audioNode.Attributes ["useMusic"].Value);
-			musicVolumme = float.Parse (audioNode.Attributes ["musicVolume"].Value);
-			isSound = bool.Parse (audioNode.Attributes ["useSound"].Value);
-			soundVolumme = float.Parse (audioNode.Attributes ["soundVolume"].Value);
+			musicVolumme = AEngineTool.ParseFloat(audioNode.Attributes ["musicVolume"].Value, 1f);
+
+            isSound = bool.Parse (audioNode.Attributes ["useSound"].Value);
+			soundVolumme = AEngineTool.ParseFloat(audioNode.Attributes ["soundVolume"].Value, 1f);
 
 			if (needSave)
 				SaveAudioSettings ();
@@ -425,7 +440,7 @@ namespace AEngine
 
 			XmlNode configNode = XmlDataParser.FindUniqueTagInChild (rootNode, "AudioConfiguration");
 			maxSoundSourceCount = int.Parse (configNode.Attributes ["SoundSourceCount"].Value);	
-			fadeTime = float.Parse(configNode.Attributes ["fade"].Value);
+			fadeTime = AEngineTool.ParseFloat(configNode.Attributes ["fade"].Value, 0f);
 			fadeOn = bool.Parse (configNode.Attributes ["fadeOn"].Value);
 		}
     }
