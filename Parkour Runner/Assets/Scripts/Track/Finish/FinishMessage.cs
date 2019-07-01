@@ -16,7 +16,9 @@ public class FinishMessage : MonoBehaviour
             int level = PlayerPrefs.GetInt(EnvironmentController.LEVEL_KEY);
             int maxLevel = PlayerPrefs.GetInt(EnvironmentController.MAX_LEVEL);
 
-            if (level == maxLevel)
+            bool isBaseLevels = PlayerPrefs.GetInt(EnvironmentController.ENDLESS_KEY) == 0 && PlayerPrefs.GetInt(EnvironmentController.TUTORIAL_KEY) == 0;
+
+            if (isBaseLevels && level == maxLevel)
             {
                 maxLevel++;
                 PlayerPrefs.SetInt(EnvironmentController.MAX_LEVEL, maxLevel);

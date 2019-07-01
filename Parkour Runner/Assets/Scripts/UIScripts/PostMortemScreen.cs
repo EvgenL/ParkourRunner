@@ -42,7 +42,7 @@ public class PostMortemScreen : MonoBehaviour
         if (Wallet.Instance.AllCoins >= revivePrice)
         {
             ReviveScreen.SetActive(true);
-            ReviveForMoneyBtnTxt.text = revivePrice.ToString(); // _gm.ReviveCost.ToString(); //TODO 0 cost bug
+            ReviveForMoneyBtnTxt.text = revivePrice.ToString();
             
             if (!_adSeen && Advertisement.IsReady())
             {
@@ -128,16 +128,10 @@ public class PostMortemScreen : MonoBehaviour
 
     public void ReviveForMoney()
     {
-        //if (ProgressManager.SpendCoins(_gm.ReviveCost)) 
         if (Wallet.Instance.SpendCoins(_gm.ReviveCost))
         {
             Revive();
             _audio.PlaySound(Sounds.Tap);
         }
-        else //Если нам не хватило денег
-        {
-            //TODO Ожидание доната
-        }
     }
-
 }
