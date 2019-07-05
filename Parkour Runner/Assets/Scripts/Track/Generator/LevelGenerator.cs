@@ -28,6 +28,7 @@ namespace ParkourRunner.Scripts.Track.Generator
         [SerializeField] private float _blockSize = 150;
         [SerializeField] private int _generateBlocksForward = 2;
         [SerializeField] private int _numberOfNonRepeatingBlocks = 3;
+        [SerializeField] private float _levelCaptionDelay = 1f;
 
         [SerializeField] private Vector3 StartBlockOffset;
         [SerializeField] private List<Block> _blockPool;
@@ -120,6 +121,7 @@ namespace ParkourRunner.Scripts.Track.Generator
             _environmentIndex = DEFAULT_INDEX;
 
             StartCoroutine(Generate());
+            StartCoroutine(ShowLevelDataProcess(_levelCaptionDelay));
         }
 
         private void Update()
@@ -134,6 +136,13 @@ namespace ParkourRunner.Scripts.Track.Generator
 
                 Debug.Break();
             }
+        }
+
+        private IEnumerator ShowLevelDataProcess(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+
+            Managers.HUDManager.Instance.ShowGreatMessage(Managers.HUDManager.Messages.CurrentLevel);
         }
                         
         private IEnumerator Generate()

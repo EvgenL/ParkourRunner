@@ -1,5 +1,4 @@
 ﻿using ParkourRunner.Scripts.Player;
-using ParkourRunner.Scripts.Track.Pick_Ups.Bonuses;
 using ParkourRunner.Scripts.UIScripts;
 using AEngine;
 using UnityEngine;
@@ -15,7 +14,8 @@ namespace ParkourRunner.Scripts.Managers
             Great,
             Perfect,
             NoMessage,
-            LevelComplete
+            LevelComplete,
+            CurrentLevel
         }
 
         public static HUDManager Instance;
@@ -141,6 +141,13 @@ namespace ParkourRunner.Scripts.Managers
 
                 case Messages.LevelComplete:
                     message = "LEVEL COMPLETE!!!";
+                    break;
+
+                case Messages.CurrentLevel:
+                    if (PlayerPrefs.GetInt(EnvironmentController.ENDLESS_KEY) == 0 && PlayerPrefs.GetInt(EnvironmentController.TUTORIAL_KEY) == 0)
+                        message = string.Format("Level {0}", PlayerPrefs.GetInt(EnvironmentController.LEVEL_KEY));
+                    else
+                        message = "Start";                    
                     break;
             }
 
