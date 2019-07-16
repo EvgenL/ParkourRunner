@@ -44,7 +44,7 @@ public class PostMortemScreen : MonoBehaviour
             ReviveScreen.SetActive(true);
             ReviveForMoneyBtnTxt.text = revivePrice.ToString();
             
-            if (!_adSeen && Advertisement.IsReady())
+            if (!_adSeen && AdManager.Instance.IsAvailable())
             {
                 WatchAdButton.SetActive(true);
             }
@@ -67,13 +67,14 @@ public class PostMortemScreen : MonoBehaviour
     {
         _stopTimer = true;
         _audio.PlaySound(Sounds.Tap);
-        AdManager.Instance.ShowVideo(AdFinishedCallback, AdSkippedCallback);
+        AdManager.Instance.ShowVideo(AdFinishedCallback, AdSkippedCallback, AdSkippedCallback);
     }
 
     private void AdFinishedCallback()
     {
-        _adSeen = true;
+        //_adSeen = true;
         Revive();
+        _stopTimer = false;
     }
 
     private void AdSkippedCallback()

@@ -33,7 +33,7 @@ namespace ParkourRunner.Scripts.Managers
             }
             else
             {
-                Destroy(this);
+                Destroy(this.gameObject);
                 return;
             }
 
