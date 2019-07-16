@@ -40,7 +40,7 @@ public class AdManager : MonoBehaviour
         return false;
     }
 
-    public void ShowVideo(Action finishedCallback, Action skippedCallback, Action failedCallback)
+    public void ShowAdvertising(Action finishedCallback, Action skippedCallback, Action failedCallback)
     {
         bool isShowingAd = false;
 
@@ -48,6 +48,7 @@ public class AdManager : MonoBehaviour
         {
             if (ad.IsAvailable())
             {
+                Debug.Log("Show Ad " + ad.gameObject.name);
                 ad.InitCallbackHandlers(finishedCallback, skippedCallback, failedCallback);
 
                 if (this.EnableAds)

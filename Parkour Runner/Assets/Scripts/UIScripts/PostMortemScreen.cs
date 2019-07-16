@@ -67,7 +67,7 @@ public class PostMortemScreen : MonoBehaviour
     {
         _stopTimer = true;
         _audio.PlaySound(Sounds.Tap);
-        AdManager.Instance.ShowVideo(AdFinishedCallback, AdSkippedCallback, AdSkippedCallback);
+        AdManager.Instance.ShowAdvertising(AdFinishedCallback, AdSkippedCallback, AdSkippedCallback);
     }
 
     private void AdFinishedCallback()
