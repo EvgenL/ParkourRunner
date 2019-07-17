@@ -12,6 +12,9 @@ public class AdManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+
+            ResetAdvertisingOrder();
+
             DontDestroyOnLoad(this);
         }
         else
@@ -22,6 +25,8 @@ public class AdManager : MonoBehaviour
     #endregion
         
     [SerializeField] private BaseAdController[] _advertisings;
+
+    private int _gameSessionCount;
 
     public bool EnableAds { get { return PlayerPrefs.GetInt("NoAds") != 1; } }
 
@@ -48,7 +53,7 @@ public class AdManager : MonoBehaviour
         {
             if (ad.IsAvailable())
             {
-                Debug.Log("Show Ad " + ad.gameObject.name);
+                Debug.Log("Show " + ad.gameObject.name);
                 ad.InitCallbackHandlers(finishedCallback, skippedCallback, failedCallback);
 
                 if (this.EnableAds)
@@ -67,4 +72,29 @@ public class AdManager : MonoBehaviour
             finishedCallback.SafeInvoke();
         }
     }
+
+    #region Advertising Order
+    public bool CheckAdvertisingOrder()
+    {
+        if (PlayerPrefs.GetInt(EnvironmentController.TUTORIAL_KEY) == 1 || _gameSessionCount % 3 == 0 || !AdManager.Instance.IsAvailable())
+        {
+            ResetAdvertisingOrder();
+            return false;
+        }
+
+        _gameSessionCount++;
+
+        return true;
+    }
+
+    public void ResetAdvertisingOrder()
+    {
+        _gameSessionCount = 1;
+    }
+
+    public void SkipAdInOrder()
+    {
+        _gameSessionCount = 3;
+    }
+    #endregion
 }

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using ParkourRunner.Scripts.Managers;
 using UnityEngine;
-using UnityEngine.Advertisements;
 using UnityEngine.UI;
 using AEngine;
 
@@ -21,6 +20,7 @@ public class PostMortemScreen : MonoBehaviour
     public float TimeToRevive = 5f;
 
     private GameManager _gm;
+    private AdManager _ad;
     private bool _alive = true;
     private bool _adSeen; //Игрок уже смотрел рекламу?
     private bool _stopTimer = false;
@@ -30,6 +30,7 @@ public class PostMortemScreen : MonoBehaviour
     private void Start()
     {
         _gm = GameManager.Instance;
+        _ad = AdManager.Instance;
         _audio = AudioManager.Instance;
     }
 
@@ -65,9 +66,11 @@ public class PostMortemScreen : MonoBehaviour
 
     public void WatchAd()
     {
+        _ad.SkipAdInOrder();
+
         _stopTimer = true;
         _audio.PlaySound(Sounds.Tap);
-        AdManager.Instance.ShowAdvertising(AdFinishedCallback, AdSkippedCallback, AdSkippedCallback);
+        _ad.ShowAdvertising(AdFinishedCallback, AdSkippedCallback, AdSkippedCallback);
     }
 
     private void AdFinishedCallback()
@@ -125,6 +128,9 @@ public class PostMortemScreen : MonoBehaviour
 
         RecordText.text = "Best: " + ((int)ProgressManager.DistanceRecord) + "m";
         CoinsText.text = "Conis: " + Wallet.Instance.InGameCoins;
+
+        if (_ad.CheckAdvertisingOrder())
+            _ad.ShowAdvertising(null, null, null);
     }
 
     public void ReviveForMoney()

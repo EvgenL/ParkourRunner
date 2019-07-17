@@ -200,7 +200,7 @@ namespace ParkourRunner.Scripts.Managers
                 _audio.PlaySound(Sounds.GameOver);
             }
         }
-
+        
         public void CompleteLevel()
         {
             this.ActiveBonuses.Clear();
