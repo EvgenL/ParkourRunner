@@ -1,7 +1,9 @@
-﻿using GoogleMobileAds.Api;
+﻿using UnityEngine;
+//using GoogleMobileAds.Api;
 
-public class AdMobController : BaseAdController
+public class AdMobController : MonoBehaviour //BaseAdController
 {
+    /*
     private const string AD_MOB_GAME_IOS_ID = "ca-app-pub-9017460316126624~2209772973";
     private const string INTERSTITIAL_IOS_ID = "ca-app-pub-9017460316126624/9208573399";
 
@@ -51,4 +53,5 @@ public class AdMobController : BaseAdController
         HandleAdResult(UnityEngine.Advertisements.ShowResult.Finished);
     }
     #endregion
+    */
 }
