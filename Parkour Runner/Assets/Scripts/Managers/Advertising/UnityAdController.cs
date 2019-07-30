@@ -10,13 +10,13 @@ public class UnityAdController : BaseAdController
     {
         if (Advertisement.isSupported)
         {
-#if UNITY_IOS
+#if UNITY_IPHONE || UNITY_IOS
             Advertisement.Initialize(IOS_AD_ID);
 #elif UNITY_ANDROID
-        Advertisement.Initialize(ANDROID_AD_ID);
-#elif UNITY_EDITOR
-        // Условно id под iOS, тестовый режим
-        Advertisement.Initialize(IOS_AD_ID, true);
+            Advertisement.Initialize(ANDROID_AD_ID);
+//#elif UNITY_EDITOR
+//        // Условно id под iOS, тестовый режим
+//        Advertisement.Initialize(IOS_AD_ID, true);
 #endif
         }
         else
@@ -25,7 +25,7 @@ public class UnityAdController : BaseAdController
 
     public override bool IsAvailable()
     {
-        return Advertisement.isSupported && Advertisement.IsReady();
+        return /*Advertisement.isSupported &&*/ Advertisement.IsReady();
     }
 
     public override void ShowAdvertising()
