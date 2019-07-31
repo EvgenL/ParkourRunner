@@ -40,12 +40,12 @@ public class PostMortemScreen : MonoBehaviour
 
         int revivePrice = _gm.ReviveCost;
 
-        if (Wallet.Instance.AllCoins >= revivePrice)
+        if (Wallet.Instance.AllCoins >= revivePrice || AdManager.Instance.IsAvailable())
         {
             ReviveScreen.SetActive(true);
             ReviveForMoneyBtnTxt.text = revivePrice.ToString();
             
-            if (!_adSeen && AdManager.Instance.IsAvailable())
+            if (/*!_adSeen && */AdManager.Instance.IsAvailable())
             {
                 WatchAdButton.SetActive(true);
             }
