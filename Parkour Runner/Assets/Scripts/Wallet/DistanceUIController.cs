@@ -6,6 +6,7 @@ public class DistanceUIController : MonoBehaviour
     [SerializeField] private Text _distanceText;
     [SerializeField] private string _captionText;
     [SerializeField] private int _tabSpace;
+    [SerializeField] private string _localizationKey;
     [SerializeField] private bool _enableRound;
     [SerializeField] private bool _enableMetres;
     [SerializeField] private bool _spaceBeforeMetres;
