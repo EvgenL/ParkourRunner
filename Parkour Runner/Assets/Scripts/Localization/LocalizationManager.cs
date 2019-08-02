@@ -29,7 +29,6 @@ public class LocalizationManager : MonoBehaviour
 
     public string GetText(string key)
     {
-        print("CHECK LIBRARY");
         foreach (var item in _localizations)
         {
             if (item.HasKey(key))

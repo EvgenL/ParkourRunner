@@ -10,10 +10,9 @@ public class CharacterSelection : MonoBehaviour
     
     [SerializeField] private CharactersData _configuration;
     [SerializeField] private CharacterKinds _kind;
-    [SerializeField] private Image _selection;
-    [SerializeField] private Sprite _selectedSpite;
-    [SerializeField] private Sprite _activeSprite;
-    [SerializeField] private Sprite _disableSprite;
+    [SerializeField] private GameObject _activeSelection;
+    [SerializeField] private GameObject _selectedSelection;
+    [SerializeField] private GameObject _disableSelection;
     
     [Header("Buy block")]
     [SerializeField] private Text _priceText;
@@ -64,13 +63,17 @@ public class CharacterSelection : MonoBehaviour
     {
         if (_currentSelection == _kind)
         {
-            _selection.sprite = _selectedSpite;
+            _selectedSelection.SetActive(true);
+            _activeSelection.SetActive(false);
+            _disableSelection.SetActive(false);
         }
         else
         {
-            _selection.sprite = _configuration.CurrentCharacter == _kind ? _activeSprite : _disableSprite;
+            _selectedSelection.SetActive(false);
+            _activeSelection.SetActive(_configuration.CurrentCharacter == _kind);
+            _disableSelection.SetActive(!_activeSelection.activeSelf);
         }
-
+        
         _priceBlock.SetActive(!_data.Bought);
         _lockBlock.SetActive(!_data.Bought);
         _buyCaption.SetActive(!_data.Bought);
