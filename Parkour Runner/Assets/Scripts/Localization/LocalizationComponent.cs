@@ -15,7 +15,7 @@ public class LocalizationComponent : MonoBehaviour
                 return string.IsNullOrEmpty(txt) ? _defaultText : txt;
             }
 
-            Debug.Log("Localization key " + _key + "was not found");
+            Debug.Log("Localization key " + _key + "was not found or used debug mode");
 
             return _defaultText;
         }

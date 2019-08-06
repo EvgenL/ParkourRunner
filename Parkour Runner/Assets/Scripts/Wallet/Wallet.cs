@@ -94,7 +94,7 @@ public class Wallet : MonoSingleton<Wallet>
         }
     }
 
-    private void Save()
+    public void Save()
     {
         PlayerPrefs.SetInt(ALL_COINS_KEY, this.AllCoins);
         PlayerPrefs.Save();

@@ -12,9 +12,13 @@ public class PostMortemScreen : MonoBehaviour
     public Text ReviveForMoneyBtnTxt;
 
     public GameObject ResultsScreen;
+    [SerializeField] private LocalizationComponent _distanceLocalization;
+    [SerializeField] private LocalizationComponent _recordLocalization;
+    [SerializeField] private LocalizationComponent _coinsLocalization;
     public Text CoinsText;
     public Text MetresText;
     public Text RecordText;
+    
     public GameObject NewRecordText;
 
     public float TimeToRevive = 5f;
@@ -117,17 +121,19 @@ public class PostMortemScreen : MonoBehaviour
 
     public void ExitReviveScreen()
     {
+        Wallet.Instance.Save();
+
         ReviveScreen.SetActive(false);
         ResultsScreen.SetActive(true);
 
         _audio.PlaySound(Sounds.ResultFull);
 
-        MetresText.text = "You run " + (int)_gm.DistanceRun + "m";
+        MetresText.text = string.Format("{0}  {1} m", _distanceLocalization.Text, (int)_gm.DistanceRun);
 
         NewRecordText.SetActive(ProgressManager.IsNewRecord(_gm.DistanceRun));
 
-        RecordText.text = "Best: " + ((int)ProgressManager.DistanceRecord) + "m";
-        CoinsText.text = "Coins: " + Wallet.Instance.InGameCoins;
+        RecordText.text = string.Format("{0}  {1} m", _recordLocalization.Text, (int)ProgressManager.DistanceRecord);
+        CoinsText.text = string.Format("{0}  {1}", _coinsLocalization.Text, Wallet.Instance.InGameCoins); //"Coins: " + Wallet.Instance.InGameCoins;
 
         if (_ad.CheckAdvertisingOrder())
             _ad.ShowAdvertising(null, null, null);
