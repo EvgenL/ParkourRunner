@@ -2,8 +2,9 @@
 {
     static class StaticConst
     {
+        public const string IOS_URL = "https://apps.apple.com/by/app/parkour-runner-2049/id1436589539";
 
-        public const int InitialReviveCost = 1; //Изначальная цена возрождения
+        public const int InitialReviveCost = 5; //Изначальная цена возрождения
 
         public const float MagnetRadius = 8f;     //Изначальный радиус магнита
         public const float MagnetCoinVelocity = 20f; //Скорость монеток, летящих к игроку при магните
