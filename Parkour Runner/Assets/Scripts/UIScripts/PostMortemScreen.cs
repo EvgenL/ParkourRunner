@@ -7,6 +7,7 @@ using AEngine;
 public class PostMortemScreen : MonoBehaviour
 {
     public GameObject ReviveScreen;
+    public GameObject _rateMeWindow;
     [SerializeField] private Image _reviveProgressImg;
     public GameObject WatchAdButton;
     public Text ReviveForMoneyBtnTxt;
@@ -28,6 +29,7 @@ public class PostMortemScreen : MonoBehaviour
     private bool _alive = true;
     private bool _adSeen; //Игрок уже смотрел рекламу?
     private bool _stopTimer = false;
+    private bool _isRateMeMode;
 
     private AudioManager _audio;
 
@@ -36,6 +38,8 @@ public class PostMortemScreen : MonoBehaviour
         _gm = GameManager.Instance;
         _ad = AdManager.Instance;
         _audio = AudioManager.Instance;
+
+        _isRateMeMode = false;
     }
 
     public void Show()
@@ -108,7 +112,35 @@ public class PostMortemScreen : MonoBehaviour
             yield return null;
         }
 
+        //CheckRateMe();
         ExitReviveScreen();
+    }
+
+    public void CheckRateMe()
+    {
+        EnvironmentController.CheckKeys();
+        if (!PlayerPrefs.HasKey("WAS_RATE"))
+        {
+            PlayerPrefs.SetInt("WAS_RATE", 0);
+            PlayerPrefs.Save();
+        }
+
+        if (PlayerPrefs.GetInt(EnvironmentController.TUTORIAL_KEY) != 1 && PlayerPrefs.GetInt(EnvironmentController.ENDLESS_KEY) != 1 && PlayerPrefs.GetInt("WAS_RATE") != 1)
+        {
+            if (PlayerPrefs.GetInt(EnvironmentController.LEVEL_KEY) == 3)
+            {
+                PlayerPrefs.SetInt("WAS_RATE", 1);
+                ShowRateMe();
+
+                _audio.PlaySound(Sounds.Result);
+            }
+            else
+                ExitReviveScreen();
+
+            PlayerPrefs.Save();
+        }
+        else
+            ExitReviveScreen();
     }
 
     public void Revive()
@@ -117,6 +149,14 @@ public class PostMortemScreen : MonoBehaviour
         ReviveScreen.SetActive(false);
         ResultsScreen.SetActive(false);
         _gm.Revive();
+    }
+
+    public void ShowRateMe()
+    {
+        ReviveScreen.SetActive(false);
+        ResultsScreen.SetActive(false);
+
+        _rateMeWindow.SetActive(true);
     }
 
     public void ExitReviveScreen()
@@ -146,5 +186,41 @@ public class PostMortemScreen : MonoBehaviour
             Revive();
             _audio.PlaySound(Sounds.Tap);
         }
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (focus && _isRateMeMode)
+        {
+            _isRateMeMode = false;
+            _rateMeWindow.SetActive(false);
+            ExitReviveScreen();
+        }
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause && _isRateMeMode)
+        {
+            _isRateMeMode = false;
+            _rateMeWindow.SetActive(false);
+            ExitReviveScreen();
+        }
+    }
+
+    public void OnRateButtonClick()
+    {
+        AudioManager.Instance.PlaySound(Sounds.Tap);
+
+        _isRateMeMode = true;
+        Application.OpenURL(StaticConst.IOS_URL);
+    }
+
+    public void OnSkipRateButtonClick()
+    {
+        AudioManager.Instance.PlaySound(Sounds.Tap);
+
+        _rateMeWindow.SetActive(false);
+        ExitReviveScreen();
     }
 }

@@ -28,7 +28,7 @@ public class FinishPoint : MonoBehaviour
                 
         yield return new WaitForSeconds(_resultWindowDelay);
 
-        hud.PostMortemScreen.ExitReviveScreen();
+        hud.PostMortemScreen.CheckRateMe(); //.ExitReviveScreen();
         GameManager.Instance.CompleteLevel();
     }
 }
