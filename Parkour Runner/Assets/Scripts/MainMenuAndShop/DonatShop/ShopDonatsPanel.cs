@@ -14,27 +14,49 @@ public class ShopDonatsPanel : MonoBehaviour
     [SerializeField] private Text _purchaseCurrency;
 
     private InAppManager _purchaseManager;
-
-    private void Start()
+    private bool _isInitialized = false;
+    
+    private void OnEnable()
     {
-        _purchaseManager = AppManager.Instance.PurchaseManager;
+        _purchaseManager = InAppManager.Instance;
 
         if (_coinsText != null)
             _coinsText.text = _donatData.DonatValue;
 
-        _buyButton.onClick.AddListener(() => _purchaseManager.BuyProductID(_donatData.ProductGameId));
+        if (!_isInitialized)
+            StartCoroutine(LoadingDataProcess());
 
-        InAppManager.OnInitializationSuccess += OnInitializePurchaseSuccess;
         InAppManager.OnBuySuccess += OnBuySuccess;
     }
-    
-    #region Events
-    private void OnInitializePurchaseSuccess()
+
+    private void OnDisable()
+    {
+        InAppManager.OnBuySuccess -= OnBuySuccess;
+    }
+
+    private IEnumerator LoadingDataProcess()
+    {
+        while (!_purchaseManager.IsInitialized())
+            yield return null;
+        
+        RefreshProductData();
+
+        _isInitialized = true;
+    }
+
+    private void RefreshProductData()
     {
         if (_purchasePrice != null)
             _purchasePrice.text = _purchaseManager.GetLocalizedPrice(_donatData.ProductGameId);
         if (_purchaseCurrency != null)
             _purchaseCurrency.text = _purchaseManager.GetLocalizedCurrency(_donatData.ProductGameId);
+    }
+
+    #region Events
+    public void OnBuyButtonClick()
+    {
+        AudioManager.Instance.PlaySound(Sounds.Tap);
+        _purchaseManager.BuyProductID(_donatData.ProductGameId);
     }
 
     private void OnBuySuccess(DonatShopData.DonatKinds productKind)

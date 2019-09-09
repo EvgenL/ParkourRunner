@@ -20,7 +20,7 @@ public class DonatShopData : ScriptableObject
     [Header("Unity In-App settings")]
     [SerializeField] private string _productGameId;
     [SerializeField] private string _productAppStoreId;
-    [SerializeField] private string _ProductPlayMarketId;
+    [SerializeField] private string _productGooglePlayId;
     [SerializeField] private ProductType _productType;
 
     public DonatKinds DonatKind { get { return _kind; } }
@@ -31,7 +31,7 @@ public class DonatShopData : ScriptableObject
 
     public string ProductAppStoreId { get { return _productAppStoreId; } }
 
-    public string ProductPlayMarketId { get { return _ProductPlayMarketId; } }
+    public string ProductGooglePlayId { get { return _productGooglePlayId; } }
 
     public ProductType PurchaseType { get { return _productType; } }
 }
