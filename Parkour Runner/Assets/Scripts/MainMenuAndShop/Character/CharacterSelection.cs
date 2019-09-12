@@ -6,6 +6,7 @@ using AEngine;
 public class CharacterSelection : MonoBehaviour
 {
     public static event Action<CharacterKinds> OnSelectCharacter;
+    public static event Action<int> OnNotEnouthCoins;
     private static CharacterKinds _currentSelection;
     
     [SerializeField] private CharactersData _configuration;
@@ -77,7 +78,7 @@ public class CharacterSelection : MonoBehaviour
         _priceBlock.SetActive(!_data.Bought);
         _lockBlock.SetActive(!_data.Bought);
         _buyCaption.SetActive(!_data.Bought);
-        _button.interactable = _data.Bought || _wallet.AllCoins >= _data.price;
+        //_button.interactable = _data.Bought || _wallet.AllCoins >= _data.price;
 
         _selectCaption.SetActive(_data.Bought);
     }
@@ -109,11 +110,19 @@ public class CharacterSelection : MonoBehaviour
 
             _currentSelection = _kind;
             _data.Bought = true;
-                        
+
             OnSelectCharacter.SafeInvoke(_kind);
         }
-        else if (_data.Bought)
-            OnSelectButtonClick();
+        else
+        {
+            if (_data.Bought)
+                OnSelectButtonClick();
+            else
+            {
+                AudioManager.Instance.PlaySound(Sounds.Tap);
+                OnNotEnouthCoins.SafeInvoke(Mathf.Abs(_wallet.AllCoins - _data.price));
+            }
+        }
     }
 
     private void OnSelectCharacterHandle(CharacterKinds kind)
